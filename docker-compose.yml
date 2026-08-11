@@ -1,0 +1,70 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tigabenang_app
+    volumes:
+      - ./src:/var/www
+    networks:
+      - tigabenang_network
+
+  node:
+    image: node:22-alpine
+    container_name: tigabenang_node
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www
+    ports:
+      - "5173:5173"
+    networks:
+      - tigabenang_network
+    command: tail -f /dev/null
+
+  mysql:
+    image: mysql:8.0
+    container_name: tigabenang_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: tigabenang
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - tigabenang_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: tigabenang_nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - tigabenang_network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: tigabenang_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - tigabenang_network
+
+networks:
+  tigabenang_network:
+
+volumes:
+  mysql_data:
