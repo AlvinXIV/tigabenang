@@ -1,0 +1,80 @@
+# ==========================================
+# Tigabenang - Git Ignore Rules
+# ==========================================
+
+# 1. Environment & Local Configuration
+.env
+.env.*
+!.env.example
+src/.env
+src/.env.*
+!src/.env.example
+*.env.backup
+*.env.production
+
+# 2. PHP & Composer Dependencies
+/vendor/
+/src/vendor/
+composer.phar
+src/composer.phar
+auth.json
+src/auth.json
+
+# 3. Node & NPM Dependencies
+/node_modules/
+/src/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+
+# 4. Vite & Frontend Build Assets
+/src/public/build
+/src/public/hot
+/src/public/storage
+/src/public/fonts-manifest.dev.json
+
+# 5. Laravel Storage & Framework Cache
+/src/storage/*.key
+/src/storage/pail
+/src/storage/framework/cache/data/*
+!/src/storage/framework/cache/data/.gitignore
+/src/storage/framework/sessions/*
+!/src/storage/framework/sessions/.gitignore
+/src/storage/framework/views/*
+!/src/storage/framework/views/.gitignore
+/src/storage/logs/*
+!/src/storage/logs/.gitignore
+
+# 6. SQLite Databases
+/src/database/*.sqlite
+/src/database/*.sqlite-journal
+
+# 7. IDE, Editors, & Tooling
+.vscode/
+.idea/
+.cursor/
+.zed/
+.codex/
+.nova/
+*.sublime-project
+*.sublime-workspace
+.phpunit.result.cache
+.phpunit.cache/
+_ide_helper.php
+.phpactor.json
+
+# 8. Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# 9. Docker Local Overrides & Logs
+docker-compose.override.yml
+*.log
