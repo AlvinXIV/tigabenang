@@ -14,9 +14,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="h-full antialiased font-sans text-[#292524] bg-[#FAF7F2] selection:bg-[#B85331] selection:text-white" x-data="{ sidebarOpen: false }">
+<body class="h-full antialiased font-sans text-[#292524] bg-[#FAF7F2] selection:bg-[#B85331] selection:text-white overflow-hidden" x-data="{ sidebarOpen: false }">
 
-    <div class="min-h-full flex flex-col lg:flex-row">
+    <!-- App Container (Fixed Full-Height Viewport) -->
+    <div class="h-screen w-full flex overflow-hidden bg-[#FAF7F2]">
         
         <!-- Mobile Sidebar Backdrop -->
         <div
@@ -33,15 +34,15 @@
         ></div>
 
         <!-- ============================================== -->
-        <!-- SIDEBAR NAVIGATION (Warm Cream Editorial Style)-->
+        <!-- FIXED SIDEBAR NAVIGATION (Pinned In Place)     -->
         <!-- ============================================== -->
         <aside
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-            class="fixed inset-y-0 left-0 z-50 w-64 bg-[#FAF7F2] border-r border-[#EADACE] flex flex-col justify-between transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 shrink-0 shadow-lg lg:shadow-none"
+            class="fixed inset-y-0 left-0 z-50 w-64 h-full bg-[#FAF7F2] border-r border-[#EADACE] flex flex-col justify-between transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 shrink-0 shadow-lg lg:shadow-none select-none"
         >
-            <div>
-                <!-- Brand Header -->
-                <div class="p-6 pb-5 flex items-start justify-between border-b border-[#EADACE]/70">
+            <div class="flex-1 flex flex-col min-h-0">
+                <!-- Brand Header (Pinned top) -->
+                <div class="shrink-0 p-6 pb-5 flex items-start justify-between border-b border-[#EADACE]/70 bg-[#FAF7F2]">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-[#EFE7DE] border border-[#E0D0C2] overflow-hidden flex items-center justify-center shrink-0">
                             <!-- Monogram Icon -->
@@ -64,8 +65,8 @@
                     </button>
                 </div>
 
-                <!-- Navigation Groups -->
-                <div class="px-4 py-5 space-y-6 overflow-y-auto max-h-[calc(100vh-240px)]">
+                <!-- Navigation Groups (Independent Scrollbar if needed) -->
+                <div class="flex-1 px-4 py-5 space-y-6 overflow-y-auto">
                     
                     <!-- Dashboard Main Nav -->
                     <div>
@@ -169,8 +170,8 @@
                 </div>
             </div>
 
-            <!-- Bottom Actions: New Product Button & User Profile -->
-            <div class="p-4 border-t border-[#EADACE]/70 space-y-3 bg-[#FAF7F2]">
+            <!-- Bottom Actions: New Product Button & User Profile (Pinned bottom) -->
+            <div class="shrink-0 p-4 border-t border-[#EADACE]/70 space-y-3 bg-[#FAF7F2]">
                 <!-- New Product Button -->
                 <a
                     href="{{ route('admin.produk.create') }}"
@@ -201,12 +202,12 @@
         </aside>
 
         <!-- ============================================== -->
-        <!-- MAIN VIEWPORT AREA                             -->
+        <!-- MAIN VIEWPORT AREA (Scrolls Independently)    -->
         <!-- ============================================== -->
-        <div class="flex-1 flex flex-col min-w-0 bg-[#FAF7F2]">
+        <div class="flex-1 flex flex-col h-full overflow-y-auto min-w-0 bg-[#FAF7F2]">
             
             <!-- Mobile Header Topbar -->
-            <div class="lg:hidden h-14 bg-white border-b border-[#EADACE] px-4 flex items-center justify-between">
+            <div class="lg:hidden shrink-0 h-14 bg-white border-b border-[#EADACE] px-4 flex items-center justify-between">
                 <button @click="sidebarOpen = true" class="p-2 text-stone-700 hover:text-black">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -223,7 +224,7 @@
             </main>
 
             <!-- Bottom Minimal Footer -->
-            <footer class="px-10 py-6 border-t border-[#EADACE]/50 text-xs text-[#9E9084] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <footer class="shrink-0 px-10 py-6 border-t border-[#EADACE]/50 text-xs text-[#9E9084] flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p>&copy; {{ date('Y') }} Tigabenang. All rights reserved.</p>
                 <div class="flex items-center gap-6 text-xs text-[#9E9084]">
                     <a href="#" class="hover:text-[#292524] transition-colors">Privacy Policy</a>

@@ -64,16 +64,30 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = [
-            ['id' => 1, 'name' => 'Jacket'],
-            ['id' => 2, 'name' => 'T-Shirt'],
-            ['id' => 3, 'name' => 'Hoodie'],
-            ['id' => 4, 'name' => 'Polo'],
-            ['id' => 5, 'name' => 'Jersey'],
-            ['id' => 6, 'name' => 'Custom Special'],
+        $categories = ['Hoodie', 'T-Shirt', 'Jacket', 'Polo', 'Jersey', 'Pants & Shorts'];
+        
+        $availableMaterials = [
+            'Cotton Fleece',
+            'Baby Terry',
+            'Cotton Combed 24s',
+            'Cotton Combed 30s',
+            'Taslan Milky',
+            'Japan Drill',
+            'Drifit Milano',
+            'Lacoste CVC',
+            'Canvas',
         ];
 
-        return view('admin.products.create', compact('categories'));
+        $categorySizes = [
+            'Hoodie' => ['S', 'M', 'L', 'XL', 'XXL'],
+            'T-Shirt' => ['S', 'M', 'L', 'XL', 'XXL'],
+            'Jacket' => ['S', 'M', 'L', 'XL', 'XXL'],
+            'Polo' => ['S', 'M', 'L', 'XL'],
+            'Jersey' => ['S', 'M', 'L', 'XL', 'XXL'],
+            'Pants & Shorts' => ['28', '30', '32', '34', '36'],
+        ];
+
+        return view('admin.products.create', compact('categories', 'availableMaterials', 'categorySizes'));
     }
 
     public function store(Request $request)
