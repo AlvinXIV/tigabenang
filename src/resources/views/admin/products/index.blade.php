@@ -94,7 +94,10 @@
                 href="{{ route('admin.produk.create') }}"
                 class="px-4 py-2 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium tracking-wider uppercase transition-all shadow-xs flex items-center gap-1.5"
             >
-                <span>+ NEW PRODUCT</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span>NEW PRODUCT</span>
             </a>
         </div>
     </div>
