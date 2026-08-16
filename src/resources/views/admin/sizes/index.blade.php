@@ -1,146 +1,257 @@
 @extends('layouts.admin')
 
-@section('title', 'Matriks Ukuran Produk (cm)')
-@section('page-title', 'Kelola Matriks Ukuran & Size Guide')
+@section('title', 'Size Charts')
 
 @section('content')
-<div class="space-y-8" x-data="{ activeTab: 1 }">
+<div class="space-y-8" x-data="{ selectedChartId: 1, newChartModalOpen: false, editModalOpen: false }">
 
-    <!-- Header Section -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <!-- ============================================== -->
+    <!-- 1. TOP HEADER & ACTION BUTTON                  -->
+    <!-- ============================================== -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EADACE]/70">
         <div>
-            <h2 class="text-xl font-bold text-slate-900">Matriks Ukuran Pakaian (Basis Virtual Fitting 3D)</h2>
-            <p class="text-xs text-slate-500 mt-0.5">Spesifikasi dimensi fisik pakaian (dalam centimeter) yang digunakan oleh algoritma untuk merekomendasikan ukuran pas kepada customer.</p>
+            <h1 class="text-2xl sm:text-3xl font-normal text-[#1C1917] tracking-tight">Size Charts</h1>
+            <p class="text-xs sm:text-sm text-[#78716C] mt-1">
+                Manage and standardize your measurement profiles across garment categories.
+            </p>
         </div>
-        <div class="flex items-center gap-2">
-            <span class="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-xl text-xs font-bold border border-indigo-200 flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                </svg>
-                Engine Rekomendasi Terhubung
-            </span>
-        </div>
+
+        <a
+            href="{{ route('admin.ukuran.create') }}"
+            class="px-4 py-2 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium tracking-wider uppercase transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+        >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span>+ NEW CHART</span>
+        </a>
     </div>
 
-    <!-- Product Selection Tabs -->
-    <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200">
-        @foreach ($products as $p)
-            <button
-                @click="activeTab = {{ $p['id'] }}"
-                :class="activeTab === {{ $p['id'] }} ? 'bg-indigo-600 text-white shadow-sm font-bold' : 'bg-white text-slate-600 hover:bg-slate-100 font-semibold border border-slate-200'"
-                class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-2"
-            >
-                <span>{{ $p['name'] }}</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded-md" :class="activeTab === {{ $p['id'] }} ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'">
-                    {{ $p['category'] }}
+    <!-- ============================================== -->
+    <!-- 2. MASTER-DETAIL TWO-COLUMN LAYOUT             -->
+    <!-- ============================================== -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        
+        <!-- LEFT COLUMN (1/3): SIZE CHARTS LIST -->
+        <div class="space-y-4">
+            <div class="flex items-center justify-between px-1">
+                <span class="text-[10px] sm:text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
+                    ACTIVE PROFILES
                 </span>
-            </button>
-        @endforeach
-    </div>
-
-    <!-- Size Table for Each Product -->
-    @foreach ($products as $p)
-        <div x-show="activeTab === {{ $p['id'] }}" class="space-y-6">
-            
-            <form action="{{ route('admin.ukuran.update', $p['id']) }}" method="POST">
-                @csrf
-                @method('PUT')
-
-                <x-card
-                    title="Tabel Spesifikasi Dimensi: {{ $p['name'] }}"
-                    subtitle="Nilai toleransi jahitan konveksi: ± 1 - 1.5 cm"
-                >
-                    <x-slot:action>
-                        <x-button type="submit" variant="primary" size="sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            <span>Simpan Dimensi Ukuran</span>
-                        </x-button>
-                    </x-slot:action>
-
-                    <div class="overflow-x-auto -mx-6 -my-6">
-                        <x-table :headers="['Ukuran (Size)', 'Lebar Dada (cm)', 'Panjang Baju (cm)', 'Lebar Bahu (cm)', 'Panjang Lengan (cm)', 'Aksi']">
-                            @foreach ($p['sizes'] as $index => $sz)
-                                <tr class="hover:bg-slate-50/80 transition-colors">
-                                    <td class="px-6 py-3.5 whitespace-nowrap">
-                                        <span class="w-9 h-9 rounded-xl bg-slate-900 text-white font-extrabold text-sm flex items-center justify-center shadow-xs">
-                                            {{ $sz['size'] }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-3.5">
-                                        <div class="flex items-center gap-1">
-                                            <input
-                                                type="number"
-                                                name="sizes[{{ $index }}][chest_width]"
-                                                value="{{ $sz['chest_width'] }}"
-                                                class="w-20 px-3 py-1.5 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500"
-                                            />
-                                            <span class="text-xs text-slate-400">cm</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3.5">
-                                        <div class="flex items-center gap-1">
-                                            <input
-                                                type="number"
-                                                name="sizes[{{ $index }}][body_length]"
-                                                value="{{ $sz['body_length'] }}"
-                                                class="w-20 px-3 py-1.5 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500"
-                                            />
-                                            <span class="text-xs text-slate-400">cm</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3.5">
-                                        <div class="flex items-center gap-1">
-                                            <input
-                                                type="number"
-                                                name="sizes[{{ $index }}][shoulder_width]"
-                                                value="{{ $sz['shoulder_width'] }}"
-                                                class="w-20 px-3 py-1.5 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500"
-                                            />
-                                            <span class="text-xs text-slate-400">cm</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3.5">
-                                        <div class="flex items-center gap-1">
-                                            <input
-                                                type="number"
-                                                name="sizes[{{ $index }}][sleeve_length]"
-                                                value="{{ $sz['sleeve_length'] }}"
-                                                class="w-20 px-3 py-1.5 text-xs font-bold text-slate-800 bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500"
-                                            />
-                                            <span class="text-xs text-slate-400">cm</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-3.5 whitespace-nowrap text-right">
-                                        <span class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Aktif di Rekomendasi
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </x-table>
-                    </div>
-                </x-card>
-            </form>
-
-            <!-- Size Recommendation Calculation Guide Box -->
-            <div class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-5 flex items-start gap-4">
-                <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
-                <div class="text-xs text-indigo-950 space-y-1">
-                    <h4 class="font-bold text-indigo-900">Cara Kerja Algoritma Rekomendasi Ukuran</h4>
-                    <p class="text-indigo-800/90 leading-relaxed">
-                        Ketika pelanggan memasukkan tinggi, berat, dan lingkar dada di halaman <strong>Virtual Fitting</strong>, sistem menghitung <em>Ease Allowance</em> (kelonggaran pakaian +4 s/d 6 cm dari lingkar dada tubuh) dan mencocokkannya secara otomatis dengan baris tabel ukuran di atas untuk memberikan rekomendasi size yang paling proporsional.
-                    </p>
-                </div>
+                <span class="text-xs font-mono text-[#78716C]">
+                    {{ count($sizeCharts) }} Profiles
+                </span>
             </div>
 
+            <div class="space-y-3">
+                @foreach ($sizeCharts as $chart)
+                    <div
+                        @click="selectedChartId = {{ $chart['id'] }}"
+                        :class="selectedChartId === {{ $chart['id'] }} ? 'border-l-4 border-l-[#B85331] border-[#EADACE] bg-white shadow-[0_2px_12px_rgba(0,0,0,0.02)]' : 'border border-[#EADACE]/70 bg-white/60 hover:bg-white'"
+                        class="p-5 cursor-pointer transition-all space-y-3"
+                    >
+                        <div class="flex items-start justify-between gap-2">
+                            <h3 class="text-sm sm:text-base font-medium text-[#1C1917] leading-snug">
+                                {{ $chart['name'] }}
+                            </h3>
+                            <span class="px-2 py-0.5 text-[9px] font-mono font-medium uppercase tracking-wider bg-[#EFE7DE] text-[#786C62] shrink-0">
+                                {{ $chart['category'] }}
+                            </span>
+                        </div>
+
+                        <p class="text-xs text-[#78716C] line-clamp-2">
+                            {{ $chart['description'] }}
+                        </p>
+
+                        <div class="pt-2 border-t border-[#EADACE]/50 flex items-center justify-between text-xs text-[#78716C]">
+                            <span class="font-mono text-[11px]">Sizes: {{ implode(', ', $chart['sizes']) }}</span>
+                            <span class="text-emerald-700 text-[10px] font-mono font-bold uppercase">● {{ $chart['status'] }}</span>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
-    @endforeach
+
+        <!-- RIGHT COLUMN (2/3): SELECTED SIZE CHART DETAIL -->
+        <div class="lg:col-span-2">
+            @foreach ($sizeCharts as $chart)
+                <div
+                    x-show="selectedChartId === {{ $chart['id'] }}"
+                    class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6"
+                >
+                    <!-- Detail Header -->
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-[#EADACE]/70">
+                        <div>
+                            <div class="flex items-center gap-2.5">
+                                <h2 class="text-xl sm:text-2xl font-normal text-[#1C1917] tracking-tight">
+                                    {{ $chart['name'] }}
+                                </h2>
+                                <span class="px-2 py-0.5 text-[9px] font-mono font-bold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                    {{ $chart['status'] }}
+                                </span>
+                            </div>
+                            <p class="text-xs text-[#78716C] mt-1.5 leading-relaxed max-w-xl">
+                                {{ $chart['description'] }}
+                            </p>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <button
+                                type="button"
+                                @click="editModalOpen = true"
+                                title="Edit Size Chart"
+                                class="p-2 text-[#786C62] hover:text-[#1C1917] hover:bg-[#FAF7F2] border border-[#EADACE] transition-colors cursor-pointer"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <form action="{{ route('admin.ukuran.destroy', $chart['id']) }}" method="POST" onsubmit="return confirm('Hapus profil size chart ini?');" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button
+                                    type="submit"
+                                    title="Delete Size Chart"
+                                    class="p-2 text-rose-600 hover:text-rose-700 hover:bg-rose-50 border border-[#EADACE] transition-colors cursor-pointer"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Measurement Matrix Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="border-b border-[#EADACE]/70 bg-[#FAF7F2]/60 text-[10px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
+                                    <th class="px-5 py-3.5">MEASUREMENT POINT</th>
+                                    @foreach ($chart['sizes'] as $sz)
+                                        <th class="px-5 py-3.5 text-center font-mono font-bold">{{ $sz }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#EADACE]/60">
+                                @foreach ($chart['points'] as $pt)
+                                    <tr class="hover:bg-[#FAF7F2]/40 transition-colors">
+                                        <td class="px-5 py-3.5 font-medium text-[#1C1917] whitespace-nowrap flex items-center gap-2">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-[#B85331]"></span>
+                                            <span>{{ $pt['name'] }}</span>
+                                        </td>
+                                        <td class="px-5 py-3.5 text-center font-mono text-[#292524]">{{ $pt['s'] }}</td>
+                                        <td class="px-5 py-3.5 text-center font-mono text-[#292524] font-medium">{{ $pt['m'] }}</td>
+                                        <td class="px-5 py-3.5 text-center font-mono text-[#292524]">{{ $pt['l'] }}</td>
+                                        <td class="px-5 py-3.5 text-center font-mono text-[#292524]">{{ $pt['xl'] }}</td>
+                                        <td class="px-5 py-3.5 text-center font-mono text-[#292524]">{{ $pt['xxl'] ?? '--' }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Footer Info Note -->
+                    <div class="pt-4 border-t border-[#EADACE]/70 text-[11px] text-[#78716C]">
+                        <p>
+                            Measurement dimensions (in cm) are used as standard specification guides for patterns and manufacturing.
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 3. NEW CHART MODAL                             -->
+    <!-- ============================================== -->
+    <div
+        x-show="newChartModalOpen"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs"
+        style="display: none;"
+    >
+        <div
+            @click.away="newChartModalOpen = false"
+            class="bg-white border border-[#EADACE] shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6"
+        >
+            <div class="flex items-center justify-between pb-4 border-b border-[#EADACE]/70">
+                <h2 class="text-lg font-normal text-[#1C1917]">Create Size Chart Profile</h2>
+                <button @click="newChartModalOpen = false" class="text-[#786C62] hover:text-[#1C1917] text-lg font-mono">
+                    ✕
+                </button>
+            </div>
+
+            <form action="{{ route('admin.ukuran.store') }}" method="POST" class="space-y-4">
+                @csrf
+                <div>
+                    <label for="name" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        CHART PROFILE NAME
+                    </label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        required
+                        placeholder="e.g. Women's Blazer Standard"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                    />
+                </div>
+
+                <div>
+                    <label for="category" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        GARMENT CATEGORY
+                    </label>
+                    <select
+                        name="category"
+                        id="category"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                    >
+                        <option value="Jacket">Jacket & Outerwear</option>
+                        <option value="Hoodie">Hoodie & Sweater</option>
+                        <option value="T-Shirt">T-Shirt & Tops</option>
+                        <option value="Polo">Polo Shirt</option>
+                        <option value="Jersey">Jersey & Sportswear</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="description" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        DESCRIPTION
+                    </label>
+                    <textarea
+                        name="description"
+                        id="description"
+                        rows="2"
+                        placeholder="e.g. Standard pattern measurements for women's tailored blazer."
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                    ></textarea>
+                </div>
+
+                <div class="pt-4 flex items-center justify-end gap-3 border-t border-[#EADACE]/70">
+                    <button
+                        type="button"
+                        @click="newChartModalOpen = false"
+                        class="px-4 py-2 bg-white border border-[#D9CCC1] hover:bg-[#F2ECE3] text-[#292524] text-xs font-mono font-medium uppercase transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        class="px-5 py-2 bg-[#B85331] hover:bg-[#A34524] text-white text-xs font-mono font-medium uppercase transition-all shadow-xs"
+                    >
+                        Save Chart
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </div>
 @endsection

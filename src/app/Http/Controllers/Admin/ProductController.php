@@ -12,102 +12,65 @@ class ProductController extends Controller
         $products = [
             [
                 'id' => 1,
-                'name' => 'Jaket Coach Taslan Waterproof',
-                'slug' => 'jaket-coach-taslan',
-                'category' => 'Jaket & Outerwear',
-                'category_id' => 1,
-                'material' => 'Taslan Milky Waterproof + Furing Asahi',
-                'colors' => ['Hitam', 'Navy', 'Hijau Army', 'Maroon'],
-                'estimated_price' => 'Rp 185.000',
-                'min_order' => '24 pcs',
-                'has_3d_model' => true,
-                'status' => 'active',
-                'thumbnail' => 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&auto=format&fit=crop&q=80',
-            ],
-            [
-                'id' => 2,
-                'name' => 'Hoodie Heavyweight Fleece 330gsm',
-                'slug' => 'hoodie-heavyweight-fleece',
-                'category' => 'Hoodie & Sweater',
+                'name' => 'Custom Hoodie',
+                'sku' => 'SKU-HOD-001',
+                'category' => 'Hoodie',
                 'category_id' => 3,
-                'material' => '100% Cotton Fleece Heavyweight 330gsm',
-                'colors' => ['Hitam', 'Abu Misty', 'Oatmeal', 'Dark Olive'],
-                'estimated_price' => 'Rp 175.000',
-                'min_order' => '24 pcs',
-                'has_3d_model' => true,
-                'status' => 'active',
+                'price' => 'Rp125.000',
                 'thumbnail' => 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400&auto=format&fit=crop&q=80',
             ],
             [
+                'id' => 2,
+                'name' => 'Custom Jersey',
+                'sku' => 'SKU-JER-002',
+                'category' => 'Jersey',
+                'category_id' => 5,
+                'price' => 'Rp110.000',
+                'thumbnail' => 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&auto=format&fit=crop&q=80',
+            ],
+            [
                 'id' => 3,
-                'name' => 'Kaos Oversize Cotton Combed 24s',
-                'slug' => 'kaos-oversize-combed-24s',
-                'category' => 'Kaos & T-Shirt',
+                'name' => 'Oversized T-Shirt',
+                'sku' => 'SKU-TSH-003',
+                'category' => 'T-Shirt',
                 'category_id' => 2,
-                'material' => 'Cotton Combed 24s Premium Soft',
-                'colors' => ['Putih Solid', 'Hitam Jetblack', 'Sage Green', 'Khaki'],
-                'estimated_price' => 'Rp 65.000',
-                'min_order' => '36 pcs',
-                'has_3d_model' => true,
-                'status' => 'active',
+                'price' => 'Rp85.000',
                 'thumbnail' => 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400&auto=format&fit=crop&q=80',
             ],
             [
                 'id' => 4,
-                'name' => 'Kemeja Tactical PDL Japan Drill',
-                'slug' => 'kemeja-tactical-pdl',
-                'category' => 'Kemeja & Workshirt',
-                'category_id' => 4,
-                'material' => 'Japan Drill Original Grade A',
-                'colors' => ['Khaki', 'Hitam', 'Hijau Army', 'Biru Navy'],
-                'estimated_price' => 'Rp 145.000',
-                'min_order' => '20 pcs',
-                'has_3d_model' => false,
-                'status' => 'active',
-                'thumbnail' => 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&auto=format&fit=crop&q=80',
+                'name' => 'Custom Jacket',
+                'sku' => 'SKU-JKT-004',
+                'category' => 'Jacket',
+                'category_id' => 1,
+                'price' => 'Rp175.000',
+                'thumbnail' => 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&auto=format&fit=crop&q=80',
             ],
             [
                 'id' => 5,
-                'name' => 'Jersey Full Printing Sublim Drifit Milano',
-                'slug' => 'jersey-full-printing-drifit',
-                'category' => 'Jersey & Sportswear',
-                'category_id' => 5,
-                'material' => 'Drifit Milano Anti-Bacterial UV Protect',
-                'colors' => ['Custom Full Color Gradient'],
-                'estimated_price' => 'Rp 135.000',
-                'min_order' => '12 pcs',
-                'has_3d_model' => true,
-                'status' => 'active',
-                'thumbnail' => 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400&auto=format&fit=crop&q=80',
-            ],
-            [
-                'id' => 6,
-                'name' => 'Jaket Varsity Wool Leather Combination',
-                'slug' => 'jaket-varsity-wool',
-                'category' => 'Jaket & Outerwear',
-                'category_id' => 1,
-                'material' => 'Wool Laken Premium + Leather Sintetis Grade A',
-                'colors' => ['Hitam-Putih', 'Hijau Botol-Krem', 'Maroon-Putih'],
-                'estimated_price' => 'Rp 265.000',
-                'min_order' => '24 pcs',
-                'has_3d_model' => false,
-                'status' => 'active',
-                'thumbnail' => 'https://images.unsplash.com/photo-1548883354-7622d03aca27?w=400&auto=format&fit=crop&q=80',
+                'name' => 'Custom Polo',
+                'sku' => 'SKU-POL-005',
+                'category' => 'Polo',
+                'category_id' => 4,
+                'price' => 'Rp95.000',
+                'thumbnail' => 'https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?w=400&auto=format&fit=crop&q=80',
             ],
         ];
 
-        return view('admin.products.index', compact('products'));
+        $totalProducts = 142;
+
+        return view('admin.products.index', compact('products', 'totalProducts'));
     }
 
     public function create()
     {
         $categories = [
-            ['id' => 1, 'name' => 'Jaket & Outerwear'],
-            ['id' => 2, 'name' => 'Kaos & T-Shirt'],
-            ['id' => 3, 'name' => 'Hoodie & Sweater'],
-            ['id' => 4, 'name' => 'Kemeja & Workshirt'],
-            ['id' => 5, 'name' => 'Jersey & Sportswear'],
-            ['id' => 6, 'name' => 'Produk Custom Spesial'],
+            ['id' => 1, 'name' => 'Jacket'],
+            ['id' => 2, 'name' => 'T-Shirt'],
+            ['id' => 3, 'name' => 'Hoodie'],
+            ['id' => 4, 'name' => 'Polo'],
+            ['id' => 5, 'name' => 'Jersey'],
+            ['id' => 6, 'name' => 'Custom Special'],
         ];
 
         return view('admin.products.create', compact('categories'));
@@ -115,30 +78,61 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        return redirect()->route('admin.produk.index')->with('success', 'Produk pakaian baru berhasil ditambahkan ke katalog!');
+        return redirect()->route('admin.produk.index')->with('success', 'Produk baru berhasil ditambahkan ke katalog!');
     }
 
     public function edit($id)
     {
         $product = [
             'id' => $id,
-            'name' => 'Jaket Coach Taslan Waterproof',
-            'category_id' => 1,
-            'material' => 'Taslan Milky Waterproof + Furing Asahi',
-            'colors' => 'Hitam, Navy, Hijau Army, Maroon',
-            'estimated_price' => 185000,
-            'min_order' => 24,
-            'status' => 'active',
-            'description' => 'Jaket coach kustom dengan bahan luar taslan milky tahan air ringan (water-repellent) dan furing dalam asahi yang sejuk. Cocok untuk seragam panitia event, jaket angkatan mahasiswa, maupun merchandise komunitas.',
+            'name' => 'Custom Hoodie',
+            'sku' => 'FV-HOD-001',
+            'category_id' => 3,
+            'category_name' => 'Hoodie',
+            'description' => 'Customizable everyday hoodie designed for comfortable casual wear and bulk vendor production.',
+            'price' => 125000,
+            'image' => 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600&auto=format&fit=crop&q=80',
+            'materials' => [
+                [
+                    'id' => 1,
+                    'name' => 'Cotton Fleece',
+                    'description' => 'Premium warm soft interior, ideal for cooler climates.',
+                    'selected' => true,
+                ],
+                [
+                    'id' => 2,
+                    'name' => 'Baby Terry',
+                    'description' => 'Lightweight, breathable loop-knit. Great for everyday wear.',
+                    'selected' => false,
+                ],
+                [
+                    'id' => 3,
+                    'name' => 'French Terry',
+                    'description' => 'Durable, moisture-wicking structured drape.',
+                    'selected' => false,
+                ],
+            ],
+            'size_chart_name' => "Men's Hoodie Standard",
+            'sizes' => [
+                ['size' => 'S', 'chest' => 50, 'length' => 68, 'shoulder' => 44, 'sleeve' => 62],
+                ['size' => 'M', 'chest' => 52, 'length' => 70, 'shoulder' => 46, 'sleeve' => 64],
+                ['size' => 'L', 'chest' => 54, 'length' => 72, 'shoulder' => 48, 'sleeve' => 66],
+                ['size' => 'XL', 'chest' => 56, 'length' => 74, 'shoulder' => 50, 'sleeve' => 68],
+            ],
+            'model_3d' => [
+                'file_name' => 'custom-hoodie.glb',
+                'file_size' => '4.2 MB',
+                'preview_image' => 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600&auto=format&fit=crop&q=80',
+            ],
         ];
 
         $categories = [
-            ['id' => 1, 'name' => 'Jaket & Outerwear'],
-            ['id' => 2, 'name' => 'Kaos & T-Shirt'],
-            ['id' => 3, 'name' => 'Hoodie & Sweater'],
-            ['id' => 4, 'name' => 'Kemeja & Workshirt'],
-            ['id' => 5, 'name' => 'Jersey & Sportswear'],
-            ['id' => 6, 'name' => 'Produk Custom Spesial'],
+            ['id' => 1, 'name' => 'Jacket'],
+            ['id' => 2, 'name' => 'T-Shirt'],
+            ['id' => 3, 'name' => 'Hoodie'],
+            ['id' => 4, 'name' => 'Polo'],
+            ['id' => 5, 'name' => 'Jersey'],
+            ['id' => 6, 'name' => 'Custom Special'],
         ];
 
         return view('admin.products.edit', compact('product', 'categories'));

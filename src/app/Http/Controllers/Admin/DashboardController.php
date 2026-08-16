@@ -9,79 +9,138 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $metrics = [
-            'total_products' => 24,
-            'total_orders' => 148,
-            'active_models_3d' => 12,
-            'estimated_revenue' => 'Rp 48.500.000',
-            'pending_orders_count' => 3,
+        // 1. Summary Cards Data (Based strictly on ERD entities)
+        $summary = [
+            'total_orders' => [
+                'count' => 156,
+                'subtitle' => 'This month',
+            ],
+            'pending_orders' => [
+                'count' => 18,
+                'subtitle' => 'Awaiting review',
+            ],
+            'waiting_price' => [
+                'count' => 7,
+                'subtitle' => 'Price needs finalized',
+            ],
+            'low_stock' => [
+                'count' => 5,
+                'subtitle' => 'Below reorder level',
+            ],
         ];
 
-        $recentOrders = [
+        // 2. Orders Needing Action (Orders requiring admin attention/pricing/review)
+        $ordersNeedingAction = [
             [
                 'id' => 1,
-                'order_code' => 'TB-9021',
-                'customer_name' => 'Ahmad Fauzi (PT Sinergi Abadi)',
-                'product_name' => 'Jaket Coach Taslan Custom',
-                'size' => 'L & XL',
-                'quantity' => 50,
-                'total_price' => 'Rp 9.250.000',
-                'status' => 'pending',
-                'date' => '15 Agu 2026',
+                'order_code' => '#FV-1024',
+                'customer_name' => 'Gibral',
+                'product_name' => 'Custom Hoodie',
+                'status' => 'Waiting Price',
+                'action_label' => 'Set Price',
+                'route' => route('admin.pesanan.show', 1),
             ],
             [
                 'id' => 2,
-                'order_code' => 'TB-9020',
-                'customer_name' => 'Dimas Pratama',
-                'product_name' => 'Hoodie Heavyweight Fleece 330gsm',
-                'size' => 'L',
-                'quantity' => 30,
-                'total_price' => 'Rp 5.400.000',
-                'status' => 'in_production',
-                'date' => '14 Agu 2026',
+                'order_code' => '#FV-1023',
+                'customer_name' => 'Polman Bandung',
+                'product_name' => 'Custom Jersey',
+                'status' => 'New',
+                'action_label' => 'Review',
+                'route' => route('admin.pesanan.show', 2),
             ],
             [
                 'id' => 3,
-                'order_code' => 'TB-9019',
-                'customer_name' => 'Siti Nurhaliza',
-                'product_name' => 'Kaos Oversize Combed 24s',
-                'size' => 'M',
-                'quantity' => 100,
-                'total_price' => 'Rp 6.500.000',
-                'status' => 'confirmed',
-                'date' => '13 Agu 2026',
+                'order_code' => '#FV-1022',
+                'customer_name' => 'Karsa Apparel',
+                'product_name' => 'Oversized T-Shirt',
+                'status' => 'New',
+                'action_label' => 'Review',
+                'route' => route('admin.pesanan.show', 3),
             ],
             [
                 'id' => 4,
-                'order_code' => 'TB-9018',
-                'customer_name' => 'Budi Santoso (BEM Fasilkom)',
-                'product_name' => 'Jersey Full Printing Drifit',
-                'size' => 'S, M, L, XXL',
-                'quantity' => 80,
-                'total_price' => 'Rp 11.200.000',
-                'status' => 'completed',
-                'date' => '10 Agu 2026',
+                'order_code' => '#FV-1021',
+                'customer_name' => 'Bandung Community',
+                'product_name' => 'Custom Jacket',
+                'status' => 'Confirmed',
+                'action_label' => 'View',
+                'route' => route('admin.pesanan.show', 4),
+            ],
+        ];
+
+        // 3. Material Alerts (Internal inventory stock vs reorder level)
+        $materialAlerts = [
+            [
+                'id' => 1,
+                'name' => 'Baby Terry',
+                'available_stock' => '40 m',
+                'reorder_level' => '200 m',
+                'is_low_stock' => true,
             ],
             [
-                'id' => 5,
-                'order_code' => 'TB-9017',
-                'customer_name' => 'Rian Hidayat',
-                'product_name' => 'Kemeja Workshirt Drill',
-                'size' => 'XL',
-                'quantity' => 40,
-                'total_price' => 'Rp 5.800.000',
-                'status' => 'completed',
-                'date' => '08 Agu 2026',
+                'id' => 2,
+                'name' => 'Cotton Fleece',
+                'available_stock' => '1,250 m',
+                'reorder_level' => '500 m',
+                'is_low_stock' => false,
+            ],
+            [
+                'id' => 3,
+                'name' => 'Taslan Milky',
+                'available_stock' => '85 m',
+                'reorder_level' => '150 m',
+                'is_low_stock' => true,
             ],
         ];
 
-        $popularProducts = [
-            ['name' => 'Hoodie Heavyweight Fleece', 'category' => 'Hoodie', 'orders' => 42, '3d_ready' => true],
-            ['name' => 'Kaos Oversize Combed 24s', 'category' => 'Kaos', 'orders' => 38, '3d_ready' => true],
-            ['name' => 'Jaket Coach Taslan Custom', 'category' => 'Jaket', 'orders' => 29, '3d_ready' => true],
-            ['name' => 'Jersey Full Printing Drifit', 'category' => 'Jersey', 'orders' => 25, '3d_ready' => false],
+        // 4. Recent Orders (Latest orders with finalized or waiting price)
+        $recentOrders = [
+            [
+                'id' => 5,
+                'order_code' => '#FV-1020',
+                'customer_name' => 'StudioX',
+                'product_name' => 'Tech Joggers',
+                'final_price' => 'Rp 450.000',
+                'is_waiting_price' => false,
+                'status' => 'Shipped',
+                'date' => '12 Agu',
+            ],
+            [
+                'id' => 6,
+                'order_code' => '#FV-1019',
+                'customer_name' => 'Urban Wear',
+                'product_name' => 'Graphic Tee',
+                'final_price' => 'Rp 120.000',
+                'is_waiting_price' => false,
+                'status' => 'Processing',
+                'date' => '11 Agu',
+            ],
+            [
+                'id' => 7,
+                'order_code' => '#FV-1018',
+                'customer_name' => 'Bandung Community',
+                'product_name' => 'Custom Jacket',
+                'final_price' => 'Waiting Price',
+                'is_waiting_price' => true,
+                'status' => 'Confirmed',
+                'date' => '10 Agu',
+            ],
         ];
 
-        return view('admin.dashboard.index', compact('metrics', 'recentOrders', 'popularProducts'));
+        // 5. Product Overview
+        $productOverview = [
+            'total_products' => 142,
+            'models_3d_linked' => 98,
+            'incomplete_products' => 5,
+        ];
+
+        return view('admin.dashboard.index', compact(
+            'summary',
+            'ordersNeedingAction',
+            'materialAlerts',
+            'recentOrders',
+            'productOverview'
+        ));
     }
 }
