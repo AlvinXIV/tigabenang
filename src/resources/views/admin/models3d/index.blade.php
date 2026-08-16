@@ -43,7 +43,7 @@
                 <input
                     type="text"
                     x-model="searchQuery"
-                    placeholder="Search models..."
+                    placeholder="Search models, format..."
                     class="w-full pl-9 pr-3.5 py-2 bg-white border border-[#D9CCC1] text-xs text-[#292524] placeholder-[#A89A8E] rounded-none focus:outline-none focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] transition-colors"
                 />
                 <svg class="w-4 h-4 text-[#A89A8E] absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,7 +65,21 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- 2. STATUS FILTER TABS                          -->
+    <!-- 2. PRIMARY SUMMARY KPI CARDS                   -->
+    <!-- ============================================== -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-white border border-[#EADACE] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.015)]">
+            <span class="text-[10px] sm:text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase block">
+                TOTAL 3D MODELS
+            </span>
+            <h3 class="text-3xl font-normal text-[#1C1917] tracking-tight mt-3">
+                {{ count($models) }}
+            </h3>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 3. STATUS FILTER TABS                          -->
     <!-- ============================================== -->
     <div class="flex items-center gap-6 border-b border-[#EADACE]/70 text-xs font-medium">
         <button
@@ -106,243 +120,168 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- 3. 3D MODELS GRID (3 COLUMNS)                  -->
+    <!-- 4. 3D MODELS TABLE (LIST VIEW)                 -->
     <!-- ============================================== -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" x-show="filteredModels().length > 0">
-        <template x-for="m in filteredModels()" :key="m.id">
-            <div class="bg-white border border-[#EADACE] shadow-[0_2px_12px_rgba(0,0,0,0.015)] flex flex-col justify-between transition-all hover:border-[#D9CCC1] group">
-                
-                <!-- 3D Render Image & Status Badge -->
-                <a :href="'/admin/model-3d/' + m.id + '/preview'" class="h-56 w-full bg-[#FAF7F2]/80 relative overflow-hidden border-b border-[#EADACE]/70 block">
-                    <img
-                        :src="m.preview_image"
-                        :alt="m.name"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
+    <div class="bg-white border border-[#EADACE] shadow-[0_2px_12px_rgba(0,0,0,0.015)] overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="border-b border-[#EADACE]/70 bg-[#FAF7F2]/50 text-[10px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
+                        <th class="px-6 py-3.5">3D MODEL ASSET</th>
+                        <th class="px-6 py-3.5">LINKED PRODUCT</th>
+                        <th class="px-6 py-3.5">FORMAT & VERSION</th>
+                        <th class="px-6 py-3.5">STATUS</th>
+                        <th class="px-6 py-3.5 text-right">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#EADACE]/60">
+                    <template x-for="m in filteredModels()" :key="m.id">
+                        <tr class="hover:bg-[#FAF7F2]/60 transition-colors group">
+                            
+                            <!-- Model Column (Thumbnail + Name + SKU) -->
+                            <td class="px-6 py-4">
+                                <a :href="'/admin/model-3d/' + m.id + '/preview'" class="flex items-center gap-3.5 group">
+                                    <img
+                                        :src="m.preview_image"
+                                        :alt="m.name"
+                                        class="w-10 h-10 object-cover rounded-none border border-[#EADACE] shrink-0 group-hover:opacity-90 transition-opacity"
+                                    />
+                                    <div>
+                                        <span class="font-medium text-[#1C1917] text-xs sm:text-sm block group-hover:text-[#B85331] transition-colors leading-tight" x-text="m.name"></span>
+                                        <span class="text-[10px] font-mono text-[#786C62] tracking-wider uppercase block mt-0.5">
+                                            SKU: <span x-text="m.sku ? m.sku : '--'"></span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </td>
 
-                    <!-- Status Badge -->
-                    <div class="absolute top-3 right-3">
-                        <template x-if="m.status === 'Optimized'">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase bg-white/95 text-stone-800 border border-[#EADACE] shadow-xs">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                OPTIMIZED
-                            </span>
-                        </template>
+                            <!-- Linked Product -->
+                            <td class="px-6 py-4 text-xs text-[#574E46] whitespace-nowrap">
+                                <a :href="'/admin/produk/' + (m.product_id || 1) + '/edit'" class="hover:text-[#B85331] hover:underline" x-text="m.linked_product ? m.linked_product : 'Not linked'"></a>
+                            </td>
 
-                        <template x-if="m.status === 'Processing'">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase bg-white/95 text-[#B85331] border border-[#F7DDD2] shadow-xs">
-                                <span class="w-1.5 h-1.5 rounded-full bg-[#B85331]"></span>
-                                PROCESSING
-                            </span>
-                        </template>
+                            <!-- Format & Version -->
+                            <td class="px-6 py-4 whitespace-nowrap font-mono text-xs text-[#1C1917]">
+                                <span x-text="m.format"></span>
+                                <span class="mx-1 text-[#D9CCC1]">•</span>
+                                <span class="text-[#78716C]" x-text="m.version"></span>
+                            </td>
 
-                        <template x-if="m.status === 'Drafts'">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase bg-white/95 text-stone-600 border border-stone-200 shadow-xs">
-                                <span class="w-1.5 h-1.5 rounded-full bg-stone-400"></span>
-                                DRAFT
-                            </span>
-                        </template>
-                    </div>
-                </a>
+                            <!-- Status Badge -->
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <template x-if="m.status === 'Optimized'">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[9px] font-mono font-bold tracking-wider uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        OPTIMIZED
+                                    </span>
+                                </template>
 
-                <!-- Model Card Details -->
-                <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                    <div>
-                        <span class="text-[10px] font-mono text-[#786C62] uppercase tracking-wider block mb-1">
-                            SKU: <span x-text="m.sku ? m.sku : '--'"></span>
-                        </span>
-                        <a :href="'/admin/model-3d/' + m.id + '/edit'" class="text-base font-medium text-[#1C1917] group-hover:text-[#B85331] transition-colors block leading-tight">
-                            <span x-text="m.name"></span>
-                        </a>
-                    </div>
+                                <template x-if="m.status === 'Processing'">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[9px] font-mono font-bold tracking-wider uppercase bg-amber-50 text-amber-800 border border-amber-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                        PROCESSING
+                                    </span>
+                                </template>
 
-                    <div class="space-y-3 pt-3 border-t border-[#EADACE]/60">
-                        <!-- Format & Version -->
-                        <div class="flex items-center justify-between text-xs font-mono">
-                            <div>
-                                <span class="text-[10px] tracking-widest text-[#9E9084] uppercase block">FORMAT</span>
-                                <span class="text-xs font-medium text-[#1C1917]" x-text="m.format"></span>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-[10px] tracking-widest text-[#9E9084] uppercase block">VERSION</span>
-                                <span class="text-xs font-medium text-[#1C1917]" x-text="m.version"></span>
-                            </div>
-                        </div>
+                                <template x-if="m.status === 'Drafts'">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[9px] font-mono font-bold tracking-wider uppercase bg-stone-100 text-stone-700 border border-stone-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-stone-400"></span>
+                                        DRAFT
+                                    </span>
+                                </template>
+                            </td>
 
-                        <!-- Linked Product Relation & Edit Action -->
-                        <div class="pt-2 border-t border-[#EADACE]/40 flex items-center justify-between text-[11px]">
-                            <span class="text-[#78716C]">
-                                Linked Product: 
-                                <span class="font-medium text-[#1C1917]" x-text="m.linked_product ? m.linked_product : 'Not linked'"></span>
-                            </span>
+                            <!-- Action Column: Review, Edit Model and Delete -->
+                            <td class="px-6 py-4 text-right whitespace-nowrap" x-data="{ menuOpen: false }">
+                                <div class="relative inline-block text-left">
+                                    <button
+                                        type="button"
+                                        @click="menuOpen = !menuOpen"
+                                        class="p-1.5 text-[#786C62] hover:text-[#1C1917] hover:bg-[#FAF7F2] transition-colors focus:outline-none cursor-pointer"
+                                        title="Actions"
+                                    >
+                                        <!-- Vertical 3-dots -->
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="5" r="2"></circle>
+                                            <circle cx="12" cy="12" r="2"></circle>
+                                            <circle cx="12" cy="19" r="2"></circle>
+                                        </svg>
+                                    </button>
 
-                            <a
-                                :href="'/admin/model-3d/' + m.id + '/edit'"
-                                class="text-xs font-mono font-medium tracking-wider text-[#B85331] hover:underline uppercase transition-colors cursor-pointer"
-                            >
-                                MANAGE
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                                    <!-- Dropdown Menu -->
+                                    <div
+                                        x-show="menuOpen"
+                                        @click.away="menuOpen = false"
+                                        x-transition:enter="transition ease-out duration-100"
+                                        x-transition:enter-start="transform opacity-0 scale-95"
+                                        x-transition:enter-end="transform opacity-100 scale-100"
+                                        x-transition:leave="transition ease-in duration-75"
+                                        x-transition:leave-start="transform opacity-100 scale-100"
+                                        x-transition:leave-end="transform opacity-0 scale-95"
+                                        class="absolute right-0 mt-1 w-40 bg-white border border-[#EADACE] shadow-lg py-1 z-30 text-left divide-y divide-[#EADACE]/50"
+                                        style="display: none;"
+                                    >
+                                        <div class="py-0.5">
+                                            <!-- Review 3D WebGL -->
+                                            <a
+                                                :href="'/admin/model-3d/' + m.id + '/preview'"
+                                                class="flex items-center gap-2 px-3.5 py-2 text-xs text-[#292524] hover:bg-[#FAF7F2] hover:text-[#B85331] transition-colors font-medium"
+                                            >
+                                                <svg class="w-3.5 h-3.5 text-[#78716C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                                <span>Review</span>
+                                            </a>
 
-            </div>
-        </template>
-    </div>
+                                            <!-- Edit Model -->
+                                            <a
+                                                :href="'/admin/model-3d/' + m.id + '/edit'"
+                                                class="flex items-center gap-2 px-3.5 py-2 text-xs text-[#292524] hover:bg-[#FAF7F2] hover:text-[#B85331] transition-colors font-medium"
+                                            >
+                                                <svg class="w-3.5 h-3.5 text-[#78716C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                                <span>Edit Model</span>
+                                            </a>
+                                        </div>
 
-    <!-- ============================================== -->
-    <!-- 4. EMPTY / NO RESULTS STATE                    -->
-    <!-- ============================================== -->
-    <div
-        x-show="filteredModels().length === 0"
-        class="bg-white border border-[#EADACE] p-12 text-center space-y-4 max-w-xl mx-auto my-8 shadow-xs"
-        style="display: none;"
-    >
-        <div class="w-12 h-12 rounded-full bg-[#FAF7F2] border border-[#EADACE] flex items-center justify-center mx-auto text-[#786C62]">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-            </svg>
+                                        <div class="py-0.5">
+                                            <!-- Delete -->
+                                            <form
+                                                :action="'/admin/model-3d/' + m.id"
+                                                method="POST"
+                                                onsubmit="return confirm('Hapus aset model 3D ini?');"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="w-full flex items-center gap-2 px-3.5 py-2 text-xs text-rose-700 hover:bg-rose-50 transition-colors font-medium cursor-pointer"
+                                                >
+                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                    </svg>
+                                                    <span>Delete</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
         </div>
-        <div>
-            <h3 class="text-base font-medium text-[#1C1917]">No 3D models found</h3>
-            <p class="text-xs text-[#78716C] mt-1 max-w-sm mx-auto">
-                No digital assets match your current filter or search query. Upload a 3D model to start building your library.
-            </p>
-        </div>
-        <button
-            type="button"
-            @click="uploadModalOpen = true"
-            class="px-5 py-2.5 bg-[#B85331] hover:bg-[#A34524] text-white text-xs font-mono font-medium tracking-wider uppercase transition-all shadow-xs inline-flex items-center gap-2 cursor-pointer"
-        >
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-            </svg>
-            <span>Upload Model</span>
-        </button>
-    </div>
 
-    <!-- ============================================== -->
-    <!-- 5. UPLOAD 3D MODEL MODAL                       -->
-    <!-- ============================================== -->
-    <div
-        x-show="uploadModalOpen"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-xs"
-        style="display: none;"
-    >
+        <!-- No Models Matching Search -->
         <div
-            @click.away="uploadModalOpen = false"
-            class="bg-white border border-[#EADACE] shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6"
+            x-show="filteredModels().length === 0"
+            class="p-12 text-center text-xs text-[#78716C]"
+            style="display: none;"
         >
-            <div class="flex items-center justify-between pb-4 border-b border-[#EADACE]/70">
-                <h2 class="text-lg font-normal text-[#1C1917]">Upload 3D Garment Model</h2>
-                <button @click="uploadModalOpen = false" class="text-[#786C62] hover:text-[#1C1917] text-lg font-mono">
-                    ✕
-                </button>
-            </div>
-
-            <form action="{{ route('admin.model-3d.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                @csrf
-
-                <div>
-                    <label for="model_name" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        MODEL NAME <span class="text-[#B85331]">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="name"
-                        id="model_name"
-                        required
-                        placeholder="e.g. Silk Drape Blouse 3D"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
-                    />
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="format" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            FORMAT
-                        </label>
-                        <select
-                            name="format"
-                            id="format"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
-                        >
-                            <option value="GLB">GLB</option>
-                            <option value="GLB/USDZ">GLB / USDZ</option>
-                            <option value="GLTF">GLTF</option>
-                            <option value="OBJ">OBJ</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="version" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            VERSION
-                        </label>
-                        <input
-                            type="text"
-                            name="version"
-                            id="version"
-                            placeholder="e.g. v1.0"
-                            value="v1.0"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm font-mono text-[#292524] rounded-none focus:outline-none transition-colors"
-                        />
-                    </div>
-                </div>
-
-                <div>
-                    <label for="product_id" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        LINK TO PRODUCT
-                    </label>
-                    <select
-                        name="product_id"
-                        id="product_id"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
-                    >
-                        <option value="">-- Not linked / Standalone --</option>
-                        @foreach ($availableProducts as $prod)
-                            <option value="{{ $prod['id'] }}">{{ $prod['name'] }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        3D MODEL FILE (.glb, .gltf, .obj) <span class="text-[#B85331]">*</span>
-                    </label>
-                    <div class="border-2 border-dashed border-[#D9CCC1] p-6 text-center bg-[#FAF7F2]/40 hover:bg-[#FAF7F2] transition-colors relative cursor-pointer">
-                        <div class="w-8 h-8 mx-auto text-[#786C62] mb-2">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                            </svg>
-                        </div>
-                        <p class="text-xs font-medium text-[#292524]">Click to upload or drag and drop 3D file</p>
-                        <p class="text-[10px] text-[#78716C] mt-0.5">Supports .glb, .gltf, .obj up to 25MB</p>
-                        <input type="file" name="model_file" accept=".glb,.gltf,.obj" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-                    </div>
-                </div>
-
-                <div class="pt-4 flex items-center justify-end gap-3 border-t border-[#EADACE]/70">
-                    <button
-                        type="button"
-                        @click="uploadModalOpen = false"
-                        class="px-4 py-2 bg-white border border-[#D9CCC1] hover:bg-[#F2ECE3] text-[#292524] text-xs font-mono font-medium uppercase transition-colors"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        class="px-5 py-2 bg-[#B85331] hover:bg-[#A34524] text-white text-xs font-mono font-medium uppercase transition-all shadow-xs cursor-pointer"
-                    >
-                        Upload Model
-                    </button>
-                </div>
-            </form>
+            No 3D models found matching your search.
         </div>
     </div>
 

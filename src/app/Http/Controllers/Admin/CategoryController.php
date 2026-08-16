@@ -13,7 +13,8 @@ class CategoryController extends Controller
             [
                 'id' => 1,
                 'name' => 'Cotton Fleece',
-                'sku' => 'FV-CF-001',
+                'sku' => 'TB-CF-001',
+                'type' => 'Knit / Fleece',
                 'description' => 'Black • 100% Cotton • 280 g/m²',
                 'stock' => '1,250',
                 'unit' => 'm',
@@ -24,7 +25,8 @@ class CategoryController extends Controller
             [
                 'id' => 2,
                 'name' => 'Baby Terry',
-                'sku' => 'FV-BT-002',
+                'sku' => 'TB-BT-002',
+                'type' => 'Knit / French Terry',
                 'description' => 'Grey • 100% Cotton • 240 g/m²',
                 'stock' => '40',
                 'unit' => 'm',
@@ -35,7 +37,8 @@ class CategoryController extends Controller
             [
                 'id' => 3,
                 'name' => 'Cotton Combed 24s',
-                'sku' => 'FV-CC-003',
+                'sku' => 'TB-CC-003',
+                'type' => 'Knit / Single Jersey',
                 'description' => 'White • 100% Cotton • 175 g/m²',
                 'stock' => '850',
                 'unit' => 'm',
@@ -46,7 +49,8 @@ class CategoryController extends Controller
             [
                 'id' => 4,
                 'name' => 'Taslan Milky',
-                'sku' => 'FV-TM-004',
+                'sku' => 'TB-TM-004',
+                'type' => 'Woven / Waterproof',
                 'description' => 'Navy • Microfiber Taslan • 120 g/m²',
                 'stock' => '85',
                 'unit' => 'm',
@@ -57,7 +61,8 @@ class CategoryController extends Controller
             [
                 'id' => 5,
                 'name' => 'Japan Drill',
-                'sku' => 'FV-JD-005',
+                'sku' => 'TB-JD-005',
+                'type' => 'Woven / Drill',
                 'description' => 'Khaki • Polyester-Cotton • 210 g/m²',
                 'stock' => '640',
                 'unit' => 'm',
@@ -68,7 +73,8 @@ class CategoryController extends Controller
             [
                 'id' => 6,
                 'name' => 'Drifit Milano',
-                'sku' => 'FV-DM-006',
+                'sku' => 'TB-DM-006',
+                'type' => 'Knit / Performance',
                 'description' => 'Full White • 100% Polyester • 150 g/m²',
                 'stock' => '920',
                 'unit' => 'm',
@@ -80,18 +86,25 @@ class CategoryController extends Controller
 
         $summary = [
             'total_materials' => 24,
-            'low_stock_count' => 5,
+            'low_stock_count' => 2,
         ];
 
         return view('admin.categories.index', compact('materials', 'summary'));
     }
 
+    public function store(Request $request)
+    {
+        return redirect()->route('admin.kategori.index')->with('success', 'Material kain baru berhasil ditambahkan!');
+    }
+
     public function edit($id)
     {
+        $categories = ['Knit', 'Woven', 'Synthetic', 'Denim', 'Leather'];
+
         $material = [
             'id' => $id,
             'name' => 'Cotton Fleece',
-            'sku' => 'FV-CF-001',
+            'sku' => 'TB-CF-001',
             'category' => 'Knit',
             'color' => 'Black',
             'composition' => '100% Cotton',
@@ -99,46 +112,36 @@ class CategoryController extends Controller
             'stock' => '1,250',
             'unit' => 'm',
             'is_low_stock' => false,
-            'image' => 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&auto=format&fit=crop&q=80',
+            'image' => 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=80',
+            'description' => 'Heavyweight cotton fleece material suitable for hoodies and sweatshirts with high warmth and soft touch.',
             'used_in_products' => [
                 [
-                    'name' => 'Custom Hoodie',
-                    'sku' => 'FV-HOD-001',
-                    'thumbnail' => 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=200&auto=format&fit=crop&q=80',
-                    'route' => route('admin.produk.edit', 1),
+                    'id' => 1,
+                    'name' => 'Custom Hoodie 330gsm',
+                    'sku' => 'TB-HD-001',
+                    'thumbnail' => 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format&fit=crop&q=80',
+                    'route' => route('admin.produk.edit', 1)
                 ],
                 [
-                    'name' => 'Crewneck Sweater',
-                    'sku' => 'FV-SWT-006',
-                    'thumbnail' => 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=200&auto=format&fit=crop&q=80',
-                    'route' => route('admin.produk.edit', 2),
+                    'id' => 4,
+                    'name' => 'Custom Coach Jacket',
+                    'sku' => 'TB-CJ-004',
+                    'thumbnail' => 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&auto=format&fit=crop&q=80',
+                    'route' => route('admin.produk.edit', 4)
                 ],
-                [
-                    'name' => 'Custom Jacket',
-                    'sku' => 'FV-JKT-004',
-                    'thumbnail' => 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=200&auto=format&fit=crop&q=80',
-                    'route' => route('admin.produk.edit', 4),
-                ],
-            ],
+            ]
         ];
-
-        $categories = ['Knit', 'Woven', 'Fleece', 'Drill', 'Taslan', 'Lacoste', 'Cotton'];
 
         return view('admin.categories.edit', compact('material', 'categories'));
     }
 
-    public function store(Request $request)
-    {
-        return redirect()->route('admin.kategori.index')->with('success', 'Bahan material baru berhasil didaftarkan!');
-    }
-
     public function update(Request $request, $id)
     {
-        return redirect()->route('admin.kategori.index')->with('success', 'Informasi bahan material berhasil diperbarui!');
+        return redirect()->route('admin.kategori.index')->with('success', 'Stok dan spesifikasi material berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        return redirect()->route('admin.kategori.index')->with('success', 'Bahan material berhasil dihapus.');
+        return redirect()->route('admin.kategori.index')->with('success', 'Material berhasil dihapus.');
     }
 }

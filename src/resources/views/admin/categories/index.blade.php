@@ -48,121 +48,169 @@
     <!-- 2. PRIMARY SUMMARY CARDS (TOTAL & LOW STOCK)   -->
     <!-- ============================================== -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        
         <!-- Card 1: TOTAL MATERIALS -->
         <div class="bg-white border border-[#EADACE] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.015)] flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[10px] sm:text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
-                    TOTAL MATERIALS
-                </span>
-                <svg class="w-4 h-4 text-[#B85331]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-                </svg>
-            </div>
-            <div class="mt-4">
-                <h3 class="text-3xl font-normal text-[#1C1917] tracking-tight">{{ $summary['total_materials'] }}</h3>
-                <p class="text-xs text-[#78716C] mt-1">Active materials</p>
-            </div>
+            <span class="text-[10px] sm:text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
+                TOTAL MATERIALS
+            </span>
+            <h3 class="text-3xl font-normal text-[#1C1917] tracking-tight mt-3">{{ $summary['total_materials'] }}</h3>
         </div>
 
         <!-- Card 2: LOW STOCK -->
         <div class="bg-white border border-[#EADACE] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.015)] flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[10px] sm:text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
-                    LOW STOCK
-                </span>
-                <svg class="w-4 h-4 text-[#B85331]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                </svg>
-            </div>
-            <div class="mt-4">
-                <h3 class="text-3xl font-normal text-[#1C1917] tracking-tight">{{ $summary['low_stock_count'] }}</h3>
-                <p class="text-xs text-[#78716C] mt-1">Below reorder level</p>
-            </div>
+            <span class="text-[10px] sm:text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
+                LOW STOCK
+            </span>
+            <h3 class="text-3xl font-normal text-[#1C1917] tracking-tight mt-3">{{ $summary['low_stock_count'] }}</h3>
         </div>
-
     </div>
 
     <!-- ============================================== -->
-    <!-- 3. MATERIAL CARDS GRID                         -->
+    <!-- 3. MATERIAL INVENTORY TABLE (LIST VIEW)        -->
     <!-- ============================================== -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach ($materials as $mat)
-            <div
-                class="bg-white border border-[#EADACE] shadow-[0_2px_12px_rgba(0,0,0,0.015)] flex flex-col justify-between transition-all hover:border-[#D9CCC1] group"
-                x-show="'{{ strtolower($mat['name']) }}'.includes(searchQuery.toLowerCase()) || '{{ strtolower($mat['sku']) }}'.includes(searchQuery.toLowerCase())"
-            >
-                <!-- Material Top Image & Stock Badge -->
-                <a href="{{ route('admin.kategori.edit', $mat['id']) }}" class="h-44 w-full bg-stone-100 relative overflow-hidden border-b border-[#EADACE]/70 block">
-                    <img
-                        src="{{ $mat['image'] }}"
-                        alt="{{ $mat['name'] }}"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div class="absolute top-3 right-3">
-                        @if ($mat['is_low_stock'])
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase bg-white/95 text-[#B85331] border border-[#F7DDD2] shadow-xs">
-                                <span class="w-1.5 h-1.5 rounded-full bg-[#B85331]"></span>
-                                LOW STOCK
-                            </span>
-                        @else
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase bg-white/95 text-stone-700 border border-[#EADACE] shadow-xs">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                IN STOCK
-                            </span>
-                        @endif
-                    </div>
-                </a>
-
-                <!-- Material Card Body -->
-                <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                    <div>
-                        <div class="flex items-baseline justify-between gap-2">
-                            <a href="{{ route('admin.kategori.edit', $mat['id']) }}" class="text-base font-medium text-[#1C1917] group-hover:text-[#B85331] transition-colors">
-                                {{ $mat['name'] }}
-                            </a>
-                            <span class="text-[10px] font-mono text-[#786C62] uppercase tracking-wider shrink-0">
-                                SKU: {{ $mat['sku'] }}
-                            </span>
-                        </div>
-                        <p class="text-xs text-[#78716C] mt-1">
-                            {{ $mat['description'] }}
-                        </p>
-
-                        <!-- Product-Material Relationship ("Used in:") -->
-                        <div class="mt-3 pt-3 border-t border-[#EADACE]/50">
-                            <p class="text-[11px] text-[#78716C] leading-snug">
-                                <span class="text-[#9E9084] font-normal">Used in:</span>
-                                <span class="font-medium text-[#574E46]">{{ implode(' • ', $mat['used_in']) }}</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Stock Info & Manage Action Link -->
-                    <div class="pt-3 border-t border-[#EADACE]/70 flex items-center justify-between">
-                        <div>
-                            <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block">
-                                STOCK
-                            </span>
-                            <span class="text-sm font-normal text-[#1C1917] font-mono">
-                                {{ $mat['stock'] }} {{ $mat['unit'] }}
-                            </span>
-                        </div>
-
-                        <a
-                            href="{{ route('admin.kategori.edit', $mat['id']) }}"
-                            class="text-xs font-mono font-medium tracking-wider text-[#B85331] hover:underline uppercase transition-colors cursor-pointer"
+    <div class="bg-white border border-[#EADACE] shadow-[0_2px_12px_rgba(0,0,0,0.015)] overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="border-b border-[#EADACE]/70 bg-[#FAF7F2]/50 text-[10px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
+                        <th class="px-6 py-3.5">MATERIAL</th>
+                        <th class="px-6 py-3.5">TYPE / WEAVE</th>
+                        <th class="px-6 py-3.5">USED IN</th>
+                        <th class="px-6 py-3.5">STOCK LEVEL</th>
+                        <th class="px-6 py-3.5">STATUS</th>
+                        <th class="px-6 py-3.5 text-right">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#EADACE]/60">
+                    @foreach ($materials as $mat)
+                        <tr
+                            class="hover:bg-[#FAF7F2]/60 transition-colors group"
+                            x-show="'{{ strtolower($mat['name']) }}'.includes(searchQuery.toLowerCase()) || '{{ strtolower($mat['sku']) }}'.includes(searchQuery.toLowerCase())"
                         >
-                            MANAGE
-                        </a>
-                    </div>
-                </div>
-            </div>
-        @endforeach
+                            <!-- Material Column (Thumbnail + Name + SKU) -->
+                            <td class="px-6 py-4">
+                                <a href="{{ route('admin.kategori.edit', $mat['id']) }}" class="flex items-center gap-3.5 group">
+                                    <img
+                                        src="{{ $mat['image'] }}"
+                                        alt="{{ $mat['name'] }}"
+                                        class="w-10 h-10 object-cover rounded-none border border-[#EADACE] shrink-0 group-hover:opacity-90 transition-opacity"
+                                    />
+                                    <div>
+                                        <span class="font-medium text-[#1C1917] text-xs sm:text-sm block group-hover:text-[#B85331] transition-colors leading-tight">
+                                            {{ $mat['name'] }}
+                                        </span>
+                                        <span class="text-[10px] font-mono text-[#786C62] tracking-wider uppercase block mt-0.5">
+                                            {{ $mat['sku'] }}
+                                        </span>
+                                    </div>
+                                </a>
+                            </td>
+
+                            <!-- Type / Weave -->
+                            <td class="px-6 py-4 text-xs text-[#574E46]">
+                                <span>{{ $mat['type'] }}</span>
+                            </td>
+
+                            <!-- Used in Products -->
+                            <td class="px-6 py-4 text-xs text-[#78716C]">
+                                <span class="text-[#574E46]">{{ implode(' • ', $mat['used_in']) }}</span>
+                            </td>
+
+                            <!-- Current Stock -->
+                            <td class="px-6 py-4 whitespace-nowrap font-mono text-xs text-[#1C1917] font-medium">
+                                {{ $mat['stock'] }} {{ $mat['unit'] }}
+                            </td>
+
+                            <!-- Status Badge -->
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if (!empty($mat['is_low_stock']))
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[9px] font-mono font-bold tracking-wider uppercase bg-amber-50 text-amber-800 border border-amber-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                        LOW STOCK
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[9px] font-mono font-bold tracking-wider uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        IN STOCK
+                                    </span>
+                                @endif
+                            </td>
+
+                            <!-- Action Column: Review, Edit Material and Delete -->
+                            <td class="px-6 py-4 text-right whitespace-nowrap" x-data="{ menuOpen: false }">
+                                <div class="relative inline-block text-left">
+                                    <button
+                                        type="button"
+                                        @click="menuOpen = !menuOpen"
+                                        class="p-1.5 text-[#786C62] hover:text-[#1C1917] hover:bg-[#FAF7F2] transition-colors focus:outline-none cursor-pointer"
+                                        title="Actions"
+                                    >
+                                        <!-- Vertical 3-dots -->
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="5" r="2"></circle>
+                                            <circle cx="12" cy="12" r="2"></circle>
+                                            <circle cx="12" cy="19" r="2"></circle>
+                                        </svg>
+                                    </button>
+
+                                    <!-- Dropdown Menu -->
+                                    <div
+                                        x-show="menuOpen"
+                                        @click.away="menuOpen = false"
+                                        x-transition:enter="transition ease-out duration-100"
+                                        x-transition:enter-start="transform opacity-0 scale-95"
+                                        x-transition:enter-end="transform opacity-100 scale-100"
+                                        x-transition:leave="transition ease-in duration-75"
+                                        x-transition:leave-start="transform opacity-100 scale-100"
+                                        x-transition:leave-end="transform opacity-0 scale-95"
+                                        class="absolute right-0 mt-1 w-40 bg-white border border-[#EADACE] shadow-lg py-1 z-30 text-left divide-y divide-[#EADACE]/50"
+                                        style="display: none;"
+                                    >
+                                        <div class="py-0.5">
+                                            <!-- Edit Material -->
+                                            <a
+                                                href="{{ route('admin.kategori.edit', $mat['id']) }}"
+                                                class="flex items-center gap-2 px-3.5 py-2 text-xs text-[#292524] hover:bg-[#FAF7F2] hover:text-[#B85331] transition-colors font-medium"
+                                            >
+                                                <svg class="w-3.5 h-3.5 text-[#78716C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                                <span>Edit Material</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="py-0.5">
+                                            <!-- Delete -->
+                                            <form
+                                                action="{{ route('admin.kategori.destroy', $mat['id']) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Hapus data material {{ $mat['name'] }}?');"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="w-full flex items-center gap-2 px-3.5 py-2 text-xs text-rose-700 hover:bg-rose-50 transition-colors font-medium cursor-pointer"
+                                                >
+                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                    </svg>
+                                                    <span>Delete</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- ============================================== -->
-    <!-- 4. REGISTER MATERIAL MODAL                     -->
+    <!-- 4. MODAL: REGISTER MATERIAL                    -->
     <!-- ============================================== -->
     <div
         x-show="registerModalOpen"
@@ -188,43 +236,76 @@
 
             <form action="{{ route('admin.kategori.store') }}" method="POST" class="space-y-4">
                 @csrf
+
                 <div>
                     <label for="name" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        MATERIAL NAME
+                        MATERIAL NAME <span class="text-[#B85331]">*</span>
                     </label>
                     <input
                         type="text"
                         name="name"
                         id="name"
                         required
-                        placeholder="e.g. French Terry"
+                        placeholder="e.g. Cotton Combed 24s"
                         class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
                     />
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="sku" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            SKU
+                        <label for="type" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                            MATERIAL TYPE
                         </label>
                         <input
                             type="text"
-                            name="sku"
-                            id="sku"
-                            placeholder="e.g. FT-007"
+                            name="type"
+                            id="type"
+                            placeholder="e.g. Knit / Single Jersey"
                             class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
                         />
                     </div>
+
+                    <div>
+                        <label for="unit" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                            UNIT
+                        </label>
+                        <select
+                            name="unit"
+                            id="unit"
+                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                        >
+                            <option value="meter">Meter (m)</option>
+                            <option value="yard">Yard (yd)</option>
+                            <option value="kg">Kilogram (kg)</option>
+                            <option value="roll">Roll</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="stock" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            STOCK QUANTITY (m)
+                            INITIAL STOCK <span class="text-[#B85331]">*</span>
                         </label>
                         <input
                             type="number"
                             name="stock"
                             id="stock"
                             required
-                            placeholder="e.g. 500"
+                            placeholder="100"
+                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm font-mono text-[#292524] rounded-none focus:outline-none transition-colors"
+                        />
+                    </div>
+
+                    <div>
+                        <label for="min_stock" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                            MINIMUM THRESHOLD
+                        </label>
+                        <input
+                            type="number"
+                            name="min_stock"
+                            id="min_stock"
+                            placeholder="20"
                             class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm font-mono text-[#292524] rounded-none focus:outline-none transition-colors"
                         />
                     </div>
@@ -232,14 +313,14 @@
 
                 <div>
                     <label for="description" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        SPECIFICATIONS & DESCRIPTION
+                        DESCRIPTION
                     </label>
                     <textarea
                         name="description"
                         id="description"
                         rows="2"
-                        placeholder="e.g. 100% Cotton, 320 g/m² loopback knit"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                        placeholder="Material specs and details..."
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors leading-relaxed"
                     ></textarea>
                 </div>
 
@@ -253,7 +334,7 @@
                     </button>
                     <button
                         type="submit"
-                        class="px-5 py-2 bg-[#B85331] hover:bg-[#A34524] text-white text-xs font-mono font-medium uppercase transition-all shadow-xs"
+                        class="px-5 py-2 bg-[#B85331] hover:bg-[#A34524] text-white text-xs font-mono font-medium uppercase transition-all shadow-xs cursor-pointer"
                     >
                         Register Material
                     </button>
