@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\Model3DController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\AnalyticsController;
 
 // ==========================================
 // 1. ROOT & AUTHENTICATION ROUTES
@@ -28,25 +30,32 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 // 2. ADMIN VENDOR DASHBOARD ROUTES
 // ==========================================
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Overview & Analytics
+    // Overview Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Profil Perusahaan & Kontak Vendor
-    Route::get('/profil-vendor', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profil-vendor', [ProfileController::class, 'update'])->name('profile.update');
+    // Analytics & Business Performance
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
 
-    // Manajemen Kategori & Produk
+    // Profil Vendor & Settings
+    Route::get('/settings', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/settings', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profil-vendor', [ProfileController::class, 'edit'])->name('profile.legacy');
+
+    // Manajemen Kategori / Material & Produk
     Route::resource('kategori', CategoryController::class);
     Route::resource('produk', ProductController::class);
 
-    // Matriks Dimensi Ukuran (cm) untuk 3D Virtual Fitting
+    // Matriks Dimensi Ukuran (Size Charts)
     Route::resource('ukuran', SizeController::class);
 
     // Aset Model Pakaian 3D (.glb/.gltf)
     Route::resource('model-3d', Model3DController::class);
     Route::get('/model-3d/{id}/preview', [Model3DController::class, 'preview'])->name('model-3d.preview');
 
-    // Manajemen Permintaan Pesanan & Faktur Invoice
+    // Manajemen Pesanan & Faktur Invoice
     Route::resource('pesanan', OrderController::class);
     Route::get('/pesanan/{id}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
+
+    // Manajemen Data Pelanggan (Customers)
+    Route::resource('pelanggan', CustomerController::class)->names('customers');
 });

@@ -44,7 +44,7 @@
                 <!-- Brand Header (Pinned top) -->
                 <div class="shrink-0 p-6 pb-5 flex items-start justify-between border-b border-[#EADACE]/70 bg-[#FAF7F2]">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-[#EFE7DE] border border-[#E0D0C2] overflow-hidden flex items-center justify-center shrink-0">
+                        <div class="w-10 h-10 bg-[#EFE7DE] border border-[#E0D0C2] flex items-center justify-center shrink-0">
                             <!-- Monogram Icon -->
                             <svg class="w-6 h-6 text-[#B85331]" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <path d="M14 14c0-4.4 3.6-8 8-8s8 3.6 8 8c0 7-16 9-16 18 0 4.4 3.6 8 8 8s8-3.6 8-8" stroke="currentColor"/>
@@ -52,20 +52,20 @@
                             </svg>
                         </div>
                         <div>
-                            <h1 class="text-base font-bold text-[#B85331] leading-tight">Vendor Portal</h1>
-                            <p class="text-[9px] font-mono font-semibold tracking-widest text-[#8C7E72] uppercase">TIGABENANG SUITE</p>
+                            <h1 class="text-base font-bold text-[#B85331] leading-tight">Tigabenang</h1>
+                            <p class="text-[8.5px] font-mono font-semibold tracking-widest text-[#8C7E72] uppercase">VENDOR MANAGEMENT PORTAL</p>
                         </div>
                     </div>
 
                     <!-- Mobile Close -->
-                    <button @click="sidebarOpen = false" class="lg:hidden text-[#8C7E72] hover:text-[#292524] p-1">
+                    <button @click="sidebarOpen = false" class="lg:hidden text-[#8C7E72] hover:text-[#292524] p-1 cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
 
-                <!-- Navigation Groups (Independent Scrollbar if needed) -->
+                <!-- Navigation Groups (Independent Scrollbar) -->
                 <div class="flex-1 px-4 py-5 space-y-6 overflow-y-auto">
                     
                     <!-- Dashboard Main Nav -->
@@ -135,9 +135,10 @@
                     <div>
                         <p class="px-3.5 text-[10px] font-mono font-bold tracking-widest text-[#9E9084] uppercase mb-1.5">Operations</p>
                         <nav class="space-y-0.5">
+                            <!-- Orders -->
                             <a
                                 href="{{ route('admin.pesanan.index') }}"
-                                class="flex items-center justify-between px-3.5 py-2 text-xs font-medium transition-all {{ request()->routeIs('admin.pesanan.*') ? 'bg-[#B85331] text-white font-semibold' : 'text-[#574E46] hover:bg-[#F2ECE3] hover:text-[#292524]' }}"
+                                class="flex items-center justify-between px-3.5 py-2 text-xs font-medium transition-all {{ request()->routeIs('admin.pesanan.*') || request()->routeIs('admin.orders.*') ? 'bg-[#B85331] text-white font-semibold' : 'text-[#574E46] hover:bg-[#F2ECE3] hover:text-[#292524]' }}"
                             >
                                 <div class="flex items-center gap-3">
                                     <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,6 +148,28 @@
                                 </div>
                                 <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 bg-[#EFE7DE] text-[#8C7E72]">18</span>
                             </a>
+
+                            <!-- Customers -->
+                            <a
+                                href="{{ route('admin.customers.index') }}"
+                                class="flex items-center gap-3 px-3.5 py-2 text-xs font-medium transition-all {{ request()->routeIs('admin.customers.*') ? 'bg-[#B85331] text-white font-semibold' : 'text-[#574E46] hover:bg-[#F2ECE3] hover:text-[#292524]' }}"
+                            >
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                                <span>Customers</span>
+                            </a>
+
+                            <!-- Analytics -->
+                            <a
+                                href="{{ route('admin.analytics') }}"
+                                class="flex items-center gap-3 px-3.5 py-2 text-xs font-medium transition-all {{ request()->routeIs('admin.analytics') ? 'bg-[#B85331] text-white font-semibold' : 'text-[#574E46] hover:bg-[#F2ECE3] hover:text-[#292524]' }}"
+                            >
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                                <span>Analytics</span>
+                            </a>
                         </nav>
                     </div>
 
@@ -154,6 +177,7 @@
                     <div>
                         <p class="px-3.5 text-[10px] font-mono font-bold tracking-widest text-[#9E9084] uppercase mb-1.5">System</p>
                         <nav class="space-y-0.5">
+                            <!-- Settings -->
                             <a
                                 href="{{ route('admin.profile.edit') }}"
                                 class="flex items-center gap-3 px-3.5 py-2 text-xs font-medium transition-all {{ request()->routeIs('admin.profile.*') ? 'bg-[#B85331] text-white font-semibold' : 'text-[#574E46] hover:bg-[#F2ECE3] hover:text-[#292524]' }}"
@@ -175,7 +199,7 @@
                 <!-- New Product Button -->
                 <a
                     href="{{ route('admin.produk.create') }}"
-                    class="block w-full py-2.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-medium text-center tracking-wide transition-all shadow-xs"
+                    class="block w-full py-2.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium text-center uppercase tracking-wider transition-all shadow-xs"
                 >
                     New Product
                 </a>
@@ -184,11 +208,11 @@
                 <div class="flex items-center justify-between pt-1">
                     <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-2.5 group">
                         <div class="w-8 h-8 rounded-full bg-[#EFE7DE] border border-[#E0D0C2] flex items-center justify-center text-xs font-bold text-[#B85331]">
-                            G
+                            T
                         </div>
                         <div class="text-left">
-                            <p class="text-xs font-semibold text-[#292524] group-hover:text-[#B85331] transition-colors leading-tight">Vendor Profile</p>
-                            <p class="text-[10px] text-[#8C7E72] leading-tight">Tigabenang</p>
+                            <p class="text-xs font-medium text-[#1C1917] group-hover:text-[#B85331] transition-colors leading-tight">Tigabenang Vendor</p>
+                            <p class="text-[10px] text-[#8C7E72] leading-tight font-mono">Administration</p>
                         </div>
                     </a>
 
@@ -208,13 +232,13 @@
             
             <!-- Mobile Header Topbar -->
             <div class="lg:hidden shrink-0 h-14 bg-white border-b border-[#EADACE] px-4 flex items-center justify-between">
-                <button @click="sidebarOpen = true" class="p-2 text-stone-700 hover:text-black">
+                <button @click="sidebarOpen = true" class="p-2 text-stone-700 hover:text-black cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
                 <span class="text-xs font-mono font-bold tracking-widest text-[#B85331] uppercase">TIGABENANG VENDOR</span>
-                <a href="{{ route('admin.profile.edit') }}" class="w-7 h-7 rounded-full bg-[#EFE7DE] text-[#B85331] flex items-center justify-center text-xs font-bold">G</a>
+                <a href="{{ route('admin.profile.edit') }}" class="w-7 h-7 rounded-full bg-[#EFE7DE] text-[#B85331] flex items-center justify-center text-xs font-bold">T</a>
             </div>
 
             <!-- Main Body Content -->
