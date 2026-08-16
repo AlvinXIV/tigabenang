@@ -12,6 +12,8 @@ class Ukuran extends Model
 
     protected $primaryKey = 'id_ukuran';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'kategori_id',
         'nama_ukuran',
