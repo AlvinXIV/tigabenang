@@ -21,3 +21,4 @@ Route::view('/about', 'customer.about')->name('about');
 Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
 Route::post('/order', [OrderController::class, 'store'])->name('order.store');
 Route::get('/order/success', [OrderController::class, 'success'])->name('order.success');
+
