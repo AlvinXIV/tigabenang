@@ -9,16 +9,20 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
     libonig-dev \
-    libxml2-dev \
+    libpq-dev \
     && docker-php-ext-install \
-    pdo_mysql \
+    pdo_pgsql \
     mbstring \
     exif \
     pcntl \
     bcmath \
     gd \
-    zip
+    zip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+COPY docker/php/zz-www-dev.conf /usr/local/etc/php-fpm.d/zz-www-dev.conf
 
 CMD ["php-fpm"]
