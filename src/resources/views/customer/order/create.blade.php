@@ -49,6 +49,14 @@
                             'sizes' => old('sizes', []),
                         ];
                         $selectedProductId = old('produk_id', $selected?->id_produk);
+                        $selectedCatalog = collect($catalog)->firstWhere('id', (int) $selectedProductId)
+                            ?? collect($catalog)->first();
+                        $selectedMaterials = collect($selectedCatalog['materials'] ?? []);
+                        $selectedSizes = collect($selectedCatalog['sizes'] ?? []);
+                        $oldMaterialIds = collect($orderOld['materials'])->map(fn ($id) => (string) $id);
+                        $oldQtyBySize = collect($orderOld['sizes'])->mapWithKeys(function ($row) {
+                            return [(string) ($row['ukuran_id'] ?? '') => $row['kuantitas'] ?? 0];
+                        });
                     @endphp
                     <script type="application/json" data-order-catalog>@json($catalog)</script>
                     <script type="application/json" data-order-old>@json($orderOld)</script>
@@ -70,7 +78,11 @@
                             <label for="produk_id" class="text-[11px] uppercase tracking-[0.2em] text-muted">Product</label>
                             <select id="produk_id" name="produk_id" required data-order-product class="mt-2 w-full border-b border-line bg-transparent py-3">
                                 @foreach ($products as $produk)
-                                    <option value="{{ $produk->id_produk }}" @selected((string) $selectedProductId === (string) $produk->id_produk)>
+                                    <option
+                                        value="{{ $produk->id_produk }}"
+                                        data-price="{{ (float) $produk->harga }}"
+                                        @selected((string) $selectedProductId === (string) $produk->id_produk)
+                                    >
                                         {{ $produk->nama_produk }}
                                     </option>
                                 @endforeach
@@ -82,14 +94,46 @@
                         <legend class="text-[11px] uppercase tracking-[0.2em] text-muted">Materials</legend>
                         <p class="mt-2 text-sm text-muted">Select one or more bahan for this request.</p>
                         <div class="mt-5 grid gap-3 sm:grid-cols-2" data-order-materials>
-                            {{-- Populated by order.js from the selected product --}}
+                            @forelse ($selectedMaterials as $index => $material)
+                                @php
+                                    $checked = $oldMaterialIds->isNotEmpty()
+                                        ? $oldMaterialIds->contains((string) $material['id'])
+                                        : $index === 0;
+                                @endphp
+                                <label class="flex items-center gap-3 border border-line px-4 py-3 text-sm">
+                                    <input type="checkbox" name="materials[]" value="{{ $material['id'] }}" class="accent-terracotta" @checked($checked)>
+                                    <span>{{ $material['name'] }}</span>
+                                </label>
+                            @empty
+                                <p class="text-sm text-muted sm:col-span-2">No materials are paired with this garment yet.</p>
+                            @endforelse
                         </div>
                     </fieldset>
 
                     <fieldset>
                         <legend class="text-[11px] uppercase tracking-[0.2em] text-muted">Size &amp; quantity</legend>
                         <p class="mt-2 text-sm text-muted">Sizes come from the product’s category. Enter a quantity for each size you need.</p>
-                        <div class="mt-5 divide-y divide-line border-y border-line" data-order-sizes></div>
+                        <div class="mt-5 divide-y divide-line border-y border-line" data-order-sizes>
+                            @forelse ($selectedSizes as $index => $size)
+                                <div class="flex items-center justify-between gap-4 py-4" data-ukuran-id="{{ $size['id'] }}">
+                                    <input type="hidden" name="sizes[{{ $index }}][ukuran_id]" value="{{ $size['id'] }}">
+                                    <label class="text-sm tracking-[0.12em]" for="qty-{{ $size['id'] }}">{{ $size['name'] }}</label>
+                                    <input
+                                        id="qty-{{ $size['id'] }}"
+                                        type="number"
+                                        min="0"
+                                        step="1"
+                                        inputmode="numeric"
+                                        data-order-qty
+                                        name="sizes[{{ $index }}][kuantitas]"
+                                        value="{{ $oldQtyBySize->get((string) $size['id'], 0) }}"
+                                        class="w-24 border-b border-line bg-transparent py-2 text-right"
+                                    >
+                                </div>
+                            @empty
+                                <p class="py-4 text-sm text-muted">No sizes are defined for this garment’s category yet.</p>
+                            @endforelse
+                        </div>
                     </fieldset>
 
                     <div>
@@ -106,13 +150,79 @@
                         <div>
                             <p class="text-[11px] uppercase tracking-[0.2em] text-muted">Estimated total</p>
                             <p class="mt-2 font-serif text-3xl text-charcoal" data-order-total>Rp 0</p>
-                            <p class="mt-1 text-xs text-muted">Calculated as product price × total quantity. The server recalculates the final amount.</p>
+                            <p class="mt-1 text-xs text-muted">
+                                Product price × total quantity. This is an estimated total — final pricing will be confirmed with our team.
+                            </p>
                         </div>
                         <button type="submit" class="bg-charcoal px-8 py-3 text-[11px] uppercase tracking-[0.22em] text-ivory hover:bg-terracotta">
                             Submit request
                         </button>
                     </div>
-                </form>
+                    </form>
+                    <script>
+                        (function () {
+                            const form = document.querySelector('[data-order-form]');
+                            if (!form) {
+                                return;
+                            }
+
+                            const formatRupiah = (value) =>
+                                `Rp ${Math.round(Math.max(0, Number(value) || 0)).toLocaleString('id-ID')}`;
+
+                            const productSelect = form.querySelector('[data-order-product]');
+                            const totalNode = form.querySelector('[data-order-total]');
+                            const catalogNode = form.querySelector('[data-order-catalog]');
+
+                            let catalog = [];
+                            try {
+                                catalog = JSON.parse(catalogNode?.textContent || '[]') || [];
+                            } catch {
+                                catalog = [];
+                            }
+
+                            const productPrice = () => {
+                                const fromOption = Number(productSelect?.selectedOptions?.[0]?.dataset?.price);
+                                if (Number.isFinite(fromOption) && fromOption >= 0) {
+                                    return fromOption;
+                                }
+
+                                const product = catalog.find((item) => String(item.id) === String(productSelect?.value));
+                                return Number(product?.price) || 0;
+                            };
+
+                            const quantityInputs = () =>
+                                form.querySelectorAll('[data-order-qty], input[name*="[kuantitas]"]');
+
+                            const updateEstimate = () => {
+                                if (!totalNode) {
+                                    return;
+                                }
+
+                                const totalQuantity = [...quantityInputs()].reduce(
+                                    (sum, input) => sum + Math.max(0, Number(input.value) || 0),
+                                    0,
+                                );
+
+                                totalNode.textContent = formatRupiah(productPrice() * totalQuantity);
+                            };
+
+                            form.addEventListener('input', updateEstimate);
+                            form.addEventListener('change', updateEstimate);
+                            updateEstimate();
+
+                            window.updateOrderEstimate = updateEstimate;
+
+                            productSelect?.addEventListener('change', function () {
+                                if (window.FitVendorOrder) {
+                                    return;
+                                }
+
+                                const url = new URL(window.location.href);
+                                url.searchParams.set('product', this.value);
+                                window.location.href = url.pathname + url.search;
+                            });
+                        })();
+                    </script>
             @endif
         </div>
     </section>

@@ -5,26 +5,27 @@
 
 @php
     use App\Support\CustomerMedia;
-    $imageUrl = CustomerMedia::imageUrl($product->gambar);
+    $imageUrl = CustomerMedia::productImageUrl($product);
     $hasModel = filled($product->file_model_3d);
 @endphp
 
 @section('content')
     <section class="border-b border-line">
-        <div class="mx-auto grid max-w-7xl lg:grid-cols-12">
-            <div class="relative min-h-[480px] bg-ivory-deep lg:col-span-7">
-                @if ($imageUrl)
-                    <img src="{{ $imageUrl }}" alt="{{ $product->nama_produk }}" width="1200" height="1500" class="h-full w-full object-cover" fetchpriority="high" decoding="async">
-                @else
-                    <div class="flex h-full min-h-[480px] flex-col justify-between p-8 lg:p-12">
-                        <p class="text-[11px] uppercase tracking-[0.28em] text-muted">{{ $product->kategori?->nama_kategori ?? 'Garment' }}</p>
-                        <p class="font-serif text-5xl text-charcoal/80 lg:text-7xl">{{ $product->nama_produk }}</p>
-                        <p class="text-[11px] uppercase tracking-[0.2em] text-muted">Product image placeholder</p>
-                    </div>
-                @endif
+        <div class="mx-auto grid max-w-7xl items-start gap-8 px-5 py-10 lg:grid-cols-12 lg:px-8 lg:py-12">
+            <div class="bg-ivory-deep lg:col-span-5">
+                <div class="image-frame">
+                    @if ($imageUrl)
+                        <img src="{{ $imageUrl }}" alt="{{ $product->nama_produk }}" width="600" height="800" fetchpriority="high" decoding="async">
+                    @else
+                        <div class="flex h-full w-full flex-col items-center justify-center p-6 text-center">
+                            <p class="text-[11px] uppercase tracking-[0.28em] text-muted">{{ $product->kategori?->nama_kategori ?? 'Garment' }}</p>
+                            <p class="mt-3 font-serif text-2xl text-charcoal/80">{{ $product->nama_produk }}</p>
+                        </div>
+                    @endif
+                </div>
             </div>
 
-            <div class="flex flex-col justify-center px-5 py-12 lg:col-span-5 lg:px-10 lg:py-16">
+            <div class="flex flex-col justify-center lg:col-span-7 lg:pl-4">
                 <p class="text-[11px] uppercase tracking-[0.28em] text-terracotta">{{ $product->kategori?->nama_kategori }}</p>
                 <h1 class="mt-4 font-serif text-4xl leading-tight text-charcoal md:text-5xl">{{ $product->nama_produk }}</h1>
                 <p class="mt-5 font-serif text-2xl text-ink"><x-price :amount="$product->harga" /></p>
@@ -92,9 +93,9 @@
         <section class="px-5 py-16 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 <h2 class="font-serif text-3xl text-charcoal">More from this category</h2>
-                <div class="mt-10 grid gap-8 sm:grid-cols-3">
+                <div class="catalog-grid catalog-grid--4 mt-8">
                     @foreach ($related as $produk)
-                        <x-product-card :produk="$produk" />
+                        <x-collection-product-card :produk="$produk" />
                     @endforeach
                 </div>
             </div>

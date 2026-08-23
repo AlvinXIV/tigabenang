@@ -16,9 +16,11 @@ const readJson = (root, selector, fallback) => {
 
 const initOrderForm = () => {
     const form = document.querySelector('[data-order-form]');
-    if (!form) {
+    if (!form || form.dataset.orderBound === 'true') {
         return;
     }
+
+    form.dataset.orderBound = 'true';
 
     const catalog = readJson(form, '[data-order-catalog]', []);
     const oldState = readJson(form, '[data-order-old]', { materials: [], sizes: [] });
@@ -80,6 +82,8 @@ const initOrderForm = () => {
                         type="number"
                         min="0"
                         step="1"
+                        inputmode="numeric"
+                        data-order-qty
                         name="sizes[${index}][kuantitas]"
                         value="${qty[String(size.id)] ?? 0}"
                         class="w-24 border-b border-line bg-transparent py-2 text-right"
@@ -91,13 +95,18 @@ const initOrderForm = () => {
     };
 
     const updateTotal = () => {
-        const product = findProduct(productSelect.value);
-        if (!product) {
+        if (typeof window.updateOrderEstimate === 'function') {
+            window.updateOrderEstimate();
             return;
         }
 
-        const quantity = Array.from(sizesRoot.querySelectorAll('input[type="number"]')).reduce(
-            (sum, input) => sum + (Number.parseInt(input.value, 10) || 0),
+        const product = findProduct(productSelect.value);
+        if (!product || !totalNode) {
+            return;
+        }
+
+        const quantity = [...form.querySelectorAll('[data-order-qty], input[name*="[kuantitas]"]')].reduce(
+            (sum, input) => sum + Math.max(0, Number(input.value) || 0),
             0,
         );
 
@@ -120,13 +129,31 @@ const initOrderForm = () => {
         render();
     });
 
-    form.addEventListener('input', (event) => {
-        if (event.target.matches('input[type="number"]')) {
+    form.addEventListener('input', updateTotal);
+    form.addEventListener('change', (event) => {
+        if (event.target.matches('[data-order-qty], input[name*="[kuantitas]"], [data-order-product]')) {
             updateTotal();
         }
     });
 
     render();
+
+    window.FitVendorOrder = {
+        change(productId) {
+            if (String(productSelect.value) !== String(productId)) {
+                productSelect.value = productId;
+            }
+
+            preferredMaterials = new Set();
+            render();
+
+            return true;
+        },
+    };
 };
 
-document.addEventListener('DOMContentLoaded', initOrderForm);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOrderForm);
+} else {
+    initOrderForm();
+}

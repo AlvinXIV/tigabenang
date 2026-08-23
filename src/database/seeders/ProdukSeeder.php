@@ -10,85 +10,74 @@ class ProdukSeeder extends Seeder
     public function run(): void
     {
         DB::table('produk')->insert([
-            // Jaket Varsity
             [
                 'kategori_id' => 1,
-                'nama_produk' => 'Varsity HIMAMO',
+                'nama_produk' => 'Heritage Varsity',
                 'harga' => 350000,
-                'gambar' => null,
+                'gambar' => 'images/varsity.jpg',
                 'file_model_3d' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'kategori_id' => 1,
-                'nama_produk' => 'Varsity Teknik Informatika',
+                'nama_produk' => 'Maison Varsity',
                 'harga' => 375000,
-                'gambar' => null,
+                'gambar' => 'images/Varsity_Maison_Sixth_June.jpg',
                 'file_model_3d' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-            // Work Jacket
-           
             [
                 'kategori_id' => 2,
-                'nama_produk' => 'Work Jacket Polman',
+                'nama_produk' => 'Utility Work Jacket',
                 'harga' => 425000,
-                'gambar' => null,
+                'gambar' => 'images/Work_jaket.jpg',
                 'file_model_3d' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-            // Windbreaker
             [
                 'kategori_id' => 3,
-                'nama_produk' => 'Windbreaker Alhilal',
+                'nama_produk' => 'Urban Windbreaker',
                 'harga' => 300000,
-                'gambar' => null,
+                'gambar' => 'images/windbreaker.jpg',
                 'file_model_3d' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'kategori_id' => 3,
-                'nama_produk' => 'Windbreaker HIMAMO',
+                'nama_produk' => 'Aero Shell Windbreaker',
                 'harga' => 325000,
-                'gambar' => null,
+                'gambar' => 'images/windbreaker_2.jpg',
                 'file_model_3d' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-            // Jersey
-           
             [
                 'kategori_id' => 4,
-                'nama_produk' => 'Jersey Futsal Polman',
+                'nama_produk' => 'Aero Match Jersey',
                 'harga' => 225000,
-                'gambar' => null,
+                'gambar' => 'images/Jersey_Minimalist.jpg',
                 'file_model_3d' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-            // Kaos
             [
                 'kategori_id' => 5,
-                'nama_produk' => 'Kaos HIMAMO',
+                'nama_produk' => 'Noir Crest Tee',
                 'harga' => 150000,
-                'gambar' => null,
+                'gambar' => 'images/Kaos_Champions.jpg',
                 'file_model_3d' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'kategori_id' => 5,
-                'nama_produk' => 'Kaos Informatika',
+                'nama_produk' => 'Cobalt Essential Tee',
                 'harga' => 140000,
-                'gambar' => null,
+                'gambar' => 'images/Kaos_Biru.jpg',
                 'file_model_3d' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
