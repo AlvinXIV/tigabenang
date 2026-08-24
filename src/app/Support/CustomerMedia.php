@@ -19,6 +19,41 @@ class CustomerMedia
      */
     private static array $imageUrlCache = [];
 
+    /**
+     * Local dummy images for the current 8-product development catalog.
+     * Keys are produk.id_produk. Hero.jpg is intentionally excluded.
+     *
+     * @var array<int, string>
+     */
+    private const DEMO_PRODUCT_IMAGES = [
+        1 => 'images/varsity.jpg',
+        2 => 'images/Varsity_Maison_Sixth_June.jpg',
+        3 => 'images/Work_jaket.jpg',
+        4 => 'images/windbreaker.jpg',
+        5 => 'images/windbreaker_2.jpg',
+        6 => 'images/Jersey_Minimalist.jpg',
+        7 => 'images/Kaos_Champions.jpg',
+        8 => 'images/Kaos_Biru.jpg',
+    ];
+
+    public static function productImageUrl(object|int $produk, ?string $gambar = null): ?string
+    {
+        $id = is_object($produk) ? (int) ($produk->id_produk ?? 0) : $produk;
+        $mapped = self::DEMO_PRODUCT_IMAGES[$id] ?? null;
+
+        if ($mapped) {
+            $url = self::imageUrl($mapped);
+
+            if ($url) {
+                return $url;
+            }
+        }
+
+        $stored = $gambar ?? (is_object($produk) ? ($produk->gambar ?? null) : null);
+
+        return self::imageUrl($stored);
+    }
+
     public static function imageUrl(?string $path): ?string
     {
         if (! filled($path)) {
@@ -36,15 +71,15 @@ class CustomerMedia
         $normalized = ltrim($path, '/');
 
         if (self::fileExists(public_path($normalized))) {
-            return self::$imageUrlCache[$path] = asset($normalized);
+            return self::$imageUrlCache[$path] = self::browserUrl($normalized);
         }
 
         if (self::fileExists(public_path('storage/'.$normalized))) {
-            return self::$imageUrlCache[$path] = asset('storage/'.$normalized);
+            return self::$imageUrlCache[$path] = self::browserUrl('storage/'.$normalized);
         }
 
         if (self::fileExists(storage_path('app/public/'.$normalized))) {
-            return self::$imageUrlCache[$path] = asset('storage/'.$normalized);
+            return self::$imageUrlCache[$path] = self::browserUrl('storage/'.$normalized);
         }
 
         return self::$imageUrlCache[$path] = null;
@@ -55,21 +90,66 @@ class CustomerMedia
         return self::imageUrl($path);
     }
 
+    /**
+     * Local dummy images for current bahan records.
+     * Keys are lowercase material names. Database names are not modified.
+     *
+     * @var array<string, string>
+     */
+    private const DEMO_MATERIAL_IMAGES = [
+        'baby terry' => 'images/materials/baby_terry.jpg',
+        'cotton combed' => 'images/materials/cotton_combed.jpg',
+        'drill' => 'images/materials/drill.jpg',
+        'dry fit' => 'images/materials/dryfit.png',
+        'dryfit' => 'images/materials/dryfit.png',
+        'dry-fit' => 'images/materials/dryfit.png',
+        'fleece' => 'images/materials/fleece.jpg',
+        'taslan' => 'images/materials/taslan.jpg',
+    ];
+
     public static function materialImageUrl(string $namaBahan): ?string
     {
+        $normalized = strtolower(trim(preg_replace('/\s+/', ' ', $namaBahan) ?? $namaBahan));
+        $compact = preg_replace('/[\s\-_]+/', '', $normalized) ?? $normalized;
+        $mapped = self::DEMO_MATERIAL_IMAGES[$normalized]
+            ?? self::DEMO_MATERIAL_IMAGES[$compact]
+            ?? null;
+
+        if ($mapped) {
+            $url = self::imageUrl($mapped);
+
+            if ($url) {
+                return $url;
+            }
+        }
+
         $index = self::materialFileIndex();
 
         if ($index === []) {
             return null;
         }
 
-        $slug = str($namaBahan)->slug()->toString();
+        $lookup = [];
 
-        foreach (['jpg', 'png', 'webp'] as $extension) {
-            $relative = "images/materials/{$slug}.{$extension}";
+        foreach ($index as $relative => $exists) {
+            $lookup[strtolower((string) $relative)] = $relative;
+        }
 
-            if (isset($index[$relative])) {
-                return asset($relative);
+        $slug = str($normalized)->slug()->toString();
+        $candidates = array_unique([
+            $slug,
+            str_replace('-', '_', $slug),
+            str_replace('-', '', $slug),
+        ]);
+
+        foreach ($candidates as $name) {
+            foreach (['jpg', 'png', 'webp'] as $extension) {
+                $relative = strtolower("images/materials/{$name}.{$extension}");
+                $actual = $lookup[$relative] ?? null;
+
+                if ($actual) {
+                    return self::browserUrl($actual);
+                }
             }
         }
 
@@ -80,9 +160,17 @@ class CustomerMedia
     {
         $index = self::heroFileIndex();
 
+        $lookup = [];
+
+        foreach ($index as $relative => $exists) {
+            $lookup[strtolower((string) $relative)] = $relative;
+        }
+
         foreach (['images/hero.jpg', 'images/hero.png', 'images/hero.webp'] as $relative) {
-            if (isset($index[$relative])) {
-                return asset($relative);
+            $actual = $lookup[strtolower($relative)] ?? null;
+
+            if ($actual) {
+                return self::browserUrl($actual);
             }
         }
 
@@ -135,6 +223,11 @@ class CustomerMedia
         }
 
         return $index;
+    }
+
+    private static function browserUrl(string $relative): string
+    {
+        return '/'.ltrim($relative, '/');
     }
 
     private static function fileExists(string $absolutePath): bool

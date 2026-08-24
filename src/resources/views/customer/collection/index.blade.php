@@ -4,18 +4,18 @@
 @section('description', 'Browse FitVendor custom garments across every available category.')
 
 @section('content')
-    <section class="border-b border-line px-5 py-14 lg:px-8 lg:py-20">
+    <section class="border-b border-line px-5 py-10 lg:px-8 lg:py-12">
         <div class="mx-auto max-w-7xl">
-            <p class="text-[11px] uppercase tracking-[0.28em] text-terracotta">Collection</p>
-            <h1 class="mt-3 font-serif text-5xl text-charcoal md:text-6xl">The Atelier Catalog</h1>
+            <p class="text-[11px] uppercase tracking-[0.28em] text-terracotta">Catalog</p>
+            <h1 class="mt-3 font-serif text-5xl text-charcoal md:text-6xl">Collection</h1>
             <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-                Every piece is made to order. Filter by category, then request the garment that fits your story.
+                Browse every available garment. Filter by category, then open a piece to request production.
             </p>
         </div>
     </section>
 
-    <section class="px-5 py-10 lg:px-8">
-        <div class="mx-auto max-w-7xl">
+    <section class="px-5 py-8 lg:px-8">
+        <div class="catalog-shell">
             <div class="flex gap-2 overflow-x-auto pb-2" role="navigation" aria-label="Category filter">
                 <a
                     href="{{ route('collection.index') }}"
@@ -35,9 +35,9 @@
             </div>
 
             @if ($products->isNotEmpty())
-                <div class="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="catalog-grid catalog-grid--4 mt-8">
                     @foreach ($products as $index => $produk)
-                        <x-product-card :produk="$produk" :show-description="true" :lazy="$index > 1" />
+                        <x-collection-product-card :produk="$produk" :lazy="$index > 3" />
                     @endforeach
                 </div>
             @else

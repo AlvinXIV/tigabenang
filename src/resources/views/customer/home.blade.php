@@ -42,27 +42,30 @@
         </div>
     </section>
 
-    <section id="work" class="border-b border-line px-5 py-20 lg:px-8 lg:py-28">
+    <section id="work" class="border-b border-line px-5 py-12 lg:px-8 lg:py-16">
         <div class="mx-auto max-w-7xl">
             <x-section-heading
                 eyebrow="Our Work"
                 title="Crafted for Every Story"
-                action-label="View Full Collection"
+                action-label="View Collection"
                 action-url="{{ route('collection.index') }}"
-            />
+            >
+                A curated lookbook of recent atelier pieces — not the full catalog.
+            </x-section-heading>
 
             @if ($featuredProduct)
-                <div class="mt-14 grid gap-8 lg:grid-cols-12">
-                    <div class="lg:col-span-7">
-                        <x-product-card :produk="$featuredProduct" :featured="true" :show-price="false" :lazy="false" />
-                    </div>
-                    <div class="grid gap-8 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
-                        @forelse ($supportingProducts as $index => $produk)
-                            <x-product-card :produk="$produk" :show-price="false" :lazy="$index > 0" />
-                        @empty
-                            <p class="text-sm text-muted">More garments will appear here as the collection grows.</p>
-                        @endforelse
-                    </div>
+                <div class="mt-10 lg:mt-12">
+                    <x-lookbook-composition
+                        :products="collect([$featuredProduct])->concat($supportingProducts)"
+                    />
+                </div>
+                <div class="mt-12 flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-end sm:justify-between">
+                    <p class="max-w-md text-sm leading-relaxed text-muted">
+                        Explore the complete catalog for every size, material, and made-to-order request.
+                    </p>
+                    <a href="{{ route('collection.index') }}" class="text-[11px] uppercase tracking-[0.22em] text-terracotta hover:text-terracotta-dark">
+                        View Collection
+                    </a>
                 </div>
             @else
                 <div class="mt-14">
@@ -72,7 +75,7 @@
         </div>
     </section>
 
-    <section class="border-b border-line bg-paper px-5 py-20 lg:px-8 lg:py-28">
+    <section class="border-b border-line bg-paper px-5 py-12 lg:px-8 lg:py-16">
         <div class="mx-auto max-w-7xl">
             <x-section-heading
                 title="Every Garment Starts With the Right Material"
@@ -81,7 +84,7 @@
             />
 
             @if ($materials->isNotEmpty())
-                <div class="mt-14 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
+                <div class="catalog-grid catalog-grid--3 mt-10">
                     @foreach ($materials as $bahan)
                         <x-material-item :bahan="$bahan" />
                     @endforeach

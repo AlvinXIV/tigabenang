@@ -24,5 +24,6 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY docker/php/zz-www-dev.conf /usr/local/etc/php-fpm.d/zz-www-dev.conf
+COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 CMD ["php-fpm"]

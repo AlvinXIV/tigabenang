@@ -10,13 +10,13 @@ services:
       - ./src:/var/www
       - vendor_data:/var/www/vendor
       - ./docker/php/zz-www-dev.conf:/usr/local/etc/php-fpm.d/zz-www-dev.conf
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
     networks:
       - tigabenang_network
 
     depends_on:
       - postgres
-
 
   node:
     image: node:22-alpine
@@ -36,7 +36,6 @@ services:
       - tigabenang_network
 
     command: tail -f /dev/null
-
 
   postgres:
     image: postgres:16-alpine
@@ -59,7 +58,6 @@ services:
     networks:
       - tigabenang_network
 
-
   pgadmin:
     image: dpage/pgadmin4:latest
 
@@ -80,7 +78,6 @@ services:
     networks:
       - tigabenang_network
 
-
   nginx:
     image: nginx:alpine
 
@@ -100,10 +97,8 @@ services:
     networks:
       - tigabenang_network
 
-
 networks:
   tigabenang_network:
-
 
 volumes:
   postgres_data:
