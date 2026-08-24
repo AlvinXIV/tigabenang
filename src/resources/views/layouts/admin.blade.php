@@ -146,7 +146,7 @@
                                     </svg>
                                     <span>Orders</span>
                                 </div>
-                                <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 bg-[#EFE7DE] text-[#8C7E72]">18</span>
+                                <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 bg-[#EFE7DE] text-[#8C7E72]">{{ \App\Models\Pemesanan::count() }}</span>
                             </a>
 
                             <!-- Customers -->
@@ -242,13 +242,13 @@
             </div>
 
             <!-- Main Body Content -->
-            <main class="flex-1 p-6 sm:p-10 max-w-7xl w-full mx-auto">
+            <main class="flex-1 p-6 sm:p-10 max-w-6xl w-full mx-auto">
                 @include('layouts.partials.flash')
                 @yield('content')
             </main>
 
             <!-- Bottom Minimal Footer -->
-            <footer class="shrink-0 px-10 py-6 border-t border-[#EADACE]/50 text-xs text-[#9E9084] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <footer class="shrink-0 px-6 sm:px-10 py-6 border-t border-[#EADACE]/70 text-xs text-[#9E9084] flex flex-col sm:flex-row items-center justify-between gap-4 max-w-6xl w-full mx-auto">
                 <p>&copy; {{ date('Y') }} Tigabenang. All rights reserved.</p>
                 <div class="flex items-center gap-6 text-xs text-[#9E9084]">
                     <a href="#" class="hover:text-[#292524] transition-colors">Privacy Policy</a>

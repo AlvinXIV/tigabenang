@@ -1,237 +1,170 @@
 @extends('layouts.admin')
 
-@section('title', 'Order ' . $order['order_code'])
+@section('title', 'Order Detail #ORD-' . $order->id_pemesanan)
 
 @section('content')
-<div class="space-y-8 max-w-5xl mx-auto">
+<div class="space-y-8 max-w-6xl mx-auto">
 
-    <!-- ============================================== -->
-    <!-- 1. TOP HEADER & ACTION BUTTONS                 -->
-    <!-- ============================================== -->
+    <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EADACE]/70">
         <div>
-            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#78716C] hover:text-[#B85331] font-medium inline-flex items-center gap-1.5 mb-2 transition-colors uppercase font-mono tracking-wider">
+            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#78716C] hover:text-[#B85331] font-mono font-medium inline-flex items-center gap-1.5 mb-2 transition-colors uppercase tracking-wider">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
                 <span>Orders</span>
             </a>
             <div class="flex items-center gap-3">
-                <h1 class="text-2xl sm:text-3xl font-normal text-[#1C1917] tracking-tight">Order {{ $order['order_code'] }}</h1>
-                @if ($order['status'] === 'pending')
-                    <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200">
-                        ● PENDING REVIEW
-                    </span>
-                @elseif ($order['status'] === 'confirmed')
-                    <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-sky-50 text-sky-800 border border-sky-200">
-                        ● CONFIRMED
-                    </span>
-                @elseif ($order['status'] === 'in_production')
-                    <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-indigo-50 text-indigo-800 border border-indigo-200">
-                        ● IN PRODUCTION
-                    </span>
-                @elseif ($order['status'] === 'completed')
-                    <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200">
-                        ● COMPLETED
+                <h1 class="text-2xl sm:text-3xl font-normal text-[#1C1917] tracking-tight">Order #ORD-{{ $order->id_pemesanan }}</h1>
+                @if ($order->total_harga)
+                    <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase bg-emerald-50 text-emerald-800 border border-emerald-200">
+                        HARGA DISEPAKATI
                     </span>
                 @else
-                    <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-rose-50 text-rose-800 border border-rose-200">
-                        ● CANCELLED
+                    <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold tracking-wider uppercase bg-[#F7DDD2] text-[#B85331] border border-[#F7DDD2]">
+                        WAITING PRICE
                     </span>
                 @endif
             </div>
-            <p class="text-xs font-mono text-[#78716C] mt-1">
-                Placed on {{ $order['created_at'] }}
-            </p>
+            <p class="text-xs font-mono text-[#78716C] mt-1">Dibuat pada: {{ $order->created_at ? $order->created_at->format('d M Y, H:i') : '-' }}</p>
         </div>
 
-        <div class="flex items-center gap-3 shrink-0">
+        <div class="flex items-center gap-3">
             <a
-                href="{{ route('admin.pesanan.index') }}"
-                class="px-4 py-2 bg-white border border-[#D9CCC1] hover:bg-[#F2ECE3] text-[#292524] text-xs font-mono font-medium tracking-wider uppercase transition-colors"
+                href="{{ route('admin.orders.invoice', $order->id_pemesanan) }}"
+                class="px-4 py-2.5 bg-white border border-[#D9CCC1] hover:bg-[#F2ECE3] text-[#292524] text-xs font-mono font-medium uppercase tracking-wider transition-colors"
             >
-                Back
-            </a>
-            <a
-                href="{{ route('admin.orders.invoice', $order['id']) }}"
-                class="px-5 py-2 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium tracking-wider uppercase transition-all shadow-xs flex items-center gap-2"
-            >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-                </svg>
-                <span>View Invoice</span>
+                Cetak Invoice
             </a>
         </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- 2. ORDER DETAILS & SIDEBAR                     -->
-    <!-- ============================================== -->
+    <!-- MAIN CONTENT -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         
-        <!-- LEFT COLUMN (2/3): Garment Specs & Notes -->
+        <!-- LEFT 2 COLS: CUSTOMER & ORDER DETAILS -->
         <div class="lg:col-span-2 space-y-8">
             
-            <!-- Garment Specs Card -->
-            <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
-                <div class="flex items-start justify-between pb-4 border-b border-[#EADACE]/70">
-                    <div>
-                        <h2 class="text-lg font-medium text-[#1C1917]">{{ $order['product_name'] }}</h2>
-                        <p class="text-xs text-[#78716C] mt-0.5">
-                            Category: {{ $order['category'] }} • Color: <span class="text-[#1C1917] font-medium">{{ $order['color'] }}</span>
-                        </p>
+            <!-- Customer Card -->
+            <div class="bg-white border border-[#EADACE] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-4">
+                <h2 class="text-base font-medium text-[#1C1917]">Informasi Pelanggan</h2>
+                <div class="space-y-2 text-xs text-[#292524]">
+                    <div class="flex justify-between border-b border-[#EADACE]/50 py-1.5">
+                        <span class="text-[#78716C]">Nama:</span>
+                        <span class="font-semibold">{{ $order->nama }}</span>
                     </div>
-                    <span class="px-3 py-1 bg-[#FAF7F2] border border-[#EADACE] font-mono text-xs font-semibold text-[#1C1917]">
-                        {{ $order['quantity'] }} pcs
-                    </span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                    <div class="p-4 bg-[#FAF7F2]/60 border border-[#EADACE] space-y-1">
-                        <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block">FABRIC MATERIAL</span>
-                        <span class="font-medium text-[#1C1917]">{{ $order['material'] }}</span>
+                    <div class="flex justify-between border-b border-[#EADACE]/50 py-1.5">
+                        <span class="text-[#78716C]">No HP:</span>
+                        <span class="font-mono font-medium">{{ $order->no_hp }}</span>
                     </div>
-                    <div class="p-4 bg-[#FAF7F2]/60 border border-[#EADACE] space-y-1">
-                        <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block">UNIT PRICE (DEAL)</span>
-                        <span class="font-medium font-mono text-[#1C1917]">Rp {{ number_format($order['unit_price'], 0, ',', '.') }} / pcs</span>
-                    </div>
-                </div>
-
-                <!-- Size Breakdown Matrix -->
-                <div class="space-y-3 pt-2">
-                    <h3 class="text-xs font-mono font-medium tracking-widest text-[#786C62] uppercase">
-                        SIZE BREAKDOWN
-                    </h3>
-                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 font-mono">
-                        @foreach ($order['size_breakdown'] as $sb)
-                            <div class="p-3 bg-[#FAF7F2]/60 border border-[#EADACE] flex items-center justify-between">
-                                <span class="px-2 py-0.5 bg-[#B85331] text-white text-xs font-bold">
-                                    {{ $sb['size'] }}
-                                </span>
-                                <span class="text-sm font-semibold text-[#1C1917]">{{ $sb['qty'] }} pcs</span>
-                            </div>
-                        @endforeach
+                    <div class="py-1.5">
+                        <span class="text-[#78716C] block mb-1">Alamat Pengiriman:</span>
+                        <p class="p-3 bg-[#FAF7F2] border border-[#EADACE] font-medium leading-relaxed">{{ $order->alamat }}</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Notes & Design Mockup File Card -->
-            <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
-                <div>
-                    <h2 class="text-base font-medium text-[#1C1917]">Mockup Artwork & Notes</h2>
-                    <p class="text-xs text-[#78716C] mt-0.5">Instructions and attached print/embroidery design files.</p>
-                </div>
-
-                <div class="p-4 bg-[#FAF7F2] border border-[#EADACE] text-xs text-[#292524] leading-relaxed">
-                    <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block mb-1">CLIENT NOTES:</span>
-                    "{{ $order['custom_notes'] }}"
-                </div>
-
-                <div class="p-4 bg-white border border-[#EADACE] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-[#FAF7F2] border border-[#D9CCC1] flex items-center justify-center font-mono font-bold text-xs text-[#B85331] shrink-0">
-                            PDF
-                        </div>
-                        <div>
-                            <p class="text-xs font-medium text-[#1C1917] font-mono">{{ $order['design_file_name'] }}</p>
-                            <span class="text-[10px] text-[#78716C]">Design attachment for screenprint / embroidery (2.4 MB)</span>
+            <!-- Product & Quantity Details -->
+            <div class="bg-white border border-[#EADACE] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-4">
+                <h2 class="text-base font-medium text-[#1C1917]">Rincian Pesanan</h2>
+                <div class="space-y-3 text-xs text-[#292524]">
+                    <div class="flex justify-between border-b border-[#EADACE]/50 py-1.5">
+                        <span class="text-[#78716C]">Produk:</span>
+                        <span class="font-semibold text-[#B85331]">{{ $order->produk ? $order->produk->nama_produk : '-' }}</span>
+                    </div>
+                    <div class="border-b border-[#EADACE]/50 py-1.5">
+                        <span class="text-[#78716C] block mb-1">Bahan Terpilih:</span>
+                        <div class="flex flex-wrap gap-1.5 mt-1">
+                            @forelse ($order->bahan as $b)
+                                <span class="px-2 py-0.5 bg-[#FAF7F2] border border-[#EADACE] font-medium text-[11px]">{{ $b->nama_bahan }}</span>
+                            @empty
+                                <span class="text-[#78716C] italic">-</span>
+                            @endforelse
                         </div>
                     </div>
-                    <a
-                        href="{{ $order['design_file'] }}"
-                        target="_blank"
-                        class="px-4 py-2 bg-white border border-[#D9CCC1] hover:bg-[#F2ECE3] text-[#292524] text-xs font-mono font-medium tracking-wider uppercase transition-colors shrink-0 text-center"
-                    >
-                        Download File
-                    </a>
+                    <div class="py-1.5">
+                        <span class="text-[#78716C] block mb-1">Rincian Ukuran & Kuantitas:</span>
+                        <table class="w-full text-left border-collapse mt-2">
+                            <thead>
+                                <tr class="bg-[#FAF7F2]/60 border-b border-[#EADACE] text-[10px] font-mono text-[#786C62] uppercase">
+                                    <th class="p-2.5">UKURAN</th>
+                                    <th class="p-2.5">KUANTITAS (PCS)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#EADACE]/50">
+                                @forelse ($order->ukuran as $uk)
+                                    <tr>
+                                        <td class="p-2.5 font-mono font-bold">{{ $uk->nama_ukuran }}</td>
+                                        <td class="p-2.5 font-mono">{{ $uk->pivot->kuantitas }} pcs</td>
+                                    </tr>
+                                @empty
+                                    <tr><td colspan="2" class="p-2.5 text-[#78716C]">Tidak ada data ukuran.</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    @if ($order->notes)
+                        <div class="pt-2">
+                            <span class="text-[#78716C] block mb-1">Catatan Tambahan:</span>
+                            <p class="p-3 bg-[#FAF7F2] border border-[#EADACE] italic text-[#574E46]">{{ $order->notes }}</p>
+                        </div>
+                    @endif
                 </div>
             </div>
 
         </div>
 
-        <!-- RIGHT COLUMN (1/3): Status Updater & Customer Coordinates -->
+        <!-- RIGHT 1 COL: ADMIN PRICE NEGOTIATION FORM -->
         <div class="space-y-8">
             
-            <!-- Update Status & Deal Price Form -->
-            <div class="bg-white border border-[#EADACE] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-4">
-                <h2 class="text-base font-medium text-[#1C1917]">Update Order Status</h2>
-                
-                <form action="{{ route('admin.pesanan.update', $order['id']) }}" method="POST" class="space-y-4">
+            <div class="bg-white border border-[#EADACE] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-5">
+                <h2 class="text-base font-medium text-[#1C1917]">Penetapan Harga Final</h2>
+                <p class="text-xs text-[#78716C]">Setelah negosiasi WhatsApp dengan pelanggan, masukkan total harga yang disepakati.</p>
+
+                <form action="{{ route('admin.pesanan.update', $order->id_pemesanan) }}" method="POST" class="space-y-4 pt-2">
                     @csrf
                     @method('PUT')
 
                     <div>
-                        <label for="status" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            PRODUCTION STATUS
+                        <label for="total_harga" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                            TOTAL HARGA KESEPAKATAN (RP)
                         </label>
-                        <select
-                            name="status"
-                            id="status"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs text-[#292524] rounded-none focus:outline-none transition-colors"
-                        >
-                            <option value="pending" {{ $order['status'] == 'pending' ? 'selected' : '' }}>Pending Review</option>
-                            <option value="confirmed" {{ $order['status'] == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
-                            <option value="in_production" {{ $order['status'] == 'in_production' ? 'selected' : '' }}>In Production</option>
-                            <option value="completed" {{ $order['status'] == 'completed' ? 'selected' : '' }}>Completed / Shipped</option>
-                            <option value="cancelled" {{ $order['status'] == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="unit_price" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            UNIT DEAL PRICE (RP)
-                        </label>
-                        <input
-                            type="number"
-                            name="unit_price"
-                            id="unit_price"
-                            value="{{ $order['unit_price'] }}"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs font-mono text-[#292524] rounded-none focus:outline-none transition-colors"
-                        />
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-xs font-mono text-[#786C62] pointer-events-none">
+                                Rp
+                            </span>
+                            <input
+                                type="number"
+                                id="total_harga"
+                                name="total_harga"
+                                value="{{ old('total_harga', $order->total_harga) }}"
+                                step="1000"
+                                placeholder="0"
+                                class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm font-mono text-[#292524] rounded-none focus:outline-none transition-colors"
+                            />
+                        </div>
                     </div>
 
                     <button
                         type="submit"
-                        class="w-full py-2.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium tracking-wider uppercase transition-all shadow-xs cursor-pointer"
+                        class="w-full py-2.5 bg-[#B85331] hover:bg-[#A34524] text-white text-xs font-mono font-medium uppercase tracking-wider transition-all shadow-xs cursor-pointer"
                     >
-                        Save Changes
+                        Simpan Harga Kesepakatan
                     </button>
                 </form>
             </div>
 
-            <!-- Customer Details Card -->
-            <div class="bg-white border border-[#EADACE] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-4">
-                <h2 class="text-base font-medium text-[#1C1917]">Customer Coordinates</h2>
-
-                <div class="space-y-3.5 text-xs">
-                    <div>
-                        <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block">NAME & INSTITUTION</span>
-                        <p class="font-medium text-[#1C1917] text-sm">{{ $order['customer_name'] }}</p>
-                        <p class="text-[#78716C]">{{ $order['company_or_institution'] }}</p>
-                    </div>
-
-                    <div class="pt-2 border-t border-[#EADACE]/60">
-                        <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block mb-1">WHATSAPP / PHONE</span>
-                        <a
-                            href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order['phone']) }}"
-                            target="_blank"
-                            class="inline-flex items-center gap-1.5 text-emerald-700 font-mono font-semibold hover:underline"
-                        >
-                            <span>{{ $order['phone'] }}</span>
-                            <span class="text-[10px]">&rarr;</span>
-                        </a>
-                    </div>
-
-                    <div class="pt-2 border-t border-[#EADACE]/60">
-                        <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block">EMAIL ADDRESS</span>
-                        <span class="text-[#292524]">{{ $order['email'] }}</span>
-                    </div>
-
-                    <div class="pt-2 border-t border-[#EADACE]/60">
-                        <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block mb-0.5">SHIPPING DESTINATION</span>
-                        <p class="text-[#78716C] leading-relaxed">{{ $order['shipping_address'] }}</p>
-                    </div>
-                </div>
+            <!-- WhatsApp Action Button -->
+            <div class="bg-[#FAF7F2] border border-[#EADACE] p-6 text-xs text-[#78716C] space-y-3">
+                <h3 class="font-mono text-[11px] font-bold text-[#1C1917] uppercase tracking-wider">Komunikasi Pelanggan</h3>
+                <p>Hubungi {{ $order->nama }} via WhatsApp untuk negosiasi spesifikasi & harga:</p>
+                <a
+                    href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->no_hp) }}"
+                    target="_blank"
+                    class="block w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-mono text-center text-xs font-medium uppercase transition-colors"
+                >
+                    Chat via WhatsApp
+                </a>
             </div>
 
         </div>

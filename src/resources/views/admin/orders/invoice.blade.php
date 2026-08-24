@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice {{ $order['invoice_number'] }} - Tigabenang</title>
+    <title>Invoice #INV-TB-{{ $order->id_pemesanan }} - Tigabenang</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +32,7 @@
 
     <!-- Top Action Bar for Admin -->
     <div class="max-w-4xl mx-auto mb-6 flex items-center justify-between no-print">
-        <a href="{{ route('admin.pesanan.show', $order['id']) }}" class="inline-flex items-center gap-2 text-xs font-mono font-medium text-[#78716C] hover:text-[#B85331] bg-white px-4 py-2 border border-[#D9CCC1] transition-colors uppercase tracking-wider">
+        <a href="{{ route('admin.pesanan.show', $order->id_pemesanan) }}" class="inline-flex items-center gap-2 text-xs font-mono font-medium text-[#78716C] hover:text-[#B85331] bg-white px-4 py-2 border border-[#D9CCC1] transition-colors uppercase tracking-wider">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -72,13 +72,18 @@
 
             <div class="text-left sm:text-right font-mono">
                 <span class="inline-block px-2.5 py-0.5 bg-[#FAF7F2] text-[#B85331] text-[10px] font-bold uppercase tracking-widest mb-2 border border-[#EADACE]">
-                    INVOICE
+                    INVOICE FAKTUR
                 </span>
-                <p class="text-base font-bold text-[#1C1917]">{{ $order['invoice_number'] }}</p>
+                <p class="text-base font-bold text-[#1C1917]">INV/TB/{{ date('Y/m') }}/{{ $order->id_pemesanan }}</p>
                 <div class="text-xs text-[#78716C] mt-1 space-y-0.5">
-                    <p>Date: <strong class="text-[#292524]">{{ $order['invoice_date'] }}</strong></p>
-                    <p>Due Date: <strong class="text-[#292524]">{{ $order['due_date'] }}</strong></p>
-                    <p>Status: <span class="font-bold text-amber-700 uppercase">UNPAID (PENDING)</span></p>
+                    <p>Tanggal: <strong class="text-[#292524]">{{ $order->created_at ? $order->created_at->format('d M Y') : date('d M Y') }}</strong></p>
+                    <p>Status: 
+                        @if ($order->total_harga)
+                            <span class="font-bold text-emerald-800 uppercase">Harga Disepakati</span>
+                        @else
+                            <span class="font-bold text-amber-700 uppercase">Belum Ditentukan (Waiting Price)</span>
+                        @endif
+                    </p>
                 </div>
             </div>
         </div>
@@ -86,14 +91,13 @@
         <!-- Customer Bill To Info -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 py-8 border-b border-[#EADACE]/70 text-xs">
             <div>
-                <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block mb-1">BILLED TO:</span>
-                <h3 class="text-sm font-medium text-[#1C1917]">{{ $order['customer_name'] }}</h3>
-                <p class="text-[#574E46]">{{ $order['company_or_institution'] }}</p>
-                <p class="text-[#78716C] font-mono mt-0.5">{{ $order['phone'] }} | {{ $order['email'] }}</p>
+                <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block mb-1">PELANGGAN:</span>
+                <h3 class="text-sm font-medium text-[#1C1917]">{{ $order->nama }}</h3>
+                <p class="text-[#78716C] font-mono mt-0.5">No HP: {{ $order->no_hp }}</p>
             </div>
             <div>
-                <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block mb-1">SHIPPING DESTINATION:</span>
-                <p class="text-[#78716C] leading-relaxed">{{ $order['shipping_address'] }}</p>
+                <span class="text-[10px] font-mono tracking-widest text-[#9E9084] uppercase block mb-1">ALAMAT PENGIRIMAN:</span>
+                <p class="text-[#78716C] leading-relaxed">{{ $order->alamat }}</p>
             </div>
         </div>
 
@@ -102,21 +106,26 @@
             <table class="w-full text-left text-xs border-collapse">
                 <thead>
                     <tr class="border-b border-[#EADACE]/70 text-[10px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
-                        <th class="py-3">ITEM DESCRIPTION</th>
-                        <th class="py-3 text-center">QTY</th>
-                        <th class="py-3 text-right">UNIT PRICE</th>
-                        <th class="py-3 text-right">TOTAL</th>
+                        <th class="py-3">NAMA PRODUK</th>
+                        <th class="py-3">BAHAN & UKURAN</th>
+                        <th class="py-3 text-right">TOTAL HARGA</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#EADACE]/50">
                     <tr>
                         <td class="py-4">
-                            <p class="font-medium text-[#1C1917]">{{ $order['product_name'] }}</p>
-                            <p class="text-[#78716C] text-[11px] mt-0.5">Color: {{ $order['color'] }} • Custom print & embroidery</p>
+                            <p class="font-medium text-[#1C1917]">{{ $order->produk ? $order->produk->nama_produk : '-' }}</p>
+                            @if ($order->notes)
+                                <p class="text-[#78716C] text-[11px] mt-0.5">Catatan: {{ $order->notes }}</p>
+                            @endif
                         </td>
-                        <td class="py-4 text-center font-mono text-[#1C1917]">{{ $order['quantity'] }} pcs</td>
-                        <td class="py-4 text-right font-mono text-[#78716C]">Rp {{ number_format($order['unit_price'], 0, ',', '.') }}</td>
-                        <td class="py-4 text-right font-mono font-medium text-[#1C1917]">Rp {{ number_format($order['subtotal'], 0, ',', '.') }}</td>
+                        <td class="py-4 text-xs text-[#574E46]">
+                            <p>Bahan: {{ $order->bahan->pluck('nama_bahan')->implode(', ') ?: '-' }}</p>
+                            <p class="mt-1 font-mono">Ukuran: {{ $order->ukuran->map(fn($u) => $u->nama_ukuran . ' (' . $u->pivot->kuantitas . ' pcs)')->implode(', ') ?: '-' }}</p>
+                        </td>
+                        <td class="py-4 text-right font-mono font-medium text-[#1C1917]">
+                            {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : 'Waiting Price' }}
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -125,34 +134,22 @@
         <!-- Totals & Payment Info -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
             
-            <!-- Bank Transfer Account Info -->
             <div class="bg-[#FAF7F2]/60 p-5 border border-[#EADACE] text-xs">
-                <span class="text-[10px] font-mono font-medium tracking-widest text-[#786C62] uppercase block mb-2">BANK TRANSFER DETAILS:</span>
+                <span class="text-[10px] font-mono font-medium tracking-widest text-[#786C62] uppercase block mb-2">REKENING PEMBAYARAN:</span>
                 <div class="space-y-1 font-mono text-[#292524]">
-                    <p>Bank: <strong class="text-[#1C1917]">{{ $order['bank_info']['bank_name'] }}</strong></p>
-                    <p>Account: <strong class="text-[#B85331]">{{ $order['bank_info']['account_number'] }}</strong></p>
-                    <p>Account Name: <strong class="text-[#1C1917]">{{ $order['bank_info']['account_name'] }}</strong></p>
+                    <p>Bank: <strong class="text-[#1C1917]">Bank Central Asia (BCA)</strong></p>
+                    <p>No. Rekening: <strong class="text-[#B85331]">8420-9988-771</strong></p>
+                    <p>Atas Nama: <strong class="text-[#1C1917]">PT Tigabenang Busana Indonesia</strong></p>
                 </div>
-                <p class="text-[10px] text-[#9E9084] mt-3 italic">*Please include order reference ({{ $order['order_code'] }}) in transfer note.</p>
             </div>
 
             <!-- Summary Calculations -->
             <div class="space-y-2 text-xs font-mono">
-                <div class="flex justify-between py-1 text-[#78716C]">
-                    <span>Subtotal:</span>
-                    <span class="font-medium text-[#1C1917]">Rp {{ number_format($order['subtotal'], 0, ',', '.') }}</span>
-                </div>
-                <div class="flex justify-between py-1 text-[#78716C]">
-                    <span>Tax (0%):</span>
-                    <span class="font-medium text-[#1C1917]">Rp 0</span>
-                </div>
-                <div class="flex justify-between py-1 text-[#78716C]">
-                    <span>Shipping:</span>
-                    <span class="font-medium text-emerald-800">FREE</span>
-                </div>
                 <div class="flex justify-between py-3 border-t border-[#EADACE] text-sm font-bold text-[#1C1917]">
-                    <span>TOTAL DUE:</span>
-                    <span class="text-[#B85331] text-base">Rp {{ number_format($order['total_price'], 0, ',', '.') }}</span>
+                    <span>TOTAL HARGA:</span>
+                    <span class="text-[#B85331] text-base">
+                        {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : 'Waiting Price' }}
+                    </span>
                 </div>
             </div>
 

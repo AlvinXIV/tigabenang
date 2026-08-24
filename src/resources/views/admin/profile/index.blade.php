@@ -3,7 +3,7 @@
 @section('title', 'Settings & Vendor Profile')
 
 @section('content')
-<div class="space-y-8 max-w-5xl mx-auto" x-data="{ activeTab: 'profile' }">
+<div class="space-y-8 max-w-6xl mx-auto" x-data="{ activeTab: 'profile' }">
 
     <!-- ============================================== -->
     <!-- 1. TOP HEADER & TABS                           -->
@@ -18,17 +18,17 @@
 
         <div class="flex items-center gap-3">
             <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200">
-                ● ACTIVE VENDOR
+                ACTIVE VENDOR
             </span>
         </div>
     </div>
 
     <!-- Tab Buttons -->
-    <div class="flex items-center gap-6 border-b border-[#EADACE]/70 text-xs font-medium">
+    <div class="flex items-center gap-6 border-b border-[#EADACE]/70 text-xs font-mono uppercase tracking-wider font-medium">
         <button
             type="button"
             @click="activeTab = 'profile'"
-            :class="activeTab === 'profile' ? 'border-b-2 border-[#B85331] text-[#1C1917] font-semibold' : 'text-[#78716C] hover:text-[#1C1917] border-b-2 border-transparent'"
+            :class="activeTab === 'profile' ? 'border-b-2 border-[#B85331] text-[#1C1917] font-bold' : 'text-[#78716C] hover:text-[#1C1917] border-b-2 border-transparent'"
             class="pb-3 transition-colors cursor-pointer"
         >
             Vendor Identity & Contact
@@ -37,7 +37,7 @@
         <button
             type="button"
             @click="activeTab = 'security'"
-            :class="activeTab === 'security' ? 'border-b-2 border-[#B85331] text-[#1C1917] font-semibold' : 'text-[#78716C] hover:text-[#1C1917] border-b-2 border-transparent'"
+            :class="activeTab === 'security' ? 'border-b-2 border-[#B85331] text-[#1C1917] font-bold' : 'text-[#78716C] hover:text-[#1C1917] border-b-2 border-transparent'"
             class="pb-3 transition-colors cursor-pointer"
         >
             Account Security & Password
@@ -48,7 +48,7 @@
     <!-- TAB 1: VENDOR PROFILE & CONTACT                -->
     <!-- ============================================== -->
     <div x-show="activeTab === 'profile'" class="space-y-8">
-        <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-8">
+        <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-8 max-w-4xl">
             @csrf
             @method('PUT')
 
@@ -150,19 +150,6 @@
                         />
                     </div>
 
-                    <div>
-                        <label for="instagram" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            INSTAGRAM
-                        </label>
-                        <input
-                            type="text"
-                            name="instagram"
-                            id="instagram"
-                            value="{{ $profile['instagram'] }}"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
-                        />
-                    </div>
-
                     <div class="sm:col-span-2">
                         <label for="address" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
                             GARMENT WORKSHOP / FACTORY ADDRESS <span class="text-[#B85331]">*</span>
@@ -194,7 +181,7 @@
     <!-- TAB 2: SECURITY & PASSWORD                     -->
     <!-- ============================================== -->
     <div x-show="activeTab === 'security'" style="display: none;" class="space-y-8">
-        <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-8">
+        <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-8 max-w-4xl">
             @csrf
             @method('PUT')
 
@@ -213,8 +200,8 @@
                         <input
                             type="text"
                             disabled
-                            value="vendor@tigabenang.com"
-                            class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#D9CCC1] text-xs sm:text-sm text-[#78716C] font-mono rounded-none cursor-not-allowed"
+                            value="{{ $profile['email'] }}"
+                            class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#D9CCC1] text-xs sm:text-sm text-[#78716C] font-mono rounded-none cursor-not-allowed font-medium"
                         />
                     </div>
 
@@ -226,7 +213,7 @@
                             type="text"
                             disabled
                             value="Vendor Administrator"
-                            class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#D9CCC1] text-xs sm:text-sm text-[#78716C] rounded-none cursor-not-allowed"
+                            class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#D9CCC1] text-xs sm:text-sm text-[#78716C] rounded-none cursor-not-allowed font-medium"
                         />
                     </div>
                 </div>

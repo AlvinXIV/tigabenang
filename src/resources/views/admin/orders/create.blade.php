@@ -1,342 +1,174 @@
 @extends('layouts.admin')
 
-@section('title', 'New Order')
+@section('title', 'Create New Order')
 
 @section('content')
-<div
-    class="space-y-8 max-w-5xl mx-auto"
-    x-data="{
-        products: {{ json_encode($products) }},
-        selectedProductId: '1',
-        qtyS: 10,
-        qtyM: 20,
-        qtyL: 15,
-        qtyXL: 5,
-        qtyXXL: 0,
-        unitPrice: 185000,
-        
-        get totalQty() {
-            return (parseInt(this.qtyS) || 0) + 
-                   (parseInt(this.qtyM) || 0) + 
-                   (parseInt(this.qtyL) || 0) + 
-                   (parseInt(this.qtyXL) || 0) + 
-                   (parseInt(this.qtyXXL) || 0);
-        },
-        
-        get totalPrice() {
-            return this.totalQty * (parseInt(this.unitPrice) || 0);
-        },
-        
-        formatRupiah(num) {
-            return 'Rp ' + (num || 0).toLocaleString('id-ID');
-        }
-    }"
->
+<div class="space-y-8 max-w-6xl mx-auto">
 
-    <!-- ============================================== -->
-    <!-- 1. TOP HEADER & ACTION BUTTONS                 -->
-    <!-- ============================================== -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EADACE]/70">
         <div>
-            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#78716C] hover:text-[#B85331] font-medium inline-flex items-center gap-1.5 mb-2 transition-colors uppercase font-mono tracking-wider">
+            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#78716C] hover:text-[#B85331] font-mono font-medium inline-flex items-center gap-1.5 mb-2 transition-colors uppercase tracking-wider">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
                 <span>Orders</span>
             </a>
-            <h1 class="text-2xl sm:text-3xl font-normal text-[#1C1917] tracking-tight">New Custom Order</h1>
-            <p class="text-xs sm:text-sm text-[#78716C] mt-0.5">
-                Register a direct custom garment production order from a client.
-            </p>
-        </div>
-
-        <div class="flex items-center gap-3 shrink-0">
-            <a
-                href="{{ route('admin.pesanan.index') }}"
-                class="px-5 py-2.5 bg-white border border-[#D9CCC1] hover:bg-[#F2ECE3] text-[#292524] text-xs font-mono font-medium tracking-wider uppercase whitespace-nowrap transition-colors inline-block text-center min-w-[90px]"
-            >
-                Cancel
-            </a>
-            <button
-                type="submit"
-                form="create-order-form"
-                class="px-6 py-2.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium tracking-wider uppercase whitespace-nowrap transition-all shadow-xs cursor-pointer flex items-center gap-2"
-            >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span>Create Order</span>
-            </button>
+            <h1 class="text-2xl sm:text-3xl font-normal text-[#1C1917] tracking-tight">Create New Order</h1>
         </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- 2. ORDER CREATION FORM                         -->
-    <!-- ============================================== -->
-    <form id="create-order-form" action="{{ route('admin.pesanan.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+    <form action="{{ route('admin.pesanan.store') }}" method="POST" class="space-y-8">
         @csrf
 
-        <!-- SECTION 1: Customer & Shipping Information -->
-        <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
-            <div>
-                <h2 class="text-base font-medium text-[#1C1917]">1. Customer Information</h2>
-                <p class="text-xs text-[#78716C] mt-0.5">Contact coordinates and shipping destination for the order.</p>
-            </div>
+        <!-- SECTION 1: PELANGGAN -->
+        <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-4">
+            <h2 class="text-base font-medium text-[#1C1917]">Data Pelanggan</h2>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
-                <!-- Customer Name -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="customer_name" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        CUSTOMER NAME <span class="text-[#B85331]">*</span>
+                    <label for="nama" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        NAMA PELANGGAN <span class="text-[#B85331]">*</span>
                     </label>
                     <input
                         type="text"
-                        name="customer_name"
-                        id="customer_name"
+                        id="nama"
+                        name="nama"
                         required
-                        placeholder="e.g. Ahmad Fauzi"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                        placeholder="Nama lengkap"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none focus:border-[#B85331]"
                     />
                 </div>
 
-                <!-- Company or Institution -->
                 <div>
-                    <label for="company_or_institution" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        INSTITUTION / COMPANY (OPTIONAL)
+                    <label for="no_hp" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        NO TELEPON / WHATSAPP <span class="text-[#B85331]">*</span>
                     </label>
                     <input
                         type="text"
-                        name="company_or_institution"
-                        id="company_or_institution"
-                        placeholder="e.g. PT Sinergi Abadi Kreatif"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
-                    />
-                </div>
-
-                <!-- Phone -->
-                <div>
-                    <label for="phone" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        WHATSAPP / PHONE NUMBER <span class="text-[#B85331]">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="phone"
-                        id="phone"
+                        id="no_hp"
+                        name="no_hp"
                         required
-                        placeholder="0812-3456-7890"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm font-mono text-[#292524] rounded-none focus:outline-none transition-colors"
+                        placeholder="08123456789"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none focus:border-[#B85331]"
                     />
                 </div>
 
-                <!-- Email -->
-                <div>
-                    <label for="email" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        EMAIL ADDRESS
-                    </label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="ahmad@sinergi.co.id"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
-                    />
-                </div>
-
-                <!-- Shipping Address -->
                 <div class="sm:col-span-2">
-                    <label for="shipping_address" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        SHIPPING / DELIVERY ADDRESS <span class="text-[#B85331]">*</span>
+                    <label for="alamat" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        ALAMAT PENGIRIMAN <span class="text-[#B85331]">*</span>
                     </label>
                     <textarea
-                        name="shipping_address"
-                        id="shipping_address"
-                        rows="2"
-                        required
-                        placeholder="Jl. Asia Afrika No. 120, Bandung, Jawa Barat 40112"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors leading-relaxed"
-                    ></textarea>
-                </div>
-            </div>
-        </div>
-
-        <!-- SECTION 2: Garment Specification & Size Breakdown -->
-        <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
-            <div>
-                <h2 class="text-base font-medium text-[#1C1917]">2. Garment Specifications & Sizes</h2>
-                <p class="text-xs text-[#78716C] mt-0.5">Select the apparel catalog item, fabric specification, and size distribution.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
-                <!-- Select Product -->
-                <div>
-                    <label for="product_id" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        PRODUCT <span class="text-[#B85331]">*</span>
-                    </label>
-                    <select
-                        name="product_id"
-                        id="product_id"
-                        x-model="selectedProductId"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
-                    >
-                        @foreach ($products as $p)
-                            <option value="{{ $p['id'] }}">{{ $p['name'] }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Select Material -->
-                <div>
-                    <label for="material" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        FABRIC MATERIAL <span class="text-[#B85331]">*</span>
-                    </label>
-                    <select
-                        name="material"
-                        id="material"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
-                    >
-                        @foreach ($materials as $m)
-                            <option value="{{ $m }}">{{ $m }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <!-- Size Breakdown Matrix -->
-            <div class="pt-4 border-t border-[#EADACE]/70 space-y-3">
-                <label class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
-                    SIZE BREAKDOWN (QUANTITY PER SIZE)
-                </label>
-
-                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                    <div class="p-3 bg-[#FAF7F2]/60 border border-[#EADACE] text-center">
-                        <span class="text-xs font-mono font-bold text-[#786C62] block mb-1">SIZE S</span>
-                        <input
-                            type="number"
-                            min="0"
-                            x-model="qtyS"
-                            class="w-full px-2 py-1.5 bg-white border border-[#D9CCC1] text-center font-mono text-sm font-semibold text-[#1C1917] rounded-none focus:outline-none focus:border-[#B85331]"
-                        />
-                    </div>
-                    <div class="p-3 bg-[#FAF7F2]/60 border border-[#EADACE] text-center">
-                        <span class="text-xs font-mono font-bold text-[#786C62] block mb-1">SIZE M</span>
-                        <input
-                            type="number"
-                            min="0"
-                            x-model="qtyM"
-                            class="w-full px-2 py-1.5 bg-white border border-[#D9CCC1] text-center font-mono text-sm font-semibold text-[#1C1917] rounded-none focus:outline-none focus:border-[#B85331]"
-                        />
-                    </div>
-                    <div class="p-3 bg-[#FAF7F2]/60 border border-[#EADACE] text-center">
-                        <span class="text-xs font-mono font-bold text-[#786C62] block mb-1">SIZE L</span>
-                        <input
-                            type="number"
-                            min="0"
-                            x-model="qtyL"
-                            class="w-full px-2 py-1.5 bg-white border border-[#D9CCC1] text-center font-mono text-sm font-semibold text-[#1C1917] rounded-none focus:outline-none focus:border-[#B85331]"
-                        />
-                    </div>
-                    <div class="p-3 bg-[#FAF7F2]/60 border border-[#EADACE] text-center">
-                        <span class="text-xs font-mono font-bold text-[#786C62] block mb-1">SIZE XL</span>
-                        <input
-                            type="number"
-                            min="0"
-                            x-model="qtyXL"
-                            class="w-full px-2 py-1.5 bg-white border border-[#D9CCC1] text-center font-mono text-sm font-semibold text-[#1C1917] rounded-none focus:outline-none focus:border-[#B85331]"
-                        />
-                    </div>
-                    <div class="p-3 bg-[#FAF7F2]/60 border border-[#EADACE] text-center">
-                        <span class="text-xs font-mono font-bold text-[#786C62] block mb-1">SIZE XXL</span>
-                        <input
-                            type="number"
-                            min="0"
-                            x-model="qtyXXL"
-                            class="w-full px-2 py-1.5 bg-white border border-[#D9CCC1] text-center font-mono text-sm font-semibold text-[#1C1917] rounded-none focus:outline-none focus:border-[#B85331]"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Price & Quantity Calculation Summary -->
-            <div class="p-4 bg-[#FAF7F2] border border-[#EADACE] flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono">
-                <div class="flex items-center gap-4">
-                    <div>
-                        <span class="text-[10px] text-[#9E9084] uppercase tracking-wider block">TOTAL UNITS</span>
-                        <span class="text-base font-semibold text-[#1C1917]" x-text="totalQty + ' pcs'"></span>
-                    </div>
-                    <span class="text-[#D9CCC1]">/</span>
-                    <div>
-                        <span class="text-[10px] text-[#9E9084] uppercase tracking-wider block">UNIT PRICE (DEAL)</span>
-                        <div class="flex items-center gap-1">
-                            <span class="text-xs text-[#78716C]">Rp</span>
-                            <input
-                                type="number"
-                                x-model="unitPrice"
-                                class="w-28 px-2 py-1 bg-white border border-[#D9CCC1] text-xs font-mono font-medium rounded-none focus:outline-none focus:border-[#B85331]"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-right">
-                    <span class="text-[10px] text-[#9E9084] uppercase tracking-wider block">ESTIMATED TOTAL</span>
-                    <span class="text-lg font-bold text-[#B85331]" x-text="formatRupiah(totalPrice)"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- SECTION 3: Custom Notes & Design Files -->
-        <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
-            <div>
-                <h2 class="text-base font-medium text-[#1C1917]">3. Mockup Design & Production Notes</h2>
-                <p class="text-xs text-[#78716C] mt-0.5">Attach custom embroidery/print artwork files and specific notes.</p>
-            </div>
-
-            <div class="space-y-4 pt-1">
-                <div>
-                    <label for="custom_notes" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        PRODUCTION NOTES / PRINT & EMBROIDERY INSTRUCTIONS
-                    </label>
-                    <textarea
-                        name="custom_notes"
-                        id="custom_notes"
+                        id="alamat"
+                        name="alamat"
                         rows="3"
-                        placeholder="e.g. Bordir logo dada kiri 7cm, sablon rubber punggung belakang, deadline tgl 30..."
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors leading-relaxed"
+                        required
+                        placeholder="Alamat lengkap pengiriman pesanan"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none focus:border-[#B85331]"
                     ></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: PRODUK & BAHAN -->
+        <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-4">
+            <h2 class="text-base font-medium text-[#1C1917]">Produk & Bahan</h2>
+
+            <div class="space-y-4">
+                <div>
+                    <label for="produk_id" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        PRODUK <span class="text-[#B85331]">*</span>
+                    </label>
+                    <select
+                        id="produk_id"
+                        name="produk_id"
+                        required
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none focus:border-[#B85331]"
+                    >
+                        <option value="" disabled selected>Pilih Produk</option>
+                        @foreach ($products as $prod)
+                            <option value="{{ $prod->id_produk }}">{{ $prod->nama_produk }} (Rp {{ number_format($prod->harga, 0, ',', '.') }})</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div>
                     <label class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        DESIGN MOCKUP / VECTOR ARTWORK (OPTIONAL)
+                        PILIHAN BAHAN KAIN
                     </label>
-                    <div class="border-2 border-dashed border-[#D9CCC1] p-6 text-center bg-[#FAF7F2]/40 hover:bg-[#FAF7F2] transition-colors relative cursor-pointer">
-                        <div class="w-8 h-8 mx-auto text-[#786C62] mb-2">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                            </svg>
-                        </div>
-                        <p class="text-xs font-medium text-[#292524]">Select design file (PDF, PNG, JPG, AI)</p>
-                        <p class="text-[10px] text-[#78716C] mt-0.5">Maximum file size 25MB</p>
-                        <input type="file" name="design_file" accept=".pdf,.png,.jpg,.jpeg,.ai,.psd" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        @foreach ($materials as $mat)
+                            <label class="flex items-center gap-2 p-2.5 border border-[#EADACE] hover:bg-[#FAF7F2] cursor-pointer">
+                                <input type="checkbox" name="bahan_ids[]" value="{{ $mat->id_bahan }}" class="rounded-none text-[#B85331]" />
+                                <span class="text-xs font-medium text-[#292524]">{{ $mat->nama_bahan }}</span>
+                            </label>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ============================================== -->
-        <!-- BOTTOM ACTION BUTTONS                          -->
-        <!-- ============================================== -->
-        <div class="flex items-center justify-end gap-3 pt-6 border-t border-[#EADACE]/70 mt-8">
-            <a
-                href="{{ route('admin.pesanan.index') }}"
-                class="px-6 py-2.5 bg-white border border-[#D9CCC1] hover:bg-[#F2ECE3] text-[#292524] text-xs font-mono font-medium tracking-wider uppercase whitespace-nowrap transition-colors inline-block text-center min-w-[100px]"
-            >
+        <!-- SECTION 3: UKURAN & TOTAL HARGA -->
+        <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-4">
+            <h2 class="text-base font-medium text-[#1C1917]">Kuantitas Ukuran & Kesepakatan Harga</h2>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        JUMLAH PER UKURAN
+                    </label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        @foreach ($sizes as $sz)
+                            <div class="p-2.5 border border-[#EADACE] bg-[#FAF7F2]">
+                                <span class="text-xs font-mono font-bold text-[#1C1917] block">{{ $sz->nama_ukuran }}</span>
+                                <input
+                                    type="number"
+                                    name="ukuran[{{ $sz->id_ukuran }}]"
+                                    min="0"
+                                    value="0"
+                                    class="w-full mt-1 px-2 py-1 bg-white border border-[#D9CCC1] text-xs font-mono text-center focus:outline-none"
+                                />
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div>
+                    <label for="total_harga" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        TOTAL HARGA DISEPAKATI (OPSIONAL)
+                    </label>
+                    <div class="relative max-w-md">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-xs font-mono text-[#786C62]">Rp</span>
+                        <input
+                            type="number"
+                            id="total_harga"
+                            name="total_harga"
+                            step="1000"
+                            placeholder="Biarkan kosong jika belum disepakati (Waiting Price)"
+                            class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D9CCC1] font-mono text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <label for="notes" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        CATATAN PESANAN
+                    </label>
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        rows="2"
+                        placeholder="Catatan sablon, bordir, atau instruksi khusus"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none"
+                    ></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#EADACE]">
+            <a href="{{ route('admin.pesanan.index') }}" class="px-5 py-2.5 bg-white border border-[#D9CCC1] text-xs font-mono font-medium uppercase">
                 Cancel
             </a>
-            <button
-                type="submit"
-                class="px-7 py-2.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium tracking-wider uppercase whitespace-nowrap transition-all shadow-xs cursor-pointer inline-block text-center"
-            >
+            <button type="submit" class="px-6 py-2.5 bg-[#B85331] text-white text-xs font-mono font-medium uppercase hover:bg-[#A34524] cursor-pointer">
                 Create Order
             </button>
         </div>
