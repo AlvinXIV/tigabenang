@@ -5,65 +5,231 @@
  * Replace `analyzeFit()` with a real fitting algorithm when one exists.
  * Do not persist these values; they are frontend session state.
  */
-export function analyzeFit({ heightCm, weightKg, sizes }) {
+
+/**
+ * Disclaimer yang harus ditampilkan bersama hasil analisis.
+ */
+export const FIT_DISCLAIMER =
+    'Demo estimate — replaceable algorithm, not a physical measurement.';
+
+/**
+ * Klasifikasi fit berdasarkan rasio customer/garment.
+ *
+ * @param {number} customerValue – Ukuran customer
+ * @param {number|null} garmentValue – Ukuran garment
+ * @returns {'Too Tight'|'Perfect Fit'|'Too Loose'}
+ */
+function classify(customerValue, garmentValue) {
+    if (garmentValue == null || garmentValue <= 0) {
+        return 'Perfect Fit';
+    }
+
+    const ratio = customerValue / garmentValue;
+
+    if (ratio > 1.06) {
+        return 'Too Tight';
+    }
+
+    if (ratio < 0.92) {
+        return 'Too Loose';
+    }
+
+    return 'Perfect Fit';
+}
+
+/**
+ * Analisis fit antara body measurements customer dan size chart garment.
+ *
+ * @param {object} params
+ * @param {number|string} params.heightCm    – Tinggi badan (cm)
+ * @param {number|string} params.chestCm     – Lingkar dada (cm)
+ * @param {number|string} params.waistCm     – Lingkar pinggang (cm)
+ * @param {number|string} params.hipCm       – Lingkar pinggul (cm)
+ * @param {number|string} params.shoulderCm  – Lebar bahu (cm)
+ * @param {Array}         params.sizes       – Array size chart [{name, lebar_dada, panjang, lebar_bahu, panjang_lengan}]
+ * @returns {{recommendedSize: string|null, overallMatch: string, heatmap: Array}}
+ */
+export function analyzeFit({
+    heightCm,
+    chestCm,
+    waistCm,
+    hipCm,
+    shoulderCm,
+    sizes,
+}) {
     const height = Number(heightCm) || 170;
-    const weight = Number(weightKg) || 68;
-    const available = Array.isArray(sizes) ? sizes : [];
+    const chest = Number(chestCm) || 92;
+    const waist = Number(waistCm) || 76;
+    const hip = Number(hipCm) || 96;
+    const shoulder = Number(shoulderCm) || 44;
+
+    const available = Array.isArray(sizes)
+        ? sizes
+        : [];
+
+    // ─────────────────────────────────────────────────────────
+    // NO SIZES AVAILABLE
+    // ─────────────────────────────────────────────────────────
 
     if (available.length === 0) {
         return {
             recommendedSize: null,
             overallMatch: 'Unavailable',
-            heatmap: [
-                { area: 'Shoulders', state: 'Perfect Fit' },
-                { area: 'Chest', state: 'Perfect Fit' },
-                { area: 'Waist', state: 'Perfect Fit' },
-                { area: 'Sleeves', state: 'Perfect Fit' },
-            ],
+            heatmap: [],
         };
     }
 
-    const bmi = weight / (height / 100) ** 2;
-    const estimatedChest = 48 + (bmi - 22) * 1.6 + (height - 170) * 0.06;
-    const estimatedShoulder = estimatedChest * 0.82;
-    const estimatedWaist = estimatedChest * 0.9;
-    const estimatedSleeve = 20 + (height - 160) * 0.35;
+    // ─────────────────────────────────────────────────────────
+    // CUSTOMER MEASUREMENTS (half = flat equivalent)
+    // ─────────────────────────────────────────────────────────
 
-    const scored = available.map((size) => {
-        const chest = Number(size.lebar_dada) || estimatedChest;
-        const delta = Math.abs(chest - estimatedChest);
-        return { size, delta };
-    });
+    const halfChest = chest / 2;
+    const halfWaist = waist / 2;
+    const halfHip = hip / 2;
 
-    scored.sort((a, b) => a.delta - b.delta);
-    const recommended = scored[0]?.size ?? available[0];
+    // Use actual shoulder half-width.
+    const halfShoulder = shoulder / 2;
 
-    const classify = (estimated, measured) => {
-        if (measured == null) {
-            return 'Perfect Fit';
-        }
-        const ratio = estimated / measured;
-        if (ratio > 1.06) {
-            return 'Too Tight';
-        }
-        if (ratio < 0.92) {
-            return 'Too Loose';
-        }
-        return 'Perfect Fit';
-    };
+    const estSleeve =
+        20 + (height - 160) * 0.35;
+
+    // Estimasi panjang garment yang diinginkan.
+    const estLength = height * 0.40;
+
+    // ─────────────────────────────────────────────────────────
+    // FIND BEST MATCHING SIZE (by chest width)
+    // ─────────────────────────────────────────────────────────
+
+    const scored = available.map(
+        (size) => {
+            const garmentChest =
+                Number(size.lebar_dada) || null;
+
+            if (garmentChest === null) {
+                return { size, delta: 999 };
+            }
+
+            const delta = Math.abs(
+                garmentChest - halfChest,
+            );
+
+            return { size, delta };
+        },
+    );
+
+    scored.sort(
+        (a, b) => a.delta - b.delta,
+    );
+
+    const recommended =
+        scored[0]?.size ?? available[0];
+
+    // ─────────────────────────────────────────────────────────
+    // GARMENT MEASUREMENTS
+    // ─────────────────────────────────────────────────────────
+
+    const garmentChest =
+        Number(recommended.lebar_dada) || null;
+
+    const garmentShoulder =
+        Number(recommended.lebar_bahu) || null;
+
+    const garmentSleeve =
+        Number(recommended.panjang_lengan) ||
+        null;
+
+    const garmentLength =
+        Number(recommended.panjang) || null;
+
+    // Estimasi waist dan hip dari chest width.
+    const garmentWaist = garmentChest
+        ? garmentChest * 0.88
+        : null;
+
+    const garmentHip = garmentChest
+        ? garmentChest * 1.02
+        : null;
+
+    // ─────────────────────────────────────────────────────────
+    // HEATMAP
+    // ─────────────────────────────────────────────────────────
 
     const heatmap = [
-        { area: 'Shoulders', state: classify(estimatedShoulder, Number(recommended.lebar_bahu) || null) },
-        { area: 'Chest', state: classify(estimatedChest, Number(recommended.lebar_dada) || null) },
-        { area: 'Waist', state: classify(estimatedWaist, Number(recommended.lebar_dada) * 0.92 || null) },
-        { area: 'Sleeves', state: classify(estimatedSleeve, Number(recommended.panjang_lengan) || null) },
+        {
+            area: 'Chest',
+            state: classify(
+                halfChest,
+                garmentChest,
+            ),
+        },
+        {
+            area: 'Shoulder',
+            state: classify(
+                halfShoulder,
+                garmentShoulder,
+            ),
+        },
+        {
+            area: 'Waist',
+            state: classify(
+                halfWaist,
+                garmentWaist,
+            ),
+        },
+        {
+            area: 'Hip',
+            state: classify(
+                halfHip,
+                garmentHip,
+            ),
+        },
+        {
+            area: 'Sleeve',
+            state: classify(
+                estSleeve,
+                garmentSleeve,
+            ),
+        },
+        {
+            area: 'Length',
+            state: classify(
+                estLength,
+                garmentLength,
+            ),
+        },
     ];
 
-    const perfectCount = heatmap.filter((item) => item.state === 'Perfect Fit').length;
-    const overallMatch = `${Math.round((perfectCount / heatmap.length) * 100)}%`;
+    // ─────────────────────────────────────────────────────────
+    // OVERALL MATCH
+    // ─────────────────────────────────────────────────────────
+
+    const tightCount = heatmap.filter(
+        (i) => i.state === 'Too Tight',
+    ).length;
+
+    const looseCount = heatmap.filter(
+        (i) => i.state === 'Too Loose',
+    ).length;
+
+    const perfectCount = heatmap.filter(
+        (i) => i.state === 'Perfect Fit',
+    ).length;
+
+    let overallMatch;
+
+    if (perfectCount >= 4) {
+        overallMatch = 'Perfect Fit';
+    } else if (tightCount >= 3) {
+        overallMatch = 'Too Tight';
+    } else if (looseCount >= 3) {
+        overallMatch = 'Too Loose';
+    } else {
+        overallMatch = `${Math.round((perfectCount / heatmap.length) * 100)}% Match`;
+    }
 
     return {
-        recommendedSize: recommended.name,
+        recommendedSize:
+            recommended.name ?? null,
         overallMatch,
         heatmap,
     };

@@ -10,14 +10,23 @@ const browserOrigin = 'http://localhost:5173';
 function laravelHotFileBrowserOrigin() {
     return {
         name: 'laravel-hot-file-browser-origin',
+
         configureServer(server) {
             const writeHotFile = () => {
-                const resolvedOrigin = (server.config.server.origin || browserOrigin).replace(/\/$/, '');
-                const url = resolvedOrigin.includes('__laravel_vite_placeholder__')
+                const resolvedOrigin = (
+                    server.config.server.origin || browserOrigin
+                ).replace(/\/$/, '');
+
+                const url = resolvedOrigin.includes(
+                    '__laravel_vite_placeholder__'
+                )
                     ? browserOrigin
                     : resolvedOrigin;
 
-                fs.writeFileSync(path.join(process.cwd(), 'public', 'hot'), url);
+                fs.writeFileSync(
+                    path.join(process.cwd(), 'public', 'hot'),
+                    url
+                );
             };
 
             server.httpServer?.once('listening', () => {
@@ -36,32 +45,56 @@ export default defineConfig({
                 'resources/js/customer/order.js',
                 'resources/js/customer/virtual-fitting.js',
             ],
+
             refresh: true,
+
             fonts: [
                 bunny('Instrument Sans', {
                     weights: [400, 500, 600],
                 }),
+
                 bunny('Cormorant Garamond', {
                     weights: [400, 500, 600, 700],
                 }),
             ],
         }),
+
         laravelHotFileBrowserOrigin(),
+
         tailwindcss(),
     ],
 
     server: {
+        // Docker harus bisa mengakses Vite
         host: '0.0.0.0',
+
+        // Port Vite
         port: 5173,
+
+        // Jangan pindah ke port lain kalau 5173 sedang digunakan
         strictPort: true,
+
+        // URL Vite yang ditulis ke public/hot
         origin: browserOrigin,
+
+        // Izinkan Laravel di localhost:8000
+        // mengakses asset Vite di localhost:5173
+        cors: {
+            origin: 'http://localhost:8000',
+        },
+
+        // Hot Module Replacement
         hmr: {
             host: 'localhost',
             port: 5173,
             clientPort: 5173,
         },
+
+        // Jangan monitor file Blade hasil compile Laravel
         watch: {
-            ignored: ['**/storage/framework/views/**'],
+            ignored: [
+                '**/storage/framework/views/**',
+            ],
         },
     },
 });
