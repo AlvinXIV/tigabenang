@@ -1,15 +1,16 @@
 @extends('layouts.customer')
 
 @section('title', 'Materials')
-@section('description', 'The FitVendor material library — names from the atelier, presented as an editorial catalog.')
+@section('description', 'The Clothiq material library — names from the atelier, presented as an editorial catalog.')
 
 @section('content')
-    <section class="border-b border-line px-5 py-10 lg:px-8 lg:py-12">
-        <div class="mx-auto max-w-7xl">
-            <p class="text-[11px] uppercase tracking-[0.28em] text-terracotta">Materials</p>
-            <h1 class="mt-3 font-serif text-5xl text-charcoal md:text-6xl">A Library of Touch</h1>
-            <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-                Each name below comes from the atelier’s material records. Composition, weight, and care notes are not stored in the current catalog — they remain a conversation with our team.
+
+    <section class="border-b border-border bg-primary">
+        <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-14">
+            <span class="section-badge text-accent [&::before]:bg-accent mb-5">Materials</span>
+            <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl">A Library of Touch</h1>
+            <p class="mt-3 max-w-xl text-sm leading-relaxed text-white/70">
+                Each name below comes from the atelier's material records. Composition, weight, and care notes are not stored in the current catalog — they remain a conversation with our team.
             </p>
         </div>
     </section>
@@ -27,4 +28,5 @@
             @endif
         </div>
     </section>
+
 @endsection

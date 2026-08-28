@@ -1,636 +1,215 @@
 @extends('layouts.customer')
 
 @section('title', 'Virtual Fitting')
-
-@section('description', 'Create your virtual body profile for FitVendor virtual fitting.')
+@section('description', 'Studio fitting 3D interaktif Clothiq. Sesuaikan ukuran tubuh dan amati estimasi ukuran pakaian secara digital.')
 
 @section('content')
 
-    {{-- ============================================================
-        HEADER
-    ============================================================= --}}
-    <section class="border-b border-line px-5 py-10 lg:px-8">
-        <div class="mx-auto max-w-7xl">
-
-            <p class="text-[11px] uppercase tracking-[0.28em] text-terracotta">
-                Virtual Fitting
-            </p>
-
-            <h1 class="mt-3 font-serif text-4xl text-charcoal md:text-5xl">
-                Your Body Profile
-            </h1>
-
-            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+    {{-- ── Header ───────────────────────────────────── --}}
+    <section class="border-b border-border bg-primary">
+        <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8">
+            <span class="section-badge text-accent [&::before]:bg-accent mb-5">Virtual Fitting</span>
+            <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl">Virtual Fitting Studio</h1>
+            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/70">
                 Adjust your body measurements to create a virtual figure.
                 These measurements are used only for this virtual fitting session.
             </p>
-
         </div>
     </section>
 
 
-    {{-- ============================================================
-        VIRTUAL FITTING
-    ============================================================= --}}
+    {{-- ── Main Studio ──────────────────────────────── --}}
     <section
         class="px-5 py-8 lg:px-8 lg:py-10"
         data-fitting-root
     >
+        <div class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-12">
 
-        <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-12">
-
-
-            {{-- ====================================================
-                3D VIEWPORT
-            ===================================================== --}}
+            {{-- ── 3D Viewport ─────────────────────── --}}
             <div
-                class="relative min-h-[600px] overflow-hidden border border-line bg-ivory-deep lg:col-span-7 lg:min-h-[720px]"
+                class="relative min-h-[520px] overflow-hidden rounded-2xl border border-border bg-surface-alt shadow-sm lg:col-span-7 lg:min-h-[680px]"
             >
-
-                {{-- Three.js akan masuk ke sini --}}
+                {{-- Three.js canvas --}}
                 <div
                     id="fitting-viewport"
                     class="absolute inset-0"
                     aria-label="Virtual body 3D viewport"
                 ></div>
 
-
-                {{-- Label atas --}}
-                <p
-                    class="pointer-events-none absolute left-5 top-5 text-[10px] uppercase tracking-[0.22em] text-muted"
-                >
+                {{-- Label --}}
+                <p class="pointer-events-none absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-text-muted backdrop-blur-sm">
                     Virtual Model
                 </p>
 
-
                 {{-- Status --}}
                 <p
-                    class="pointer-events-none absolute bottom-5 left-5 text-[10px] uppercase tracking-[0.18em] text-muted"
+                    class="pointer-events-none absolute bottom-4 left-4 rounded-full bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-text-muted backdrop-blur-sm"
                     data-fitting-status
                 >
                     Preparing studio
                 </p>
-
             </div>
 
 
-            {{-- ====================================================
-                RIGHT PANEL
-            ===================================================== --}}
-            <aside
-                class="border border-line bg-paper lg:col-span-5"
-            >
+            {{-- ── Right Panel ──────────────────────── --}}
+            <aside class="rounded-2xl border border-border bg-white overflow-hidden shadow-sm lg:col-span-5">
 
-
-                {{-- ================================================
-                    PANEL HEADER
-                ================================================= --}}
-                <div class="border-b border-line p-6">
-
-                    <p
-                        class="text-[11px] uppercase tracking-[0.28em] text-terracotta"
-                    >
-                        Virtual Model
+                {{-- Panel Header --}}
+                <div class="border-b border-border bg-surface-alt px-5 py-4">
+                    <span class="section-badge text-xs">Virtual Model</span>
+                    <h2 class="mt-1.5 text-xl font-extrabold text-primary">Your Body Profile</h2>
+                    <p class="mt-1 text-xs leading-relaxed text-text-muted">
+                        Adjust the measurements to change the shape of the virtual figure.
                     </p>
-
-                    <h2
-                        class="mt-2 font-serif text-3xl text-charcoal md:text-4xl"
-                    >
-                        Your Body Profile
-                    </h2>
-
-                    <p
-                        class="mt-2 text-sm leading-relaxed text-muted"
-                    >
-                        Adjust the measurements to change the shape
-                        of the virtual figure.
-                    </p>
-
                 </div>
 
-
-                {{-- ================================================
-                    TABS
-                ================================================= --}}
+                {{-- Tabs --}}
                 <div
-                    class="flex border-b border-line"
+                    class="flex border-b border-border"
                     role="tablist"
                     aria-label="Virtual fitting panels"
                 >
-
                     <button
                         type="button"
-                        class="flex-1 py-4 text-[11px] uppercase tracking-[0.2em] text-terracotta"
+                        class="flex-1 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors text-primary border-b-2 border-primary bg-primary-muted"
                         role="tab"
                         aria-selected="true"
                         data-fitting-tab="body"
                     >
                         Body
                     </button>
-
                     <button
                         type="button"
-                        class="flex-1 py-4 text-[11px] uppercase tracking-[0.2em] text-muted"
+                        class="flex-1 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors text-text-muted border-b-2 border-transparent"
                         role="tab"
                         aria-selected="false"
                         data-fitting-tab="info"
                     >
                         Info
                     </button>
-
                 </div>
 
 
-                {{-- ====================================================
-                    BODY PANEL
-                ===================================================== --}}
+                {{-- ── Body Panel ───────────────────── --}}
                 <div
-                    class="max-h-[520px] overflow-y-auto p-6"
+                    class="max-h-[520px] overflow-y-auto p-5 space-y-0"
                     data-fitting-panel="body"
                     role="tabpanel"
                 >
-
-                    <p
-                        class="text-[11px] uppercase tracking-[0.2em] text-muted"
-                    >
-                        Body Measurements
-                    </p>
-
-                    <p
-                        class="mt-2 text-xs leading-relaxed text-muted"
-                    >
-                        Enter your measurements below to shape the
-                        virtual figure.
-                    </p>
-
-
-                    {{-- ============================================
-                        MEASUREMENTS
-                    ============================================= --}}
-                    <div class="mt-7 space-y-5">
-
-
-                        {{-- HEIGHT --}}
-                        <div>
-
-                            <label
-                                for="fitting-height"
-                                class="text-xs text-muted"
-                            >
-                                Tinggi badan
-                            </label>
-
-                            <div class="relative mt-2">
-
-                                <input
-                                    id="fitting-height"
-                                    type="number"
-                                    min="140"
-                                    max="210"
-                                    step="1"
-                                    value="170"
-                                    data-fitting-height
-                                    class="w-full border border-line bg-transparent px-4 py-3 pr-14 text-charcoal outline-none transition focus:border-terracotta"
-                                >
-
-                                <span
-                                    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted"
-                                >
-                                    cm
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        {{-- CHEST --}}
-                        <div>
-
-                            <label
-                                for="fitting-chest"
-                                class="text-xs text-muted"
-                            >
-                                Lingkar dada
-                            </label>
-
-                            <div class="relative mt-2">
-
-                                <input
-                                    id="fitting-chest"
-                                    type="number"
-                                    min="70"
-                                    max="150"
-                                    step="1"
-                                    value="92"
-                                    data-fitting-chest
-                                    class="w-full border border-line bg-transparent px-4 py-3 pr-14 text-charcoal outline-none transition focus:border-terracotta"
-                                >
-
-                                <span
-                                    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted"
-                                >
-                                    cm
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        {{-- WAIST --}}
-                        <div>
-
-                            <label
-                                for="fitting-waist"
-                                class="text-xs text-muted"
-                            >
-                                Lingkar pinggang
-                            </label>
-
-                            <div class="relative mt-2">
-
-                                <input
-                                    id="fitting-waist"
-                                    type="number"
-                                    min="60"
-                                    max="140"
-                                    step="1"
-                                    value="76"
-                                    data-fitting-waist
-                                    class="w-full border border-line bg-transparent px-4 py-3 pr-14 text-charcoal outline-none transition focus:border-terracotta"
-                                >
-
-                                <span
-                                    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted"
-                                >
-                                    cm
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        {{-- HIP --}}
-                        <div>
-
-                            <label
-                                for="fitting-hip"
-                                class="text-xs text-muted"
-                            >
-                                Lingkar pinggul
-                            </label>
-
-                            <div class="relative mt-2">
-
-                                <input
-                                    id="fitting-hip"
-                                    type="number"
-                                    min="70"
-                                    max="150"
-                                    step="1"
-                                    value="96"
-                                    data-fitting-hip
-                                    class="w-full border border-line bg-transparent px-4 py-3 pr-14 text-charcoal outline-none transition focus:border-terracotta"
-                                >
-
-                                <span
-                                    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted"
-                                >
-                                    cm
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        {{-- SHOULDER --}}
-                        <div>
-
-                            <label
-                                for="fitting-shoulder"
-                                class="text-xs text-muted"
-                            >
-                                Lebar bahu
-                            </label>
-
-                            <div class="relative mt-2">
-
-                                <input
-                                    id="fitting-shoulder"
-                                    type="number"
-                                    min="30"
-                                    max="60"
-                                    step="1"
-                                    value="44"
-                                    data-fitting-shoulder
-                                    class="w-full border border-line bg-transparent px-4 py-3 pr-14 text-charcoal outline-none transition focus:border-terracotta"
-                                >
-
-                                <span
-                                    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted"
-                                >
-                                    cm
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        {{-- ARM LENGTH --}}
-                        <div>
-
-                            <label
-                                for="fitting-arm-length"
-                                class="text-xs text-muted"
-                            >
-                                Panjang lengan
-                            </label>
-
-                            <div class="relative mt-2">
-
-                                <input
-                                    id="fitting-arm-length"
-                                    type="number"
-                                    min="40"
-                                    max="80"
-                                    step="1"
-                                    value="58"
-                                    data-fitting-arm-length
-                                    class="w-full border border-line bg-transparent px-4 py-3 pr-14 text-charcoal outline-none transition focus:border-terracotta"
-                                >
-
-                                <span
-                                    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted"
-                                >
-                                    cm
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        {{-- TORSO LENGTH --}}
-                        <div>
-
-                            <label
-                                for="fitting-torso-length"
-                                class="text-xs text-muted"
-                            >
-                                Panjang torso
-                            </label>
-
-                            <div class="relative mt-2">
-
-                                <input
-                                    id="fitting-torso-length"
-                                    type="number"
-                                    min="30"
-                                    max="60"
-                                    step="1"
-                                    value="44"
-                                    data-fitting-torso-length
-                                    class="w-full border border-line bg-transparent px-4 py-3 pr-14 text-charcoal outline-none transition focus:border-terracotta"
-                                >
-
-                                <span
-                                    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted"
-                                >
-                                    cm
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        {{-- TORSO TYPE --}}
-                        <div>
-
-                            <p class="text-xs text-muted">
-                                Proporsi tubuh
-                            </p>
-
-                            <div class="mt-3 flex gap-3">
-
-                                <label
-                                    class="group flex flex-1 cursor-pointer items-center justify-center gap-2 border border-line px-3 py-3 text-xs text-charcoal transition has-[:checked]:border-terracotta has-[:checked]:bg-terracotta/5"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="torso-type"
-                                        value="short"
-                                        class="sr-only"
-                                        data-fitting-torso-type
-                                    >
-                                    Short
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-text-subtle mb-4">Body Measurements</p>
+
+                    <div class="space-y-3">
+
+                        {{-- Helper macro: measurement input --}}
+                        @php
+                            $inputs = [
+                                ['id' => 'fitting-height',       'label' => 'Tinggi badan',     'attr' => 'data-fitting-height',       'min' => 140, 'max' => 210, 'value' => 170],
+                                ['id' => 'fitting-chest',        'label' => 'Lingkar dada',     'attr' => 'data-fitting-chest',        'min' => 70,  'max' => 150, 'value' => 92],
+                                ['id' => 'fitting-waist',        'label' => 'Lingkar pinggang', 'attr' => 'data-fitting-waist',        'min' => 60,  'max' => 140, 'value' => 76],
+                                ['id' => 'fitting-hip',          'label' => 'Lingkar pinggul',  'attr' => 'data-fitting-hip',          'min' => 70,  'max' => 150, 'value' => 96],
+                                ['id' => 'fitting-shoulder',     'label' => 'Lebar bahu',       'attr' => 'data-fitting-shoulder',     'min' => 30,  'max' => 60,  'value' => 44],
+                                ['id' => 'fitting-arm-length',   'label' => 'Panjang lengan',   'attr' => 'data-fitting-arm-length',   'min' => 40,  'max' => 80,  'value' => 58],
+                                ['id' => 'fitting-torso-length', 'label' => 'Panjang torso',    'attr' => 'data-fitting-torso-length', 'min' => 30,  'max' => 60,  'value' => 44],
+                            ];
+                        @endphp
+
+                        @foreach ($inputs as $inp)
+                            <div>
+                                <label for="{{ $inp['id'] }}" class="block text-xs font-medium text-text-muted mb-1">
+                                    {{ $inp['label'] }}
                                 </label>
-
-                                <label
-                                    class="group flex flex-1 cursor-pointer items-center justify-center gap-2 border border-line px-3 py-3 text-xs text-charcoal transition has-[:checked]:border-terracotta has-[:checked]:bg-terracotta/5"
-                                >
+                                <div class="relative">
                                     <input
-                                        type="radio"
-                                        name="torso-type"
-                                        value="normal"
-                                        checked
-                                        class="sr-only"
-                                        data-fitting-torso-type
+                                        id="{{ $inp['id'] }}"
+                                        type="number"
+                                        min="{{ $inp['min'] }}"
+                                        max="{{ $inp['max'] }}"
+                                        step="1"
+                                        value="{{ $inp['value'] }}"
+                                        {{ $inp['attr'] }}
+                                        class="w-full rounded-lg border border-border bg-surface-alt px-4 py-2.5 pr-12 text-sm font-semibold text-text-base focus:border-primary focus:ring-1 focus:ring-primary transition"
                                     >
-                                    Normal
-                                </label>
-
-                                <label
-                                    class="group flex flex-1 cursor-pointer items-center justify-center gap-2 border border-line px-3 py-3 text-xs text-charcoal transition has-[:checked]:border-terracotta has-[:checked]:bg-terracotta/5"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="torso-type"
-                                        value="long"
-                                        class="sr-only"
-                                        data-fitting-torso-type
-                                    >
-                                    Long
-                                </label>
-
+                                    <span class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-medium text-text-subtle">cm</span>
+                                </div>
                             </div>
+                        @endforeach
 
+                        {{-- Torso Type --}}
+                        <div class="pt-1">
+                            <p class="text-xs font-medium text-text-muted mb-2">Proporsi tubuh</p>
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach (['short' => 'Short', 'normal' => 'Normal', 'long' => 'Long'] as $val => $label)
+                                    <label
+                                        class="flex cursor-pointer items-center justify-center rounded-lg border border-border bg-surface-alt px-3 py-2.5 text-xs font-semibold text-text-muted transition has-[:checked]:border-primary has-[:checked]:bg-primary-muted has-[:checked]:text-primary"
+                                    >
+                                        <input
+                                            type="radio"
+                                            name="torso-type"
+                                            value="{{ $val }}"
+                                            @checked($val === 'normal')
+                                            class="sr-only"
+                                            data-fitting-torso-type
+                                        >
+                                        {{ $label }}
+                                    </label>
+                                @endforeach
+                            </div>
                         </div>
-
 
                     </div>
 
-
-                    {{-- ============================================
-                        MODEL STATUS
-                    ============================================= --}}
-                    <div class="mt-8 border-t border-line pt-6">
-
-                        <p
-                            class="text-[11px] uppercase tracking-[0.2em] text-muted"
-                        >
-                            Model Status
+                    {{-- Model Status --}}
+                    <div class="mt-6 rounded-xl border border-border bg-surface-alt p-4">
+                        <p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-text-subtle">Model Status</p>
+                        <p class="mt-1.5 text-sm font-semibold text-text-base">Virtual body ready.</p>
+                        <p class="mt-0.5 text-xs text-text-muted">
+                            Garments can be added later once the body profile is ready.
                         </p>
-
-                        <p
-                            class="mt-3 text-sm text-charcoal"
-                        >
-                            Virtual body ready.
-                        </p>
-
-                        <p
-                            class="mt-1 text-xs leading-relaxed text-muted"
-                        >
-                            Garments can be added later once the body
-                            profile is ready.
-                        </p>
-
                     </div>
-
                 </div>
 
 
-                {{-- ====================================================
-                    INFO PANEL
-                ===================================================== --}}
+                {{-- ── Info Panel ───────────────────── --}}
                 <div
-                    class="hidden p-6"
+                    class="hidden p-5"
                     data-fitting-panel="info"
                     role="tabpanel"
                 >
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-text-subtle mb-4">Panduan Pengukuran</p>
 
-                    <p
-                        class="text-[11px] uppercase tracking-[0.2em] text-muted"
-                    >
-                        Panduan Pengukuran
-                    </p>
-
-                    <div class="mt-5 space-y-5 text-sm leading-relaxed text-muted">
-
-                        <div>
-                            <p class="font-medium text-charcoal">
-                                Tinggi badan
-                            </p>
-
-                            <p class="mt-1">
-                                Ukur dari lantai ke puncak kepala.
-                                Berdiri tegak tanpa alas kaki.
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="font-medium text-charcoal">
-                                Lingkar dada
-                            </p>
-
-                            <p class="mt-1">
-                                Lingkarkan meteran di bagian dada
-                                terlebar, di bawah ketiak.
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="font-medium text-charcoal">
-                                Lingkar pinggang
-                            </p>
-
-                            <p class="mt-1">
-                                Ukur di bagian pinggang paling sempit,
-                                biasanya di atas pusar.
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="font-medium text-charcoal">
-                                Lingkar pinggul
-                            </p>
-
-                            <p class="mt-1">
-                                Lingkarkan meteran di bagian pinggul
-                                terlebar.
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="font-medium text-charcoal">
-                                Lebar bahu
-                            </p>
-
-                            <p class="mt-1">
-                                Ukur dari ujung bahu kiri ke ujung
-                                bahu kanan secara horizontal.
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="font-medium text-charcoal">
-                                Panjang lengan
-                            </p>
-
-                            <p class="mt-1">
-                                Ukur dari ujung bahu ke pergelangan
-                                tangan dengan siku sedikit ditekuk.
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="font-medium text-charcoal">
-                                Panjang torso
-                            </p>
-
-                            <p class="mt-1">
-                                Ukur dari titik bahu (dekat leher)
-                                ke garis pinggang alami.
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="font-medium text-charcoal">
-                                Proporsi tubuh
-                            </p>
-
-                            <p class="mt-1">
-                                Pilih proporsi tubuh Anda. Short torso
-                                berarti badan atas lebih pendek dari
-                                kaki. Long torso berarti sebaliknya.
-                            </p>
-                        </div>
-
+                    <div class="space-y-4">
+                        @foreach ([
+                            ['Tinggi badan',    'Ukur dari lantai ke puncak kepala. Berdiri tegak tanpa alas kaki.'],
+                            ['Lingkar dada',    'Lingkarkan meteran di bagian dada terlebar, di bawah ketiak.'],
+                            ['Lingkar pinggang','Ukur di bagian pinggang paling sempit, biasanya di atas pusar.'],
+                            ['Lingkar pinggul', 'Lingkarkan meteran di bagian pinggul terlebar.'],
+                            ['Lebar bahu',      'Ukur dari ujung bahu kiri ke ujung bahu kanan secara horizontal.'],
+                            ['Panjang lengan',  'Ukur dari ujung bahu ke pergelangan tangan dengan siku sedikit ditekuk.'],
+                            ['Panjang torso',   'Ukur dari titik bahu (dekat leher) ke garis pinggang alami.'],
+                            ['Proporsi tubuh',  'Pilih proporsi tubuh Anda. Short torso berarti badan atas lebih pendek dari kaki. Long torso berarti sebaliknya.'],
+                        ] as [$term, $desc])
+                            <div class="rounded-lg border border-border bg-surface-alt p-3.5">
+                                <p class="text-xs font-bold text-primary">{{ $term }}</p>
+                                <p class="mt-1 text-xs leading-relaxed text-text-muted">{{ $desc }}</p>
+                            </div>
+                        @endforeach
                     </div>
 
-                    <div class="mt-8 border-t border-line pt-6">
-
-                        <p
-                            class="text-xs leading-relaxed text-muted"
-                        >
-                            Pengukuran hanya digunakan di sesi
-                            browser dan tidak disimpan di database.
+                    <div class="mt-5 rounded-xl border border-border bg-primary-muted p-4">
+                        <p class="text-xs leading-relaxed text-primary/70">
+                            Pengukuran hanya digunakan di sesi browser dan tidak disimpan di database.
                         </p>
-
                     </div>
-
                 </div>
 
             </aside>
-
         </div>
-
     </section>
 
 @endsection
 
 
-{{-- ================================================================
-    VITE
-================================================================ --}}
+{{-- ── Vite ─────────────────────────────────────── --}}
 @push('vite')
-
-    @vite([
-        'resources/js/customer/virtual-fitting.js'
-    ])
-
+    @vite(['resources/js/customer/virtual-fitting.js'])
 @endpush

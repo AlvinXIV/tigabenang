@@ -74,9 +74,13 @@ const initOrderForm = () => {
         sizesRoot.innerHTML = product.sizes
             .map(
                 (size, index) => `
-                <div class="flex items-center justify-between gap-4 py-4" data-ukuran-id="${size.id}">
+                <div
+                    class="flex items-center justify-between gap-4"
+                    data-ukuran-id="${size.id}"
+                    style="min-height:5rem;padding:1rem 1.5rem;${index < product.sizes.length - 1 ? 'border-bottom:1px solid #D8DDEF;' : ''}"
+                >
                     <input type="hidden" name="sizes[${index}][ukuran_id]" value="${size.id}">
-                    <label class="text-sm tracking-[0.12em]" for="qty-${size.id}">${size.name}</label>
+                    <label class="text-sm font-semibold text-text-base" for="qty-${size.id}">${size.name}</label>
                     <input
                         id="qty-${size.id}"
                         type="number"
@@ -86,7 +90,8 @@ const initOrderForm = () => {
                         data-order-qty
                         name="sizes[${index}][kuantitas]"
                         value="${qty[String(size.id)] ?? 0}"
-                        class="w-24 border-b border-line bg-transparent py-2 text-right"
+                        class="w-24 text-right text-sm font-semibold text-text-base"
+                        style="width:6.5rem;min-height:2.75rem;border:1px solid #B3BCDA;border-radius:0.625rem;background:#F5F7FF;padding:0.625rem 0.875rem;"
                     >
                 </div>
             `,
