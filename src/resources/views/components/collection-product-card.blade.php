@@ -11,7 +11,7 @@
 @endphp
 
 <article {{ $attributes->class(['product-tile group']) }}>
-    <a href="{{ $detailUrl }}" class="image-frame overflow-hidden rounded-xl">
+    <a href="{{ $detailUrl }}" class="image-frame overflow-hidden rounded-2xl border border-border" style="border-color:#DCD6D0;background-color:#F6F4F1;">
         @if ($imageUrl)
             <img
                 src="{{ $imageUrl }}"
@@ -23,32 +23,32 @@
             >
         @else
             <div class="flex h-full w-full flex-col items-center justify-center gap-3 px-3 text-center">
-                <div class="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-                    <svg class="h-6 w-6 text-primary/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="flex h-14 w-14 items-center justify-center rounded-full" style="background:#EAEFF4;">
+                    <svg class="h-6 w-6" style="color:#6E7575;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                 </div>
-                <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-text-subtle">Product preview</p>
+                <p class="text-[10px] font-bold uppercase tracking-[0.2em]" style="color:#6E7575;">Product preview</p>
             </div>
         @endif
     </a>
 
     <div class="product-tile-meta flex flex-1 flex-col">
         @if ($category)
-            <span class="inline-block rounded-full bg-primary-muted px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">{{ $category }}</span>
+            <span class="inline-block self-start rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em]" style="background:#EAEFF4;color:#172A39;">{{ $category }}</span>
         @endif
-        <h3 class="mt-2 line-clamp-2 min-h-[2.25rem] text-base font-bold leading-snug text-text-base">
-            <a href="{{ $detailUrl }}" class="hover:text-primary transition-colors">{{ $produk->nama_produk }}</a>
+        <h3 class="mt-2 line-clamp-2 min-h-[2.25rem] text-base font-bold leading-snug" style="color:#172A39;">
+            <a href="{{ $detailUrl }}" class="transition-colors hover:text-[#FC563C]">{{ $produk->nama_produk }}</a>
         </h3>
-        <p class="mt-1 text-sm font-semibold text-primary"><x-price :amount="$produk->harga" /></p>
-        <p class="mt-1 line-clamp-2 min-h-[2.25rem] text-xs leading-relaxed text-text-muted">
+        <p class="mt-1 text-sm font-extrabold" style="color:#FC563C;"><x-price :amount="$produk->harga" /></p>
+        <p class="mt-1 line-clamp-2 min-h-[2.25rem] text-xs leading-relaxed" style="color:#6E7575;">
             @if (filled($produk->deskripsi ?? null))
                 {{ $produk->deskripsi }}
             @else
                 Made to order{{ $category ? ' · '.$category : '' }}.
             @endif
         </p>
-        <a href="{{ $detailUrl }}" class="mt-auto pt-3 section-badge text-[11px] hover:opacity-70 transition-opacity">
+        <a href="{{ $detailUrl }}" class="mt-auto pt-3 section-badge text-[11px] hover:opacity-75 transition-opacity" style="color:#172A39;">
             View Details
         </a>
     </div>

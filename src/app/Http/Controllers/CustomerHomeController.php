@@ -37,9 +37,27 @@ class CustomerHomeController extends Controller
             }
         }
 
+        $allCategories = CustomerCatalog::categories();
+        $allProducts = Produk::query()
+            ->select(['id_produk', 'kategori_id', 'nama_produk', 'harga', 'gambar', 'file_model_3d'])
+            ->latest('id_produk')
+            ->get();
+
+        CustomerCatalog::attachKategori($allProducts);
+
+        $categoryShowcase = $allCategories->map(function ($kategori) use ($allProducts) {
+            $product = $allProducts->firstWhere('kategori_id', $kategori->id_kategori);
+            return [
+                'category' => $kategori,
+                'product' => $product,
+            ];
+        });
+
         return view('customer.home', [
             'featuredProduct' => $featuredProduct,
-            'supportingProducts' => $supportingProducts,
+            'supportingProducts' => $products,
+            'categoryShowcase' => $categoryShowcase,
+            'categories' => $allCategories,
             'materials' => CustomerCatalog::materials()->take(6)->values(),
             'fittingProduct' => $fittingProduct,
             'heroImageUrl' => CustomerMedia::heroImageUrl(),

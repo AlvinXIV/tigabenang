@@ -6,34 +6,42 @@
 @section('content')
 
     {{-- ── Header ───────────────────────────────────── --}}
-    <section class="border-b border-border bg-primary">
-        <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-14">
-            <span class="section-badge text-accent [&::before]:bg-accent mb-5">Catalog</span>
+    <section class="border-b border-border bg-primary" style="background-color:#172A39;border-color:#DCD6D0;">
+        <div class="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-16">
+            <span class="section-badge mb-4" style="color:#FC563C;">
+                <span style="width:1.5rem;height:3px;background:#FC563C;border-radius:2px;display:inline-block;"></span>
+                Catalog
+            </span>
             <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl">Collection</h1>
-            <p class="mt-3 max-w-xl text-sm leading-relaxed text-white/70">
+            <p class="mt-3 max-w-xl text-sm leading-relaxed text-white/75">
                 Browse every available garment. Filter by category, then open a piece to request production.
             </p>
         </div>
     </section>
 
-    <section class="px-5 py-8 lg:px-8 lg:py-10">
+    <section class="px-5 py-10 lg:px-8 lg:py-12" style="background:#FFFFFF;">
         <div class="catalog-shell">
 
             {{-- ── Category Filter ─────────────────── --}}
-            <div class="flex gap-2 overflow-x-auto pb-2" role="navigation" aria-label="Category filter">
+            <div class="flex gap-2.5 overflow-x-auto pb-3" role="navigation" aria-label="Category filter">
                 <a
                     href="{{ route('collection.index') }}"
-                    class="shrink-0 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] transition-colors {{ $activeCategory ? 'border border-border text-text-muted hover:text-primary hover:border-primary' : 'bg-primary text-white' }}"
-                    style="display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;padding:0.5rem 1rem;border:1.5px solid {{ $activeCategory ? '#011F7B' : '#011F7B' }};border-radius:9999px;background:{{ $activeCategory ? '#FFFFFF' : '#011F7B' }};color:{{ $activeCategory ? '#011F7B' : '#FFFFFF' }};font-size:0.75rem;font-weight:800;letter-spacing:0.06em;text-decoration:none;"
+                    class="shrink-0 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.1em] transition-all"
+                    style="display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;border:1.5px solid {{ $activeCategory ? '#DCD6D0' : '#172A39' }};border-radius:9999px;background:{{ $activeCategory ? '#FFFFFF' : '#172A39' }};color:{{ $activeCategory ? '#172A39' : '#FFFFFF' }};font-size:0.775rem;font-weight:800;letter-spacing:0.06em;text-decoration:none;box-shadow:{{ $activeCategory ? 'none' : '0 4px 12px rgba(23,42,57,0.2)' }};"
                 >
                     All
                 </a>
                 @foreach ($categories as $kategori)
-                    @php $slug = \Illuminate\Support\Str::slug($kategori->nama_kategori); @endphp
+                    @php
+                        $slug = \Illuminate\Support\Str::slug($kategori->nama_kategori);
+                        $isActive = $activeCategory?->id_kategori === $kategori->id_kategori;
+                    @endphp
                     <a
                         href="{{ route('collection.index', ['category' => $slug]) }}"
-                        class="shrink-0 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] transition-colors {{ $activeCategory?->id_kategori === $kategori->id_kategori ? 'bg-primary text-white' : 'border border-border text-text-muted hover:text-primary hover:border-primary' }}"
-                        style="display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;padding:0.5rem 1rem;border:1.5px solid #011F7B;border-radius:9999px;background:{{ $activeCategory?->id_kategori === $kategori->id_kategori ? '#011F7B' : '#FFFFFF' }};color:{{ $activeCategory?->id_kategori === $kategori->id_kategori ? '#FFFFFF' : '#011F7B' }};font-size:0.75rem;font-weight:800;letter-spacing:0.06em;text-decoration:none;"
+                        class="shrink-0 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.1em] transition-all"
+                        style="display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;border:1.5px solid {{ $isActive ? '#172A39' : '#DCD6D0' }};border-radius:9999px;background:{{ $isActive ? '#172A39' : '#FFFFFF' }};color:{{ $isActive ? '#FFFFFF' : '#172A39' }};font-size:0.775rem;font-weight:800;letter-spacing:0.06em;text-decoration:none;box-shadow:{{ $isActive ? '0 4px 12px rgba(23,42,57,0.2)' : 'none' }};"
+                        onmouseover="if(!{{ $isActive ? 1 : 0 }}){this.style.borderColor='#FC563C';this.style.color='#FC563C';}"
+                        onmouseout="if(!{{ $isActive ? 1 : 0 }}){this.style.borderColor='#DCD6D0';this.style.color='#172A39';}"
                     >
                         {{ $kategori->nama_kategori }}
                     </a>
@@ -42,7 +50,7 @@
 
             {{-- ── Product Grid ────────────────────── --}}
             @if ($products->isNotEmpty())
-                <div class="catalog-grid catalog-grid--4 mt-8">
+                <div class="catalog-grid catalog-grid--4 mt-10">
                     @foreach ($products as $index => $produk)
                         <x-collection-product-card :produk="$produk" :lazy="$index > 3" />
                     @endforeach
