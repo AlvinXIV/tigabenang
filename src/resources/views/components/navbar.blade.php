@@ -1,10 +1,10 @@
 @php
     $links = [
         ['label' => 'Home',            'route' => 'home',            'routeMatch' => 'home'],
-        ['label' => 'About',           'route' => 'about',           'routeMatch' => 'about'],
         ['label' => 'Collection',      'route' => 'collection.index','routeMatch' => 'collection.*'],
         ['label' => 'Materials',       'route' => 'materials.index', 'routeMatch' => 'materials.*'],
         ['label' => 'Virtual Fitting', 'route' => 'virtual-fitting', 'routeMatch' => 'virtual-fitting'],
+        ['label' => 'About',           'route' => 'about',           'routeMatch' => 'about'],
     ];
 @endphp
 

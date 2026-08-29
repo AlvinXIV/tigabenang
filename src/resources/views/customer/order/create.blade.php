@@ -223,7 +223,7 @@
                                 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"
                                 onchange="document.getElementById('design-file-name').textContent = this.files.length ? this.files[0].name : 'Belum ada file dipilih';"
                             >
-                            <label for="upload_design" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:2.75rem;padding:0.625rem 1.25rem;background:#172A39;color:#FFFFFF;border:1px solid #172A39;border-radius:0.625rem;font-size:0.775rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 10px rgba(23,42,57,0.2);transition:all 0.15s;" onmouseover="this.style.background='#0E1B25'" onmouseout="this.style.background='#172A39'">
+                            <label for="upload_design" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:2.75rem;padding:0.625rem 1.5rem;background:#172A39;color:#FFFFFF;border:1px solid #172A39;border-radius:9999px;font-size:0.775rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 10px rgba(23,42,57,0.2);transition:all 0.15s;" onmouseover="this.style.background='#0E1B25'" onmouseout="this.style.background='#172A39'">
                                 <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L8 8m4-4 4 4M4 16.5v1A2.5 2.5 0 006.5 20h11a2.5 2.5 0 002.5-2.5v-1"/></svg>
                                 Pilih file desain
                             </label>
@@ -261,12 +261,11 @@
                             <button
                                 type="submit"
                                 class="shrink-0"
-                                style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3.25rem;padding:0.75rem 1.25rem;background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);color:#172A39 !important;border:2px solid #EAE2D8;border-radius:0.75rem;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.25);transition:all 0.15s;"
+                                style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3.25rem;padding:0.75rem 1.75rem;background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);color:#172A39 !important;border:2px solid #EAE2D8;border-radius:9999px;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.25);transition:all 0.15s;"
                                 onmouseover="this.style.background='#FFFFFF';this.style.transform='translateY(-1px)'"
                                 onmouseout="this.style.background='linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%)';this.style.transform='translateY(0)'"
                             >
                                 Submit Request
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                             </button>
                         </div>
                     </div>

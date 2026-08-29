@@ -36,7 +36,7 @@
                         href="{{ $whatsappHref }}"
                         target="_blank"
                         rel="noopener noreferrer"
-                        style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.625rem;background:#25D366;color:#FFFFFF;padding:0.6875rem 1.25rem;font-size:0.8125rem;font-weight:800;border-radius:0.625rem;text-decoration:none;box-shadow:0 4px 14px rgba(37,211,102,0.3);transition:all 0.15s;"
+                        style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:0.625rem;background:#25D366;color:#FFFFFF;padding:0.6875rem 1.5rem;font-size:0.8125rem;font-weight:800;border-radius:9999px;text-decoration:none;box-shadow:0 4px 14px rgba(37,211,102,0.3);transition:all 0.15s;"
                         onmouseover="this.style.background='#1ebe5d';this.style.transform='translateY(-2px)'"
                         onmouseout="this.style.background='#25D366';this.style.transform='translateY(0)'"
                     >

@@ -143,7 +143,7 @@
                                 href="{{ $whatsappHref }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="inline-flex w-full items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-extrabold text-white shadow-lg transition-all"
+                                class="inline-flex w-full items-center justify-center gap-3 rounded-full px-6 py-4 text-sm font-extrabold text-white shadow-lg transition-all"
                                 style="background:#25D366;box-shadow:0 6px 20px rgba(37,211,102,0.35);"
                                 onmouseover="this.style.background='#1ebe5d'"
                                 onmouseout="this.style.background='#25D366'"

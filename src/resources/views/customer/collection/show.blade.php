@@ -69,18 +69,17 @@
                     <a
                         href="{{ route('order.create', ['product' => $product->id_produk]) }}"
                         class="btn-primary product-request-action"
-                        style="display:inline-flex;align-items:center;justify-content:center;gap:0.625rem;min-height:3.25rem;padding:0.75rem 1.75rem;background:#172A39;color:#FFFFFF !important;border:2px solid #172A39;border-radius:0.75rem;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;text-decoration:none;box-shadow:0 6px 18px rgba(23,42,57,0.25);transition:all 0.15s;"
+                        style="display:inline-flex;align-items:center;justify-content:center;gap:0.625rem;min-height:3.25rem;padding:0.75rem 1.75rem;background:#172A39;color:#FFFFFF !important;border:2px solid #172A39;border-radius:9999px;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;text-decoration:none;box-shadow:0 6px 18px rgba(23,42,57,0.25);transition:all 0.15s;"
                         onmouseover="this.style.background='#0E1B25';this.style.transform='translateY(-2px)'"
                         onmouseout="this.style.background='#172A39';this.style.transform='translateY(0)'"
                     >
                         Request This Product
-                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
                     @if ($hasModel)
                         <a
                             href="{{ route('virtual-fitting', ['product' => $product->id_produk]) }}"
                             class="btn-outline"
-                            style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3.25rem;padding:0.75rem 1.5rem;background:transparent;color:#172A39 !important;border:2px solid #172A39;border-radius:0.75rem;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;text-decoration:none;transition:all 0.15s;"
+                            style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3.25rem;padding:0.75rem 1.5rem;background:transparent;color:#172A39 !important;border:2px solid #172A39;border-radius:9999px;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;text-decoration:none;transition:all 0.15s;"
                             onmouseover="this.style.background='#EAEFF4';this.style.transform='translateY(-2px)'"
                             onmouseout="this.style.background='transparent';this.style.transform='translateY(0)'"
                         >

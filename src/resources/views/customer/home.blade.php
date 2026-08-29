@@ -8,12 +8,12 @@
     {{-- ═══════════════════════════════════════════
         HERO
     ═══════════════════════════════════════════ --}}
-    <section style="background-color:#172A39; min-height:88vh;" class="relative overflow-hidden flex items-center">
+    <section style="background: radial-gradient(ellipse 65% 85% at 82% 50%, #FAF8F5 0%, #EFE9E1 28%, #B8ABA0 48%, rgba(23,42,57,0) 75%), linear-gradient(to right, #172A39 0%, #172A39 42%, #1F3648 55%, #3B5366 70%, #EAE2D8 92%, #FAF8F5 100%); min-height:88vh;" class="relative overflow-hidden flex items-center">
 
-        {{-- Decorative background shapes in Navy & Cream --}}
+        {{-- Decorative ambient lighting --}}
         <div class="pointer-events-none absolute inset-0 overflow-hidden">
-            <div style="background:rgba(234,226,216,0.08); width:700px; height:700px; border-radius:50%; position:absolute; top:-200px; right:-200px; filter:blur(70px);"></div>
-            <div style="background:rgba(35,59,78,0.4); width:450px; height:450px; border-radius:50%; position:absolute; bottom:-150px; left:-100px; filter:blur(50px);"></div>
+            <div style="background:radial-gradient(circle, rgba(250,248,245,0.35) 0%, transparent 70%); width:650px; height:650px; position:absolute; top:50%; right:5%; transform:translateY(-50%); filter:blur(40px);"></div>
+            <div style="background:rgba(35,59,78,0.5); width:450px; height:450px; border-radius:50%; position:absolute; bottom:-150px; left:-100px; filter:blur(60px);"></div>
         </div>
 
         <div class="mx-auto grid max-w-7xl w-full items-center gap-12 px-5 py-16 lg:grid-cols-2 lg:px-8 lg:py-24 relative z-10">
@@ -39,14 +39,13 @@
                     <a
                         href="{{ route('collection.index') }}"
                         class="hero-collection-action"
-                        style="display:inline-flex;align-items:center;justify-content:center;gap:0.625rem;min-height:3.25rem;padding:0.75rem 1.75rem;background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);color:#172A39 !important;border:2px solid #EAE2D8;border-radius:0.75rem;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 0 4px rgba(234,226,216,0.25);transition:all 0.15s;"
+                        style="display:inline-flex;align-items:center;justify-content:center;gap:0.625rem;min-height:3.25rem;padding:0.75rem 2rem;background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);color:#172A39 !important;border:2px solid #EAE2D8;border-radius:9999px;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 0 4px rgba(234,226,216,0.25);transition:all 0.15s;"
                     >
                         Lihat Koleksi
-                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
                     <a
                         href="{{ route('virtual-fitting') }}"
-                        style="display:inline-flex;align-items:center;justify-content:center;gap:0.625rem;min-height:3.25rem;padding:0.75rem 1.5rem;background:rgba(255,255,255,0.08);color:#FFFFFF !important;border:1.5px solid rgba(233,228,224,0.6);border-radius:0.75rem;font-size:0.875rem;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,0.15);transition:all 0.15s;"
+                        style="display:inline-flex;align-items:center;justify-content:center;gap:0.625rem;min-height:3.25rem;padding:0.75rem 1.5rem;background:rgba(255,255,255,0.08);color:#FFFFFF !important;border:1.5px solid rgba(233,228,224,0.6);border-radius:9999px;font-size:0.875rem;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,0.15);transition:all 0.15s;"
                         onmouseover="this.style.background='rgba(255,255,255,0.18)';this.style.borderColor='#FFFFFF';this.style.transform='translateY(-2px)'"
                         onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(233,228,224,0.6)';this.style.transform='translateY(0)'"
                     >
@@ -66,22 +65,30 @@
                 </div>
             </div>
 
-            {{-- ── Right: Hero Image ── --}}
-            <div class="hidden lg:flex justify-end">
+            {{-- ── Right: Hero Image (Anti-Mainstream Couture Arch Silhouette with Layered Accents) ── --}}
+            <div class="hidden lg:flex justify-end relative items-center">
                 @php
                     use App\Support\CustomerMedia;
                     $heroImgUrl = $heroImageUrl ?? ($featuredProduct ? CustomerMedia::productImageUrl($featuredProduct) : null);
                 @endphp
                 @if ($heroImgUrl)
-                    <div style="border-radius:1.75rem;overflow:hidden;aspect-ratio:3/4;width:100%;max-width:540px;box-shadow:0 36px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.15);position:relative;background:#172A39;">
-                        <img
-                            src="{{ $heroImgUrl }}"
-                            alt="Clothiq Collection"
-                            style="width:100%;height:100%;object-fit:cover;transform:scale(1.08);transform-origin:center;display:block;"
-                        >
+                    <div style="position:relative;width:100%;max-width:580px;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;z-index:2;">
+                        
+                        {{-- Decorative Offset Outline Frame --}}
+                        <div style="position:absolute;inset:-15px;border-radius:20rem 3rem 18rem 3rem;border:1.5px dashed rgba(234,226,216,0.45);transform:rotate(-3deg);pointer-events:none;z-index:1;"></div>
+
+                        {{-- Main Couture Arch Image Container --}}
+                        <div style="position:relative;width:100%;height:100%;border-radius:20rem 3rem 18rem 3rem;overflow:hidden;box-shadow:0 35px 80px -10px rgba(23,42,57,0.45),0 0 0 2px rgba(255,255,255,0.2);z-index:2;background:#EAE2D8;">
+                            <img
+                                src="{{ $heroImgUrl }}"
+                                alt="Clothiq Collection"
+                                style="width:100%;height:100%;object-fit:cover;transform:scale(1.05);display:block;"
+                            >
+                        </div>
+
                     </div>
                 @else
-                    <div style="border-radius:1.75rem;aspect-ratio:3/4;width:100%;max-width:540px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
+                    <div style="aspect-ratio:3/4;width:100%;max-width:540px;background:rgba(255,255,255,0.05);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
                         <p style="color:rgba(233,228,224,0.4);font-size:0.875rem;">Clothiq Collection</p>
                     </div>
                 @endif
@@ -177,11 +184,10 @@
                     </div>
 
                     <div style="margin-top:2.25rem;display:flex;flex-wrap:wrap;align-items:center;gap:1rem;">
-                        <a href="{{ route('about') }}" class="btn-primary" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 1.75rem;font-size:0.875rem;font-weight:800;border-radius:0.75rem;text-decoration:none;">
+                        <a href="{{ route('about') }}" class="btn-primary" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 2rem;font-size:0.875rem;font-weight:800;border-radius:9999px;text-decoration:none;">
                             Kisah Lengkap Clothiq
-                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
-                        <a href="{{ route('order.create') }}" class="btn-outline" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 1.75rem;font-size:0.875rem;font-weight:800;border-radius:0.75rem;text-decoration:none;">
+                        <a href="{{ route('order.create') }}" class="btn-outline" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.875rem 1.75rem;font-size:0.875rem;font-weight:800;border-radius:9999px;text-decoration:none;">
                             Konsultasi Custom
                         </a>
                     </div>
@@ -271,10 +277,9 @@
                     <a
                         href="{{ route('collection.index') }}"
                         class="btn-primary"
-                        style="display:inline-flex;align-items:center;gap:0.625rem;padding:1rem 2rem;font-size:0.9375rem;font-weight:800;border-radius:0.875rem;text-decoration:none;align-self:flex-start;md:align-self:auto;box-shadow:0 6px 20px rgba(23,42,57,0.2);"
+                        style="display:inline-flex;align-items:center;gap:0.625rem;padding:1rem 2rem;font-size:0.9375rem;font-weight:800;border-radius:9999px;text-decoration:none;align-self:flex-start;md:align-self:auto;box-shadow:0 6px 20px rgba(23,42,57,0.2);"
                     >
                         View Collection
-                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
                 </div>
 
@@ -432,34 +437,47 @@
     {{-- ═══════════════════════════════════════════
         VIRTUAL FITTING CTA
     ═══════════════════════════════════════════ --}}
-    <section style="background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);padding:5rem 0;border-bottom:1px solid #DCD6D0;">
+    <section style="background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);padding:4.5rem 0;border-bottom:1px solid #DCD6D0;">
         <div class="mx-auto max-w-7xl px-5 lg:px-8">
-            <div class="grid gap-10 lg:grid-cols-2 items-center">
+            <div class="grid gap-12 lg:grid-cols-2 items-center">
+                
+                {{-- Left Text --}}
                 <div>
-                    <p style="font-size:0.725rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#172A39;margin-bottom:0.75rem;">Studio Interaktif</p>
-                    <h2 style="font-size:2.25rem;font-weight:900;color:#172A39;line-height:1.15;letter-spacing:-0.025em;">Coba Virtual<br>Fitting Sekarang</h2>
-                    <p style="margin-top:1rem;font-size:0.9375rem;color:#6E7575;line-height:1.7;">Pilih produk, sesuaikan profil ukuran tubuhmu, lalu amati preview pakaian dalam tampilan 3D sebelum mengirim request ke tim kami.</p>
-                    <a href="{{ route('virtual-fitting') }}" class="btn-primary" style="margin-top:2rem;display:inline-flex;align-items:center;justify-content:center;gap:0.625rem;padding:0.875rem 2rem;font-size:0.875rem;font-weight:800;border-radius:0.75rem;text-decoration:none;box-shadow:0 6px 20px rgba(23,42,57,0.25);">
-                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.847v6.306a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                        Buka Virtual Fitting
-                    </a>
-                </div>
-                <div class="hidden lg:flex justify-end">
-                    <div style="display:grid;grid-template-columns:1fr 1fr;column-gap:3rem;row-gap:2.5rem;width:100%;max-width:540px;">
-                        @foreach([
-                            ['01', 'Pilih Produk', 'Tentukan item pakaian custom yang ingin dicoba.'],
-                            ['02', 'Atur Profil', 'Sesuaikan ukuran tubuhmu untuk simulasi yang akurat.'],
-                            ['03', 'Lihat Preview', 'Amati fitting proporsi pakaian dalam visualisasi 3D.'],
-                            ['04', 'Kirim Request', 'Kirim detail pesanan langsung ke tim kami.'],
-                        ] as [$number, $title, $description])
-                            <div style="display:flex;flex-direction:column;text-align:left;">
-                                <span style="font-size:1.25rem;font-weight:900;color:#172A39;letter-spacing:-0.03em;">{{ $number }}</span>
-                                <h3 style="font-size:1.125rem;font-weight:800;color:#172A39;margin-top:0.5rem;line-height:1.3;">{{ $title }}</h3>
-                                <p style="font-size:0.8125rem;line-height:1.65;color:#555E68;margin-top:0.375rem;">{{ $description }}</p>
-                            </div>
-                        @endforeach
+                    <p style="font-size:0.75rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#172A39;margin-bottom:0.75rem;">Studio Interaktif</p>
+                    <h2 style="font-size:clamp(2rem, 3.5vw, 2.5rem);font-weight:900;color:#172A39;line-height:1.15;letter-spacing:-0.025em;">
+                        Coba Virtual<br>Fitting Sekarang
+                    </h2>
+                    <p style="margin-top:1rem;font-size:0.9375rem;color:#555E68;line-height:1.7;max-width:480px;">
+                        Pilih produk, sesuaikan profil ukuran tubuhmu, lalu amati preview pakaian dalam tampilan 3D sebelum mengirim request ke tim kami.
+                    </p>
+                    <div style="margin-top:2rem;">
+                        <a href="{{ route('virtual-fitting') }}" class="btn-primary" style="display:inline-flex;align-items:center;justify-content:center;gap:0.625rem;padding:0.875rem 2rem;font-size:0.875rem;font-weight:800;border-radius:9999px;text-decoration:none;box-shadow:0 6px 20px rgba(23,42,57,0.25);">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.847v6.306a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            Buka Virtual Fitting
+                        </a>
                     </div>
                 </div>
+
+                {{-- Right Image Frame (Anti-Mainstream Couture Arch with Layered Tailor Outline) --}}
+                <div class="flex justify-center lg:justify-end relative items-center">
+                    <div style="position:relative;width:100%;max-width:540px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;z-index:2;">
+                        
+                        {{-- Decorative Dashed Tailor Stitch Frame --}}
+                        <div style="position:absolute;inset:-12px;border-radius:3rem 16rem 3rem 16rem;border:1.5px dashed rgba(23,42,57,0.25);transform:rotate(2.5deg);pointer-events:none;z-index:1;"></div>
+
+                        {{-- Main Asymmetric Couture Image Container --}}
+                        <div style="position:relative;width:100%;height:100%;border-radius:3rem 16rem 3rem 16rem;overflow:hidden;border:2px solid #FFFFFF;box-shadow:0 25px 60px -12px rgba(23,42,57,0.18),0 4px 16px rgba(23,42,57,0.06);background:#EAE2D8;z-index:2;">
+                            <img
+                                src="{{ asset('images/virtual-fitting-teaser.jpg') }}?v=11"
+                                alt="Clothiq 3D Virtual Fitting Studio - Custom Work Jacket"
+                                style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;"
+                                loading="lazy"
+                            >
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -499,12 +517,11 @@
                             href="{{ $waUrl }}"
                             target="_blank"
                             rel="noopener noreferrer"
-                            style="margin-top:1.25rem;display:inline-flex;align-items:center;gap:0.5rem;background:#172A39;color:#FFFFFF;padding:0.625rem 1.25rem;font-size:0.8125rem;font-weight:800;border-radius:0.625rem;text-decoration:none;transition:all 0.15s;box-shadow:0 4px 12px rgba(23,42,57,0.15);"
+                            style="margin-top:1.25rem;display:inline-flex;align-items:center;gap:0.5rem;background:#172A39;color:#FFFFFF;padding:0.625rem 1.25rem;font-size:0.8125rem;font-weight:800;border-radius:9999px;text-decoration:none;transition:all 0.15s;box-shadow:0 4px 12px rgba(23,42,57,0.15);"
                             onmouseover="this.style.background='#0E1B25';this.style.transform='translateY(-2px)'"
                             onmouseout="this.style.background='#172A39';this.style.transform='translateY(0)'"
                         >
                             <span>Tanya via WhatsApp</span>
-                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
                     </div>
                 </div>
@@ -562,6 +579,224 @@
             </div>
         </div>
     </section>
+
+
+    {{-- ═══════════════════════════════════════════
+        CUSTOMER TESTIMONIALS SECTION (Interactive Slider)
+    ═══════════════════════════════════════════ --}}
+    <section style="background:#FAF8F5;padding:6rem 0;border-bottom:1px solid #DCD6D0;overflow:hidden;">
+        <div class="mx-auto max-w-7xl px-5 lg:px-8">
+            
+            {{-- Header with Slider Navigation Controls --}}
+            <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3.5rem;">
+                <div style="max-width:620px;">
+                    <span class="section-badge mb-3" style="color:#172A39;">
+                        Client Experiences • Cerita Pelanggan
+                    </span>
+                    <h2 style="font-size:clamp(2.25rem, 4vw, 3.25rem);font-weight:900;color:#172A39;letter-spacing:-0.03em;line-height:1.15;">
+                        Kepuasan Klien Adalah Standar Kami
+                    </h2>
+                    <p style="margin-top:1rem;font-size:1rem;color:#555E68;line-height:1.7;">
+                        Dengarkan cerita langsung dari komunitas, brand, dan tim kreatif yang telah mempercayakan produksi pakaian custom mereka kepada Clothiq.
+                    </p>
+                </div>
+
+                {{-- Carousel Prev / Next Controls --}}
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    <button
+                        type="button"
+                        id="testimonial-prev-btn"
+                        aria-label="Previous Testimonials"
+                        style="width:3.25rem;height:3.25rem;border-radius:9999px;background:#FFFFFF;border:1.5px solid #DCD6D0;color:#172A39;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s cubic-bezier(0.16, 1, 0.3, 1);box-shadow:0 4px 12px rgba(23,42,57,0.06);"
+                        onmouseover="this.style.background='#172A39';this.style.borderColor='#172A39';this.style.color='#FFFFFF';this.style.transform='translateX(-2px)';"
+                        onmouseout="this.style.background='#FFFFFF';this.style.borderColor='#DCD6D0';this.style.color='#172A39';this.style.transform='translateX(0)';"
+                    >
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <button
+                        type="button"
+                        id="testimonial-next-btn"
+                        aria-label="Next Testimonials"
+                        style="width:3.25rem;height:3.25rem;border-radius:9999px;background:#172A39;border:1.5px solid #172A39;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s cubic-bezier(0.16, 1, 0.3, 1);box-shadow:0 6px 16px rgba(23,42,57,0.2);"
+                        onmouseover="this.style.background='#0E1B25';this.style.transform='translateX(2px)';"
+                        onmouseout="this.style.background='#172A39';this.style.transform='translateX(0)';"
+                    >
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {{-- Horizontal Testimonial Carousel Track --}}
+            <div
+                id="testimonial-carousel-track"
+                style="display:flex;gap:1.75rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:0.75rem 0.25rem 1.5rem;scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;cursor:grab;"
+            >
+                @php
+                    $testimonials = [
+                        [
+                            'name' => 'Bagus Pratama',
+                            'role' => 'Head of Creative, Studio Karsa',
+                            'order' => 'Custom Work Jacket (50 pcs)',
+                            'tag' => 'Work Jacket Custom',
+                            'avatar_bg' => '#172A39',
+                            'avatar_text' => 'BP',
+                            'quote' => 'Hasil jahitannya luar biasa rapi dan presisi. Fitur Virtual Fitting 3D sangat membantu tim kami dalam menentukan size chart tanpa harus coba fitting sampel fisik berulang kali.',
+                        ],
+                        [
+                            'name' => 'Alika Salsabila',
+                            'role' => 'Community Lead, Urban Runners ID',
+                            'order' => 'Windbreaker & Technical Gear (120 pcs)',
+                            'tag' => 'Windbreaker Series',
+                            'avatar_bg' => '#2A4356',
+                            'avatar_text' => 'AS',
+                            'quote' => 'Kualitas material kain dan bordirnya jauh di atas ekspektasi. Warna kain konsisten, bahannya nyaman untuk aktivitas outdoor, dan proses konsultasi dengan tim Clothiq sangat cepat.',
+                        ],
+                        [
+                            'name' => 'Dimas Arya Nugraha',
+                            'role' => 'Founder, Niscala Apparel',
+                            'order' => 'Heavyweight Cotton Hoodie (85 pcs)',
+                            'tag' => 'Heavyweight Hoodie',
+                            'avatar_bg' => '#1E3345',
+                            'avatar_text' => 'DA',
+                            'quote' => 'Clothiq benar-benar atelier standar tinggi. Pola potongan jatuhnya pas di badan, detail stitching kuat, dan timnya sangat profesional dari awal diskusi hingga pesanan tiba.',
+                        ],
+                        [
+                            'name' => 'Jessica Tandiono',
+                            'role' => 'Project Director, Arkana Agency',
+                            'order' => 'Varsity Jacket Edition (40 pcs)',
+                            'tag' => 'Varsity Edition',
+                            'avatar_bg' => '#172A39',
+                            'avatar_text' => 'JT',
+                            'quote' => 'Bahan wool blend dan detail kulit sintetis pada varsity jacket pesanan kami terasa sangat mewah. Semua anggota tim sangat puas dengan hasil jadinya yang eksklusif.',
+                        ],
+                        [
+                            'name' => 'Rian Hidayat',
+                            'role' => 'Captain, Garuda Basketball Club',
+                            'order' => 'Technical Jersey & Warm-Up (60 pcs)',
+                            'tag' => 'Technical Jersey',
+                            'avatar_bg' => '#2A4356',
+                            'avatar_text' => 'RH',
+                            'quote' => 'Bahan jersey menyerap keringat dengan sangat baik, sablon dan bordir emblem tim rapi dan tahan cuci berkali-kali. Recommended untuk kebutuhan tim olahraga.',
+                        ],
+                        [
+                            'name' => 'Fikri Ramadhan',
+                            'role' => 'Event Organizer, Tech Innovators',
+                            'order' => 'Commuter Oversized Tees (250 pcs)',
+                            'tag' => 'Oversized Tees',
+                            'avatar_bg' => '#1E3345',
+                            'avatar_text' => 'FR',
+                            'quote' => 'Kain cotton combed 24s heavy grade terasa sangat tebal namun tetap adem. Potongan pola oversized-nya modern dan fitting-nya konsisten untuk ratusan anggota panitia.',
+                        ],
+                    ];
+                @endphp
+
+                @foreach($testimonials as $t)
+                    <div
+                        class="testimonial-slide-card"
+                        style="flex:0 0 380px;max-width:85vw;scroll-snap-align:start;background:#FFFFFF;border:1.5px solid #DCD6D0;border-radius:1.5rem;padding:2.25rem;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 8px 24px rgba(23,42,57,0.04);transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);user-select:none;"
+                        onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='#172A39';this.style.boxShadow='0 18px 40px rgba(23,42,57,0.12)';"
+                        onmouseout="this.style.transform='translateY(0)';this.style.borderColor='#DCD6D0';this.style.boxShadow='0 8px 24px rgba(23,42,57,0.04)';"
+                    >
+                        <div>
+                            {{-- Top: Rating Stars & Order Tag --}}
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.25rem;">
+                                {{-- 5 Stars Gold --}}
+                                <div style="display:flex;gap:0.25rem;color:#D5A755;">
+                                    @for($i = 0; $i < 5; $i++)
+                                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                        </svg>
+                                    @endfor
+                                </div>
+                                <span style="font-size:0.6875rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#172A39;background:#FAF8F5;border:1px solid #DCD6D0;border-radius:9999px;padding:0.25rem 0.75rem;">
+                                    {{ $t['tag'] }}
+                                </span>
+                            </div>
+
+                            {{-- Quote Content --}}
+                            <p style="font-size:0.9375rem;line-height:1.75;color:#172A39;font-weight:500;margin:0 0 1.75rem;">
+                                “{{ $t['quote'] }}”
+                            </p>
+                        </div>
+
+                        {{-- Client Info Footer --}}
+                        <div style="display:flex;align-items:center;gap:0.875rem;padding-top:1.25rem;border-top:1px solid #EAE2D8;">
+                            <div style="width:2.75rem;height:2.75rem;border-radius:50%;background:{{ $t['avatar_bg'] }};color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.875rem;flex-shrink:0;box-shadow:0 4px 10px rgba(23,42,57,0.15);">
+                                {{ $t['avatar_text'] }}
+                            </div>
+                            <div>
+                                <h3 style="font-size:0.9375rem;font-weight:800;color:#172A39;margin:0;">
+                                    {{ $t['name'] }}
+                                </h3>
+                                <p style="font-size:0.75rem;color:#6E7575;margin:0.125rem 0 0;">
+                                    {{ $t['role'] }}
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                @endforeach
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const track = document.getElementById('testimonial-carousel-track');
+            const prevBtn = document.getElementById('testimonial-prev-btn');
+            const nextBtn = document.getElementById('testimonial-next-btn');
+
+            if (!track || !prevBtn || !nextBtn) return;
+
+            const getScrollAmount = () => {
+                const card = track.querySelector('.testimonial-slide-card');
+                return card ? card.offsetWidth + 28 : 400;
+            };
+
+            prevBtn.addEventListener('click', () => {
+                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+            });
+
+            // Drag to scroll functionality for desktop
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            track.addEventListener('mousedown', (e) => {
+                isDown = true;
+                track.style.cursor = 'grabbing';
+                startX = e.pageX - track.offsetLeft;
+                scrollLeft = track.scrollLeft;
+            });
+
+            track.addEventListener('mouseleave', () => {
+                isDown = false;
+                track.style.cursor = 'grab';
+            });
+
+            track.addEventListener('mouseup', () => {
+                isDown = false;
+                track.style.cursor = 'grab';
+            });
+
+            track.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - track.offsetLeft;
+                const walk = (x - startX) * 1.5;
+                track.scrollLeft = scrollLeft - walk;
+            });
+        });
+    </script>
 
     <style>
         .faq-icon {
