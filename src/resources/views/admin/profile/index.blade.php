@@ -8,39 +8,43 @@
     <!-- ============================================== -->
     <!-- 1. TOP HEADER & TABS                           -->
     <!-- ============================================== -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EADACE]/70">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#DCD6D0]">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-normal text-[#1C1917] tracking-tight">Settings & Vendor Profile</h1>
-            <p class="text-xs sm:text-sm text-[#78716C] mt-0.5">
-                Manage your vendor brand identity, contact coordinates, and portal security.
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#FAF8F5] border border-[#DCD6D0] rounded-full text-[11px] font-extrabold uppercase tracking-widest text-[#172A39] mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#172A39]"></span>
+                Atelier Configuration
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-[#172A39] tracking-tight">Settings &amp; Vendor Profile</h1>
+            <p class="text-xs sm:text-sm text-[#6E7575] mt-1">
+                Kelola identitas vendor Clothiq, hotline kontak WhatsApp, dan keamanan portal.
             </p>
         </div>
 
         <div class="flex items-center gap-3">
-            <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <span class="px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full">
                 ACTIVE VENDOR
             </span>
         </div>
     </div>
 
     <!-- Tab Buttons -->
-    <div class="flex items-center gap-6 border-b border-[#EADACE]/70 text-xs font-mono uppercase tracking-wider font-medium">
+    <div class="flex items-center gap-6 border-b border-[#DCD6D0] text-xs uppercase tracking-wider font-bold">
         <button
             type="button"
             @click="activeTab = 'profile'"
-            :class="activeTab === 'profile' ? 'border-b-2 border-[#B85331] text-[#1C1917] font-bold' : 'text-[#78716C] hover:text-[#1C1917] border-b-2 border-transparent'"
-            class="pb-3 transition-colors cursor-pointer"
+            :class="activeTab === 'profile' ? 'border-b-2 border-[#172A39] text-[#172A39]' : 'text-[#6E7575] hover:text-[#172A39] border-b-2 border-transparent'"
+            class="pb-3 transition-colors cursor-pointer bg-transparent border-t-0 border-x-0"
         >
-            Vendor Identity & Contact
+            Vendor Identity &amp; Contact
         </button>
 
         <button
             type="button"
             @click="activeTab = 'security'"
-            :class="activeTab === 'security' ? 'border-b-2 border-[#B85331] text-[#1C1917] font-bold' : 'text-[#78716C] hover:text-[#1C1917] border-b-2 border-transparent'"
-            class="pb-3 transition-colors cursor-pointer"
+            :class="activeTab === 'security' ? 'border-b-2 border-[#172A39] text-[#172A39]' : 'text-[#6E7575] hover:text-[#172A39] border-b-2 border-transparent'"
+            class="pb-3 transition-colors cursor-pointer bg-transparent border-t-0 border-x-0"
         >
-            Account Security & Password
+            Account Security &amp; Password
         </button>
     </div>
 
@@ -53,16 +57,16 @@
             @method('PUT')
 
             <!-- SECTION 1: Brand Details -->
-            <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
+            <div class="admin-card p-6 sm:p-8 space-y-6">
                 <div>
-                    <h2 class="text-base font-medium text-[#1C1917]">Brand Information</h2>
-                    <p class="text-xs text-[#78716C] mt-0.5">Your official business name and public catalog description.</p>
+                    <h2 class="text-base font-bold text-[#172A39]">Brand Information</h2>
+                    <p class="text-xs text-[#6E7575] mt-0.5">Nama resmi bisnis pakaian atelier dan deskripsi profil publik.</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
                     <div>
-                        <label for="company_name" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            VENDOR / COMPANY NAME <span class="text-[#B85331]">*</span>
+                        <label for="company_name" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
+                            VENDOR / COMPANY NAME <span class="text-rose-600">*</span>
                         </label>
                         <input
                             type="text"
@@ -70,12 +74,12 @@
                             id="company_name"
                             value="{{ $profile['company_name'] }}"
                             required
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm font-bold text-[#172A39] rounded-xl focus:outline-none transition-colors"
                         />
                     </div>
 
                     <div>
-                        <label for="tagline" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        <label for="tagline" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
                             SLOGAN / TAGLINE
                         </label>
                         <input
@@ -83,35 +87,35 @@
                             name="tagline"
                             id="tagline"
                             value="{{ $profile['tagline'] }}"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm font-bold text-[#172A39] rounded-xl focus:outline-none transition-colors"
                         />
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label for="description" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        <label for="description" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
                             BUSINESS PROFILE DESCRIPTION
                         </label>
                         <textarea
                             name="description"
                             id="description"
                             rows="3"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors leading-relaxed"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm text-[#172A39] rounded-xl focus:outline-none transition-colors leading-relaxed font-medium"
                         >{{ $profile['description'] }}</textarea>
                     </div>
                 </div>
             </div>
 
             <!-- SECTION 2: Official Contact & Workshop Coordinates -->
-            <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
+            <div class="admin-card p-6 sm:p-8 space-y-6">
                 <div>
-                    <h2 class="text-base font-medium text-[#1C1917]">Contact & Workshop Coordinates</h2>
-                    <p class="text-xs text-[#78716C] mt-0.5">Used for customer WhatsApp inquiries, official invoices, and order communications.</p>
+                    <h2 class="text-base font-bold text-[#172A39]">Contact &amp; Workshop Coordinates</h2>
+                    <p class="text-xs text-[#6E7575] mt-0.5">Digunakan untuk hotline WhatsApp customer, faktur invoice resmi, dan pengiriman.</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
                     <div>
-                        <label for="whatsapp" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            WHATSAPP HOTLINE <span class="text-[#B85331]">*</span>
+                        <label for="whatsapp" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
+                            WHATSAPP HOTLINE <span class="text-rose-600">*</span>
                         </label>
                         <input
                             type="text"
@@ -119,13 +123,13 @@
                             id="whatsapp"
                             value="{{ $profile['whatsapp'] }}"
                             required
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm font-mono text-[#292524] rounded-none focus:outline-none transition-colors"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm font-bold text-[#172A39] rounded-xl focus:outline-none transition-colors"
                         />
                     </div>
 
                     <div>
-                        <label for="email" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            OFFICIAL EMAIL <span class="text-[#B85331]">*</span>
+                        <label for="email" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
+                            OFFICIAL EMAIL <span class="text-rose-600">*</span>
                         </label>
                         <input
                             type="email"
@@ -133,12 +137,12 @@
                             id="email"
                             value="{{ $profile['email'] }}"
                             required
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm font-bold text-[#172A39] rounded-xl focus:outline-none transition-colors"
                         />
                     </div>
 
                     <div>
-                        <label for="phone" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        <label for="phone" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
                             OFFICE PHONE
                         </label>
                         <input
@@ -146,30 +150,30 @@
                             name="phone"
                             id="phone"
                             value="{{ $profile['phone'] }}"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm font-mono text-[#292524] rounded-none focus:outline-none transition-colors"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm font-bold text-[#172A39] rounded-xl focus:outline-none transition-colors"
                         />
                     </div>
 
                     <div class="sm:col-span-2">
-                        <label for="address" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            GARMENT WORKSHOP / FACTORY ADDRESS <span class="text-[#B85331]">*</span>
+                        <label for="address" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
+                            GARMENT WORKSHOP / FACTORY ADDRESS <span class="text-rose-600">*</span>
                         </label>
                         <textarea
                             name="address"
                             id="address"
                             rows="2"
                             required
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors leading-relaxed"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm text-[#172A39] rounded-xl focus:outline-none transition-colors leading-relaxed font-medium"
                         >{{ $profile['address'] }}</textarea>
                     </div>
                 </div>
             </div>
 
             <!-- Submit Button -->
-            <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#EADACE]/70">
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#DCD6D0]">
                 <button
                     type="submit"
-                    class="px-7 py-2.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium tracking-wider uppercase whitespace-nowrap transition-all shadow-xs cursor-pointer"
+                    class="admin-pill-btn px-7 py-2.5 bg-[#172A39] hover:bg-[#0E1B25] text-white text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all shadow-md shadow-[#172A39]/20 cursor-pointer border-0"
                 >
                     Save Changes
                 </button>
@@ -186,49 +190,49 @@
             @method('PUT')
 
             <!-- Account Credentials -->
-            <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
+            <div class="admin-card p-6 sm:p-8 space-y-6">
                 <div>
-                    <h2 class="text-base font-medium text-[#1C1917]">Account Credentials</h2>
-                    <p class="text-xs text-[#78716C] mt-0.5">Authentication and login credentials for this vendor portal.</p>
+                    <h2 class="text-base font-bold text-[#172A39]">Account Credentials</h2>
+                    <p class="text-xs text-[#6E7575] mt-0.5">Authentication and login credentials for this atelier vendor portal.</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
                     <div>
-                        <label class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                            LOGIN EMAIL
+                        <label class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
+                            LOGIN EMAIL / USERNAME
                         </label>
                         <input
                             type="text"
                             disabled
                             value="{{ $profile['email'] }}"
-                            class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#D9CCC1] text-xs sm:text-sm text-[#78716C] font-mono rounded-none cursor-not-allowed font-medium"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] text-xs sm:text-sm text-[#6E7575] rounded-xl cursor-not-allowed font-bold"
                         />
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        <label class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
                             CURRENT ROLE
                         </label>
                         <input
                             type="text"
                             disabled
-                            value="Vendor Administrator"
-                            class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#D9CCC1] text-xs sm:text-sm text-[#78716C] rounded-none cursor-not-allowed font-medium"
+                            value="Atelier Administrator"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] text-xs sm:text-sm text-[#6E7575] rounded-xl cursor-not-allowed font-bold"
                         />
                     </div>
                 </div>
             </div>
 
             <!-- Change Password -->
-            <div class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6">
+            <div class="admin-card p-6 sm:p-8 space-y-6">
                 <div>
-                    <h2 class="text-base font-medium text-[#1C1917]">Change Password</h2>
-                    <p class="text-xs text-[#78716C] mt-0.5">Ensure your account is using a long, random password to stay secure.</p>
+                    <h2 class="text-base font-bold text-[#172A39]">Change Password</h2>
+                    <p class="text-xs text-[#6E7575] mt-0.5">Pastikan akun menggunakan password yang kuat dan aman.</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-2">
                     <div>
-                        <label for="current_password" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        <label for="current_password" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
                             CURRENT PASSWORD
                         </label>
                         <input
@@ -236,12 +240,12 @@
                             name="current_password"
                             id="current_password"
                             placeholder="••••••••"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm text-[#172A39] rounded-xl focus:outline-none transition-colors"
                         />
                     </div>
 
                     <div>
-                        <label for="new_password" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        <label for="new_password" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
                             NEW PASSWORD
                         </label>
                         <input
@@ -249,12 +253,12 @@
                             name="new_password"
                             id="new_password"
                             placeholder="••••••••"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm text-[#172A39] rounded-xl focus:outline-none transition-colors"
                         />
                     </div>
 
                     <div>
-                        <label for="new_password_confirmation" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+                        <label for="new_password_confirmation" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
                             CONFIRM PASSWORD
                         </label>
                         <input
@@ -262,24 +266,24 @@
                             name="new_password_confirmation"
                             id="new_password_confirmation"
                             placeholder="••••••••"
-                            class="w-full px-3.5 py-2.5 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] rounded-none focus:outline-none transition-colors"
+                            class="w-full px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm text-[#172A39] rounded-xl focus:outline-none transition-colors"
                         />
                     </div>
                 </div>
             </div>
 
             <!-- Submit Button & Logout -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-[#EADACE]/70">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-[#DCD6D0]">
                 <a
                     href="{{ route('login') }}"
-                    class="text-xs font-mono font-medium text-rose-700 hover:underline uppercase tracking-wider"
+                    class="text-xs font-bold text-rose-700 hover:underline uppercase tracking-wider text-decoration-none"
                 >
                     Log Out of Session &rarr;
                 </a>
 
                 <button
                     type="submit"
-                    class="px-7 py-2.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] text-white text-xs font-mono font-medium tracking-wider uppercase whitespace-nowrap transition-all shadow-xs cursor-pointer"
+                    class="admin-pill-btn px-7 py-2.5 bg-[#172A39] hover:bg-[#0E1B25] text-white text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all shadow-md shadow-[#172A39]/20 cursor-pointer border-0"
                 >
                     Update Password
                 </button>
