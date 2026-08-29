@@ -163,15 +163,15 @@
     ═══════════════════════════════════════════ --}}
     <section style="background:#FFFFFF;padding:5.5rem 0;border-bottom:1px solid #DCD6D0;">
         <div class="mx-auto max-w-7xl px-5 lg:px-8">
-            <div class="grid gap-12 lg:grid-cols-12 lg:items-center">
+            <div class="about-grid-container" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:4rem;align-items:center;">
                 
                 {{-- Left Column: Brand Story & Narrative --}}
-                <div class="lg:col-span-7">
+                <div style="min-width:0;">
                     <span class="section-badge" style="margin-bottom:1rem;">
                         <span style="width:1.5rem;height:3px;background:#172A39;border-radius:2px;display:inline-block;"></span>
                         Tentang Kami
                     </span>
-                    <h2 style="font-size:2.25rem;font-weight:900;color:#172A39;letter-spacing:-0.025em;line-height:1.2;margin-top:0.5rem;" class="md:text-4xl">
+                    <h2 style="font-size:clamp(1.85rem, 3.2vw, 2.5rem);font-weight:900;color:#172A39;letter-spacing:-0.025em;line-height:1.2;margin-top:0.5rem;">
                         Mewujudkan Pakaian Custom dengan Presisi, Karakter, dan Kualitas Tinggi.
                     </h2>
                     <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem;color:#6E7575;font-size:0.9375rem;line-height:1.75;">
@@ -194,50 +194,55 @@
                 </div>
 
                 {{-- Right Column: Brand Highlights & Pillar Cards --}}
-                <div class="lg:col-span-5">
-                    <div style="background:#FAF8F5;border:1.5px solid #DCD6D0;border-radius:1.5rem;padding:2.25rem;display:flex;flex-direction:column;gap:1.5rem;box-shadow:0 6px 20px rgba(23,42,57,0.04);">
+                <div style="min-width:0;">
+                    <div style="background:#FAF8F5;border-radius:2rem;padding:2.75rem 2.5rem;display:flex;flex-direction:column;gap:2rem;box-shadow:0 12px 36px rgba(23,42,57,0.04);width:100%;max-width:520px;margin-left:auto;">
                         
-                        <div style="display:flex;align-items:flex-start;gap:1rem;">
-                            <div style="width:3rem;height:3rem;border-radius:0.875rem;background:#172A39;color:#EAE2D8;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        {{-- Pillar 1 --}}
+                        <div style="display:flex;align-items:flex-start;gap:1.25rem;transition:transform 0.25s ease;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='translateX(0)'">
+                            <div style="width:3.25rem;height:3.25rem;border-radius:1rem;background:linear-gradient(135deg, #1E3345 0%, #172A39 100%);color:#FAF8F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 16px rgba(23,42,57,0.15);">
                                 <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>
                             <div>
-                                <h3 style="font-size:1.0625rem;font-weight:800;color:#172A39;">Sentuhan Personal & Kustom</h3>
-                                <p style="font-size:0.8125rem;line-height:1.6;color:#6E7575;margin-top:0.25rem;">
+                                <h3 style="font-size:1.125rem;font-weight:800;color:#172A39;letter-spacing:-0.015em;line-height:1.3;margin:0;">
+                                    Sentuhan Personal & Kustom
+                                </h3>
+                                <p style="font-size:0.875rem;line-height:1.7;color:#555E68;margin-top:0.35rem;">
                                     Bebas atur ukuran, kombinasi bahan, dan aplikasi bordir/sablon sesuai identitas tim atau brand Anda.
                                 </p>
                             </div>
                         </div>
 
-                        <div style="width:100%;height:1px;background:#DCD6D0;"></div>
-
-                        <div style="display:flex;align-items:flex-start;gap:1rem;">
-                            <div style="width:3rem;height:3rem;border-radius:0.875rem;background:#172A39;color:#EAE2D8;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        {{-- Pillar 2 --}}
+                        <div style="display:flex;align-items:flex-start;gap:1.25rem;transition:transform 0.25s ease;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='translateX(0)'">
+                            <div style="width:3.25rem;height:3.25rem;border-radius:1rem;background:linear-gradient(135deg, #1E3345 0%, #172A39 100%);color:#FAF8F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 16px rgba(23,42,57,0.15);">
                                 <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879a3 3 0 11-4.242-4.242 3 3 0 014.242 0L12 12zm0 0l-2.879-2.879a3 3 0 10-4.242 4.242 3 3 0 004.242 0L12 12z"/>
                                 </svg>
                             </div>
                             <div>
-                                <h3 style="font-size:1.0625rem;font-weight:800;color:#172A39;">Presisi Pola & Jahitan Rapi</h3>
-                                <p style="font-size:0.8125rem;line-height:1.6;color:#6E7575;margin-top:0.25rem;">
+                                <h3 style="font-size:1.125rem;font-weight:800;color:#172A39;letter-spacing:-0.015em;line-height:1.3;margin:0;">
+                                    Presisi Pola & Jahitan Rapi
+                                </h3>
+                                <p style="font-size:0.875rem;line-height:1.7;color:#555E68;margin-top:0.35rem;">
                                     Setiap helai pakaian dipotong dengan pola proporsional dan dijahit rapi oleh tenaga ahli berpengalaman demi kenyamanan dan ketahanan maksimal.
                                 </p>
                             </div>
                         </div>
 
-                        <div style="width:100%;height:1px;background:#DCD6D0;"></div>
-
-                        <div style="display:flex;align-items:flex-start;gap:1rem;">
-                            <div style="width:3rem;height:3rem;border-radius:0.875rem;background:#172A39;color:#EAE2D8;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        {{-- Pillar 3 --}}
+                        <div style="display:flex;align-items:flex-start;gap:1.25rem;transition:transform 0.25s ease;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='translateX(0)'">
+                            <div style="width:3.25rem;height:3.25rem;border-radius:1rem;background:linear-gradient(135deg, #1E3345 0%, #172A39 100%);color:#FAF8F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 16px rgba(23,42,57,0.15);">
                                 <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                                 </svg>
                             </div>
                             <div>
-                                <h3 style="font-size:1.0625rem;font-weight:800;color:#172A39;">Produksi Terpercaya & Berpengalaman</h3>
-                                <p style="font-size:0.8125rem;line-height:1.6;color:#6E7575;margin-top:0.25rem;">
+                                <h3 style="font-size:1.125rem;font-weight:800;color:#172A39;letter-spacing:-0.015em;line-height:1.3;margin:0;">
+                                    Produksi Terpercaya & Berpengalaman
+                                </h3>
+                                <p style="font-size:0.875rem;line-height:1.7;color:#555E68;margin-top:0.35rem;">
                                     Telah dipercaya oleh berbagai instansi kampus, komunitas, dan organisasi untuk apparel berkualitas.
                                 </p>
                             </div>
@@ -249,6 +254,15 @@
             </div>
         </div>
     </section>
+
+    <style>
+        @media (min-width: 1024px) {
+            .about-grid-container {
+                grid-template-columns: 1.15fr 0.95fr !important;
+                gap: 4.5rem !important;
+            }
+        }
+    </style>
 
 
     {{-- ═══════════════════════════════════════════
