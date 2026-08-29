@@ -7,13 +7,13 @@
 
     {{-- ── Header ───────────────────────────────────── --}}
     <section class="border-b border-border bg-primary" style="background-color:#172A39;border-color:#DCD6D0;">
-        <div class="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-16">
-            <span class="section-badge mb-4" style="color:#FC563C;">
-                <span style="width:1.5rem;height:3px;background:#FC563C;border-radius:2px;display:inline-block;"></span>
+        <div class="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-12">
+            <span class="section-badge mb-3" style="color:#EAE2D8;">
+                <span style="width:1.35rem;height:2.5px;background:#EAE2D8;border-radius:2px;display:inline-block;"></span>
                 Virtual Fitting
             </span>
-            <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl">Virtual Fitting Studio</h1>
-            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/75">
+            <h1 class="text-3xl font-extrabold tracking-tight text-white md:text-4xl">Virtual Fitting Studio</h1>
+            <p class="mt-2.5 max-w-2xl text-sm leading-relaxed text-white/75">
                 Adjust your body measurements to create a virtual figure.
                 These measurements are used only for this virtual fitting session.
             </p>
@@ -32,7 +32,7 @@
             {{-- ── 3D Viewport ─────────────────────── --}}
             <div
                 class="relative min-h-[520px] overflow-hidden rounded-2xl border bg-surface-alt shadow-sm lg:col-span-7 lg:min-h-[680px]"
-                style="border-color:#DCD6D0;background-color:#F6F4F1;"
+                style="border-color:#DCD6D0;background-color:#FAF8F5;"
             >
                 {{-- Three.js canvas --}}
                 <div
@@ -61,7 +61,7 @@
             <aside class="rounded-2xl border bg-white overflow-hidden shadow-sm lg:col-span-5" style="border-color:#DCD6D0;">
 
                 {{-- Panel Header --}}
-                <div class="border-b px-6 py-5" style="background:#F6F4F1;border-color:#DCD6D0;">
+                <div class="border-b px-6 py-5" style="background:#FAF8F5;border-color:#DCD6D0;">
                     <span class="section-badge text-xs" style="color:#172A39;">Virtual Model</span>
                     <h2 class="mt-1.5 text-xl font-extrabold" style="color:#172A39;">Your Body Profile</h2>
                     <p class="mt-1 text-xs leading-relaxed" style="color:#6E7575;">
@@ -79,7 +79,7 @@
                     <button
                         type="button"
                         class="flex-1 py-3.5 text-xs font-bold uppercase tracking-[0.12em] transition-colors border-b-2"
-                        style="color:#172A39;border-color:#FC563C;background:#F6F4F1;"
+                        style="color:#172A39;border-color:#172A39;background:#FAF8F5;"
                         role="tab"
                         aria-selected="true"
                         data-fitting-tab="body"
@@ -137,9 +137,9 @@
                                         value="{{ $inp['value'] }}"
                                         {{ $inp['attr'] }}
                                         class="w-full rounded-xl border px-4 py-2.5 pr-12 text-sm font-bold transition"
-                                        style="border-color:#DCD6D0;background:#F6F4F1;color:#172A39;"
-                                        onfocus="this.style.borderColor='#FC563C';this.style.background='#FFFFFF';"
-                                        onblur="this.style.borderColor='#DCD6D0';this.style.background='#F6F4F1';"
+                                        style="border-color:#DCD6D0;background:#FAF8F5;color:#172A39;"
+                                        onfocus="this.style.borderColor='#172A39';this.style.background='#FFFFFF';"
+                                        onblur="this.style.borderColor='#DCD6D0';this.style.background='#FAF8F5';"
                                     >
                                     <span class="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold" style="color:#6E7575;">cm</span>
                                 </div>
@@ -153,7 +153,7 @@
                                 @foreach (['short' => 'Short', 'normal' => 'Normal', 'long' => 'Long'] as $val => $label)
                                     <label
                                         class="flex cursor-pointer items-center justify-center rounded-xl border px-3 py-2.5 text-xs font-bold transition"
-                                        style="border-color:#DCD6D0;background:#F6F4F1;color:#6E7575;"
+                                        style="border-color:#DCD6D0;background:#FAF8F5;color:#6E7575;"
                                     >
                                         <input
                                             type="radio"
@@ -162,7 +162,7 @@
                                             @checked($val === 'normal')
                                             class="sr-only"
                                             data-fitting-torso-type
-                                            onchange="document.querySelectorAll('[data-fitting-torso-type]').forEach(el => { el.parentElement.style.borderColor = el.checked ? '#FC563C' : '#DCD6D0'; el.parentElement.style.color = el.checked ? '#172A39' : '#6E7575'; el.parentElement.style.background = el.checked ? '#EAEFF4' : '#F6F4F1'; });"
+                                            onchange="document.querySelectorAll('[data-fitting-torso-type]').forEach(el => { el.parentElement.style.borderColor = el.checked ? '#172A39' : '#DCD6D0'; el.parentElement.style.color = el.checked ? '#172A39' : '#6E7575'; el.parentElement.style.background = el.checked ? '#EAEFF4' : '#FAF8F5'; });"
                                         >
                                         {{ $label }}
                                     </label>
@@ -173,7 +173,7 @@
                     </div>
 
                     {{-- Model Status --}}
-                    <div class="mt-6 rounded-xl border p-4" style="border-color:#DCD6D0;background:#F6F4F1;">
+                    <div class="mt-6 rounded-xl border p-4" style="border-color:#DCD6D0;background:#FAF8F5;">
                         <p class="text-[10px] font-bold uppercase tracking-[0.12em]" style="color:#6E7575;">Model Status</p>
                         <p class="mt-1 text-sm font-extrabold" style="color:#172A39;">Virtual body ready.</p>
                         <p class="mt-0.5 text-xs" style="color:#6E7575;">
@@ -202,14 +202,14 @@
                             ['Panjang torso',   'Ukur dari titik bahu (dekat leher) ke garis pinggang alami.'],
                             ['Proporsi tubuh',  'Pilih proporsi tubuh Anda. Short torso berarti badan atas lebih pendek dari kaki. Long torso berarti sebaliknya.'],
                         ] as [$term, $desc])
-                            <div class="rounded-xl border p-4" style="border-color:#DCD6D0;background:#F6F4F1;">
+                            <div class="rounded-xl border p-4" style="border-color:#DCD6D0;background:#FAF8F5;">
                                 <p class="text-xs font-bold" style="color:#172A39;">{{ $term }}</p>
                                 <p class="mt-1 text-xs leading-relaxed" style="color:#6E7575;">{{ $desc }}</p>
                             </div>
                         @endforeach
                     </div>
 
-                    <div class="mt-5 rounded-xl border p-4" style="border-color:rgba(252,86,60,0.3);background:rgba(252,86,60,0.08);">
+                    <div class="mt-5 rounded-xl border p-4" style="border-color:rgba(23,42,57,0.2);background:rgba(23,42,57,0.05);">
                         <p class="text-xs leading-relaxed" style="color:#172A39;">
                             Pengukuran hanya digunakan di sesi browser dan tidak disimpan di database.
                         </p>

@@ -10,29 +10,29 @@
     /* Typography */
     --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-    /* ── Brand Colors (Based on User Palette) ───── */
+    /* ── Brand Colors (Cream & Navy Palette) ───── */
     /* Dark Navy/Slate #172A39 */
     --color-primary:        #172A39;
     --color-primary-dark:   #0E1B25;
     --color-primary-light:  #233B4E;
     --color-primary-muted:  #EAEFF4;
 
-    /* Coral / Orange Accent #FC563C */
-    --color-accent:         #FC563C;
-    --color-accent-dark:    #E44229;
-    --color-accent-light:   #FF755E;
+    /* Accent mapped to Navy/Slate & Warm Cream */
+    --color-accent:         #172A39;
+    --color-accent-dark:    #0E1B25;
+    --color-accent-light:   #233B4E;
 
-    /* Warm Off-White / Sand #E9E4E0 */
-    --color-sand:           #E9E4E0;
-    --color-sand-light:     #F6F4F1;
+    /* Warm Off-White / Sand / Cream */
+    --color-sand:           #EAE2D8;
+    --color-sand-light:     #FAF8F5;
 
     /* Neutral Muted Gray #6E7575 */
     --color-neutral-slate:  #6E7575;
 
     /* ── Neutrals ──────────────────────────────── */
     --color-surface:        #FFFFFF;
-    --color-surface-alt:    #F6F4F1;
-    --color-surface-muted:  #E9E4E0;
+    --color-surface-alt:    #FAF8F5;
+    --color-surface-muted:  #EAE2D8;
     --color-border:         #DCD6D0;
     --color-border-strong:  #6E7575;
 
@@ -48,15 +48,15 @@
     --color-warn:           #D97706;
 
     /* ── Legacy aliases (backward compat) ─────── */
-    --color-ivory:          #F6F4F1;
-    --color-ivory-deep:     #E9E4E0;
+    --color-ivory:          #FAF8F5;
+    --color-ivory-deep:     #EAE2D8;
     --color-charcoal:       #172A39;
     --color-ink:            #0E1B25;
     --color-muted:          #6E7575;
-    --color-terracotta:     #FC563C;
-    --color-terracotta-dark: #E44229;
+    --color-terracotta:     #172A39;
+    --color-terracotta-dark: #0E1B25;
     --color-line:           #DCD6D0;
-    --color-paper:          #F6F4F1;
+    --color-paper:          #FAF8F5;
 }
 
 /* ── Base Styles ─────────────────────────────── */
@@ -72,7 +72,7 @@
     }
 
     ::selection {
-        background: rgba(252, 86, 60, 0.2);
+        background: rgba(23, 42, 57, 0.15);
         color: #172A39;
     }
 
@@ -84,7 +84,7 @@
     select:focus-visible,
     textarea:focus-visible,
     summary:focus-visible {
-        outline: 2px solid #FC563C;
+        outline: 2px solid #172A39;
         outline-offset: 3px;
     }
 
@@ -97,7 +97,7 @@
 
 /* ── Scrollbar ───────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #F6F4F1; }
+::-webkit-scrollbar-track { background: #FAF8F5; }
 ::-webkit-scrollbar-thumb { background: #6E7575; border-radius: 9999px; }
 ::-webkit-scrollbar-thumb:hover { background: #172A39; }
 
@@ -106,7 +106,7 @@ model-viewer {
     width: 100%;
     height: 100%;
     --poster-color: transparent;
-    background-color: #F6F4F1;
+    background-color: #FAF8F5;
     border-radius: 0.75rem;
 }
 
@@ -131,7 +131,7 @@ model-viewer {
     display: inline-block;
     width: 1.75rem;
     height: 3px;
-    background-color: #FC563C;
+    background-color: #172A39;
     border-radius: 2px;
     flex-shrink: 0;
 }
@@ -142,7 +142,7 @@ model-viewer {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background-color: #172A39;
+    background: linear-gradient(135deg, #1E3345 0%, #172A39 50%, #0E1B25 100%);
     color: #FFFFFF !important;
     padding: 0.75rem 1.5rem;
     font-size: 0.8125rem;
@@ -152,11 +152,11 @@ model-viewer {
     border: 1px solid #172A39;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+    transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
     box-shadow: 0 2px 8px rgba(23, 42, 57, 0.25);
 }
 .btn-primary:hover {
-    background-color: #0E1B25;
+    background: linear-gradient(135deg, #253F54 0%, #1A3040 50%, #0E1B25 100%);
     border-color: #0E1B25;
     box-shadow: 0 4px 16px rgba(23, 42, 57, 0.35);
     transform: translateY(-1px);
@@ -191,23 +191,23 @@ model-viewer {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background-color: #FC563C;
+    background: linear-gradient(135deg, #1E3345 0%, #172A39 50%, #0E1B25 100%);
     color: #FFFFFF !important;
     padding: 0.75rem 1.5rem;
     font-size: 0.8125rem;
     font-weight: 800;
     letter-spacing: 0.05em;
     border-radius: 0.5rem;
-    border: 1px solid #FC563C;
+    border: 1px solid #172A39;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
-    box-shadow: 0 4px 14px rgba(252, 86, 60, 0.35);
+    transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 14px rgba(23, 42, 57, 0.3);
 }
 .btn-accent:hover {
-    background-color: #E44229;
-    border-color: #E44229;
-    box-shadow: 0 6px 20px rgba(252, 86, 60, 0.45);
+    background: linear-gradient(135deg, #253F54 0%, #1A3040 50%, #0E1B25 100%);
+    border-color: #0E1B25;
+    box-shadow: 0 6px 20px rgba(23, 42, 57, 0.4);
     transform: translateY(-1px);
 }
 .btn-accent:active { transform: scale(0.98); }
@@ -216,13 +216,16 @@ model-viewer {
 .hero-collection-action {
     min-height: 3.25rem;
     padding-inline: 1.75rem;
-    border: 2px solid #FC563C;
+    background: linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%) !important;
+    color: #172A39 !important;
+    border: 2px solid #EAE2D8 !important;
     border-radius: 0.75rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(252, 86, 60, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 0 4px rgba(234, 226, 216, 0.25);
 }
 .hero-collection-action:hover {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FAF8F5 100%) !important;
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(252, 86, 60, 0.28);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(234, 226, 216, 0.35);
 }
 
 .product-request-action {
@@ -236,7 +239,7 @@ model-viewer {
 .request-upload-panel {
     border: 1px solid #DCD6D0;
     border-radius: 1rem;
-    background: linear-gradient(135deg, #FFFFFF 0%, #F6F4F1 100%);
+    background: linear-gradient(135deg, #FFFFFF 0%, #FAF8F5 100%);
     padding: 1.5rem;
 }
 .request-upload-panel input[type="file"] {
@@ -268,7 +271,7 @@ model-viewer {
     width: 6.5rem;
     border: 1px solid #DCD6D0;
     border-radius: 0.625rem;
-    background: #F6F4F1;
+    background: #FAF8F5;
     padding: 0.625rem 0.875rem;
 }
 
@@ -330,7 +333,7 @@ model-viewer {
         max-width: 100%;
         aspect-ratio: 3 / 4;
         overflow: hidden;
-        background-color: #E9E4E0;
+        background-color: #EAE2D8;
     }
 
     .image-frame > img {

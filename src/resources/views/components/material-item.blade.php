@@ -9,7 +9,7 @@
 @endphp
 
 <article {{ $attributes->class(['product-tile group']) }}>
-    <div class="image-frame rounded-2xl overflow-hidden border border-border" style="border-color:#DCD6D0;background-color:#F6F4F1;">
+    <div class="image-frame rounded-2xl overflow-hidden border border-border" style="border-color:#DCD6D0;background-color:#FAF8F5;">
         @if ($imageUrl)
             <img
                 src="{{ $imageUrl }}"

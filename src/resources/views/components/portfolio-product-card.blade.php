@@ -11,7 +11,7 @@
 @endphp
 
 <article {{ $attributes->class(['product-tile group']) }}>
-    <a href="{{ $detailUrl }}" class="image-frame rounded-2xl overflow-hidden border border-border" style="border-color:#DCD6D0;background-color:#F6F4F1;">
+    <a href="{{ $detailUrl }}" class="image-frame rounded-2xl overflow-hidden border border-border" style="border-color:#DCD6D0;background-color:#FAF8F5;">
         @if ($imageUrl)
             <img
                 src="{{ $imageUrl }}"
@@ -32,7 +32,7 @@
             <span class="inline-block rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em]" style="background:#EAEFF4;color:#172A39;">{{ $category }}</span>
         @endif
         <h3 class="mt-2 line-clamp-2 text-base font-bold leading-snug" style="color:#172A39;">
-            <a href="{{ $detailUrl }}" class="transition-colors hover:text-[#FC563C]">{{ $produk->nama_produk }}</a>
+            <a href="{{ $detailUrl }}" class="transition-opacity hover:opacity-75">{{ $produk->nama_produk }}</a>
         </h3>
         <a href="{{ $detailUrl }}" class="mt-2 section-badge text-[11px] hover:opacity-75 transition-opacity" style="color:#172A39;">
             View Details

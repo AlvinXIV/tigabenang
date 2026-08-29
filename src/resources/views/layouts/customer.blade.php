@@ -7,7 +7,7 @@
     <title>@yield('title', 'Clothiq') — Custom Clothing</title>
     <meta name="description" content="@yield('description', 'Custom clothing crafted with thoughtful materials, precise sizing, and modern fitting technology.')">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     @php
         $viteHotFile = public_path('hot');

@@ -23,7 +23,7 @@
             padding: 0.625rem 0.875rem !important;
             border: 1.5px solid #DCD6D0 !important;
             border-radius: 0.625rem !important;
-            background: #F6F4F1 !important;
+            background: #FAF8F5 !important;
             color: #172A39 !important;
         }
         .request-total-actions { display:grid; grid-template-columns:1fr; gap:1.25rem; }
@@ -35,16 +35,16 @@
 
     {{-- ── Header ───────────────────────────────────── --}}
     <section class="relative overflow-hidden border-b border-border bg-primary" style="background-color:#172A39;border-color:#DCD6D0;">
-        <div class="pointer-events-none absolute -right-24 -top-32 h-80 w-80 rounded-full" style="background:rgba(252,86,60,0.12);"></div>
+        <div class="pointer-events-none absolute -right-24 -top-32 h-80 w-80 rounded-full" style="background:rgba(234,226,216,0.08);"></div>
         <div class="pointer-events-none absolute -bottom-32 -left-20 h-64 w-64 rounded-full border-[24px]" style="border-color:rgba(233,228,224,0.06);"></div>
-        <div class="relative mx-auto max-w-3xl px-5 py-14 lg:px-8 lg:py-20">
-            <div class="mb-5 inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.16em]" style="border-color:rgba(252,86,60,0.4);background:rgba(252,86,60,0.15);color:#FC563C;">
-                <span class="h-2 w-2 rounded-full" style="background:#FC563C;"></span>
+        <div class="relative mx-auto max-w-3xl px-5 py-10 lg:px-8 lg:py-14">
+            <div class="mb-3.5 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.16em]" style="border-color:rgba(234,226,216,0.25);background:rgba(234,226,216,0.12);color:#EAE2D8;">
+                <span class="h-2 w-2 rounded-full" style="background:#EAE2D8;"></span>
                 Custom order studio
             </div>
-            <h1 class="max-w-xl text-4xl font-extrabold tracking-tight text-white md:text-5xl">Tell us what to make</h1>
-            <p class="mt-4 max-w-2xl text-sm leading-relaxed text-white/75">
-                No account is created. We use this form to reach you and to calculate the order from product price × total quantity.
+            <h1 class="max-w-xl text-3xl font-extrabold tracking-tight text-white md:text-4xl">Tell us what to make</h1>
+            <p class="mt-2.5 text-sm leading-relaxed text-white/75">
+                Send us your design, piece choice, materials, and sizing breakdown. We follow up by WhatsApp to finalize pricing and production.
             </p>
         </div>
     </section>
@@ -111,7 +111,7 @@
                                     placeholder="Your full name"
                                     class="w-full rounded-xl border px-4 py-3 text-sm transition"
                                     style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                                    onfocus="this.style.borderColor='#FC563C'"
+                                    onfocus="this.style.borderColor='#172A39'"
                                     onblur="this.style.borderColor='#DCD6D0'"
                                 >
                             </div>
@@ -122,7 +122,7 @@
                                     placeholder="Complete street address, city, postal code"
                                     class="w-full rounded-xl border px-4 py-3 text-sm transition resize-none"
                                     style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                                    onfocus="this.style.borderColor='#FC563C'"
+                                    onfocus="this.style.borderColor='#172A39'"
                                     onblur="this.style.borderColor='#DCD6D0'"
                                 >{{ old('alamat') }}</textarea>
                             </div>
@@ -134,7 +134,7 @@
                                     placeholder="08xxxxxxxxxx"
                                     class="w-full rounded-xl border px-4 py-3 text-sm transition"
                                     style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                                    onfocus="this.style.borderColor='#FC563C'"
+                                    onfocus="this.style.borderColor='#172A39'"
                                     onblur="this.style.borderColor='#DCD6D0'"
                                 >
                             </div>
@@ -145,7 +145,7 @@
                                     data-order-product
                                     class="w-full rounded-xl border px-4 py-3 text-sm transition"
                                     style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                                    onfocus="this.style.borderColor='#FC563C'"
+                                    onfocus="this.style.borderColor='#172A39'"
                                     onblur="this.style.borderColor='#DCD6D0'"
                                 >
                                     @foreach ($products as $produk)
@@ -194,7 +194,7 @@
                                         data-order-qty
                                         name="sizes[{{ $index }}][kuantitas]"
                                         value="{{ $oldQtyBySize->get((string) $size['id'], 0) }}"
-                                        style="width:6.5rem;min-height:2.75rem;border:1.5px solid #DCD6D0;background:#F6F4F1;padding:0.625rem 0.875rem;border-radius:0.625rem;font-size:0.9375rem;font-weight:700;color:#172A39;text-align:right;"
+                                        style="width:6.5rem;min-height:2.75rem;border:1.5px solid #DCD6D0;background:#FAF8F5;padding:0.625rem 0.875rem;border-radius:0.625rem;font-size:0.9375rem;font-weight:700;color:#172A39;text-align:right;"
                                     >
                                 </div>
                             @empty
@@ -204,9 +204,9 @@
                     </fieldset>
 
                     {{-- ── Design Upload ────────────────── --}}
-                    <div class="request-upload-panel" style="border:1.5px solid #DCD6D0;border-radius:1rem;background:linear-gradient(135deg,#FFFFFF 0%,#F6F4F1 100%);padding:1.5rem;">
+                    <div class="request-upload-panel" style="border:1.5px solid #DCD6D0;border-radius:1rem;background:linear-gradient(135deg,#FFFFFF 0%,#FAF8F5 100%);padding:1.5rem;">
                         <div class="flex items-start gap-3.5">
-                            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style="background:#172A39;color:#FC563C;">
+                            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style="background:#172A39;color:#EAE2D8;">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L8 8m4-4 4 4M4 16.5v1A2.5 2.5 0 006.5 20h11a2.5 2.5 0 002.5-2.5v-1"/></svg>
                             </span>
                             <div>
@@ -242,14 +242,14 @@
                             placeholder="Catatan tambahan seperti detail sablon, bordir, penyesuaian khusus..."
                             class="w-full rounded-xl border px-4 py-3 text-sm transition resize-none"
                             style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                            onfocus="this.style.borderColor='#FC563C'"
+                            onfocus="this.style.borderColor='#172A39'"
                             onblur="this.style.borderColor='#DCD6D0'"
                         >{{ old('notes') }}</textarea>
                     </div>
 
                     {{-- ── Total + Submit ───────────────── --}}
                     <div class="request-total-actions">
-                        <div style="border:1.5px solid #DCD6D0;border-radius:1rem;background:#F6F4F1;padding:1.5rem;">
+                        <div style="border:1.5px solid #DCD6D0;border-radius:1rem;background:#FAF8F5;padding:1.5rem;">
                             <p style="font-size:0.75rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#6E7575;">Estimated Total</p>
                             <p style="margin-top:0.375rem;font-size:2rem;font-weight:900;letter-spacing:-0.03em;color:#172A39;" data-order-total>Rp 0</p>
                             <p style="margin-top:0.375rem;font-size:0.75rem;line-height:1.5;color:#6E7575;">
@@ -260,10 +260,10 @@
                             <p style="margin:0 0 0.625rem;font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Ready to order?</p>
                             <button
                                 type="submit"
-                                class="btn-accent shrink-0"
-                                style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3.25rem;padding:0.75rem 1.25rem;background:#FC563C;color:#FFFFFF;border:1px solid #FC563C;border-radius:0.75rem;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;cursor:pointer;box-shadow:0 4px 16px rgba(252,86,60,0.4);transition:all 0.15s;"
-                                onmouseover="this.style.background='#E44229';this.style.transform='translateY(-1px)'"
-                                onmouseout="this.style.background='#FC563C';this.style.transform='translateY(0)'"
+                                class="shrink-0"
+                                style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3.25rem;padding:0.75rem 1.25rem;background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);color:#172A39 !important;border:2px solid #EAE2D8;border-radius:0.75rem;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.25);transition:all 0.15s;"
+                                onmouseover="this.style.background='#FFFFFF';this.style.transform='translateY(-1px)'"
+                                onmouseout="this.style.background='linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%)';this.style.transform='translateY(0)'"
                             >
                                 Submit Request
                                 <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>

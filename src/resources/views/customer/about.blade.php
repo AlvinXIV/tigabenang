@@ -8,18 +8,18 @@
     {{-- ── Header ───────────────────────────────────── --}}
     <section class="relative overflow-hidden border-b border-border bg-primary" style="background-color:#172A39;border-color:#DCD6D0;">
         <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full blur-3xl" style="background:rgba(252,86,60,0.12);"></div>
+            <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full blur-3xl" style="background:rgba(234,226,216,0.08);"></div>
             <div class="absolute bottom-0 left-0 h-64 w-64 rounded-full blur-3xl" style="background:rgba(233,228,224,0.06);"></div>
         </div>
-        <div class="relative mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
-            <span class="section-badge mb-6" style="color:#FC563C;">
-                <span style="width:1.5rem;height:3px;background:#FC563C;border-radius:2px;display:inline-block;"></span>
+        <div class="relative mx-auto max-w-5xl px-5 py-11 lg:px-8 lg:py-15">
+            <span class="section-badge mb-3.5" style="color:#EAE2D8;">
+                <span style="width:1.35rem;height:2.5px;background:#EAE2D8;border-radius:2px;display:inline-block;"></span>
                 About Clothiq
             </span>
-            <h1 class="mt-2 max-w-3xl text-5xl font-extrabold leading-tight tracking-tight text-white md:text-6xl">
+            <h1 class="mt-2 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl">
                 An atelier for clothes<br>that actually fit.
             </h1>
-            <p class="mt-6 max-w-2xl text-base leading-relaxed text-white/75">
+            <p class="mt-3.5 max-w-2xl text-sm leading-relaxed text-white/75">
                 Clothiq makes custom clothing for teams, communities, and individuals who want garments with intention — from first sketch to finished piece.
             </p>
         </div>
@@ -43,7 +43,7 @@
     </section>
 
     {{-- ── What We Do ───────────────────────────────── --}}
-    <section class="border-b border-border px-5 py-16 lg:px-8" style="background:#F6F4F1;border-color:#DCD6D0;">
+    <section class="border-b border-border px-5 py-16 lg:px-8" style="background:#FAF8F5;border-color:#DCD6D0;">
         <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12">
             <div class="lg:col-span-3">
                 <span class="section-badge">What We Do</span>
@@ -82,7 +82,7 @@
                     ['num' => '04', 'title' => 'Send a request',    'desc' => 'Tell us who you are, the sizes you need, and any design notes. No account required.'],
                 ] as $step)
                     <li class="rounded-2xl border bg-white p-7" style="border-color:#DCD6D0;">
-                        <span class="text-3xl font-black" style="color:#FC563C;">{{ $step['num'] }}</span>
+                        <span class="text-3xl font-black" style="color:#172A39;">{{ $step['num'] }}</span>
                         <h3 class="mt-2 text-base font-bold" style="color:#172A39;">{{ $step['title'] }}</h3>
                         <p class="mt-2 text-sm leading-relaxed" style="color:#6E7575;">{{ $step['desc'] }}</p>
                     </li>
@@ -92,7 +92,7 @@
     </section>
 
     {{-- ── Team ─────────────────────────────────────── --}}
-    <section class="border-b border-border px-5 py-16 lg:px-8" style="background:#F6F4F1;border-color:#DCD6D0;">
+    <section class="border-b border-border px-5 py-16 lg:px-8" style="background:#FAF8F5;border-color:#DCD6D0;">
         <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12">
             <div class="lg:col-span-3">
                 <span class="section-badge">Team</span>
@@ -114,10 +114,10 @@
             </div>
             <div class="mt-6 lg:col-span-8 lg:mt-0">
                 <p class="text-xl font-extrabold" style="color:#172A39;">{{ config('fitvendor.contact.location') }}</p>
-                <a href="mailto:{{ config('fitvendor.contact.email') }}" class="mt-2 block text-sm font-semibold hover:underline" style="color:#FC563C;">
+                <a href="mailto:{{ config('fitvendor.contact.email') }}" class="mt-2 block text-sm font-semibold hover:underline" style="color:#172A39;">
                     {{ config('fitvendor.contact.email') }}
                 </a>
-                <a href="{{ route('order.create') }}" class="btn-accent mt-8 inline-flex" style="padding:0.875rem 2rem;font-size:0.875rem;font-weight:800;border-radius:0.75rem;box-shadow:0 4px 16px rgba(252,86,60,0.35);">
+                <a href="{{ route('order.create') }}" class="btn-primary mt-8 inline-flex" style="padding:0.875rem 2rem;font-size:0.875rem;font-weight:800;border-radius:0.75rem;box-shadow:0 4px 16px rgba(23,42,57,0.25);">
                     Start a Request
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>

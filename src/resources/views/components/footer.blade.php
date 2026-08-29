@@ -22,11 +22,11 @@
 
             {{-- Brand --}}
             <div>
-                <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;margin-bottom:1.25rem;">
-                    <span style="width:46px;height:46px;background:#FFFFFF;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
-                        <img src="{{ asset('images/clothiq.png') }}" alt="Clothiq logo" width="46" height="46" style="width:100%;height:100%;object-fit:contain;">
+                <a href="{{ route('home') }}" style="display:flex;align-items:center;gap:0.875rem;text-decoration:none;margin-bottom:1.25rem;">
+                    <span style="width:52px;height:52px;background:#FFFFFF;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,0.25);">
+                        <img src="{{ asset('images/clothiq-logo.png') }}?v=2" alt="Clothiq logo" width="44" height="44" style="width:86%;height:86%;object-fit:contain;">
                     </span>
-                    <span style="font-size:1.125rem;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;color:#FFFFFF;">Clothiq</span>
+                    <span style="font-size:1.5rem;font-weight:900;letter-spacing:0.14em;text-transform:uppercase;color:#FFFFFF;">Clothiq</span>
                 </a>
                 <p style="font-size:0.875rem;line-height:1.75;color:rgba(233,228,224,0.7);max-width:280px;">
                     Studio pakaian custom dengan teknologi virtual fitting 3D. Pesan pakaian sesuai ukuran tubuhmu.
@@ -50,11 +50,11 @@
 
             {{-- Quick Links --}}
             <div>
-                <p style="font-size:0.75rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#FC563C;margin-bottom:1.25rem;">Navigasi</p>
+                <p style="font-size:0.75rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#EAE2D8;margin-bottom:1.25rem;">Navigasi</p>
                 <ul style="display:flex;flex-direction:column;gap:0.625rem;list-style:none;padding:0;margin:0;">
                     @foreach ($navLinks as [$label, $route])
                         <li>
-                            <a href="{{ route($route) }}" style="font-size:0.875rem;font-weight:500;color:rgba(233,228,224,0.75);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='#FC563C'" onmouseout="this.style.color='rgba(233,228,224,0.75)'">
+                            <a href="{{ route($route) }}" style="font-size:0.875rem;font-weight:500;color:rgba(233,228,224,0.75);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='#FFFFFF'" onmouseout="this.style.color='rgba(233,228,224,0.75)'">
                                 {{ $label }}
                             </a>
                         </li>
@@ -64,19 +64,19 @@
 
             {{-- Contact --}}
             <div>
-                <p style="font-size:0.75rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#FC563C;margin-bottom:1.25rem;">Kontak</p>
+                <p style="font-size:0.75rem;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#EAE2D8;margin-bottom:1.25rem;">Kontak</p>
                 <ul style="display:flex;flex-direction:column;gap:0.875rem;list-style:none;padding:0;margin:0;">
                     @if ($email !== '')
                         <li style="display:flex;align-items:flex-start;gap:0.75rem;">
-                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" style="color:#FC563C;margin-top:2px;flex-shrink:0;">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" style="color:#EAE2D8;margin-top:2px;flex-shrink:0;">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
-                            <a href="mailto:{{ $email }}" style="font-size:0.875rem;color:rgba(233,228,224,0.85);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='#FC563C'" onmouseout="this.style.color='rgba(233,228,224,0.85)'">{{ $email }}</a>
+                            <a href="mailto:{{ $email }}" style="font-size:0.875rem;color:rgba(233,228,224,0.85);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='#FFFFFF'" onmouseout="this.style.color='rgba(233,228,224,0.85)'">{{ $email }}</a>
                         </li>
                     @endif
                     @if ($location !== '')
                         <li style="display:flex;align-items:flex-start;gap:0.75rem;">
-                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" style="color:#FC563C;margin-top:2px;flex-shrink:0;">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" style="color:#EAE2D8;margin-top:2px;flex-shrink:0;">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
                             <span style="font-size:0.875rem;color:rgba(233,228,224,0.85);">{{ $location }}</span>
@@ -91,7 +91,7 @@
     <div style="border-top:1px solid rgba(233,228,224,0.1);">
         <div class="mx-auto max-w-7xl px-5 py-5 lg:px-8" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
             <p style="font-size:0.8125rem;color:rgba(233,228,224,0.5);">© {{ date('Y') }} Clothiq. All rights reserved.</p>
-            <p style="font-size:0.8125rem;color:rgba(233,228,224,0.5);">Made with <span style="color:#FC563C;">♥</span> for custom clothing</p>
+            <p style="font-size:0.8125rem;color:rgba(233,228,224,0.5);">Made with <span style="color:#EAE2D8;">♥</span> for custom clothing</p>
         </div>
     </div>
 

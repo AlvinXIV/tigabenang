@@ -17,7 +17,7 @@
 
             {{-- Image --}}
             <div class="lg:col-span-5">
-                <div style="aspect-ratio:3/4;border-radius:1.25rem;overflow:hidden;background:#F6F4F1;box-shadow:0 8px 30px rgba(23,42,57,0.08);border:1px solid #DCD6D0;position:relative;">
+                <div style="aspect-ratio:3/4;border-radius:1.25rem;overflow:hidden;background:#FAF8F5;box-shadow:0 8px 30px rgba(23,42,57,0.08);border:1px solid #DCD6D0;position:relative;">
                     @if ($imageUrl)
                         <img
                             src="{{ $imageUrl }}"
@@ -43,7 +43,7 @@
 
                 @if ($product->kategori?->nama_kategori)
                     <div style="display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem;">
-                        <span style="width:1.5rem;height:3px;background:#FC563C;border-radius:2px;display:inline-block;"></span>
+                        <span style="width:1.5rem;height:3px;background:#172A39;border-radius:2px;display:inline-block;"></span>
                         <span style="font-size:0.75rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#172A39;">{{ $product->kategori->nama_kategori }}</span>
                     </div>
                 @endif
@@ -52,7 +52,7 @@
                     {{ $product->nama_produk }}
                 </h1>
 
-                <p style="margin-top:1rem;font-size:1.75rem;font-weight:900;color:#FC563C;letter-spacing:-0.02em;">
+                <p style="margin-top:1rem;font-size:1.75rem;font-weight:900;color:#172A39;letter-spacing:-0.02em;">
                     <x-price :amount="$product->harga" />
                 </p>
 
@@ -92,17 +92,17 @@
 
                 {{-- Quick Facts --}}
                 <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:0.75rem;">
-                    <div style="display:inline-flex;align-items:center;gap:0.5rem;background:#F6F4F1;border:1px solid #DCD6D0;border-radius:9999px;padding:0.45rem 1rem;font-size:0.775rem;font-weight:700;color:#172A39;">
-                        <svg width="14" height="14" fill="#FC563C" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    <div style="display:inline-flex;align-items:center;gap:0.5rem;background:#FAF8F5;border:1px solid #DCD6D0;border-radius:9999px;padding:0.45rem 1rem;font-size:0.775rem;font-weight:700;color:#172A39;">
+                        <svg width="14" height="14" fill="#172A39" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
                         Made to order
                     </div>
-                    <div style="display:inline-flex;align-items:center;gap:0.5rem;background:#F6F4F1;border:1px solid #DCD6D0;border-radius:9999px;padding:0.45rem 1rem;font-size:0.775rem;font-weight:700;color:#172A39;">
-                        <svg width="14" height="14" fill="#FC563C" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    <div style="display:inline-flex;align-items:center;gap:0.5rem;background:#FAF8F5;border:1px solid #DCD6D0;border-radius:9999px;padding:0.45rem 1rem;font-size:0.775rem;font-weight:700;color:#172A39;">
+                        <svg width="14" height="14" fill="#172A39" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
                         Custom sizing
                     </div>
                     @if ($hasModel)
-                        <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(252,86,60,0.12);border:1px solid rgba(252,86,60,0.3);border-radius:9999px;padding:0.45rem 1rem;font-size:0.775rem;font-weight:800;color:#FC563C;">
-                            <svg width="14" height="14" fill="#FC563C" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>
+                        <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(23,42,57,0.08);border:1px solid rgba(23,42,57,0.2);border-radius:9999px;padding:0.45rem 1rem;font-size:0.775rem;font-weight:800;color:#172A39;">
+                            <svg width="14" height="14" fill="#172A39" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>
                             3D Preview Available
                         </div>
                     @endif
@@ -112,7 +112,7 @@
     </section>
 
     {{-- ── Materials & Sizes ────────────────────── --}}
-    <section style="background:#F6F4F1;border-bottom:1px solid #DCD6D0;padding:4rem 0;">
+    <section style="background:#FAF8F5;border-bottom:1px solid #DCD6D0;padding:4rem 0;">
         <div class="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-2 lg:px-8">
 
             {{-- Materials --}}
@@ -142,7 +142,7 @@
                 @if ($sizes->isNotEmpty())
                     <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
                         @foreach ($sizes as $ukuran)
-                            <span style="display:flex;align-items:center;justify-content:center;width:3.75rem;height:3.75rem;border-radius:0.75rem;border:2px solid #DCD6D0;background:#FFFFFF;font-size:0.9375rem;font-weight:800;color:#172A39;transition:all 0.15s;cursor:default;box-shadow:0 2px 6px rgba(23,42,57,0.04);" onmouseover="this.style.borderColor='#FC563C';this.style.color='#FC563C';this.style.background='#F6F4F1'" onmouseout="this.style.borderColor='#DCD6D0';this.style.color='#172A39';this.style.background='#FFFFFF'">
+                            <span style="display:flex;align-items:center;justify-content:center;width:3.75rem;height:3.75rem;border-radius:0.75rem;border:2px solid #DCD6D0;background:#FFFFFF;font-size:0.9375rem;font-weight:800;color:#172A39;transition:all 0.15s;cursor:default;box-shadow:0 2px 6px rgba(23,42,57,0.04);" onmouseover="this.style.borderColor='#172A39';this.style.color='#FFFFFF';this.style.background='#172A39'" onmouseout="this.style.borderColor='#DCD6D0';this.style.color='#172A39';this.style.background='#FFFFFF'">
                                 {{ $ukuran->nama_ukuran }}
                             </span>
                         @endforeach

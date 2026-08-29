@@ -35,19 +35,20 @@
 
     {{-- ── Success Header ───────────────────────── --}}
     <section class="border-b border-border bg-primary" style="background-color:#172A39;border-color:#DCD6D0;">
-        <div class="mx-auto max-w-3xl px-5 py-16 lg:px-8 lg:py-20 text-center">
-            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full" style="background:#FC563C;box-shadow:0 6px 20px rgba(252,86,60,0.4);">
+        <div class="mx-auto max-w-3xl px-5 py-12 lg:px-8 lg:py-16 text-center">
+            <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style="background:linear-gradient(135deg, #1E3345 0%, #0E1B25 100%);border:2px solid #EAE2D8;box-shadow:0 6px 20px rgba(0,0,0,0.35);">
                 <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <span class="section-badge justify-center mb-4" style="color:#FC563C;">
-                <span style="width:1.5rem;height:3px;background:#FC563C;border-radius:2px;display:inline-block;"></span>
-                Clothiq
+            <span class="section-badge mb-3 justify-center" style="color:#EAE2D8;">
+                <span style="width:1.35rem;height:2.5px;background:#EAE2D8;border-radius:2px;display:inline-block;"></span>
+                Permintaan Berhasil Dibuat
+                <span style="width:1.35rem;height:2.5px;background:#EAE2D8;border-radius:2px;display:inline-block;"></span>
             </span>
-            <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl">Request Received</h1>
-            <p class="mt-5 text-base leading-relaxed text-white/75 max-w-xl mx-auto">
-                We've received your clothing request. The amount below is an estimated total — final pricing will be confirmed with our team.
+            <h1 class="text-3xl font-extrabold tracking-tight text-white md:text-4xl">Terima kasih atas pesanan Anda</h1>
+            <p class="mt-2.5 text-sm leading-relaxed text-white/75">
+                Data pemesanan telah tercatat di sistem kami. Silakan hubungi admin kami via WhatsApp untuk finalisasi pembayaran & spesifikasi produksi.
             </p>
         </div>
     </section>
@@ -58,13 +59,13 @@
         @if ($pemesanan)
             {{-- ── Order Summary ─────────────────── --}}
             <div class="rounded-2xl border bg-white overflow-hidden shadow-sm" style="border-color:#DCD6D0;">
-                <div class="border-b px-6 py-5" style="background:#F6F4F1;border-color:#DCD6D0;">
+                <div class="border-b px-6 py-5" style="background:#FAF8F5;border-color:#DCD6D0;">
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-[0.12em]" style="color:#6E7575;">Selected Product</p>
                             <p class="mt-1 text-2xl font-black" style="color:#172A39;">{{ $pemesanan->produk?->nama_produk }}</p>
                             <p class="mt-0.5 text-sm font-semibold" style="color:#6E7575;">{{ $pemesanan->produk?->kategori?->nama_kategori }}</p>
-                            <p class="mt-2 text-xs font-bold" style="color:#FC563C;">Order reference #{{ $pemesanan->id_pemesanan }}</p>
+                            <p class="mt-2 text-xs font-bold" style="color:#172A39;">Order reference #{{ $pemesanan->id_pemesanan }}</p>
                         </div>
                         <span class="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-extrabold uppercase tracking-wider" style="background:#172A39;color:#FFFFFF;">
                             #{{ $pemesanan->id_pemesanan }}
@@ -80,7 +81,7 @@
                             @forelse ($pemesanan->ukuran as $ukuran)
                                 <li class="flex justify-between">
                                     <span class="font-bold" style="color:#172A39;">{{ $ukuran->nama_ukuran }}</span>
-                                    <span class="font-extrabold" style="color:#FC563C;">× {{ $ukuran->pivot->kuantitas }}</span>
+                                    <span class="font-extrabold" style="color:#172A39;">× {{ $ukuran->pivot->kuantitas }}</span>
                                 </li>
                             @empty
                                 <li style="color:#6E7575;">No sizes recorded.</li>
@@ -101,7 +102,7 @@
                     </div>
                 </div>
 
-                <div class="border-t px-6 py-6" style="background:#F6F4F1;border-color:#DCD6D0;">
+                <div class="border-t px-6 py-6" style="background:#FAF8F5;border-color:#DCD6D0;">
                     <p class="text-xs font-bold uppercase tracking-[0.12em]" style="color:#6E7575;">Estimated total</p>
                     <p class="mt-1.5 text-3xl font-black tracking-tight" style="color:#172A39;">
                         <x-price :amount="$pemesanan->total_harga" />
@@ -114,7 +115,7 @@
 
             {{-- ── Next Step: WhatsApp ──────────── --}}
             <div class="rounded-2xl border bg-white overflow-hidden shadow-sm" style="border-color:#DCD6D0;">
-                <div class="border-b px-6 py-4" style="background:#F6F4F1;border-color:#DCD6D0;">
+                <div class="border-b px-6 py-4" style="background:#FAF8F5;border-color:#DCD6D0;">
                     <span class="section-badge">Next Step</span>
                     <h2 class="mt-2 text-xl font-extrabold" style="color:#172A39;">Payment & Confirmation</h2>
                 </div>
@@ -124,14 +125,14 @@
                     </p>
 
                     @if ($vendorEmail !== '' || $vendorLocation !== '')
-                        <div class="mt-6 rounded-xl border p-4" style="border-color:#DCD6D0;background:#F6F4F1;">
+                        <div class="mt-6 rounded-xl border p-4" style="border-color:#DCD6D0;background:#FAF8F5;">
                             <p class="text-xs font-bold uppercase tracking-[0.12em] mb-2" style="color:#6E7575;">Vendor Contact</p>
                             <p class="font-extrabold" style="color:#172A39;">Clothiq</p>
                             @if ($vendorLocation !== '')
                                 <p class="mt-1 text-sm" style="color:#6E7575;">{{ $vendorLocation }}</p>
                             @endif
                             @if ($vendorEmail !== '')
-                                <a href="mailto:{{ $vendorEmail }}" class="mt-1 block text-sm font-bold hover:underline" style="color:#FC563C;">{{ $vendorEmail }}</a>
+                                <a href="mailto:{{ $vendorEmail }}" class="mt-1 block text-sm font-bold hover:underline" style="color:#172A39;">{{ $vendorEmail }}</a>
                             @endif
                         </div>
                     @endif

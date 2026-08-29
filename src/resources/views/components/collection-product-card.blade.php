@@ -11,7 +11,7 @@
 @endphp
 
 <article {{ $attributes->class(['product-tile group']) }}>
-    <a href="{{ $detailUrl }}" class="image-frame overflow-hidden rounded-2xl border border-border" style="border-color:#DCD6D0;background-color:#F6F4F1;">
+    <a href="{{ $detailUrl }}" class="image-frame overflow-hidden rounded-2xl border border-border" style="border-color:#DCD6D0;background-color:#FAF8F5;">
         @if ($imageUrl)
             <img
                 src="{{ $imageUrl }}"
@@ -38,9 +38,9 @@
             <span class="inline-block self-start rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em]" style="background:#EAEFF4;color:#172A39;">{{ $category }}</span>
         @endif
         <h3 class="mt-2 line-clamp-2 min-h-[2.25rem] text-base font-bold leading-snug" style="color:#172A39;">
-            <a href="{{ $detailUrl }}" class="transition-colors hover:text-[#FC563C]">{{ $produk->nama_produk }}</a>
+            <a href="{{ $detailUrl }}" class="transition-opacity hover:opacity-75">{{ $produk->nama_produk }}</a>
         </h3>
-        <p class="mt-1 text-sm font-extrabold" style="color:#FC563C;"><x-price :amount="$produk->harga" /></p>
+        <p class="mt-1 text-sm font-extrabold" style="color:#172A39;"><x-price :amount="$produk->harga" /></p>
         <p class="mt-1 line-clamp-2 min-h-[2.25rem] text-xs leading-relaxed" style="color:#6E7575;">
             @if (filled($produk->deskripsi ?? null))
                 {{ $produk->deskripsi }}
