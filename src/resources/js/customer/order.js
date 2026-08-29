@@ -56,8 +56,8 @@ const initOrderForm = () => {
             .map((material) => {
                 const checked = selected.has(String(material.id));
                 return `
-                    <label class="flex items-center gap-3 border border-line px-4 py-3 text-sm">
-                        <input type="checkbox" name="materials[]" value="${material.id}" class="accent-terracotta" ${checked ? 'checked' : ''}>
+                    <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;background:#FFFFFF;border:1.5px solid ${checked ? '#172A39' : '#DCD6D0'};border-radius:0.625rem;font-size:0.875rem;font-weight:600;color:#172A39;cursor:pointer;transition:all 0.15s;">
+                        <input type="checkbox" name="materials[]" value="${material.id}" style="accent-color:#172A39;width:1rem;height:1rem;" ${checked ? 'checked' : ''}>
                         <span>${material.name}</span>
                     </label>
                 `;
@@ -74,9 +74,13 @@ const initOrderForm = () => {
         sizesRoot.innerHTML = product.sizes
             .map(
                 (size, index) => `
-                <div class="flex items-center justify-between gap-4 py-4" data-ukuran-id="${size.id}">
+                <div
+                    class="request-size-row"
+                    data-ukuran-id="${size.id}"
+                    style="display:flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:5.25rem;padding:1.25rem 1.75rem;background:#FFFFFF;${index < product.sizes.length - 1 ? 'border-bottom:1px solid #DCD6D0;' : ''}"
+                >
                     <input type="hidden" name="sizes[${index}][ukuran_id]" value="${size.id}">
-                    <label class="text-sm tracking-[0.12em]" for="qty-${size.id}">${size.name}</label>
+                    <label style="font-size:0.9375rem;font-weight:700;color:#172A39;cursor:pointer;" for="qty-${size.id}">${size.name}</label>
                     <input
                         id="qty-${size.id}"
                         type="number"
@@ -86,7 +90,9 @@ const initOrderForm = () => {
                         data-order-qty
                         name="sizes[${index}][kuantitas]"
                         value="${qty[String(size.id)] ?? 0}"
-                        class="w-24 border-b border-line bg-transparent py-2 text-right"
+                        style="width:6.5rem;min-height:2.75rem;border:1.5px solid #DCD6D0;border-radius:0.625rem;background:#FAF8F5;padding:0.625rem 0.875rem;font-size:0.9375rem;font-weight:700;color:#172A39;text-align:right;outline:none;"
+                        onfocus="this.style.borderColor='#172A39';this.style.background='#FFFFFF';"
+                        onblur="this.style.borderColor='#DCD6D0';this.style.background='#FAF8F5';"
                     >
                 </div>
             `,
