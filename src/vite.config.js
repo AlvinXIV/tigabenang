@@ -90,8 +90,10 @@ export default defineConfig({
             clientPort: 5173,
         },
 
-        // Jangan monitor file Blade hasil compile Laravel
+        // Watch settings for Docker on Windows
         watch: {
+            usePolling: true,
+            interval: 100,
             ignored: [
                 '**/storage/framework/views/**',
             ],
