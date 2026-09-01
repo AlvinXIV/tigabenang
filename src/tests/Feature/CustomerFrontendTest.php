@@ -55,7 +55,7 @@ class CustomerFrontendTest extends TestCase
         $this->get('/collection/'.$produk->id_produk)
             ->assertOk()
             ->assertSee('Kaos Studio')
-            ->assertSee('Request This Product');
+            ->assertSee('Pesan produk ini');
 
         $this->get('/collection/99999')->assertNotFound();
 
@@ -85,12 +85,12 @@ class CustomerFrontendTest extends TestCase
             ->assertOk()
             ->assertSee('Kaos Studio')
             ->assertSee('Cotton Combed')
-            ->assertSee('Estimated total')
+            ->assertSee('Estimasi total')
             ->assertSee('Rp 450.000')
-            ->assertSee('Continue on WhatsApp')
+            ->assertSee('Lanjut via WhatsApp')
             ->assertSee('https://wa.me/'.$whatsappNumber, false)
-            ->assertSee('Order reference #')
-            ->assertSee('Final pricing is confirmed with the vendor.')
+            ->assertSee('Nomor permintaan #')
+            ->assertSee('Harga final dikonfirmasi bersama vendor.')
             ->assertDontSee('Payment successful')
             ->assertDontSee('Payment confirmed');
 
@@ -142,14 +142,14 @@ class CustomerFrontendTest extends TestCase
 
         $home = $this->get('/');
         $home->assertOk()
-            ->assertSee('Our Work')
-            ->assertSee('View Collection')
+            ->assertSee('Karya kami')
+            ->assertSee('Lihat koleksi')
             ->assertSee('Atelier Piece 7')
             ->assertDontSee('Atelier Piece 1');
 
         $collection = $this->get('/collection');
         $collection->assertOk()
-            ->assertSee('Collection')
+            ->assertSee('Koleksi')
             ->assertSee('Atelier Piece 1')
             ->assertSee('Atelier Piece 7')
             ->assertSee('Rp 107.000')

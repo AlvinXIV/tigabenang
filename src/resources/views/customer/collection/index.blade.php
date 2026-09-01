@@ -1,35 +1,28 @@
 @extends('layouts.customer')
 
-@section('title', 'Collection')
-@section('description', 'Browse Clothiq custom garments across every available category.')
+@section('title', 'Koleksi')
+@section('description', 'Lihat semua pakaian custom FitVendor. Filter berdasarkan kategori, lalu buka produk untuk memesan.')
 
 @section('content')
 
-    {{-- ── Header ───────────────────────────────────── --}}
-    <section class="border-b border-border bg-primary" style="background-color:#172A39;border-color:#DCD6D0;">
-        <div class="mx-auto max-w-7xl px-5 py-9 lg:px-8 lg:py-12">
-            <span class="section-badge mb-3" style="color:#EAE2D8;">
-                <span style="width:1.35rem;height:2.5px;background:#EAE2D8;border-radius:2px;display:inline-block;"></span>
-                Catalog
-            </span>
-            <h1 class="text-3xl font-extrabold tracking-tight text-white md:text-4xl">Collection</h1>
-            <p class="mt-2.5 max-w-xl text-sm leading-relaxed text-white/75">
-                Browse every available garment. Filter by category, then open a piece to request production.
+    <section class="fv-page-hero">
+        <div class="mx-auto max-w-[1200px] px-5 py-10 lg:px-8 lg:py-12">
+            <span class="section-badge mb-3">Katalog</span>
+            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Koleksi</h1>
+            <p class="mt-2.5 max-w-xl text-sm leading-relaxed">
+                Semua model yang tersedia. Filter kategori, lalu buka produk untuk mengirim permintaan produksi.
             </p>
         </div>
     </section>
 
-    <section class="px-5 py-10 lg:px-8 lg:py-12" style="background:#FFFFFF;">
+    <section class="px-5 py-10 lg:px-8 lg:py-12">
         <div class="catalog-shell">
-
-            {{-- ── Category Filter ─────────────────── --}}
-            <div class="flex gap-2.5 overflow-x-auto pb-3" role="navigation" aria-label="Category filter">
+            <div class="flex gap-2 overflow-x-auto pb-2" role="navigation" aria-label="Filter kategori">
                 <a
                     href="{{ route('collection.index') }}"
-                    class="shrink-0 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.1em] transition-all"
-                    style="display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;border:1.5px solid {{ $activeCategory ? '#DCD6D0' : '#172A39' }};border-radius:9999px;background:{{ $activeCategory ? '#FFFFFF' : '#172A39' }};color:{{ $activeCategory ? '#172A39' : '#FFFFFF' }};font-size:0.775rem;font-weight:800;letter-spacing:0.06em;text-decoration:none;box-shadow:{{ $activeCategory ? 'none' : '0 4px 12px rgba(23,42,57,0.2)' }};"
+                    class="fv-chip {{ $activeCategory ? '' : 'is-active' }}"
                 >
-                    All
+                    Semua
                 </a>
                 @foreach ($categories as $kategori)
                     @php
@@ -38,30 +31,26 @@
                     @endphp
                     <a
                         href="{{ route('collection.index', ['category' => $slug]) }}"
-                        class="shrink-0 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.1em] transition-all"
-                        style="display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;border:1.5px solid {{ $isActive ? '#172A39' : '#DCD6D0' }};border-radius:9999px;background:{{ $isActive ? '#172A39' : '#FFFFFF' }};color:{{ $isActive ? '#FFFFFF' : '#172A39' }};font-size:0.775rem;font-weight:800;letter-spacing:0.06em;text-decoration:none;box-shadow:{{ $isActive ? '0 4px 12px rgba(23,42,57,0.2)' : 'none' }};"
-                        onmouseover="if(!{{ $isActive ? 1 : 0 }}){this.style.borderColor='#172A39';this.style.color='#172A39';}"
-                        onmouseout="if(!{{ $isActive ? 1 : 0 }}){this.style.borderColor='#DCD6D0';this.style.color='#172A39';}"
+                        class="fv-chip {{ $isActive ? 'is-active' : '' }}"
                     >
                         {{ $kategori->nama_kategori }}
                     </a>
                 @endforeach
             </div>
 
-            {{-- ── Product Grid ────────────────────── --}}
             @if ($products->isNotEmpty())
-                <div class="catalog-grid catalog-grid--4 mt-10">
+                <div class="catalog-grid catalog-grid--4 mt-8">
                     @foreach ($products as $index => $produk)
                         <x-collection-product-card :produk="$produk" :lazy="$index > 3" />
                     @endforeach
                 </div>
             @else
-                <div class="mt-12">
+                <div class="mt-10">
                     <x-empty-state
-                        title="No garments in this view"
-                        message="Try another category, or check back when new pieces are added to the collection."
+                        title="Belum ada produk di tampilan ini"
+                        message="Coba kategori lain, atau kembali lagi saat ada model baru."
                     >
-                        <a href="{{ route('collection.index') }}" class="btn-outline mt-5 text-xs">View all</a>
+                        <a href="{{ route('collection.index') }}" class="btn-outline mt-5">Lihat semua</a>
                     </x-empty-state>
                 </div>
             @endif

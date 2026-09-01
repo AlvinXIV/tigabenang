@@ -44,7 +44,7 @@ export function createFittingScene(container) {
     const renderer =
         new THREE.WebGLRenderer({
             antialias: true,
-            alpha: false,
+            alpha: true,
         });
 
     renderer.setPixelRatio(
@@ -55,9 +55,13 @@ export function createFittingScene(container) {
     );
 
     renderer.setSize(
-        container.clientWidth,
-        container.clientHeight,
+        Math.max(container.clientWidth, 1),
+        Math.max(container.clientHeight, 1),
     );
+
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
 
     renderer.outputColorSpace =
         THREE.SRGBColorSpace;
@@ -253,6 +257,12 @@ export function createFittingScene(container) {
     |--------------------------------------------------------------------------
     */
 
+    const resetView = () => {
+        camera.position.set(0, 1.05, 4.8);
+        controls.target.set(0, 0.95, 0);
+        controls.update();
+    };
+
     return {
         scene,
         camera,
@@ -260,6 +270,7 @@ export function createFittingScene(container) {
         controls,
         garmentGroup,
         resize,
+        resetView,
 
         dispose() {
 

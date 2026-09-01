@@ -226,6 +226,89 @@ function circ(c, s, wr = 1.15) {
 }
 
 // ──────────────────────────────────────────────────────────────
+// PUBLIC: BODY LANDMARKS (metre scale)
+// ──────────────────────────────────────────────────────────────
+//
+// Same anatomy math as createAvatar().
+// Garment fitting must use this instead of inventing new formulas.
+// ──────────────────────────────────────────────────────────────
+
+export function getAvatarLandmarks(opts = {}) {
+    const heightCm = Number(opts.height) || 170;
+    const chestCm = Number(opts.chest) || 92;
+    const waistCm = Number(opts.waist) || 76;
+    const hipCm = Number(opts.hip) || 96;
+    const shoulderCm = Number(opts.shoulder) || 44;
+    const armCm = Number(opts.armLength) || 58;
+    const torsoCm = Number(opts.torsoLength) || 44;
+    const torsoType = opts.torsoType || 'normal';
+
+    const h = heightCm / 100;
+    const s = 1 / 100;
+
+    const crotchFrac =
+        torsoType === 'long'
+            ? 0.44
+            : torsoType === 'short'
+              ? 0.50
+              : 0.47;
+
+    const headH = h * 0.125;
+    const neckH = h * 0.028;
+    const yCrotch = h * crotchFrac;
+    const yAnkle = h * 0.046;
+    const yKnee = yAnkle + (yCrotch - yAnkle) * 0.47;
+    const yShoulder = h - headH - neckH;
+    const yWaist = yShoulder - torsoCm * s;
+    const yHip = lerp(yCrotch, yWaist, 0.35);
+    const yChest = lerp(yWaist, yShoulder, 0.55);
+    const yNeckBase = yShoulder + neckH;
+    const yHeadCenter = yNeckBase + headH * 0.45;
+
+    const hipR = circ(hipCm, s, 1.25);
+    const waistR = circ(waistCm, s, 1.08);
+    const chestR = circ(chestCm, s, 1.2);
+
+    return {
+        heightCm,
+        chestCm,
+        waistCm,
+        hipCm,
+        shoulderCm,
+        armCm,
+        torsoCm,
+        torsoType,
+        height: h,
+        yCrotch,
+        yAnkle,
+        yKnee,
+        yHip,
+        yWaist,
+        yChest,
+        yShoulder,
+        yNeckBase,
+        yHeadCenter,
+        headH,
+        neckH,
+        shoulderWidth: shoulderCm * s,
+        torsoLength: torsoCm * s,
+        armLength: armCm * s,
+        chestWidth: chestR.rx * 2,
+        chestDepth: chestR.rz * 2,
+        waistWidth: waistR.rx * 2,
+        waistDepth: waistR.rz * 2,
+        hipWidth: hipR.rx * 2,
+        chestR,
+        waistR,
+        hipR,
+    };
+}
+
+export function calculateBodyParameters(opts = {}) {
+    return getAvatarLandmarks(opts);
+}
+
+// ──────────────────────────────────────────────────────────────
 // BUILD LIMB TUBE
 // ──────────────────────────────────────────────────────────────
 //
@@ -532,6 +615,7 @@ export function createAvatar(
         material,
     );
 
+    torso.name = 'avatar-torso';
     torso.castShadow = true;
     torso.receiveShadow = true;
 
@@ -881,6 +965,18 @@ export function createAvatar(
 // ──────────────────────────────────────────────────────────────
 // PUBLIC: UPDATE AVATAR
 // ──────────────────────────────────────────────────────────────
+
+export function setCoveredTorsoVisible(avatar, visible) {
+    if (!avatar) {
+        return;
+    }
+
+    avatar.traverse((child) => {
+        if (child.isMesh && child.name === 'avatar-torso') {
+            child.visible = visible;
+        }
+    });
+}
 
 export function updateAvatar(
     avatar,

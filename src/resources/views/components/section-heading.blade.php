@@ -14,7 +14,7 @@
         @if ($eyebrow)
             <span class="section-badge mb-4">{{ $eyebrow }}</span>
         @endif
-        <h2 class="text-3xl font-extrabold leading-tight tracking-tight text-primary md:text-4xl">{{ $title }}</h2>
+        <h2 class="text-3xl font-bold leading-tight tracking-tight text-primary md:text-4xl">{{ $title }}</h2>
         @isset($slot)
             @if (trim((string) $slot) !== '')
                 <div class="mt-3 text-sm leading-relaxed text-text-muted md:text-base">
