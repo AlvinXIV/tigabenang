@@ -105,7 +105,7 @@
                         <th class="px-4 py-3">Produk</th>
                         <th class="px-4 py-3 font-mono">Estimasi Harga</th>
                         <th class="px-4 py-3">Status Harga</th>
-                        <th class="px-4 py-3 text-right">Aksi</th>
+                        <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -135,24 +135,15 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                <div class="flex items-center justify-end gap-1.5">
-                                    <a
-                                        href="{{ route('admin.pesanan.show', $ord->id_pemesanan) }}"
-                                        class="btn-secondary px-2.5 py-1 text-xs"
-                                    >
-                                        Detail Pesanan
-                                    </a>
-                                    <a
-                                        href="{{ route('admin.orders.invoice', $ord->id_pemesanan) }}"
-                                        target="_blank"
-                                        class="p-1 text-[#667085] hover:text-[#1C2430] hover:bg-[#F7F7F5] rounded transition-colors"
-                                        title="Cetak Faktur"
-                                    >
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-                                        </svg>
-                                    </a>
-                                </div>
+                                <x-action-menu :label="'Menu aksi pesanan #ORD-' . str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT)">
+                                    <x-action-menu.item href="{{ route('admin.pesanan.show', $ord->id_pemesanan) }}">
+                                        Lihat Detail
+                                    </x-action-menu.item>
+
+                                    <x-action-menu.item href="{{ route('admin.orders.invoice', $ord->id_pemesanan) }}" target="_blank">
+                                        Lihat Faktur
+                                    </x-action-menu.item>
+                                </x-action-menu>
                             </td>
                         </tr>
                     @empty

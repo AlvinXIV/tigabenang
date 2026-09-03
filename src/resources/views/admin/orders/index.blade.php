@@ -73,7 +73,7 @@
                         <th class="px-4 py-3 text-center whitespace-nowrap">Total Qty</th>
                         <th class="px-4 py-3 font-mono whitespace-nowrap">Estimasi Harga</th>
                         <th class="px-4 py-3 whitespace-nowrap">Status Harga</th>
-                        <th class="px-4 py-3 text-right whitespace-nowrap">Aksi</th>
+                        <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -124,36 +124,25 @@
                                     </x-badge>
                                 @endif
                             </td>
-                            <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                <div class="flex items-center justify-end gap-1.5">
-                                    <a
-                                        href="{{ route('admin.pesanan.show', $ord->id_pemesanan) }}"
-                                        class="btn-secondary px-2.5 py-1 text-xs"
-                                        title="Detail Pesanan &amp; Tetapkan Harga"
-                                    >
-                                        Detail
-                                    </a>
+                            <td class="px-4 py-3 text-right whitespace-nowrap">
+                                <x-action-menu :label="'Menu aksi pesanan #ORD-' . str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT)">
+                                    <x-action-menu.item href="{{ route('admin.pesanan.show', $ord->id_pemesanan) }}">
+                                        Lihat Detail
+                                    </x-action-menu.item>
 
-                                    <a
-                                        href="{{ route('admin.orders.invoice', $ord->id_pemesanan) }}"
-                                        class="btn-secondary px-2 py-1 text-xs text-[#667085] hover:text-[#1C2430]"
-                                        title="Cetak Faktur Pesanan"
-                                        target="_blank"
-                                    >
-                                        Faktur
-                                    </a>
+                                    <x-action-menu.item href="{{ route('admin.orders.invoice', $ord->id_pemesanan) }}" target="_blank">
+                                        Lihat Faktur
+                                    </x-action-menu.item>
 
-                                    <button
-                                        type="button"
+                                    <x-action-menu.divider />
+
+                                    <x-action-menu.item
+                                        danger
                                         @click="deleteModalOpen = true; deleteActionUrl = '{{ route('admin.pesanan.destroy', $ord->id_pemesanan) }}'; deleteOrderLabel = '#ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }}'"
-                                        class="p-1 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
-                                        title="Hapus Pesanan"
                                     >
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </div>
+                                        Hapus
+                                    </x-action-menu.item>
+                                </x-action-menu>
                             </td>
                         </tr>
                     @empty

@@ -146,7 +146,7 @@
                             <th class="px-4 py-3 font-mono">ID Kategori</th>
                             <th class="px-4 py-3">Nama Kategori</th>
                             <th class="px-4 py-3">Jumlah Produk</th>
-                            <th class="px-4 py-3 text-right">Aksi</th>
+                            <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -167,26 +167,20 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                    <div class="flex items-center justify-end gap-1.5">
-                                        <a
-                                            href="{{ route('admin.kategori.edit', $cat->id_kategori) }}"
-                                            class="btn-secondary px-2.5 py-1 text-xs"
-                                            title="Ubah Kategori"
-                                        >
-                                            Ubah
-                                        </a>
+                                    <x-action-menu :label="'Menu aksi kategori ' . $cat->nama_kategori">
+                                        <x-action-menu.item href="{{ route('admin.kategori.edit', $cat->id_kategori) }}">
+                                            Ubah Kategori
+                                        </x-action-menu.item>
 
-                                        <button
-                                            type="button"
+                                        <x-action-menu.divider />
+
+                                        <x-action-menu.item
+                                            danger
                                             @click="deleteModalOpen = true; deleteActionUrl = '{{ route('admin.kategori.destroy', $cat->id_kategori) }}'; deleteItemName = 'kategori {{ $cat->nama_kategori }}'"
-                                            class="p-1 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
-                                            title="Hapus Kategori"
                                         >
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
+                                            Hapus
+                                        </x-action-menu.item>
+                                    </x-action-menu>
                                 </td>
                             </tr>
                         @empty
@@ -260,7 +254,7 @@
                         <tr class="bg-[#F7F7F5] border-b border-[#E2E5E9] text-[11px] font-semibold text-[#667085] uppercase tracking-wider">
                             <th class="px-4 py-3 font-mono">ID Material</th>
                             <th class="px-4 py-3">Nama Material Kain</th>
-                            <th class="px-4 py-3 text-right">Aksi</th>
+                            <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -276,18 +270,14 @@
                                     {{ $mat->nama_bahan }}
                                 </td>
                                 <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                    <div class="flex items-center justify-end gap-1.5">
-                                        <button
-                                            type="button"
+                                    <x-action-menu :label="'Menu aksi material ' . $mat->nama_bahan">
+                                        <x-action-menu.item
+                                            danger
                                             @click="deleteModalOpen = true; deleteActionUrl = '{{ route('admin.kategori.destroy', ['kategori' => $mat->id_bahan, 'type' => 'bahan']) }}'; deleteItemName = 'material {{ $mat->nama_bahan }}'"
-                                            class="p-1 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
-                                            title="Hapus Material"
                                         >
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
+                                            Hapus
+                                        </x-action-menu.item>
+                                    </x-action-menu>
                                 </td>
                             </tr>
                         @empty

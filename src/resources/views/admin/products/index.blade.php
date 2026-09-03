@@ -95,7 +95,7 @@
                         <th class="px-4 py-3">Kategori</th>
                         <th class="px-4 py-3 font-mono">Harga Dasar</th>
                         <th class="px-4 py-3">Model 3D</th>
-                        <th class="px-4 py-3 text-right">Aksi</th>
+                        <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -152,36 +152,26 @@
 
                             <!-- Actions Column -->
                             <td class="px-4 py-3 text-right whitespace-nowrap">
-                                <div class="flex items-center justify-end gap-1.5">
-                                    <a
-                                        href="{{ route('admin.produk.edit', $prod->id_produk) }}"
-                                        class="btn-secondary px-2.5 py-1 text-xs"
-                                        title="Ubah Produk"
-                                    >
-                                        Ubah
-                                    </a>
+                                <x-action-menu :label="'Menu aksi produk ' . $prod->nama_produk">
+                                    <x-action-menu.item href="{{ route('admin.produk.edit', $prod->id_produk) }}">
+                                        Ubah Produk
+                                    </x-action-menu.item>
 
                                     @if ($prod->file_model_3d)
-                                        <a
-                                            href="{{ route('admin.model-3d.preview', $prod->id_produk) }}"
-                                            class="btn-secondary px-2 py-1 text-xs text-emerald-700 hover:text-emerald-800"
-                                            title="Pratinjau Model 3D"
-                                        >
-                                            3D
-                                        </a>
+                                        <x-action-menu.item href="{{ route('admin.model-3d.preview', $prod->id_produk) }}">
+                                            Lihat Model 3D
+                                        </x-action-menu.item>
                                     @endif
 
-                                    <button
-                                        type="button"
+                                    <x-action-menu.divider />
+
+                                    <x-action-menu.item
+                                        danger
                                         @click="deleteModalOpen = true; deleteActionUrl = '{{ route('admin.produk.destroy', $prod->id_produk) }}'; deleteProductName = '{{ $prod->nama_produk }}'"
-                                        class="p-1 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
-                                        title="Hapus Produk"
                                     >
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </div>
+                                        Hapus
+                                    </x-action-menu.item>
+                                </x-action-menu>
                             </td>
                         </tr>
                     @empty

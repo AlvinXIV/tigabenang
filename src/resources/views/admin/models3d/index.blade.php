@@ -36,10 +36,24 @@
                         <span class="px-2 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-[11px] font-medium text-[#1C2430]">
                             {{ $prod->kategori ? $prod->kategori->nama_kategori : 'Katalog' }}
                         </span>
-                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                            3D Aktif
-                        </span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                3D Aktif
+                            </span>
+                            <x-action-menu :label="'Menu aksi model 3D ' . $prod->nama_produk">
+                                <x-action-menu.item href="{{ route('admin.model-3d.preview', $prod->id_produk) }}">
+                                    Lihat Pratinjau 3D
+                                </x-action-menu.item>
+                                <x-action-menu.item href="{{ route('admin.model-3d.edit', $prod->id_produk) }}">
+                                    Ganti Berkas 3D
+                                </x-action-menu.item>
+                                <x-action-menu.divider />
+                                <x-action-menu.item href="{{ route('admin.produk.edit', $prod->id_produk) }}">
+                                    Lihat Produk
+                                </x-action-menu.item>
+                            </x-action-menu>
+                        </div>
                     </div>
 
                     <h3 class="text-sm font-semibold text-[#1C2430] truncate">{{ $prod->nama_produk }}</h3>
@@ -48,19 +62,12 @@
                     </p>
                 </div>
 
-                <div class="pt-2.5 border-t border-[#E2E5E9] flex items-center justify-between gap-2">
+                <div class="pt-2.5 border-t border-[#E2E5E9] flex items-center justify-between">
                     <a
                         href="{{ route('admin.model-3d.preview', $prod->id_produk) }}"
-                        class="btn-primary flex-1 py-1.5 text-xs text-center font-medium"
+                        class="text-xs font-medium text-[#B8664A] hover:underline text-decoration-none"
                     >
-                        Pratinjau 3D
-                    </a>
-
-                    <a
-                        href="{{ route('admin.model-3d.edit', $prod->id_produk) }}"
-                        class="btn-secondary px-3 py-1.5 text-xs text-center"
-                    >
-                        Ganti File
+                        Buka Pratinjau 3D &rarr;
                     </a>
                 </div>
             </div>

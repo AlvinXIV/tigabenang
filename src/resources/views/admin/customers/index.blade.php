@@ -47,7 +47,7 @@
                         <th class="px-4 py-3">Alamat Pengiriman</th>
                         <th class="px-4 py-3 text-center">Jumlah Pesanan</th>
                         <th class="px-4 py-3 font-mono">Total Estimasi</th>
-                        <th class="px-4 py-3 text-right">Aksi</th>
+                        <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -72,48 +72,42 @@
                                         {{ $c['phone'] }}
                                     </a>
                                 @else
-                                    <span class="text-[#98A2B3]">-</span>
+                                    <span class="text-[#667085]">-</span>
                                 @endif
                             </td>
 
-                            <td class="px-4 py-3.5 text-[#667085] text-xs truncate max-w-sm">
-                                {{ $c['address'] ?? '-' }}
+                            <td class="px-4 py-3.5 text-[#667085] text-xs max-w-xs truncate">
+                                {{ $c['address'] ?: 'Belum ada alamat' }}
                             </td>
 
-                            <td class="px-4 py-3.5 text-center whitespace-nowrap">
-                                <span class="px-2.5 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded-md font-medium text-xs text-[#1C2430]">
-                                    {{ $c['total_orders'] }} pesanan
+                            <td class="px-4 py-3.5 text-center whitespace-nowrap font-medium text-[#1C2430]">
+                                <span class="px-2.5 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs">
+                                    {{ $c['orders_count'] }} order
                                 </span>
                             </td>
 
-                            <td class="px-4 py-3.5 font-mono text-xs font-medium text-[#1C2430] whitespace-nowrap">
+                            <td class="px-4 py-3.5 font-mono text-xs text-[#1C2430] whitespace-nowrap">
                                 {{ $c['total_spent'] ? 'Rp ' . number_format($c['total_spent'], 0, ',', '.') : 'Rp 0' }}
                             </td>
 
                             <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                <div class="flex items-center justify-end gap-1.5">
-                                    <a
-                                        href="{{ route('admin.customers.show', $c['id']) }}"
-                                        class="btn-secondary px-2.5 py-1 text-xs"
-                                        title="Detail Riwayat Pelanggan"
-                                    >
-                                        Detail Riwayat
-                                    </a>
+                                <x-action-menu :label="'Menu aksi pelanggan ' . $c['name']">
+                                    <x-action-menu.item href="{{ route('admin.customers.show', $c['id']) }}">
+                                        Lihat Profil &amp; Riwayat
+                                    </x-action-menu.item>
 
                                     @if ($c['phone'])
-                                        <a
-                                            href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $c['phone']) }}"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            class="p-1 text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 rounded transition-colors"
-                                            title="Chat WhatsApp"
-                                        >
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41A10.1 10.1 0 0 0 12.04 21.66h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Z"/>
-                                            </svg>
-                                        </a>
+                                        @php
+                                            $cleanWa = preg_replace('/[^0-9]/', '', $c['phone']);
+                                            if (str_starts_with($cleanWa, '0')) {
+                                                $cleanWa = '62' . substr($cleanWa, 1);
+                                            }
+                                        @endphp
+                                        <x-action-menu.item href="https://wa.me/{{ $cleanWa }}?text=Halo%20{{ urlencode($c['name']) }}%2C%20dari%20Tigabenang%20Apparel" target="_blank">
+                                            Hubungi WhatsApp
+                                        </x-action-menu.item>
                                     @endif
-                                </div>
+                                </x-action-menu>
                             </td>
                         </tr>
                     @empty

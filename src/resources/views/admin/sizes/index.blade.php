@@ -231,7 +231,7 @@
                         <th class="px-4 py-3 font-mono">Panjang Badan</th>
                         <th class="px-4 py-3 font-mono">Lebar Bahu</th>
                         <th class="px-4 py-3 font-mono">Panjang Lengan</th>
-                        <th class="px-4 py-3 text-right">Aksi</th>
+                        <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -264,26 +264,20 @@
                                 {{ $size->panjang_lengan ? $size->panjang_lengan . ' cm' : '-' }}
                             </td>
                             <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                <div class="flex items-center justify-end gap-1.5">
-                                    <a
-                                        href="{{ route('admin.ukuran.edit', $size->id_ukuran) }}"
-                                        class="btn-secondary px-2.5 py-1 text-xs"
-                                        title="Ubah Ukuran"
-                                    >
-                                        Ubah
-                                    </a>
+                                <x-action-menu :label="'Menu aksi ukuran ' . $size->nama_ukuran">
+                                    <x-action-menu.item href="{{ route('admin.ukuran.edit', $size->id_ukuran) }}">
+                                        Ubah Ukuran
+                                    </x-action-menu.item>
 
-                                    <button
-                                        type="button"
+                                    <x-action-menu.divider />
+
+                                    <x-action-menu.item
+                                        danger
                                         @click="deleteModalOpen = true; deleteActionUrl = '{{ route('admin.ukuran.destroy', $size->id_ukuran) }}'; deleteSizeName = '{{ $size->nama_ukuran }} ({{ $catName ?: '-' }})'"
-                                        class="p-1 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
-                                        title="Hapus Ukuran"
                                     >
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </div>
+                                        Hapus
+                                    </x-action-menu.item>
+                                </x-action-menu>
                             </td>
                         </tr>
                     @empty

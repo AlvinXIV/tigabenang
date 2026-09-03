@@ -109,7 +109,7 @@
                         <th class="px-5 py-3">Produk</th>
                         <th class="px-5 py-3 font-mono">Estimasi Harga</th>
                         <th class="px-5 py-3">Status Harga</th>
-                        <th class="px-5 py-3 text-right">Aksi</th>
+                        <th class="px-5 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -133,12 +133,27 @@
                                 </x-badge>
                             </td>
                             <td class="px-5 py-3.5 text-right whitespace-nowrap">
-                                <a
-                                    href="{{ route('admin.pesanan.show', $order->id_pemesanan) }}"
-                                    class="btn-secondary px-3 py-1 text-xs"
-                                >
-                                    Lihat Detail
-                                </a>
+                                <x-action-menu :label="'Menu aksi pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT)">
+                                    <x-action-menu.item href="{{ route('admin.pesanan.show', $order->id_pemesanan) }}">
+                                        Lihat Detail
+                                    </x-action-menu.item>
+
+                                    <x-action-menu.item href="{{ route('admin.orders.invoice', $order->id_pemesanan) }}" target="_blank">
+                                        Lihat Faktur
+                                    </x-action-menu.item>
+
+                                    @if ($order->no_hp)
+                                        @php
+                                            $cleanWa = preg_replace('/[^0-9]/', '', $order->no_hp);
+                                            if (str_starts_with($cleanWa, '0')) {
+                                                $cleanWa = '62' . substr($cleanWa, 1);
+                                            }
+                                        @endphp
+                                        <x-action-menu.item href="https://wa.me/{{ $cleanWa }}?text=Halo%20{{ urlencode($order->nama) }}%2C%20terkait%20pesanan%20Tigabenang%20%23ORD-{{ str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) }}" target="_blank">
+                                            Hubungi WhatsApp
+                                        </x-action-menu.item>
+                                    @endif
+                                </x-action-menu>
                             </td>
                         </tr>
                     @empty
@@ -177,7 +192,7 @@
                         <th class="px-5 py-3">Produk</th>
                         <th class="px-5 py-3 font-mono">Estimasi Harga</th>
                         <th class="px-5 py-3">Status Harga</th>
-                        <th class="px-5 py-3 text-right">Aksi</th>
+                        <th class="px-5 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
@@ -210,12 +225,15 @@
                                 @endif
                             </td>
                             <td class="px-5 py-3.5 text-right whitespace-nowrap">
-                                <a
-                                    href="{{ route('admin.pesanan.show', $order->id_pemesanan) }}"
-                                    class="btn-secondary px-3 py-1 text-xs"
-                                >
-                                    Lihat Detail
-                                </a>
+                                <x-action-menu :label="'Menu aksi pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT)">
+                                    <x-action-menu.item href="{{ route('admin.pesanan.show', $order->id_pemesanan) }}">
+                                        Lihat Detail
+                                    </x-action-menu.item>
+
+                                    <x-action-menu.item href="{{ route('admin.orders.invoice', $order->id_pemesanan) }}" target="_blank">
+                                        Lihat Faktur
+                                    </x-action-menu.item>
+                                </x-action-menu>
                             </td>
                         </tr>
                     @empty
