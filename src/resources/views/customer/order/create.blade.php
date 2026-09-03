@@ -1,7 +1,7 @@
 @extends('layouts.customer')
 
-@section('title', 'Request Order')
-@section('description', 'Request a custom Clothiq garment. No account required.')
+@section('title', 'Kirim permintaan')
+@section('description', 'Kirim permintaan pakaian custom FitVendor. Tidak perlu akun.')
 
 @push('vite')
     @vite(['resources/js/customer/order.js'])
@@ -10,56 +10,47 @@
 @section('content')
 
     <style>
-        /* Kept here because the size rows are generated dynamically by order.js. */
         [data-order-sizes] > [data-ukuran-id] {
-            min-height: 5.25rem !important;
-            padding: 1.25rem 1.75rem !important;
-            border-bottom: 1px solid #DCD6D0 !important;
+            min-height: 4.25rem !important;
+            padding: 1rem 1.25rem !important;
+            border-bottom: 1px solid #E2E5E9 !important;
         }
         [data-order-sizes] > [data-ukuran-id]:last-child { border-bottom: 0 !important; }
         [data-order-sizes] input[type="number"] {
-            width: 6.5rem !important;
-            min-height: 2.75rem !important;
-            padding: 0.625rem 0.875rem !important;
-            border: 1.5px solid #DCD6D0 !important;
-            border-radius: 0.625rem !important;
-            background: #FAF8F5 !important;
-            color: #172A39 !important;
+            width: 5.75rem !important;
+            min-height: 2.5rem !important;
+            padding: 0.5rem 0.75rem !important;
+            border: 1px solid #E2E5E9 !important;
+            border-radius: 10px !important;
+            background: #FFFFFF !important;
+            color: #1C2430 !important;
         }
-        .request-total-actions { display:grid; grid-template-columns:1fr; gap:1.25rem; }
+        .request-total-actions { display:grid; grid-template-columns:1fr; gap:1rem; }
         @media (min-width: 640px) {
             .request-total-actions { grid-template-columns: 1fr 1fr; }
         }
         .request-total-actions button { width:100%; }
     </style>
 
-    {{-- ── Header ───────────────────────────────────── --}}
-    <section class="relative overflow-hidden border-b border-border bg-primary" style="background-color:#172A39;border-color:#DCD6D0;">
-        <div class="pointer-events-none absolute -right-24 -top-32 h-80 w-80 rounded-full" style="background:rgba(234,226,216,0.08);"></div>
-        <div class="pointer-events-none absolute -bottom-32 -left-20 h-64 w-64 rounded-full border-[24px]" style="border-color:rgba(233,228,224,0.06);"></div>
-        <div class="relative mx-auto max-w-3xl px-5 py-10 lg:px-8 lg:py-14">
-            <div class="mb-3.5 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.16em]" style="border-color:rgba(234,226,216,0.25);background:rgba(234,226,216,0.12);color:#EAE2D8;">
-                <span class="h-2 w-2 rounded-full" style="background:#EAE2D8;"></span>
-                Custom order studio
-            </div>
-            <h1 class="max-w-xl text-3xl font-extrabold tracking-tight text-white md:text-4xl">Tell us what to make</h1>
-            <p class="mt-2.5 text-sm leading-relaxed text-white/75">
-                Send us your design, piece choice, materials, and sizing breakdown. We follow up by WhatsApp to finalize pricing and production.
+    <section class="fv-page-hero">
+        <div class="mx-auto max-w-3xl px-5 py-10 lg:px-8 lg:py-12">
+            <p class="mb-3 text-sm font-medium text-white/70">
+                Formulir pesanan
+            </p>
+            <h1 class="max-w-xl text-3xl font-bold tracking-tight md:text-4xl">Kirim detail pesanan Anda</h1>
+            <p class="mt-3 text-sm leading-relaxed">
+                Isi produk, bahan, dan rincian ukuran. Kami lanjutkan lewat WhatsApp untuk harga dan jadwal produksi.
             </p>
         </div>
     </section>
 
-    <section class="px-5 py-12 lg:px-8 lg:py-16" style="background:#FFFFFF;">
+    <section class="px-5 py-10 lg:px-8 lg:py-12">
         <div class="mx-auto max-w-3xl">
 
-            {{-- Errors --}}
             @if ($errors->any())
-                <div class="mb-8 flex gap-3 rounded-xl border border-danger/30 bg-danger/5 px-5 py-4" role="alert">
-                    <svg class="mt-0.5 h-5 w-5 shrink-0 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
-                    <div class="text-sm text-danger">
-                        <p class="font-semibold">Please review the form.</p>
+                <div class="mb-6 flex gap-3 rounded-[14px] border border-red-200 bg-red-50 px-4 py-4" role="alert">
+                    <div class="text-sm text-red-800">
+                        <p class="font-semibold">Periksa kembali formulir.</p>
                         <ul class="mt-1.5 list-disc space-y-0.5 pl-4">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -70,13 +61,13 @@
             @endif
 
             @if ($products->isEmpty())
-                <x-empty-state title="Nothing to request yet" message="Products need to be added before a production request can be sent." />
+                <x-empty-state title="Belum ada produk yang bisa dipesan" message="Produk perlu ditambahkan dulu sebelum permintaan bisa dikirim." />
             @else
                 <form
                     action="{{ route('order.store') }}"
                     method="POST"
                     enctype="multipart/form-data"
-                    class="space-y-8"
+                    class="space-y-6"
                     data-order-form
                     novalidate
                 >
@@ -99,62 +90,45 @@
                     <script type="application/json" data-order-catalog>@json($catalog)</script>
                     <script type="application/json" data-order-old>@json($orderOld)</script>
 
-                    {{-- ── Contact info ────────────────── --}}
-                    <fieldset>
-                        <legend class="text-xs font-bold uppercase tracking-[0.14em] mb-5" style="color:#6E7575;">Contact Information</legend>
-                        <div class="grid gap-5 sm:grid-cols-2">
+                    <fieldset class="rounded-[14px] border border-[#E2E5E9] bg-white p-5 sm:p-6">
+                        <legend class="px-1 text-sm font-semibold text-[#1C2430]">Data pemesan</legend>
+                        <div class="grid gap-4 sm:grid-cols-2">
                             <div class="sm:col-span-2">
-                                <label for="nama" class="block text-xs font-bold mb-2" style="color:#172A39;">Full Name</label>
+                                <label for="nama" class="mb-1.5 block text-sm font-semibold text-[#1C2430]">Nama lengkap</label>
                                 <input
                                     id="nama" name="nama" type="text" required
                                     value="{{ old('nama') }}"
-                                    placeholder="Your full name"
-                                    class="w-full rounded-xl border px-4 py-3 text-sm transition"
-                                    style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                                    onfocus="this.style.borderColor='#172A39'"
-                                    onblur="this.style.borderColor='#DCD6D0'"
+                                    placeholder="Nama lengkap Anda"
+                                    class="fv-input"
                                 >
                             </div>
                             <div class="sm:col-span-2">
-                                <label for="alamat" class="block text-xs font-bold mb-2" style="color:#172A39;">Delivery Address</label>
+                                <label for="alamat" class="mb-1.5 block text-sm font-semibold text-[#1C2430]">Alamat pengiriman</label>
                                 <textarea
                                     id="alamat" name="alamat" rows="3" required
-                                    placeholder="Complete street address, city, postal code"
-                                    class="w-full rounded-xl border px-4 py-3 text-sm transition resize-none"
-                                    style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                                    onfocus="this.style.borderColor='#172A39'"
-                                    onblur="this.style.borderColor='#DCD6D0'"
+                                    placeholder="Jalan, kota, kode pos"
+                                    class="fv-textarea resize-none"
                                 >{{ old('alamat') }}</textarea>
                             </div>
                             <div>
-                                <label for="no_hp" class="block text-xs font-bold mb-2" style="color:#172A39;">Phone Number</label>
+                                <label for="no_hp" class="mb-1.5 block text-sm font-semibold text-[#1C2430]">Nomor HP</label>
                                 <input
                                     id="no_hp" name="no_hp" type="tel" required
                                     value="{{ old('no_hp') }}"
                                     placeholder="08xxxxxxxxxx"
-                                    class="w-full rounded-xl border px-4 py-3 text-sm transition"
-                                    style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                                    onfocus="this.style.borderColor='#172A39'"
-                                    onblur="this.style.borderColor='#DCD6D0'"
+                                    class="fv-input"
                                 >
                             </div>
                             <div>
-                                <label for="produk_id" class="block text-xs font-bold mb-2" style="color:#172A39;">Product</label>
-                                <select
-                                    id="produk_id" name="produk_id" required
-                                    data-order-product
-                                    class="w-full rounded-xl border px-4 py-3 text-sm transition"
-                                    style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                                    onfocus="this.style.borderColor='#172A39'"
-                                    onblur="this.style.borderColor='#DCD6D0'"
-                                >
+                                <label for="produk_id" class="mb-1.5 block text-sm font-semibold text-[#1C2430]">Produk</label>
+                                <select id="produk_id" name="produk_id" required data-order-product class="fv-select">
                                     @foreach ($products as $produk)
                                         <option
                                             value="{{ $produk->id_produk }}"
                                             data-price="{{ (float) $produk->harga }}"
                                             @selected((string) $selectedProductId === (string) $produk->id_produk)
                                         >
-                                            {{ $produk->nama_produk }} — Rp {{ number_format((float) $produk->harga, 0, ',', '.') }}
+                                            {{ $produk->nama_produk }} · Rp {{ number_format((float) $produk->harga, 0, ',', '.') }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -162,7 +136,6 @@
                         </div>
                     </fieldset>
 
-                    {{-- Material is assigned automatically from the selected product. --}}
                     <div class="hidden" data-order-materials aria-hidden="true">
                         @forelse ($selectedMaterials as $index => $material)
                             @php
@@ -176,15 +149,14 @@
                         @endforelse
                     </div>
 
-                    {{-- ── Size & Quantity ──────────────── --}}
-                    <fieldset>
-                        <legend class="text-xs font-bold uppercase tracking-[0.14em] mb-1.5" style="color:#6E7575;">Size & Quantity</legend>
-                        <p class="text-xs mb-4" style="color:#6E7575;">Sizes come from the product's category. Enter a quantity for each size you need.</p>
-                        <div class="request-size-list" data-order-sizes style="overflow:hidden;border:1.5px solid #DCD6D0;border-radius:1rem;background:#FFFFFF;box-shadow:0 6px 20px rgba(23,42,57,0.05);">
+                    <fieldset class="rounded-[14px] border border-[#E2E5E9] bg-white p-5 sm:p-6">
+                        <legend class="px-1 text-sm font-semibold text-[#1C2430]">Ukuran dan jumlah</legend>
+                        <p class="mb-4 text-sm text-[#667085]">Ukuran mengikuti kategori produk. Isi jumlah untuk setiap size yang dibutuhkan.</p>
+                        <div class="request-size-list" data-order-sizes>
                             @forelse ($selectedSizes as $index => $size)
-                                <div class="request-size-row" data-ukuran-id="{{ $size['id'] }}" style="display:flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:5.25rem;padding:1.25rem 1.75rem;background:#FFFFFF;border-bottom:1px solid #DCD6D0;">
+                                <div class="request-size-row flex items-center justify-between gap-4" data-ukuran-id="{{ $size['id'] }}">
                                     <input type="hidden" name="sizes[{{ $index }}][ukuran_id]" value="{{ $size['id'] }}">
-                                    <label style="font-size:0.9375rem;font-weight:700;color:#172A39;cursor:pointer;" for="qty-{{ $size['id'] }}">{{ $size['name'] }}</label>
+                                    <label class="cursor-pointer text-sm font-semibold text-[#1C2430]" for="qty-{{ $size['id'] }}">{{ $size['name'] }}</label>
                                     <input
                                         id="qty-{{ $size['id'] }}"
                                         type="number"
@@ -194,78 +166,56 @@
                                         data-order-qty
                                         name="sizes[{{ $index }}][kuantitas]"
                                         value="{{ $oldQtyBySize->get((string) $size['id'], 0) }}"
-                                        style="width:6.5rem;min-height:2.75rem;border:1.5px solid #DCD6D0;background:#FAF8F5;padding:0.625rem 0.875rem;border-radius:0.625rem;font-size:0.9375rem;font-weight:700;color:#172A39;text-align:right;"
+                                        class="text-right font-semibold"
                                     >
                                 </div>
                             @empty
-                                <p class="px-6 py-5 text-sm" style="color:#6E7575;">No sizes are defined for this garment's category yet.</p>
+                                <p class="px-5 py-4 text-sm text-[#667085]">Ukuran untuk kategori produk ini belum diatur.</p>
                             @endforelse
                         </div>
                     </fieldset>
 
-                    {{-- ── Design Upload ────────────────── --}}
-                    <div class="request-upload-panel" style="border:1.5px solid #DCD6D0;border-radius:1rem;background:linear-gradient(135deg,#FFFFFF 0%,#FAF8F5 100%);padding:1.5rem;">
-                        <div class="flex items-start gap-3.5">
-                            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style="background:#172A39;color:#EAE2D8;">
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L8 8m4-4 4 4M4 16.5v1A2.5 2.5 0 006.5 20h11a2.5 2.5 0 002.5-2.5v-1"/></svg>
-                            </span>
-                            <div>
-                                <label for="upload_design" class="block text-sm font-extrabold" style="color:#172A39;">
-                                    Upload your design <span class="font-normal text-xs" style="color:#6E7575;">(optional)</span>
-                                </label>
-                                <p class="mt-1 text-xs leading-relaxed" style="color:#6E7575;">Tambahkan referensi desain agar tim kami dapat memahami request-mu dengan lebih akurat.</p>
-                            </div>
-                        </div>
-                        <div style="margin-top:1.25rem;border:2px dashed #DCD6D0;border-radius:0.875rem;background:#FFFFFF;padding:1.5rem;text-align:center;">
+                    <div class="request-upload-panel">
+                        <label for="upload_design" class="block text-sm font-semibold text-[#1C2430]">
+                            Unggah desain <span class="font-normal text-[#667085]">(opsional)</span>
+                        </label>
+                        <p class="mt-1 text-sm leading-relaxed text-[#667085]">Tambahkan referensi desain agar tim kami paham permintaan Anda.</p>
+                        <div class="mt-4 rounded-xl border border-dashed border-[#D0D5DD] bg-[#F7F7F5] p-5 text-center">
                             <input
                                 id="upload_design" name="upload_design" type="file"
                                 accept=".jpg,.jpeg,.png,.webp,.pdf"
-                                style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"
+                                class="sr-only"
                                 onchange="document.getElementById('design-file-name').textContent = this.files.length ? this.files[0].name : 'Belum ada file dipilih';"
                             >
-                            <label for="upload_design" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:2.75rem;padding:0.625rem 1.5rem;background:#172A39;color:#FFFFFF;border:1px solid #172A39;border-radius:9999px;font-size:0.775rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 10px rgba(23,42,57,0.2);transition:all 0.15s;" onmouseover="this.style.background='#0E1B25'" onmouseout="this.style.background='#172A39'">
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L8 8m4-4 4 4M4 16.5v1A2.5 2.5 0 006.5 20h11a2.5 2.5 0 002.5-2.5v-1"/></svg>
-                                Pilih file desain
-                            </label>
-                            <p id="design-file-name" style="margin-top:0.75rem;font-size:0.8125rem;font-weight:600;color:#172A39;">Belum ada file dipilih</p>
-                            <p style="margin-top:0.25rem;font-size:0.6875rem;color:#8D9494;">JPG, PNG, WEBP, atau PDF · maksimum 5 MB</p>
+                            <label for="upload_design" class="btn-primary cursor-pointer">Pilih file desain</label>
+                            <p id="design-file-name" class="mt-3 text-sm font-medium text-[#1C2430]">Belum ada file dipilih</p>
+                            <p class="mt-1 text-xs text-[#667085]">JPG, PNG, WEBP, atau PDF. Maksimum 5 MB.</p>
                         </div>
                     </div>
 
-                    {{-- ── Notes ───────────────────────── --}}
-                    <div>
-                        <label for="notes" class="block text-xs font-bold mb-2" style="color:#172A39;">
-                            Notes <span class="font-normal text-xs" style="color:#6E7575;">(optional)</span>
+                    <div class="rounded-[14px] border border-[#E2E5E9] bg-white p-5 sm:p-6">
+                        <label for="notes" class="mb-1.5 block text-sm font-semibold text-[#1C2430]">
+                            Catatan <span class="font-normal text-[#667085]">(opsional)</span>
                         </label>
                         <textarea
                             id="notes" name="notes" rows="4"
-                            placeholder="Catatan tambahan seperti detail sablon, bordir, penyesuaian khusus..."
-                            class="w-full rounded-xl border px-4 py-3 text-sm transition resize-none"
-                            style="border-color:#DCD6D0;background:#FFFFFF;color:#172A39;"
-                            onfocus="this.style.borderColor='#172A39'"
-                            onblur="this.style.borderColor='#DCD6D0'"
+                            placeholder="Catatan sablon, bordir, atau penyesuaian lain"
+                            class="fv-textarea resize-none"
                         >{{ old('notes') }}</textarea>
                     </div>
 
-                    {{-- ── Total + Submit ───────────────── --}}
                     <div class="request-total-actions">
-                        <div style="border:1.5px solid #DCD6D0;border-radius:1rem;background:#FAF8F5;padding:1.5rem;">
-                            <p style="font-size:0.75rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#6E7575;">Estimated Total</p>
-                            <p style="margin-top:0.375rem;font-size:2rem;font-weight:900;letter-spacing:-0.03em;color:#172A39;" data-order-total>Rp 0</p>
-                            <p style="margin-top:0.375rem;font-size:0.75rem;line-height:1.5;color:#6E7575;">
-                                Product price × total quantity — final pricing confirmed by our team.
+                        <div class="rounded-[14px] border border-[#E2E5E9] bg-white p-5">
+                            <p class="text-sm font-semibold text-[#667085]">Estimasi total</p>
+                            <p class="mt-1 text-3xl font-bold tracking-tight text-[#1C2430]" data-order-total>Rp 0</p>
+                            <p class="mt-2 text-xs leading-relaxed text-[#667085]">
+                                Harga produk dikali jumlah. Harga final dikonfirmasi tim kami.
                             </p>
                         </div>
-                        <div style="display:flex;flex-direction:column;justify-content:center;border-radius:1rem;background:#172A39;padding:1.5rem;box-shadow:0 8px 24px rgba(23,42,57,0.25);">
-                            <p style="margin:0 0 0.625rem;font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Ready to order?</p>
-                            <button
-                                type="submit"
-                                class="shrink-0"
-                                style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3.25rem;padding:0.75rem 1.75rem;background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);color:#172A39 !important;border:2px solid #EAE2D8;border-radius:9999px;font-size:0.875rem;font-weight:800;letter-spacing:0.04em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.25);transition:all 0.15s;"
-                                onmouseover="this.style.background='#FFFFFF';this.style.transform='translateY(-1px)'"
-                                onmouseout="this.style.background='linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%)';this.style.transform='translateY(0)'"
-                            >
-                                Submit Request
+                        <div class="flex flex-col justify-center rounded-[14px] bg-[#1C2430] p-5">
+                            <p class="mb-3 text-sm text-white/70">Siap kirim permintaan?</p>
+                            <button type="submit" class="btn-primary min-h-12" style="background:#FFFFFF;color:#1C2430 !important;border-color:#FFFFFF;">
+                                Kirim permintaan
                             </button>
                         </div>
                     </div>

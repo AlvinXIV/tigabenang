@@ -35,7 +35,7 @@ services:
     networks:
       - tigabenang_network
 
-    command: tail -f /dev/null
+    command: npm run dev
 
   postgres:
     image: postgres:16-alpine

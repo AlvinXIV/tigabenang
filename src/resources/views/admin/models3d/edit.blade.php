@@ -5,43 +5,78 @@
 @section('content')
 <div class="space-y-8 max-w-6xl mx-auto">
 
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EADACE]/70">
+    <!-- TOP HEADER -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#DCD6D0]">
         <div>
-            <a href="{{ route('admin.model-3d.index') }}" class="text-xs text-[#78716C] hover:text-[#B85331] font-mono font-medium inline-flex items-center gap-1.5 mb-2 transition-colors uppercase tracking-wider">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            <a href="{{ route('admin.model-3d.index') }}" class="text-xs text-[#172A39] hover:underline font-black inline-flex items-center gap-1.5 mb-2 transition-colors uppercase tracking-wider text-decoration-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                <span>3D Models</span>
+                <span>&larr; Kembali ke Library 3D</span>
             </a>
-            <h1 class="text-2xl sm:text-3xl font-normal text-[#1C1917] tracking-tight">Edit 3D Model Asset</h1>
+            <h1 class="text-2xl sm:text-3xl font-black text-[#172A39] tracking-tight">Edit 3D Model Asset</h1>
+            <p class="text-xs sm:text-sm text-[#555E68] mt-1 font-medium">
+                Perbarui atau ganti file 3D (.glb) yang terhubung ke produk ini.
+            </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <a
+                href="{{ route('admin.model-3d.index') }}"
+                class="btn-cream-pill px-5 py-2.5 text-xs uppercase tracking-wide cursor-pointer"
+            >
+                Cancel
+            </a>
+            <button
+                type="submit"
+                form="edit-3d-form"
+                class="btn-navy-pill px-7 py-2.5 text-xs uppercase tracking-wide cursor-pointer border-0 shadow-md"
+            >
+                Save Changes
+            </button>
         </div>
     </div>
 
-    <form action="{{ route('admin.model-3d.update', $product->id_produk) }}" method="POST" enctype="multipart/form-data" class="bg-white border border-[#EADACE] p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.015)] space-y-6 max-w-2xl">
+    <!-- MAIN FORM -->
+    <form
+        id="edit-3d-form"
+        action="{{ route('admin.model-3d.update', $product->id_produk) }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="admin-card-rich p-6 sm:p-8 space-y-6 max-w-2xl"
+    >
         @csrf
         @method('PUT')
 
         <div>
-            <label class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+            <label class="block text-[11px] font-black tracking-widest text-[#6E7575] uppercase mb-1.5">
                 PRODUK TERHUBUNG
             </label>
             <input
                 type="text"
                 disabled
                 value="{{ $product->nama_produk }}"
-                class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#D9CCC1] text-xs sm:text-sm text-[#292524] rounded-none cursor-not-allowed font-medium"
+                class="w-full px-4 py-3 bg-[#FAF8F5] border border-[#DCD6D0] text-xs sm:text-sm text-[#172A39] rounded-xl cursor-not-allowed font-black"
             />
         </div>
 
         @if ($product->file_model_3d)
-            <div class="p-4 bg-[#FAF7F2] border border-[#EADACE]">
-                <span class="text-[10px] font-mono text-[#786C62] uppercase block">FILE SAAT INI</span>
-                <p class="text-xs font-mono text-[#1C1917] mt-1">{{ $product->file_model_3d }}</p>
+            <div class="p-4 bg-[#FAF8F5] border border-[#DCD6D0] rounded-xl flex items-center justify-between">
+                <div>
+                    <span class="text-[10px] font-black tracking-widest text-[#6E7575] uppercase block">FILE 3D SAAT INI</span>
+                    <p class="text-xs font-mono font-bold text-[#172A39] mt-1">📁 {{ basename($product->file_model_3d) }}</p>
+                </div>
+                <a
+                    href="{{ route('admin.model-3d.preview', $product->id_produk) }}"
+                    class="btn-navy-pill px-4 py-1.5 text-xs uppercase tracking-wider"
+                >
+                    Preview
+                </a>
             </div>
         @endif
 
         <div>
-            <label for="file_model_3d" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
+            <label for="file_model_3d" class="block text-[11px] font-black tracking-widest text-[#6E7575] uppercase mb-1.5">
                 GANTI FILE 3D (.GLB / .GLTF)
             </label>
             <input
@@ -49,21 +84,21 @@
                 id="file_model_3d"
                 name="file_model_3d"
                 accept=".glb,.gltf"
-                class="w-full text-xs text-[#574E46] file:mr-4 file:py-2 file:px-4 file:border file:border-[#D9CCC1] file:bg-[#FAF7F2] file:text-xs file:font-mono file:text-[#292524] hover:file:bg-[#EFE7DE] file:cursor-pointer"
+                class="w-full text-xs text-[#555E68] file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-xs file:font-black file:bg-[#172A39] file:text-white hover:file:bg-[#0E1B25] cursor-pointer"
             />
-            <p class="text-[10px] text-[#78716C] mt-2">Maksimal 20MB.</p>
+            <p class="text-[11px] text-[#6E7575] mt-2 font-medium">Kosongkan jika tidak ingin mengganti file model 3D.</p>
         </div>
 
-        <div class="flex items-center justify-end gap-3 pt-6 border-t border-[#EADACE]">
+        <div class="pt-4 border-t border-[#DCD6D0] flex items-center justify-end gap-3">
             <a
                 href="{{ route('admin.model-3d.index') }}"
-                class="px-5 py-2.5 bg-white border border-[#D9CCC1] hover:bg-[#F2ECE3] text-[#292524] text-xs font-mono font-medium uppercase"
+                class="btn-cream-pill px-5 py-2.5 text-xs uppercase tracking-wide cursor-pointer"
             >
                 Cancel
             </a>
             <button
                 type="submit"
-                class="px-6 py-2.5 bg-[#B85331] hover:bg-[#A34524] text-white text-xs font-mono font-medium uppercase cursor-pointer"
+                class="btn-navy-pill px-7 py-2.5 text-xs uppercase tracking-wide cursor-pointer border-0 shadow-md"
             >
                 Save Changes
             </button>

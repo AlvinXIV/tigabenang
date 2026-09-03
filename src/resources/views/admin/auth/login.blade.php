@@ -6,8 +6,8 @@
 <div
     class="w-full flex flex-col items-center"
     x-data="{
-        email: 'vendor@example.com',
-        password: 'password123',
+        email: 'admin',
+        password: 'password',
         showPassword: false,
         isSubmitting: false,
         errors: {
@@ -15,12 +15,8 @@
             password: ''
         },
         validateEmail() {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!this.email || !this.email.trim()) {
-                this.errors.email = 'Email address is required.';
-                return false;
-            } else if (!re.test(this.email.trim())) {
-                this.errors.email = 'Please enter a valid email address.';
+                this.errors.email = 'Username / Email wajib diisi.';
                 return false;
             }
             this.errors.email = '';
@@ -28,7 +24,7 @@
         },
         validatePassword() {
             if (!this.password || !this.password.trim()) {
-                this.errors.password = 'Password cannot be empty.';
+                this.errors.password = 'Password tidak boleh kosong.';
                 return false;
             }
             this.errors.password = '';
@@ -44,91 +40,80 @@
             }
 
             this.isSubmitting = true;
-            // Native form submits or simulation
             return true;
         }
     }"
 >
-    <!-- Seamless Brand Emblem (No Card, Blends into Base Layer) -->
+    <!-- Brand Emblem -->
     <div class="inline-flex flex-col items-center justify-center mb-6 select-none">
-        <svg class="w-12 h-12 text-[#B85331]" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Rounded decorative stitch frame -->
-            <rect x="5" y="5" width="46" height="46" rx="14" stroke="#B85331" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- 3 Woven Threads (Tiga Benang) & Stylized 't' 'b' monogram -->
-            <path d="M19 17c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5v19c0 3.5 2.8 6.5 6.5 6.5s6.5-3 6.5-6.5-2.8-6.5-6.5-6.5H18" stroke="#B85331" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M15 22.5h15" stroke="#B85331" stroke-width="2.2" stroke-linecap="round"/>
-            <path d="M22 36c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5-2-4.5-4.5-4.5-4.5 2-4.5 4.5z" stroke="#B85331" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-        <span class="text-[8.5px] font-mono font-bold tracking-[0.28em] text-[#B85331] uppercase mt-2">TIGABENANG</span>
+        <div class="w-16 h-16 bg-white border border-[#DCD6D0] rounded-2xl flex items-center justify-center shadow-md shadow-[#172A39]/5 overflow-hidden mb-3">
+            <img src="{{ asset('images/clothiq-logo.png') }}?v=2" alt="Clothiq Logo" width="48" height="48" class="w-4/5 h-4/5 object-contain">
+        </div>
+        <span class="text-xs font-extrabold tracking-widest text-[#172A39] uppercase">CLOTHIQ ATELIER</span>
     </div>
 
     <!-- Portal Title & Subtitle -->
     <div class="text-center max-w-md mx-auto mb-8">
-        <h1 class="text-3xl sm:text-4xl font-normal text-[#1C1917] tracking-tight">Tigabenang</h1>
-        <h2 class="text-xl sm:text-2xl font-normal text-[#292524] tracking-tight mt-1">Vendor Management Portal</h2>
-        <p class="text-xs sm:text-sm text-[#78716C] mt-2.5 leading-relaxed">
-            Manage your products, orders, materials, and production.
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-[#172A39] tracking-tight">Atelier Management Portal</h1>
+        <p class="text-xs sm:text-sm text-[#6E7575] mt-1.5 leading-relaxed font-medium">
+            Masuk untuk mengelola katalog produk, antrean pesanan, dan konfigurasi workshop.
         </p>
     </div>
 
     <!-- Login Card Container -->
-    <div class="w-full max-w-md bg-white border border-[#EADACE] shadow-[0_4px_24px_rgba(0,0,0,0.015)] p-8 sm:p-12">
+    <div class="w-full max-w-md bg-white border border-[#DCD6D0] rounded-3xl shadow-[0_12px_36px_rgba(23,42,57,0.06)] p-8 sm:p-10">
         
         <!-- Feedback messages if any -->
         @if (session('success'))
-            <div class="mb-6 p-3.5 bg-[#FBF6EE] border border-[#E5D7CA] text-xs text-[#8A4222] flex items-center gap-2">
-                <svg class="w-4 h-4 text-[#B85331] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mb-6 p-3.5 bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 rounded-xl flex items-center gap-2">
+                <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
                 <span>{{ session('success') }}</span>
             </div>
         @endif
 
-        <form action="{{ route('login') }}" method="POST" @submit="handleSubmit($event)" class="space-y-6">
+        <form action="{{ route('login') }}" method="POST" @submit="handleSubmit($event)" class="space-y-5">
             @csrf
 
-            <!-- Email Address Field -->
+            <!-- Email / Username Field -->
             <div>
-                <label for="email" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-2">
-                    EMAIL ADDRESS
+                <label for="email" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase mb-1.5">
+                    USERNAME / EMAIL ADDRESS
                 </label>
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#A89A8E]">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8D9494]">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
                     </div>
                     <input
-                        type="email"
+                        type="text"
                         id="email"
                         name="email"
                         x-model="email"
                         @blur="validateEmail()"
                         @input="if(errors.email) validateEmail()"
-                        placeholder="vendor@example.com"
-                        :class="errors.email ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-400' : 'border-[#D9CCC1] focus:border-[#B85331] focus:ring-[#B85331]'"
-                        class="w-full pl-10 pr-3.5 py-3 bg-white border text-xs sm:text-sm text-[#292524] placeholder-[#C2B5A9] rounded-none focus:outline-none focus:ring-1 transition-colors"
+                        placeholder="admin"
+                        class="w-full pl-10 pr-3.5 py-3 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm font-bold text-[#172A39] rounded-xl focus:outline-none transition-colors"
                     />
                 </div>
                 <template x-if="errors.email">
-                    <p class="text-[11px] text-rose-600 mt-1.5 flex items-center gap-1 font-sans" x-text="errors.email"></p>
+                    <p class="text-[11px] text-rose-600 mt-1 font-bold" x-text="errors.email"></p>
                 </template>
             </div>
 
             <!-- Password Field -->
             <div>
-                <div class="flex items-center justify-between mb-2">
-                    <label for="password" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase">
+                <div class="flex items-center justify-between mb-1.5">
+                    <label for="password" class="block text-[11px] font-bold tracking-widest text-[#6E7575] uppercase">
                         PASSWORD
                     </label>
-                    <a href="#" class="text-xs text-[#78716C] hover:text-[#B85331] transition-colors">
-                        Forgot password?
-                    </a>
                 </div>
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#A89A8E]">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8D9494]">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
                     </div>
                     <input
@@ -139,53 +124,49 @@
                         @blur="validatePassword()"
                         @input="if(errors.password) validatePassword()"
                         placeholder="••••••••"
-                        :class="errors.password ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-400' : 'border-[#D9CCC1] focus:border-[#B85331] focus:ring-[#B85331]'"
-                        class="w-full pl-10 pr-10 py-3 bg-white border text-xs sm:text-sm text-[#292524] placeholder-[#C2B5A9] rounded-none focus:outline-none focus:ring-1 transition-colors tracking-widest"
+                        class="w-full pl-10 pr-10 py-3 bg-[#FAF8F5] border border-[#DCD6D0] focus:border-[#172A39] focus:bg-white text-xs sm:text-sm font-bold text-[#172A39] rounded-xl focus:outline-none transition-colors"
                     />
                     <button
                         type="button"
                         @click="showPassword = !showPassword"
-                        class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#A89A8E] hover:text-[#786C62] transition-colors focus:outline-none"
+                        class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8D9494] hover:text-[#172A39] transition-colors focus:outline-none cursor-pointer bg-transparent border-0"
                     >
-                        <!-- Eye icon (Show) -->
                         <svg x-show="!showPassword" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                         </svg>
-                        <!-- Eye-off icon (Hide) -->
                         <svg x-show="showPassword" style="display: none;" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path>
                         </svg>
                     </button>
                 </div>
                 <template x-if="errors.password">
-                    <p class="text-[11px] text-rose-600 mt-1.5 flex items-center gap-1 font-sans" x-text="errors.password"></p>
+                    <p class="text-[11px] text-rose-600 mt-1 font-bold" x-text="errors.password"></p>
                 </template>
             </div>
 
-            <!-- Submit Button -->
+            <!-- Submit Button in Luxury Navy Pill Shape -->
             <div class="pt-2">
                 <button
                     type="submit"
                     :disabled="isSubmitting"
-                    class="w-full py-3.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] disabled:opacity-75 disabled:cursor-not-allowed text-white text-sm font-normal tracking-wide transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                    class="pill-btn w-full py-3.5 bg-[#172A39] hover:bg-[#0E1B25] disabled:opacity-75 disabled:cursor-not-allowed text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-[#172A39]/20 flex items-center justify-center gap-2 cursor-pointer border-0"
                 >
                     <svg x-show="isSubmitting" class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24" style="display: none;">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span x-text="isSubmitting ? 'Signing in...' : 'Sign in'"></span>
+                    <span x-text="isSubmitting ? 'Signing in...' : 'Sign in to Atelier Portal'"></span>
                 </button>
             </div>
         </form>
 
     </div>
 
-    <!-- Bottom Navigation Link -->
-    <div class="mt-8 text-center text-xs sm:text-sm text-[#78716C]">
-        <span>Don't have an account?</span>
-        <a href="{{ route('register') }}" class="text-[#B85331] hover:underline font-medium ml-1 transition-colors">
-            Create an account
+    <!-- Storefront Link -->
+    <div class="mt-8 text-center text-xs text-[#6E7575]">
+        <a href="{{ route('home') }}" class="text-[#172A39] hover:underline font-bold transition-colors">
+            &larr; Kembali ke Clothiq Storefront
         </a>
     </div>
 

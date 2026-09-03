@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CustomerHomeController;
+use App\Http\Controllers\DealOrderController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\OrderController as CustomerOrderController;
 use App\Http\Controllers\VirtualFittingController;
@@ -30,6 +31,11 @@ Route::view('/about', 'customer.about')->name('about');
 Route::get('/order/create', [CustomerOrderController::class, 'create'])->name('order.create');
 Route::post('/order', [CustomerOrderController::class, 'store'])->name('order.store');
 Route::get('/order/success', [CustomerOrderController::class, 'success'])->name('order.success');
+
+// Dedicated Standalone Deal Order Form (Direct Vendor-Customer Deal)
+Route::get('/form-pemesanan', [DealOrderController::class, 'create'])->name('deal-order.create');
+Route::post('/form-pemesanan', [DealOrderController::class, 'store'])->name('deal-order.store');
+Route::get('/form-pemesanan/sukses', [DealOrderController::class, 'success'])->name('deal-order.success');
 
 // ==========================================
 // 2. AUTHENTICATION ROUTES

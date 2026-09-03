@@ -64,6 +64,17 @@ export default defineConfig({
         tailwindcss(),
     ],
 
+    resolve: {
+        dedupe: ['three'],
+    },
+
+    optimizeDeps: {
+        include: [
+            'three',
+            'three/addons/loaders/GLTFLoader.js',
+        ],
+    },
+
     server: {
         // Docker harus bisa mengakses Vite
         host: '0.0.0.0',
@@ -90,10 +101,26 @@ export default defineConfig({
             clientPort: 5173,
         },
 
-        // Jangan monitor file Blade hasil compile Laravel
+        // Pre-transform Virtual Fitting / Three.js so Tailwind CSS
+        // compilation cannot starve the 3D module graph.
+        warmup: {
+            clientFiles: [
+                './resources/js/customer/virtual-fitting.js',
+                './resources/js/three/scene.js',
+                './resources/js/three/avatar.js',
+                './resources/js/three/garment.js',
+            ],
+        },
+
+        // Watch settings for Docker on Windows
         watch: {
+            usePolling: true,
+            interval: 500,
             ignored: [
-                '**/storage/framework/views/**',
+                '**/storage/**',
+                '**/vendor/**',
+                '**/node_modules/**',
+                '**/.git/**',
             ],
         },
     },
