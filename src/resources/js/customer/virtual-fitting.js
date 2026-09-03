@@ -24,6 +24,20 @@ const numberValue = (input, fallback = 0) => {
     return Number.isFinite(value) ? value : fallback;
 };
 
+const PROTO_TSHIRT = {
+    id: 'tshirt-preview',
+    name: 'T-shirt preview',
+    category: 'Prototipe',
+    modelUrl: '/models/t-shirt.glb',
+    sizes: [
+        { name: 'S', lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
+        { name: 'M', lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
+        { name: 'L', lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
+        { name: 'XL', lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
+        { name: 'XXL', lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+    ],
+};
+
 const PROFILE_KEY = 'clothiq-body-profile';
 
 const loadSavedProfile = () => {
@@ -44,12 +58,22 @@ const initFitting = async () => {
     const root = document.querySelector('[data-fitting-root]');
     if (!root) return;
 
-    const catalog = parseJsonScript(root, '[data-fitting-catalog]');
+    let catalog = parseJsonScript(root, '[data-fitting-catalog]');
+    if (!Array.isArray(catalog) || catalog.length === 0) {
+        catalog = [PROTO_TSHIRT];
+    }
     const viewport = document.getElementById('fitting-viewport');
     if (!viewport) return;
 
     // Elements
     const productSelect = root.querySelector('[data-fitting-product]');
+    if (productSelect && productSelect.options.length === 0) {
+        const option = document.createElement('option');
+        option.value = PROTO_TSHIRT.id;
+        option.textContent = PROTO_TSHIRT.name;
+        productSelect.appendChild(option);
+        productSelect.value = PROTO_TSHIRT.id;
+    }
     const nameNode = root.querySelector('[data-fitting-name]');
     const categoryNode = root.querySelector('[data-fitting-category]');
     const sizeNode = root.querySelector('[data-fitting-size]');
@@ -120,7 +144,7 @@ const initFitting = async () => {
         studio.scene.add(avatar);
 
         if (statusNode) {
-            statusNode.textContent = 'Virtual studio ready';
+            statusNode.textContent = 'Manekin siap';
         }
 
         const findProduct = (id) => {
@@ -130,10 +154,10 @@ const initFitting = async () => {
         const renderHeatmap = (heatmap) => {
             if (!heatmapNode) return;
             heatmapNode.innerHTML = heatmap.map((item) => `
-                <li class="flex items-center justify-between py-1.5 border-b border-[#DCD6D0]/60">
-                    <span class="font-bold text-xs text-[#172A39]">${item.area}</span>
-                    <span class="text-[11px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full"
-                          style="color:${stateColors[item.state] || '#172A39'};background:${item.state === 'Too Tight' ? '#FEE2E2' : (item.state === 'Too Loose' ? '#DBEAFE' : '#D1FAE5')};">
+                <li class="flex items-center justify-between py-1.5 border-b border-[#E2E5E9]">
+                    <span class="text-xs font-semibold text-[#1C2430]">${item.area}</span>
+                    <span class="rounded-[8px] px-2 py-0.5 text-[11px] font-semibold"
+                          style="color:${stateColors[item.state] || '#1C2430'};background:${item.state === 'Too Tight' ? '#FEE2E2' : (item.state === 'Too Loose' ? '#DBEAFE' : '#E8F3EE')};">
                         ${item.state}
                     </span>
                 </li>
@@ -152,9 +176,9 @@ const initFitting = async () => {
                 matchNode.style.color = '#1E40AF';
                 matchNode.style.borderColor = '#93C5FD';
             } else {
-                matchNode.style.background = '#D1FAE5';
-                matchNode.style.color = '#065F46';
-                matchNode.style.borderColor = '#6EE7B7';
+                matchNode.style.background = '#E8F3EE';
+                matchNode.style.color = '#3F7A62';
+                matchNode.style.borderColor = '#C7DDD2';
             }
         };
 
@@ -179,10 +203,10 @@ const initFitting = async () => {
                 const isActive = s.name === selectedSizeName;
                 return `
                     <button type="button" data-size="${s.name}"
-                        class="size-pill-btn px-4 py-2 rounded-xl text-xs font-black border transition-all cursor-pointer ${
+                        class="size-pill-btn px-4 py-2 rounded-[8px] text-xs font-semibold border transition-all cursor-pointer ${
                             isActive
-                                ? 'bg-[#172A39] text-white border-[#172A39] shadow-md'
-                                : 'bg-[#FAF8F5] text-[#172A39] border-[#DCD6D0] hover:bg-[#EAE2D8]'
+                                ? 'bg-[#1C2430] text-white border-[#1C2430]'
+                                : 'bg-white text-[#1C2430] border-[#E2E5E9] hover:bg-[#F7F7F5]'
                         }">
                         ${s.name}
                     </button>
@@ -276,7 +300,7 @@ const initFitting = async () => {
 
             if (statusNode) {
                 statusNode.textContent = 'Memuat model 3D ' + (product.name || '') + '...';
-                statusNode.style.color = '#172A39';
+                statusNode.style.color = '#1C2430';
                 statusNode.style.background = 'rgba(255,255,255,0.92)';
             }
 
@@ -286,8 +310,8 @@ const initFitting = async () => {
                 recalculateFit(product);
                 if (statusNode) {
                     statusNode.textContent = '✓ Model Sampel Aktif (Belum ada file GLB)';
-                    statusNode.style.color = '#065F46';
-                    statusNode.style.background = '#D1FAE5';
+                    statusNode.style.color = '#3F7A62';
+                    statusNode.style.background = '#E8F3EE';
                 }
                 return;
             }
@@ -330,9 +354,9 @@ const initFitting = async () => {
                     debugOverlay.innerHTML = `Sukses memuat GLB!<br/>URL: ${product.modelUrl}`;
                     debugOverlay.style.background = 'rgba(0,128,0,0.9)'; // Green
                     if (statusNode) {
-                        statusNode.textContent = '✓ 3D Baju Terpasang: ' + (product.name || '');
-                        statusNode.style.color = '#065F46';
-                        statusNode.style.background = '#D1FAE5';
+                        statusNode.textContent = 'Pakaian siap';
+                        statusNode.style.color = '#3F7A62';
+                        statusNode.style.background = '#E8F3EE';
                     }
                 }
             } catch (error) {
@@ -405,9 +429,9 @@ const initFitting = async () => {
                 tabs.forEach((item) => {
                     const active = item === tab;
                     item.setAttribute('aria-selected', active ? 'true' : 'false');
-                    item.style.color = active ? '#172A39' : '#6E7575';
-                    item.style.borderColor = active ? '#172A39' : 'transparent';
-                    item.style.background = active ? '#FAF8F5' : 'transparent';
+                    item.style.color = active ? '#1C2430' : '#667085';
+                    item.style.borderColor = active ? '#1C2430' : 'transparent';
+                    item.style.background = active ? '#F7F7F5' : 'transparent';
                 });
 
                 panels.forEach((panel) => {

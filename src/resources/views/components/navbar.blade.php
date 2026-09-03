@@ -11,7 +11,7 @@
 <header
     id="main-navbar"
     class="main-navbar"
-    style="background:#FFFFFF;position:sticky;top:0;z-index:100;transition:transform 0.3s ease, box-shadow 0.2s ease;"
+    style="background:#FFFFFF;position:sticky;top:0;z-index:100;width:100%;max-width:100%;overflow-x:clip;transition:transform 0.3s ease, box-shadow 0.2s ease;"
 >
     <nav class="mx-auto max-w-[1200px] px-5 lg:px-8" aria-label="Navigasi utama">
         <div class="flex h-20 md:h-[88px] items-center justify-between gap-4">
