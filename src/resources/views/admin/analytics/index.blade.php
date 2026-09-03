@@ -105,7 +105,7 @@
         <div class="admin-card overflow-hidden">
             <div class="px-5 py-3.5 border-b border-[#E2E5E9] bg-white flex items-center justify-between">
                 <h2 class="text-sm font-semibold text-[#1C2430]">Material Kain Paling Populer</h2>
-                <a href="{{ route('admin.kategori.index') }}#material" class="text-xs text-[#B8664A] hover:underline font-medium text-decoration-none">Material &rarr;</a>
+                <a href="{{ route('admin.kategori.index') }}?tab=material#material" class="text-xs text-[#B8664A] hover:underline font-medium text-decoration-none">Material &rarr;</a>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs sm:text-sm border-collapse">

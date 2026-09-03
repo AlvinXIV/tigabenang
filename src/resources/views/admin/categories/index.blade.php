@@ -6,19 +6,27 @@
 <div
     class="space-y-5"
     x-data="{
-        activeTab: window.location.hash === '#material' ? 'material' : 'kategori',
+        activeTab: (new URLSearchParams(window.location.search).get('tab') === 'material' || window.location.hash === '#material') ? 'material' : 'kategori',
         searchKategori: '',
         searchMaterial: '',
         addKategoriOpen: false,
         addMaterialOpen: false,
         deleteModalOpen: false,
         deleteActionUrl: '',
-        deleteItemName: ''
+        deleteItemName: '',
+        switchTab(tab) {
+            this.activeTab = tab;
+            window.location.hash = tab;
+            window.dispatchEvent(new CustomEvent('tab-changed', { detail: tab }));
+        }
     }"
     x-init="
-        window.addEventListener('hashchange', () => {
-            activeTab = window.location.hash === '#material' ? 'material' : 'kategori';
-        });
+        const handleTabSync = () => {
+            const isMat = new URLSearchParams(window.location.search).get('tab') === 'material' || window.location.hash === '#material';
+            activeTab = isMat ? 'material' : 'kategori';
+            window.dispatchEvent(new CustomEvent('tab-changed', { detail: activeTab }));
+        };
+        window.addEventListener('hashchange', handleTabSync);
     "
 >
 
@@ -66,7 +74,7 @@
     <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm">
         <button
             type="button"
-            @click="activeTab = 'kategori'; window.location.hash = 'kategori'"
+            @click="switchTab('kategori')"
             :class="activeTab === 'kategori' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]'"
             class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer"
         >
@@ -78,7 +86,7 @@
 
         <button
             type="button"
-            @click="activeTab = 'material'; window.location.hash = 'material'"
+            @click="switchTab('material')"
             :class="activeTab === 'material' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]'"
             class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer"
         >

@@ -164,7 +164,50 @@
         <!-- ============================================== -->
         <!-- SIDEBAR NAVIGATION                             -->
         <!-- ============================================== -->
+        @php
+            $activeNav = 'dashboard';
+            if (request()->routeIs('admin.dashboard')) {
+                $activeNav = 'dashboard';
+            } elseif (request()->routeIs('admin.pesanan.*') || request()->routeIs('admin.orders.*')) {
+                $activeNav = 'orders';
+            } elseif (request()->routeIs('admin.customers.*')) {
+                $activeNav = 'customers';
+            } elseif (request()->routeIs('admin.produk.*')) {
+                $activeNav = 'products';
+            } elseif (request()->routeIs('admin.kategori.*')) {
+                if (request('tab') === 'material' || request('type') === 'bahan' || (isset($bahan) && $bahan && (!isset($kategori) || !$kategori))) {
+                    $activeNav = 'materials';
+                } else {
+                    $activeNav = 'categories';
+                }
+            } elseif (request()->routeIs('admin.ukuran.*')) {
+                $activeNav = 'sizes';
+            } elseif (request()->routeIs('admin.model-3d.*')) {
+                $activeNav = 'models3d';
+            } elseif (request()->routeIs('admin.analytics')) {
+                $activeNav = 'analytics';
+            } elseif (request()->routeIs('admin.profile.*') || request()->routeIs('admin.settings') || request()->routeIs('admin.profile.legacy')) {
+                $activeNav = 'settings';
+            }
+        @endphp
         <aside
+            x-data="{
+                currentNav: '{{ $activeNav }}',
+                init() {
+                    if (window.location.pathname.includes('/admin/kategori')) {
+                        const syncCategoryTab = () => {
+                            const params = new URLSearchParams(window.location.search);
+                            const isMaterial = window.location.hash === '#material' || params.get('tab') === 'material';
+                            this.currentNav = isMaterial ? 'materials' : 'categories';
+                        };
+                        syncCategoryTab();
+                        window.addEventListener('hashchange', syncCategoryTab);
+                        window.addEventListener('tab-changed', (e) => {
+                            this.currentNav = e.detail === 'material' ? 'materials' : 'categories';
+                        });
+                    }
+                }
+            }"
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
             class="fixed inset-y-0 left-0 z-50 w-64 h-full flex flex-col justify-between transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 shrink-0 select-none bg-[#1C2430] border-r border-[#2A3442]"
         >
@@ -201,7 +244,8 @@
                         <nav class="space-y-0.5">
                             <a
                                 href="{{ route('admin.dashboard') }}"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                                :class="currentNav === 'dashboard' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'dashboard' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
@@ -220,7 +264,8 @@
                             <!-- Pesanan Masuk -->
                             <a
                                 href="{{ route('admin.pesanan.index') }}"
-                                class="sidebar-nav-link justify-between {{ request()->routeIs('admin.pesanan.*') || request()->routeIs('admin.orders.*') ? 'active' : '' }}"
+                                :class="currentNav === 'orders' ? 'active' : ''"
+                                class="sidebar-nav-link justify-between {{ $activeNav === 'orders' ? 'active' : '' }}"
                             >
                                 <div class="flex items-center gap-3">
                                     <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -228,7 +273,7 @@
                                     </svg>
                                     <span>Pesanan Masuk</span>
                                 </div>
-                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full {{ request()->routeIs('admin.pesanan.*') ? 'bg-white text-[#B8664A]' : 'bg-white/10 text-white' }}">
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full {{ $activeNav === 'orders' ? 'bg-white text-[#B8664A]' : 'bg-white/10 text-white' }}" :class="currentNav === 'orders' ? 'bg-white text-[#B8664A]' : 'bg-white/10 text-white'">
                                     {{ \App\Models\Pemesanan::count() }}
                                 </span>
                             </a>
@@ -236,7 +281,8 @@
                             <!-- Direktori Pelanggan -->
                             <a
                                 href="{{ route('admin.customers.index') }}"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}"
+                                :class="currentNav === 'customers' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'customers' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
@@ -255,7 +301,8 @@
                             <!-- Katalog Produk -->
                             <a
                                 href="{{ route('admin.produk.index') }}"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.produk.*') ? 'active' : '' }}"
+                                :class="currentNav === 'products' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'products' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
@@ -265,8 +312,9 @@
 
                             <!-- Material Kain -->
                             <a
-                                href="{{ route('admin.kategori.index') }}#material"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}"
+                                href="{{ route('admin.kategori.index') }}?tab=material#material"
+                                :class="currentNav === 'materials' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'materials' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
@@ -277,7 +325,8 @@
                             <!-- Kategori Produk -->
                             <a
                                 href="{{ route('admin.kategori.index') }}"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}"
+                                :class="currentNav === 'categories' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'categories' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
@@ -288,7 +337,8 @@
                             <!-- Dimensi Ukuran -->
                             <a
                                 href="{{ route('admin.ukuran.index') }}"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.ukuran.*') ? 'active' : '' }}"
+                                :class="currentNav === 'sizes' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'sizes' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
@@ -299,7 +349,8 @@
                             <!-- Model Pakaian 3D -->
                             <a
                                 href="{{ route('admin.model-3d.index') }}"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.model-3d.*') ? 'active' : '' }}"
+                                :class="currentNav === 'models3d' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'models3d' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
@@ -318,7 +369,8 @@
                             <!-- Analisis Bisnis -->
                             <a
                                 href="{{ route('admin.analytics') }}"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.analytics') ? 'active' : '' }}"
+                                :class="currentNav === 'analytics' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'analytics' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
@@ -329,7 +381,8 @@
                             <!-- Pengaturan Akun -->
                             <a
                                 href="{{ route('admin.profile.edit') }}"
-                                class="sidebar-nav-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}"
+                                :class="currentNav === 'settings' ? 'active' : ''"
+                                class="sidebar-nav-link {{ $activeNav === 'settings' ? 'active' : '' }}"
                             >
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
