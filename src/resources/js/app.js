@@ -1,13 +1,31 @@
 import Alpine from 'alpinejs';
-import Chart from 'chart.js/auto';
-import '@google/model-viewer';
 
-// Expose Alpine & Chart to window for inline scripts and blade views
+// Expose Alpine to window for inline scripts and blade views
 window.Alpine = Alpine;
-window.Chart = Chart;
 
 // Start Alpine
 Alpine.start();
+
+// Lazy-load Chart.js on demand
+window.loadChart = async () => {
+    if (!window.Chart) {
+        const { default: Chart } = await import('chart.js/auto');
+        window.Chart = Chart;
+    }
+    return window.Chart;
+};
+
+// Automatically load Chart.js only when a chart element is present
+if (typeof document !== 'undefined' && document.querySelector('canvas[data-chart], [data-chart]')) {
+    window.loadChart().then((Chart) => {
+        window.dispatchEvent(new CustomEvent('chartjs-loaded', { detail: Chart }));
+    });
+}
+
+// Lazy-load @google/model-viewer only when <model-viewer> element is in the DOM
+if (typeof document !== 'undefined' && document.querySelector('model-viewer')) {
+    import('@google/model-viewer');
+}
 
 const shouldSkipPrefetch = (anchor) => {
     if (!anchor || anchor.target === '_blank' || anchor.hasAttribute('download')) {
@@ -23,6 +41,11 @@ const shouldSkipPrefetch = (anchor) => {
     }
 
     if (url.origin !== window.location.origin) {
+        return true;
+    }
+
+    // Exclude admin panel routes from hover prefetching to avoid saturating PHP-FPM workers
+    if (url.pathname === '/admin' || url.pathname.startsWith('/admin/')) {
         return true;
     }
 

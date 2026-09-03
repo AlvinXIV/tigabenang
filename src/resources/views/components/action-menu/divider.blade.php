@@ -1,1 +1,1 @@
-@include('components.action-menu-divider')
+<div class="my-1 border-t border-[#E2E5E9]"></div>
