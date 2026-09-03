@@ -44,7 +44,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                <span>+ Tambah Kategori</span>
+                <span>Tambah Kategori</span>
             </button>
 
             <!-- Contextual Action Button for Material -->
@@ -57,7 +57,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                <span>+ Tambah Material</span>
+                <span>Tambah Material</span>
             </button>
         </div>
     </div>

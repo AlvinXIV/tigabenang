@@ -22,7 +22,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                <span>+ Hubungkan Model 3D</span>
+                <span>Hubungkan Model 3D</span>
             </a>
         </div>
     </div>
@@ -74,8 +74,11 @@
         @empty
             <div class="col-span-full">
                 <x-empty-state title="Belum Ada Model 3D" message="Belum ada produk yang terhubung dengan file model 3D (.glb / .gltf).">
-                    <a href="{{ route('admin.model-3d.create') }}" class="btn-primary text-xs px-4 py-2 mt-3 inline-block">
-                        + Hubungkan Model 3D Pertama
+                    <a href="{{ route('admin.model-3d.create') }}" class="btn-primary text-xs px-4 py-2 mt-3 inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span>Hubungkan Model 3D Pertama</span>
                     </a>
                 </x-empty-state>
             </div>
