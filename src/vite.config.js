@@ -115,9 +115,12 @@ export default defineConfig({
         // Watch settings for Docker on Windows
         watch: {
             usePolling: true,
-            interval: 100,
+            interval: 500,
             ignored: [
-                '**/storage/framework/views/**',
+                '**/storage/**',
+                '**/vendor/**',
+                '**/node_modules/**',
+                '**/.git/**',
             ],
         },
     },

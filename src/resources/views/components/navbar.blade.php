@@ -11,10 +11,10 @@
 <header
     id="main-navbar"
     class="main-navbar"
-    style="background:#FFFFFF;border-bottom:1px solid #E2E5E9;position:sticky;top:0;z-index:100;transition:transform 0.3s ease, box-shadow 0.2s ease;"
+    style="background:#FFFFFF;position:sticky;top:0;z-index:100;transition:transform 0.3s ease, box-shadow 0.2s ease;"
 >
     <nav class="mx-auto max-w-[1200px] px-5 lg:px-8" aria-label="Navigasi utama">
-        <div class="flex h-[72px] items-center justify-between gap-4">
+        <div class="flex h-20 md:h-[88px] items-center justify-between gap-4">
 
             <a href="{{ route('home') }}" class="group flex shrink-0 items-center gap-2.5 no-underline">
                 <span class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[10px] border border-[#E2E5E9] bg-white">

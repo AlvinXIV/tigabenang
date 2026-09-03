@@ -78,9 +78,9 @@ function loftGeo(
                 (j / segs) * Math.PI * 2;
 
             pos.push(
-                Math.cos(a) * r.rx,
+                (r.x || 0) + Math.cos(a) * r.rx,
                 r.y,
-                Math.sin(a) * r.rz,
+                (r.z || 0) + Math.sin(a) * r.rz,
             );
         }
     }
@@ -109,7 +109,7 @@ function loftGeo(
         const ci = pos.length / 3;
         const r = rings[0];
 
-        pos.push(0, r.y, 0);
+        pos.push(r.x || 0, r.y, r.z || 0);
 
         for (let j = 0; j < segs; j++) {
             idx.push(ci, j + 1, j);
@@ -121,7 +121,7 @@ function loftGeo(
         const li = rings.length - 1;
         const r = rings[li];
 
-        pos.push(0, r.y, 0);
+        pos.push(r.x || 0, r.y, r.z || 0);
 
         const b = li * vpr;
 
@@ -202,6 +202,20 @@ function smooth(keys, steps = INTERP) {
                         t,
                     ),
                 ),
+                x: catmull(
+                    r0.x || 0,
+                    r1.x || 0,
+                    r2.x || 0,
+                    r3.x || 0,
+                    t,
+                ),
+                z: catmull(
+                    r0.z || 0,
+                    r1.z || 0,
+                    r2.z || 0,
+                    r3.z || 0,
+                    t,
+                ),
             });
         }
     }
@@ -223,89 +237,6 @@ function circ(c, s, wr = 1.15) {
         rx: avg * Math.sqrt(wr),
         rz: avg * Math.sqrt(dr),
     };
-}
-
-// ──────────────────────────────────────────────────────────────
-// PUBLIC: BODY LANDMARKS (metre scale)
-// ──────────────────────────────────────────────────────────────
-//
-// Same anatomy math as createAvatar().
-// Garment fitting must use this instead of inventing new formulas.
-// ──────────────────────────────────────────────────────────────
-
-export function getAvatarLandmarks(opts = {}) {
-    const heightCm = Number(opts.height) || 170;
-    const chestCm = Number(opts.chest) || 92;
-    const waistCm = Number(opts.waist) || 76;
-    const hipCm = Number(opts.hip) || 96;
-    const shoulderCm = Number(opts.shoulder) || 44;
-    const armCm = Number(opts.armLength) || 58;
-    const torsoCm = Number(opts.torsoLength) || 44;
-    const torsoType = opts.torsoType || 'normal';
-
-    const h = heightCm / 100;
-    const s = 1 / 100;
-
-    const crotchFrac =
-        torsoType === 'long'
-            ? 0.44
-            : torsoType === 'short'
-              ? 0.50
-              : 0.47;
-
-    const headH = h * 0.125;
-    const neckH = h * 0.028;
-    const yCrotch = h * crotchFrac;
-    const yAnkle = h * 0.046;
-    const yKnee = yAnkle + (yCrotch - yAnkle) * 0.47;
-    const yShoulder = h - headH - neckH;
-    const yWaist = yShoulder - torsoCm * s;
-    const yHip = lerp(yCrotch, yWaist, 0.35);
-    const yChest = lerp(yWaist, yShoulder, 0.55);
-    const yNeckBase = yShoulder + neckH;
-    const yHeadCenter = yNeckBase + headH * 0.45;
-
-    const hipR = circ(hipCm, s, 1.25);
-    const waistR = circ(waistCm, s, 1.08);
-    const chestR = circ(chestCm, s, 1.2);
-
-    return {
-        heightCm,
-        chestCm,
-        waistCm,
-        hipCm,
-        shoulderCm,
-        armCm,
-        torsoCm,
-        torsoType,
-        height: h,
-        yCrotch,
-        yAnkle,
-        yKnee,
-        yHip,
-        yWaist,
-        yChest,
-        yShoulder,
-        yNeckBase,
-        yHeadCenter,
-        headH,
-        neckH,
-        shoulderWidth: shoulderCm * s,
-        torsoLength: torsoCm * s,
-        armLength: armCm * s,
-        chestWidth: chestR.rx * 2,
-        chestDepth: chestR.rz * 2,
-        waistWidth: waistR.rx * 2,
-        waistDepth: waistR.rz * 2,
-        hipWidth: hipR.rx * 2,
-        chestR,
-        waistR,
-        hipR,
-    };
-}
-
-export function calculateBodyParameters(opts = {}) {
-    return getAvatarLandmarks(opts);
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -468,19 +399,19 @@ export function createAvatar(
     const hipR = circ(
         hipCm,
         s,
-        1.25,
+        1.25, // Kembali ke proporsi manusia normal
     );
 
     const waistR = circ(
         waistCm,
         s,
-        1.08,
+        1.15, // Pinggang normal
     );
 
     const chestR = circ(
         chestCm,
         s,
-        1.2,
+        1.5, // Lebar lebih besar, kedalaman (rz) lebih tipis agar muat di dalam baju
     );
 
     const shW =
@@ -511,91 +442,68 @@ export function createAvatar(
             y: yCrotch,
             rx: hipR.rx * 0.52,
             rz: hipR.rz * 0.65,
+            z: h * 0.015,
         },
 
         // Lower hip
         {
-            y: lerp(
-                yCrotch,
-                yHip,
-                0.5,
-            ),
+            y: lerp(yCrotch, yHip, 0.5),
             rx: hipR.rx * 0.88,
             rz: hipR.rz * 0.88,
+            z: -h * 0.005,
         },
 
-        // Hip (widest lower body)
+        // Hip (widest lower body, buttocks stick out back)
         {
             y: yHip,
             ...hipR,
+            z: -h * 0.025, // Natural buttock curve
         },
 
         // Hip → Waist transition
         {
             y: lerp(yHip, yWaist, 0.5),
-            rx: lerp(
-                hipR.rx,
-                waistR.rx,
-                0.55,
-            ),
-            rz: lerp(
-                hipR.rz,
-                waistR.rz,
-                0.5,
-            ),
+            rx: lerp(hipR.rx, waistR.rx, 0.55),
+            rz: lerp(hipR.rz, waistR.rz, 0.5),
+            z: -h * 0.005, // Kurva lordosis
         },
 
-        // Waist (narrowest)
+        // Waist (narrowest, stomach forward)
         {
             y: yWaist,
             ...waistR,
+            z: h * 0.015, // Natural waist curve
         },
 
         // Lower chest / rib cage
         {
-            y: lerp(
-                yWaist,
-                yChest,
-                0.4,
-            ),
-            rx: lerp(
-                waistR.rx,
-                chestR.rx,
-                0.45,
-            ),
-            rz: lerp(
-                waistR.rz,
-                chestR.rz,
-                0.3,
-            ),
+            y: lerp(yWaist, yChest, 0.4),
+            rx: lerp(waistR.rx, chestR.rx, 0.45),
+            rz: lerp(waistR.rz, chestR.rz, 0.25),
+            z: h * 0.025, // Tulang rusuk bawah maju
         },
 
         // Chest (widest upper body)
         {
             y: yChest,
             ...chestR,
+            z: h * 0.01, // Dikurangi agar tidak tembus baju depan
         },
 
         // Upper chest
         {
-            y: lerp(
-                yChest,
-                yShoulder,
-                0.5,
-            ),
-            rx: lerp(
-                chestR.rx,
-                shRx,
-                0.5,
-            ),
-            rz: chestR.rz * 0.88,
+            y: lerp(yChest, yShoulder, 0.5),
+            rx: lerp(chestR.rx, shRx, 0.5),
+            rz: chestR.rz * 0.70, // Lebih tipis
+            z: h * 0.005, // Hampir rata
         },
 
-        // Shoulder level
+        // Shoulder level (neck sits slightly forward)
         {
             y: yShoulder,
             rx: shRx,
-            rz: chestR.rz * 0.82,
+            rz: chestR.rz * 0.50, // Pundak lebih tipis agar tidak tembus lengan baju
+            z: -h * 0.01, // Sedikit ke belakang
         },
 
         // Neck base (taper quickly)
@@ -603,6 +511,7 @@ export function createAvatar(
             y: yNeckBase - neckH * 0.15,
             rx: shRx * 0.22,
             rz: chestR.rz * 0.28,
+            z: h * 0.005,
         },
     ];
 
@@ -614,8 +523,8 @@ export function createAvatar(
         torsoGeo,
         material,
     );
+    torso.name = 'torso';
 
-    torso.name = 'avatar-torso';
     torso.castShadow = true;
     torso.receiveShadow = true;
 
@@ -632,6 +541,7 @@ export function createAvatar(
             y: yNeckBase - neckH * 0.15,
             rx: neckR * 1.3,
             rz: neckR * 1.2,
+            z: h * 0.005,
         },
         {
             y: lerp(
@@ -641,11 +551,13 @@ export function createAvatar(
             ),
             rx: neckR * 1.05,
             rz: neckR,
+            z: h * 0.008,
         },
         {
-            y: yNeckBase + neckH * 0.5,
+            y: yNeckBase + neckH,
             rx: neckR,
             rz: neckR * 0.95,
+            z: h * 0.012,
         },
     ];
 
@@ -673,7 +585,7 @@ export function createAvatar(
     );
 
     head.scale.set(0.92, 1.1, 0.92);
-    head.position.y = yHeadCenter;
+    head.position.set(0, yHeadCenter, h * 0.015);
 
     avatar.add(head);
 
@@ -681,7 +593,7 @@ export function createAvatar(
     // SHOULDER CAPS (smooth bridge)
     // ══════════════════════════════════════
 
-    const capR = h * 0.04;
+    const capR = h * 0.024; // Kecilkan pundak agar tidak menonjol dari baju
 
     for (const side of [-1, 1]) {
         const cap = new THREE.Mesh(
@@ -693,12 +605,12 @@ export function createAvatar(
             material,
         );
 
-        cap.scale.set(1.15, 0.8, 0.95);
+        cap.scale.set(1.0, 0.7, 0.7); // Pipihkan pundak dari depan-belakang
 
         cap.position.set(
-            side * shW,
-            yShoulder,
-            0,
+            side * shW * 0.92,
+            yShoulder - h * 0.012,
+            h * 0.005,
         );
 
         avatar.add(cap);
@@ -711,12 +623,13 @@ export function createAvatar(
     const upperArmLen = armLen * 0.5;
     const forearmLen = armLen * 0.5;
 
-    const upperArmR = h * 0.038;
-    const forearmR = h * 0.03;
-    const wristR = h * 0.022;
-    const handR = h * 0.024;
+    const upperArmR = h * 0.026; // Lengan atas dirampingkan agar masuk ke lengan baju
+    const forearmR = h * 0.020;  // Lengan bawah dirampingkan
+    const wristR = h * 0.016;
+    const handR = h * 0.018;
 
-    const armAngle = 0.18; // radians
+    const armAngleZ = 0.62; // Lebih terangkat ke samping agar masuk ke lubang lengan baju
+    const armAngleX = -0.12; // Sedikit ke depan supaya lengan mengikuti kurva baju
 
     for (const side of [-1, 1]) {
         const arm = new THREE.Group();
@@ -811,13 +724,14 @@ export function createAvatar(
 
         // Position & rotate arm
         arm.position.set(
-            side * shW,
-            yShoulder,
-            0,
+            side * shW * 0.92,
+            yShoulder - h * 0.012,
+            h * 0.005,
         );
 
-        arm.rotation.z =
-            side * armAngle;
+        arm.rotation.order = 'ZXY';
+        arm.rotation.z = side * armAngleZ;
+        arm.rotation.x = armAngleX;
 
         avatar.add(arm);
     }
@@ -965,18 +879,6 @@ export function createAvatar(
 // ──────────────────────────────────────────────────────────────
 // PUBLIC: UPDATE AVATAR
 // ──────────────────────────────────────────────────────────────
-
-export function setCoveredTorsoVisible(avatar, visible) {
-    if (!avatar) {
-        return;
-    }
-
-    avatar.traverse((child) => {
-        if (child.isMesh && child.name === 'avatar-torso') {
-            child.visible = visible;
-        }
-    });
-}
 
 export function updateAvatar(
     avatar,

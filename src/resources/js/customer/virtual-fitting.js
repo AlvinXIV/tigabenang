@@ -1,17 +1,13 @@
-// alvin-tshirt-prototype-2026-08-30
-import {
-    loadGarment,
-    fitGarmentToMannequin,
-    updateGarmentFit,
-    disposeGarment,
-} from '../three/garment';
+import { analyzeFit } from './fit-analysis';
+import { loadGarment, fitGarmentToAvatar, createDummyGarment } from '../three/garment';
+import { createFittingScene } from '../three/scene';
+import { createAvatar, updateAvatar } from '../three/avatar';
 
-const PROTO_TSHIRT_URL = '/models/t-shirt.glb';
-const PREVIEW_AREAS = [
-    { area: 'Dada' },
-    { area: 'Bahu' },
-    { area: 'Pinggang' },
-];
+const stateColors = {
+    'Too Tight': '#DC2626',
+    'Perfect Fit': '#059669',
+    'Too Loose': '#2563EB',
+};
 
 const parseJsonScript = (root, selector) => {
     const node = root.querySelector(selector);
@@ -103,19 +99,10 @@ const initFitting = async () => {
     let studio;
     let avatar = null;
     let currentGarmentWrapper = null;
-    let selectedSizeName = 'M';
+    let selectedSizeName = null;
 
     try {
-        const [
-            { createFittingScene },
-            { createAvatar, updateAvatar, setCoveredTorsoVisible },
-        ] = await Promise.all([
-            import('../three/scene'),
-            import('../three/avatar'),
-        ]);
-
         studio = createFittingScene(viewport);
-        requestAnimationFrame(() => studio?.resize?.());
 
         const getBodyParams = () => ({
             height: numberValue(heightInput, 170),
@@ -129,163 +116,73 @@ const initFitting = async () => {
         });
 
         // ── 1. Create Initial Avatar ──
-        if (statusNode) {
-            statusNode.textContent = 'Menyiapkan studio';
-        }
-
         avatar = createAvatar(getBodyParams());
         studio.scene.add(avatar);
 
         if (statusNode) {
-            statusNode.textContent = 'Manekin siap';
+            statusNode.textContent = 'Virtual studio ready';
         }
-
-        if (nameNode) {
-            nameNode.textContent = 'Manekin studio';
-        }
-
-        if (categoryNode) {
-            categoryNode.textContent = 'Pratinjau kaos';
-        }
-
-        const applyTorsoMask = (fitResult) => {
-            if (!avatar) {
-                return;
-            }
-
-            setCoveredTorsoVisible(avatar, !fitResult?.hideCoveredTorso);
-        };
-
-        const updateFitBadge = () => {
-            if (!matchNode) {
-                return;
-            }
-
-            matchNode.textContent = 'Pratinjau statis';
-            matchNode.style.background = 'rgba(255,255,255,0.95)';
-            matchNode.style.color = '#1C2430';
-            matchNode.style.borderColor = '#E2E5E9';
-        };
-
-        const renderHeatmap = () => {
-            if (!heatmapNode) {
-                return;
-            }
-
-            heatmapNode.innerHTML = PREVIEW_AREAS.map((item) => `
-                <li class="flex items-center justify-between py-1.5 border-b border-[#E2E5E9]">
-                    <span class="font-medium text-xs text-[#1C2430]">${item.area}</span>
-                    <span class="text-[11px] font-medium px-2 py-0.5 rounded-[8px]"
-                          style="color:#667085;background:#F7F7F5;border:1px solid #E2E5E9;">
-                        Pratinjau
-                    </span>
-                </li>
-            `).join('');
-        };
-
-        const refitCurrentShirt = () => {
-            if (!currentGarmentWrapper) {
-                return null;
-            }
-
-            const fitResult = updateGarmentFit(
-                currentGarmentWrapper,
-                getBodyParams(),
-                selectedSizeName,
-            );
-
-            applyTorsoMask(fitResult);
-
-            return fitResult;
-        };
-
-        const markPrototypeReady = () => {
-            if (nameNode) {
-                nameNode.textContent = 'Manekin studio';
-            }
-
-            if (categoryNode) {
-                categoryNode.textContent = 'Pratinjau kaos';
-            }
-
-            if (sizeNode) {
-                sizeNode.textContent = selectedSizeName;
-            }
-
-            updateFitBadge();
-            renderHeatmap();
-        };
-
-        const applyPrototypeShirt = async () => {
-            if (statusNode) {
-                statusNode.textContent = 'Memuat pakaian...';
-            }
-
-            try {
-                currentGarmentWrapper = await loadGarment(
-                    PROTO_TSHIRT_URL,
-                    studio.garmentGroup,
-                );
-
-                if (currentGarmentWrapper) {
-                    const fitResult = fitGarmentToMannequin(
-                        currentGarmentWrapper,
-                        getBodyParams(),
-                        selectedSizeName,
-                    );
-                    applyTorsoMask(fitResult);
-                }
-
-                markPrototypeReady();
-
-                if (statusNode) {
-                    statusNode.textContent = 'Pakaian siap';
-                }
-            } catch (error) {
-                console.error('[Garment] failed to load', PROTO_TSHIRT_URL, error);
-                disposeGarment(studio.garmentGroup);
-                currentGarmentWrapper = null;
-
-                if (statusNode) {
-                    statusNode.textContent = 'Pakaian tidak tersedia';
-                }
-            }
-        };
-
-        await applyPrototypeShirt();
-
-        const resetButton = root.querySelector('[data-fitting-reset-view]');
-        resetButton?.addEventListener('click', () => {
-            studio.resetView?.();
-        });
-
-        const fallbackSizes = [
-            { name: 'S', lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
-            { name: 'M', lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
-            { name: 'L', lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
-            { name: 'XL', lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
-            { name: 'XXL', lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
-        ];
 
         const findProduct = (id) => {
             return catalog.find((item) => String(item.id) === String(id));
         };
 
-        const renderSizeButtons = (product) => {
+        const renderHeatmap = (heatmap) => {
+            if (!heatmapNode) return;
+            heatmapNode.innerHTML = heatmap.map((item) => `
+                <li class="flex items-center justify-between py-1.5 border-b border-[#DCD6D0]/60">
+                    <span class="font-bold text-xs text-[#172A39]">${item.area}</span>
+                    <span class="text-[11px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full"
+                          style="color:${stateColors[item.state] || '#172A39'};background:${item.state === 'Too Tight' ? '#FEE2E2' : (item.state === 'Too Loose' ? '#DBEAFE' : '#D1FAE5')};">
+                        ${item.state}
+                    </span>
+                </li>
+            `).join('');
+        };
+
+        const updateFitBadge = (matchText) => {
+            if (!matchNode) return;
+            matchNode.textContent = matchText;
+            if (matchText === 'Too Tight') {
+                matchNode.style.background = '#FEE2E2';
+                matchNode.style.color = '#991B1B';
+                matchNode.style.borderColor = '#FCA5A5';
+            } else if (matchText === 'Too Loose') {
+                matchNode.style.background = '#DBEAFE';
+                matchNode.style.color = '#1E40AF';
+                matchNode.style.borderColor = '#93C5FD';
+            } else {
+                matchNode.style.background = '#D1FAE5';
+                matchNode.style.color = '#065F46';
+                matchNode.style.borderColor = '#6EE7B7';
+            }
+        };
+
+        const renderSizeButtons = (product, recommendedSize) => {
             if (!sizeButtonsContainer) return;
 
             const sizes = product?.sizes?.length > 0
                 ? product.sizes
-                : fallbackSizes;
+                : [
+                    { name: 'S', lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
+                    { name: 'M', lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
+                    { name: 'L', lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
+                    { name: 'XL', lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
+                    { name: 'XXL', lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+                ];
+
+            if (!selectedSizeName) {
+                selectedSizeName = recommendedSize || sizes[1]?.name || 'M';
+            }
 
             sizeButtonsContainer.innerHTML = sizes.map((s) => {
                 const isActive = s.name === selectedSizeName;
                 return `
                     <button type="button" data-size="${s.name}"
-                        class="size-pill-btn px-3 py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                        class="size-pill-btn px-4 py-2 rounded-xl text-xs font-black border transition-all cursor-pointer ${
                             isActive
-                                ? 'bg-[#1C2430] text-white border-[#1C2430]'
-                                : 'bg-[#F7F7F5] text-[#1C2430] border-[#E2E5E9] hover:bg-[#EEEFEC]'
+                                ? 'bg-[#172A39] text-white border-[#172A39] shadow-md'
+                                : 'bg-[#FAF8F5] text-[#172A39] border-[#DCD6D0] hover:bg-[#EAE2D8]'
                         }">
                         ${s.name}
                     </button>
@@ -295,20 +192,54 @@ const initFitting = async () => {
             sizeButtonsContainer.querySelectorAll('button[data-size]').forEach((btn) => {
                 btn.addEventListener('click', () => {
                     selectedSizeName = btn.dataset.size;
-                    renderSizeButtons(product);
-                    recalculateFit();
+                    renderSizeButtons(product, recommendedSize);
+                    recalculateFit(product);
                 });
             });
         };
 
-        const recalculateFit = () => {
+        const recalculateFit = (product) => {
+            if (!product) return;
+
+            const p = getBodyParams();
+            const result = analyzeFit({
+                heightCm: p.height,
+                chestCm: p.chest,
+                waistCm: p.waist,
+                hipCm: p.hip,
+                shoulderCm: p.shoulder,
+                sizes: product?.sizes || [],
+            });
+
             if (sizeNode) {
-                sizeNode.textContent = selectedSizeName;
+                sizeNode.textContent = selectedSizeName || result.recommendedSize || 'M';
             }
 
-            updateFitBadge();
-            renderHeatmap();
-            refitCurrentShirt();
+            // Find current active size spec
+            const activeSizeSpec = product?.sizes?.find((s) => s.name === selectedSizeName) || {
+                S: { lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
+                M: { lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
+                L: { lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
+                XL: { lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
+                XXL: { lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+            }[selectedSizeName || 'M'];
+
+            // Calculate fit classification for this specific size
+            const customerHalfChest = p.chest / 2;
+            const garmentHalfChest = activeSizeSpec?.lebar_dada || 50;
+            const ratio = customerHalfChest / garmentHalfChest;
+
+            let currentMatchText = 'Perfect Fit';
+            if (ratio > 1.05) currentMatchText = 'Too Tight';
+            else if (ratio < 0.92) currentMatchText = 'Too Loose';
+
+            updateFitBadge(currentMatchText);
+            renderHeatmap(result.heatmap || []);
+
+            // ── Dynamic 3D Garment Morphing & Fitting ──
+            if (currentGarmentWrapper) {
+                fitGarmentToAvatar(currentGarmentWrapper, p, activeSizeSpec, currentMatchText, avatar);
+            }
         };
 
         // ── 2. Update Body Avatar ──
@@ -322,21 +253,101 @@ const initFitting = async () => {
             saveProfile(p);
 
             const product = findProduct(productSelect?.value) || catalog[0];
-            renderSizeButtons(product);
-            recalculateFit();
+            recalculateFit(product);
 
-            if (statusNode && currentGarmentWrapper) {
-                statusNode.textContent = 'Pakaian siap';
+            if (statusNode) {
+                statusNode.textContent = 'Body profile updated';
             }
         };
 
+        // ── 3. Apply Product & Load 3D Garment ──
         const applyProduct = async (product) => {
-            renderSizeButtons(product);
-            recalculateFit();
-
-            if (currentGarmentWrapper && statusNode) {
-                statusNode.textContent = 'Pakaian siap';
+            if (!product) {
+                console.warn('[VF] No product to apply');
+                return;
             }
+
+            console.log('[VF] Applying product:', product.name, 'modelUrl:', product.modelUrl);
+
+            if (nameNode) nameNode.textContent = product.name;
+            if (categoryNode) categoryNode.textContent = product.category || 'Katalog';
+
+            renderSizeButtons(product, selectedSizeName);
+
+            if (statusNode) {
+                statusNode.textContent = 'Memuat model 3D ' + (product.name || '') + '...';
+                statusNode.style.color = '#172A39';
+                statusNode.style.background = 'rgba(255,255,255,0.92)';
+            }
+
+            if (!product.modelUrl) {
+                console.log('[VF] No modelUrl, using procedural shirt');
+                currentGarmentWrapper = createDummyGarment(studio.garmentGroup);
+                recalculateFit(product);
+                if (statusNode) {
+                    statusNode.textContent = '✓ Model Sampel Aktif (Belum ada file GLB)';
+                    statusNode.style.color = '#065F46';
+                    statusNode.style.background = '#D1FAE5';
+                }
+                return;
+            }
+
+            // Debug overlay element
+            let debugOverlay = document.getElementById('debug-glb-error');
+            if (!debugOverlay) {
+                debugOverlay = document.createElement('div');
+                debugOverlay.id = 'debug-glb-error';
+                debugOverlay.style.position = 'fixed';
+                debugOverlay.style.top = '10px';
+                debugOverlay.style.left = '50%';
+                debugOverlay.style.transform = 'translateX(-50%)';
+                debugOverlay.style.background = 'rgba(255,0,0,0.9)';
+                debugOverlay.style.color = '#fff';
+                debugOverlay.style.padding = '10px 20px';
+                debugOverlay.style.borderRadius = '8px';
+                debugOverlay.style.zIndex = '2147483647';
+                debugOverlay.style.fontFamily = 'monospace';
+                debugOverlay.style.fontSize = '16px';
+                debugOverlay.style.textAlign = 'center';
+                document.body.appendChild(debugOverlay);
+            }
+
+            try {
+                console.log('[VF] Starting GLB load from URL:', product.modelUrl);
+                debugOverlay.textContent = 'Memuat model... URL: ' + product.modelUrl;
+                debugOverlay.style.background = 'rgba(255,165,0,0.9)'; // Orange
+
+                currentGarmentWrapper = await loadGarment(
+                    product.modelUrl,
+                    studio.garmentGroup,
+                    (percent) => {
+                        if (statusNode) statusNode.textContent = `Memuat 3D Model: ${percent}%`;
+                        debugOverlay.textContent = `Loading ${percent}%... URL: ` + product.modelUrl;
+                    }
+                );
+
+                if (currentGarmentWrapper) {
+                    debugOverlay.innerHTML = `Sukses memuat GLB!<br/>URL: ${product.modelUrl}`;
+                    debugOverlay.style.background = 'rgba(0,128,0,0.9)'; // Green
+                    if (statusNode) {
+                        statusNode.textContent = '✓ 3D Baju Terpasang: ' + (product.name || '');
+                        statusNode.style.color = '#065F46';
+                        statusNode.style.background = '#D1FAE5';
+                    }
+                }
+            } catch (error) {
+                console.error('[VF] GLB load FAILED:', error);
+                debugOverlay.innerHTML = `ERROR MEMUAT GLB!<br/>URL: ${product.modelUrl}<br/>Error: ${error.message || error}`;
+                debugOverlay.style.background = 'rgba(255,0,0,0.9)'; // Red
+
+                currentGarmentWrapper = createDummyGarment(studio.garmentGroup);
+                if (statusNode) {
+                    statusNode.textContent = '⚠️ GLB Gagal: ' + (error.message || 'Menggunakan model sampel');
+                    statusNode.style.color = '#991B1B';
+                    statusNode.style.background = '#FEE2E2';
+                }
+            }
+            recalculateFit(product);
         };
 
         // ── Input Listeners ──
@@ -350,6 +361,35 @@ const initFitting = async () => {
         torsoTypeRadios.forEach((radio) => {
             radio.addEventListener('change', updateBody);
         });
+
+        // ── Debug Listeners ──
+        const debugScale = document.getElementById('debug-scale');
+        const debugScaleVal = document.getElementById('debug-scale-val');
+        const debugY = document.getElementById('debug-y');
+        const debugYVal = document.getElementById('debug-y-val');
+        const debugZ = document.getElementById('debug-z');
+        const debugZVal = document.getElementById('debug-z-val');
+
+        if (debugScale && debugY && debugZ) {
+            const updateDebugTransform = () => {
+                if (!currentGarmentWrapper) return;
+                const scale = parseFloat(debugScale.value);
+                const yOffset = parseFloat(debugY.value);
+                const zOffset = parseFloat(debugZ.value);
+                
+                debugScaleVal.textContent = scale.toFixed(2);
+                debugYVal.textContent = yOffset.toFixed(2);
+                debugZVal.textContent = zOffset.toFixed(2);
+                
+                currentGarmentWrapper.scale.set(scale, scale, scale);
+                currentGarmentWrapper.position.y = yOffset;
+                currentGarmentWrapper.position.z = zOffset;
+            };
+
+            debugScale.addEventListener('input', updateDebugTransform);
+            debugY.addEventListener('input', updateDebugTransform);
+            debugZ.addEventListener('input', updateDebugTransform);
+        }
 
         if (productSelect) {
             productSelect.addEventListener('change', () => {
@@ -365,9 +405,9 @@ const initFitting = async () => {
                 tabs.forEach((item) => {
                     const active = item === tab;
                     item.setAttribute('aria-selected', active ? 'true' : 'false');
-                    item.style.color = active ? '#1C2430' : '#667085';
-                    item.style.borderColor = active ? '#1C2430' : 'transparent';
-                    item.style.background = active ? '#F7F7F5' : 'transparent';
+                    item.style.color = active ? '#172A39' : '#6E7575';
+                    item.style.borderColor = active ? '#172A39' : 'transparent';
+                    item.style.background = active ? '#FAF8F5' : 'transparent';
                 });
 
                 panels.forEach((panel) => {
@@ -381,15 +421,12 @@ const initFitting = async () => {
         await applyProduct(initialProduct);
 
         window.addEventListener('beforeunload', () => {
-            if (studio?.garmentGroup) {
-                disposeGarment(studio.garmentGroup);
-            }
             studio?.dispose();
         }, { once: true });
 
     } catch (error) {
         console.error('Virtual fitting studio failed:', error);
-        if (statusNode) statusNode.textContent = 'Studio 3D bermasalah';
+        if (statusNode) statusNode.textContent = '3D studio error';
     }
 };
 

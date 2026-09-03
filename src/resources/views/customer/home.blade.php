@@ -7,53 +7,108 @@
 
     @php
         use App\Support\CustomerMedia;
-        $heroImgUrl = $heroImageUrl ?? ($featuredProduct ? CustomerMedia::productImageUrl($featuredProduct) : null);
+        $heroImgUrl = asset('images/hero-banner.jpg');
     @endphp
 
-    <section class="fv-home-hero-wrap" aria-label="Pengantar FitVendor">
-        <div class="fv-home-hero">
-            @if ($heroImgUrl)
-                <img
-                    src="{{ $heroImgUrl }}"
-                    alt="Koleksi FitVendor"
-                    class="fv-home-hero__image"
-                    fetchpriority="high"
-                    decoding="async"
-                >
-            @endif
-            <div class="fv-home-hero__overlay" aria-hidden="true"></div>
+    <style>
+        #main-navbar {
+            border-bottom: none !important;
+            box-shadow: none !important;
+        }
+        .fv-home-hero-wrap {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        .fv-home-hero {
+            min-height: 720px !important;
+            height: clamp(640px, 58vw, 860px) !important;
+            max-height: 920px !important;
+        }
+        .fv-home-hero__content {
+            padding-bottom: 84px !important;
+        }
+        @media (min-width: 1024px) {
+            .fv-home-hero {
+                min-height: 800px !important;
+                height: 840px !important;
+            }
+            .fv-home-hero__content {
+                padding-bottom: 110px !important;
+            }
+        }
+    </style>
 
-            <div class="fv-home-hero__content">
-                <div class="fv-home-hero__copy">
-                    <h1>
-                        <span>Pesan pakaian custom</span>
-                        <span>untuk kebutuhan Anda</span>
-                    </h1>
-                    <p>
-                        Pesan pakaian untuk tim, komunitas, acara, atau kebutuhan brand dengan pilihan bahan dan ukuran yang dapat disesuaikan.
-                    </p>
-                    <div class="fv-home-hero__actions">
-                        <a href="{{ route('order.create') }}" class="fv-home-hero__cta">Pesan custom</a>
-                        <a href="{{ route('virtual-fitting') }}" class="fv-home-hero__cta-secondary">Coba fitting virtual</a>
+    <div class="bg-white pt-4 pb-6 sm:pb-8 lg:pb-10">
+        <section class="fv-home-hero-wrap" aria-label="Pengantar FitVendor">
+            <div class="fv-home-hero">
+                @if ($heroImgUrl)
+                    <img
+                        src="{{ $heroImgUrl }}"
+                        alt="Koleksi FitVendor"
+                        class="fv-home-hero__image"
+                        fetchpriority="high"
+                        decoding="async"
+                    >
+                @endif
+                <div class="fv-home-hero__overlay" aria-hidden="true"></div>
+
+                <div class="fv-home-hero__content">
+                    <div class="fv-home-hero__copy">
+                        <h1>
+                            <span>Pesan pakaian custom</span>
+                            <span>untuk kebutuhan Anda</span>
+                        </h1>
+                        <p>
+                            Pesan pakaian untuk tim, komunitas, acara, atau kebutuhan brand dengan pilihan bahan dan ukuran yang dapat disesuaikan.
+                        </p>
+                        <div class="fv-home-hero__actions">
+                            <a href="{{ route('order.create') }}" class="fv-home-hero__cta">Pesan custom</a>
+                            <a href="{{ route('virtual-fitting') }}" class="fv-home-hero__cta-secondary">Coba fitting virtual</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <section class="border-y border-[#E2E5E9] bg-white py-14">
+    <section class="bg-white py-12">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
             <div class="grid gap-8 md:grid-cols-3">
-                @foreach ([
-                    ['title' => 'Bahan terukur', 'desc' => 'Pilih kain dari katalog yang sama dengan stok produksi, bukan spek yang dibuat-buat.'],
-                    ['title' => 'Jahitan rapi', 'desc' => 'Pola dan produksi dikerjakan per pesanan supaya hasilnya konsisten untuk tim Anda.'],
-                    ['title' => 'Proses jelas', 'desc' => 'Kirim permintaan, bahas harga di WhatsApp, lalu produksi berjalan setelah konfirmasi.'],
-                ] as $item)
-                    <div class="rounded-[14px] border border-[#E2E5E9] bg-[#F7F7F5] p-6">
-                        <h3 class="text-lg font-bold text-[#1C2430]">{{ $item['title'] }}</h3>
-                        <p class="mt-2 text-sm leading-relaxed text-[#667085]">{{ $item['desc'] }}</p>
+                <div class="flex flex-col items-center text-center">
+                    <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0F4F8] text-[#102A43]">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
+                        </svg>
                     </div>
-                @endforeach
+                    <h3 class="text-lg font-bold text-[#1C2430]">Bahan terukur</h3>
+                    <p class="mt-2 text-sm leading-relaxed text-[#667085]">
+                        Pilih kain dari katalog yang sama dengan stok produksi, bukan spek yang dibuat-buat.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center text-center">
+                    <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0F4F8] text-[#102A43]">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-[#1C2430]">Jahitan rapi</h3>
+                    <p class="mt-2 text-sm leading-relaxed text-[#667085]">
+                        Pola dan produksi dikerjakan per pesanan supaya hasilnya konsisten untuk tim Anda.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center text-center">
+                    <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0F4F8] text-[#102A43]">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-[#1C2430]">Proses jelas</h3>
+                    <p class="mt-2 text-sm leading-relaxed text-[#667085]">
+                        Kirim permintaan, bahas harga di WhatsApp, lalu produksi berjalan setelah konfirmasi.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -63,32 +118,44 @@
             <div>
                 <span class="section-badge mb-3">Tentang kami</span>
                 <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-[#1C2430]">
-                    Pakaian custom dengan pola yang pas dan produksi yang bisa dilacak
+                    7+ tahun memproduksi pakaian custom berkualitas
                 </h2>
                 <div class="mt-5 space-y-3 text-sm leading-relaxed text-[#667085]">
                     <p>
-                        <strong class="font-semibold text-[#1C2430]">FitVendor</strong> mengerjakan jaket, kemeja, jersey, dan kaos sesuai kebutuhan tim atau brand. Setiap pesanan memakai bahan dari katalog dan ukuran yang Anda tentukan.
+                        <strong class="font-semibold text-[#1C2430]">FitVendor</strong> adalah konveksi garmen berbasis di Bandung dengan pengalaman lebih dari 7 tahun. Kami dipercaya ratusan komunitas, kampus, dan brand untuk memproduksi jaket, kemeja, jersey, hingga seragam kerja.
                     </p>
                     <p>
-                        Mulai dari varsity, windbreaker, work jacket, sampai kaos komunitas. Prosesnya sederhana: pilih produk, tentukan bahan dan kuantitas, lalu kirim permintaan.
+                        Dengan meja potong mandiri dan penjahit ahli, setiap pesanan dikerjakan dengan bahan pilihan, pola proporsional, dan proses produksi yang transparan.
                     </p>
                 </div>
+
+                <div class="mt-6 grid grid-cols-3 gap-3 border-y border-[#E2E5E9] py-3.5">
+                    <div>
+                        <p class="text-base font-bold text-[#1C2430] sm:text-lg">7+ Tahun</p>
+                        <p class="text-[11px] text-[#667085] sm:text-xs">Pengalaman garmen</p>
+                    </div>
+                    <div>
+                        <p class="text-base font-bold text-[#1C2430] sm:text-lg">50.000+</p>
+                        <p class="text-[11px] text-[#667085] sm:text-xs">Pcs diproduksi</p>
+                    </div>
+                    <div>
+                        <p class="text-base font-bold text-[#1C2430] sm:text-lg">300+</p>
+                        <p class="text-[11px] text-[#667085] sm:text-xs">Mitra & komunitas</p>
+                    </div>
+                </div>
+
                 <div class="mt-7 flex flex-wrap gap-3">
                     <a href="{{ route('about') }}" class="btn-primary">Profil perusahaan</a>
                     <a href="{{ route('order.create') }}" class="btn-outline">Konsultasi pesanan</a>
                 </div>
             </div>
-            <div class="space-y-4">
-                @foreach ([
-                    ['title' => 'Ukuran dan bahan bisa diatur', 'desc' => 'Tentukan size breakdown, kombinasi kain, plus sablon atau bordir sesuai identitas tim.'],
-                    ['title' => 'Pola proporsional', 'desc' => 'Potongan mengikuti size chart kategori, bukan tebak-tebakan dari foto katalog.'],
-                    ['title' => 'Dipakai kampus dan organisasi', 'desc' => 'Cocok untuk angkatan, komunitas, event, dan kebutuhan seragam kerja.'],
-                ] as $pillar)
-                    <div class="rounded-[14px] border border-[#E2E5E9] bg-white p-5">
-                        <h3 class="text-base font-bold text-[#1C2430]">{{ $pillar['title'] }}</h3>
-                        <p class="mt-1 text-sm leading-relaxed text-[#667085]">{{ $pillar['desc'] }}</p>
-                    </div>
-                @endforeach
+            <div class="fv-media aspect-[4/3] shadow-sm">
+                <img
+                    src="{{ asset('images/about-production.jpg') }}"
+                    alt="Proses jahit dan produksi pakaian custom FitVendor"
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                >
             </div>
         </div>
     </section>
