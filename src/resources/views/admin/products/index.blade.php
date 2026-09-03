@@ -120,7 +120,7 @@
                                             {{ $prod->nama_produk }}
                                         </span>
                                         <span class="text-[11px] text-[#667085] line-clamp-1 max-w-xs mt-0.5">
-                                            {{ $prod->deskripsi ?: 'Tidak ada deskripsi' }}
+                                            {{ $prod->bahan && $prod->bahan->isNotEmpty() ? $prod->bahan->pluck('nama_bahan')->join(', ') : 'ID #' . $prod->id_produk }}
                                         </span>
                                     </div>
                                 </a>

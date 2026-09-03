@@ -58,7 +58,7 @@
                 <div class="admin-card p-5 sm:p-6 space-y-4">
                     <div class="border-b border-[#E2E5E9] pb-3">
                         <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Informasi Produk</h2>
-                        <p class="text-xs text-[#667085] mt-0.5">Nama produk, kategori, deskripsi, dan penetapan harga dasar.</p>
+                        <p class="text-xs text-[#667085] mt-0.5">Nama produk, kategori, dan penetapan harga dasar.</p>
                     </div>
 
                     <div class="space-y-4 pt-1">
@@ -129,23 +129,6 @@
                                     <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </div>
-
-                        <!-- Description -->
-                        <div>
-                            <label for="deskripsi" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
-                                Deskripsi Produk
-                            </label>
-                            <textarea
-                                id="deskripsi"
-                                name="deskripsi"
-                                rows="3"
-                                placeholder="Jelaskan karakteristik pakaian, kegunaan, atau fitur spesifik..."
-                                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
-                            >{{ old('deskripsi') }}</textarea>
-                            @error('deskripsi')
-                                <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
-                            @enderror
                         </div>
                     </div>
                 </div>
