@@ -18,7 +18,7 @@ class PemesananSeeder extends Seeder
             'upload_design' => null,
             'notes' => 'Tolong sablon logo komunitas di bagian dada.',
             'created_at' => now()->subDays(2),
-        ]);
+        ], 'id_pemesanan');
 
         DB::table('pemesanan_material')->insert([
             ['pemesanan_id' => $id1, 'bahan_id' => 1],
@@ -38,7 +38,7 @@ class PemesananSeeder extends Seeder
             'upload_design' => null,
             'notes' => 'Warna furing hitam.',
             'created_at' => now()->subDays(1),
-        ]);
+        ], 'id_pemesanan');
 
         DB::table('pemesanan_material')->insert([
             ['pemesanan_id' => $id2, 'bahan_id' => 3],
@@ -57,7 +57,7 @@ class PemesananSeeder extends Seeder
             'upload_design' => null,
             'notes' => 'Acara Dies Natalis',
             'created_at' => now(),
-        ]);
+        ], 'id_pemesanan');
 
         DB::table('pemesanan_material')->insert([
             ['pemesanan_id' => $id3, 'bahan_id' => 6],

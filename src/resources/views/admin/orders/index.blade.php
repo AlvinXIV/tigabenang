@@ -1,163 +1,171 @@
 @extends('layouts.admin')
 
-@section('title', 'Orders Management')
+@section('title', 'Pesanan Masuk')
 
 @section('content')
-<div class="space-y-8 max-w-6xl mx-auto">
+<div class="space-y-5" x-data="{ deleteModalOpen: false, deleteActionUrl: '', deleteOrderLabel: '' }">
 
     <!-- TOP HEADER -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#DCD6D0]">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <div class="inline-flex items-center gap-2 px-3.5 py-1 bg-[#172A39] text-[#FAF8F5] rounded-full text-[11px] font-black uppercase tracking-widest mb-2 shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                Order Pipelines
-            </div>
-            <h1 class="text-2xl sm:text-3xl font-black text-[#172A39] tracking-tight">Order Management</h1>
-            <p class="text-xs sm:text-sm text-[#555E68] mt-1 font-medium">
-                Kelola pesanan custom pelanggan, verifikasi bahan/material, dan negosiasi harga antrean.
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Pesanan Masuk</h1>
+            <p class="text-xs sm:text-sm text-[#667085] mt-1">
+                Kelola pesanan dan koordinasikan penetapan estimasi harga.
             </p>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2.5">
             <a
                 href="{{ route('admin.pesanan.create') }}"
-                class="btn-navy-pill px-6 py-2.5 text-xs tracking-wide uppercase gap-2 cursor-pointer shadow-md"
+                class="btn-primary px-3.5 py-2 text-xs sm:text-sm gap-1.5"
             >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                <span>New Order</span>
+                <span>+ Buat Pesanan Manual</span>
             </a>
         </div>
     </div>
 
-    <!-- ORDERS TABLE -->
-    <div class="admin-card-rich overflow-hidden">
+    <!-- TOOLBAR: SEARCH & TOTAL -->
+    <div class="admin-card p-3.5 bg-white flex flex-col sm:flex-row items-center justify-between gap-3">
+        <form action="{{ route('admin.pesanan.index') }}" method="GET" class="w-full sm:max-w-lg flex items-center gap-2">
+            <div class="relative w-full">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#98A2B3]">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Cari ID pesanan, pelanggan, WhatsApp, atau produk..."
+                    class="w-full pl-9 pr-3.5 py-2 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                />
+            </div>
+            <button type="submit" class="btn-secondary px-3.5 py-2 text-xs shrink-0 cursor-pointer">
+                Cari
+            </button>
+            @if (request('search'))
+                <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#667085] hover:text-[#B8664A] px-2 py-1 shrink-0 text-decoration-none">
+                    Reset
+                </a>
+            @endif
+        </form>
+
+        <div class="text-xs text-[#667085] shrink-0 self-end sm:self-center">
+            Total: <strong class="text-[#1C2430]">{{ $orders->count() }}</strong> pesanan
+        </div>
+    </div>
+
+    <!-- FULL-WIDTH MANAGEMENT TABLE -->
+    <div class="admin-card overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
+            <table class="w-full text-left text-xs sm:text-sm border-collapse">
                 <thead>
-                    <tr style="background:#172A39;color:#FAF8F5;" class="text-[11px] font-black tracking-wider uppercase">
-                        <th class="px-6 py-4">ORDER ID</th>
-                        <th class="px-6 py-4">PELANGGAN</th>
-                        <th class="px-6 py-4">NO HP</th>
-                        <th class="px-6 py-4">PRODUK</th>
-                        <th class="px-6 py-4">TOTAL HARGA</th>
-                        <th class="px-6 py-4">STATUS HARGA</th>
-                        <th class="px-6 py-4 text-right">ACTIONS</th>
+                    <tr class="bg-[#F7F7F5] border-b border-[#E2E5E9] text-[11px] font-semibold text-[#667085] uppercase tracking-wider">
+                        <th class="px-4 py-3 whitespace-nowrap">Tanggal</th>
+                        <th class="px-4 py-3 font-mono whitespace-nowrap">ID Pesanan</th>
+                        <th class="px-4 py-3 whitespace-nowrap">Pelanggan</th>
+                        <th class="px-4 py-3 whitespace-nowrap">WhatsApp</th>
+                        <th class="px-4 py-3 whitespace-nowrap">Produk</th>
+                        <th class="px-4 py-3 text-center whitespace-nowrap">Total Qty</th>
+                        <th class="px-4 py-3 font-mono whitespace-nowrap">Estimasi Harga</th>
+                        <th class="px-4 py-3 whitespace-nowrap">Status Harga</th>
+                        <th class="px-4 py-3 text-right whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-[#DCD6D0] bg-white">
+                <tbody class="divide-y divide-[#E2E5E9] bg-white">
                     @forelse ($orders as $ord)
+                        @php
+                            $totalQty = $ord->ukuran ? $ord->ukuran->sum('pivot.kuantitas') : 0;
+                        @endphp
                         <tr class="admin-table-row">
-                            <td class="px-6 py-4 font-black text-[#172A39] whitespace-nowrap">
+                            <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap text-xs">
+                                {{ $ord->created_at ? $ord->created_at->format('d M Y') : '-' }}
+                            </td>
+                            <td class="px-4 py-3.5 font-mono text-xs font-medium text-[#1C2430] whitespace-nowrap">
                                 #ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }}
                             </td>
-                            <td class="px-6 py-4 font-black text-[#172A39] whitespace-nowrap">
+                            <td class="px-4 py-3.5 font-medium text-[#1C2430] whitespace-nowrap">
                                 {{ $ord->nama }}
                             </td>
-                            <td class="px-6 py-4 text-[#555E68] whitespace-nowrap font-bold">
-                                {{ $ord->no_hp }}
-                            </td>
-                            <td class="px-6 py-4 text-[#555E68] whitespace-nowrap font-bold">
-                                {{ $ord->produk ? $ord->produk->nama_produk : '-' }}
-                            </td>
-                            <td class="px-6 py-4 font-black text-[#172A39] whitespace-nowrap text-sm">
-                                {{ $ord->total_harga ? 'Rp ' . number_format($ord->total_harga, 0, ',', '.') : '-' }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if ($ord->total_harga)
-                                    <span class="px-3 py-1 text-[10px] font-black tracking-wider uppercase bg-emerald-100 text-emerald-900 border border-emerald-300 rounded-full">
-                                        HARGA DISEPAKATI
-                                    </span>
+                            <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap font-mono text-xs">
+                                @if ($ord->no_hp)
+                                    <a
+                                        href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $ord->no_hp) }}?text={{ rawurlencode('Halo ' . $ord->nama . ', kami dari Tigabenang mengonfirmasi pesanan #ORD-' . str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT)) }}"
+                                        target="_blank"
+                                        class="text-emerald-700 hover:underline inline-flex items-center gap-1 text-decoration-none"
+                                    >
+                                        <span>{{ $ord->no_hp }}</span>
+                                    </a>
                                 @else
-                                    <span class="px-3 py-1 text-[10px] font-black tracking-wider uppercase bg-amber-100 text-amber-900 border border-amber-300 rounded-full">
-                                        WAITING PRICE
-                                    </span>
+                                    <span>-</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-right whitespace-nowrap" x-data="{ menuOpen: false }">
-                                <div class="relative inline-block text-left">
+                            <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap">
+                                {{ $ord->produk ? $ord->produk->nama_produk : '-' }}
+                            </td>
+                            <td class="px-4 py-3.5 text-center font-medium text-[#1C2430] whitespace-nowrap text-xs">
+                                {{ $totalQty > 0 ? $totalQty . ' pcs' : '-' }}
+                            </td>
+                            <td class="px-4 py-3.5 whitespace-nowrap font-mono text-xs text-[#1C2430]">
+                                {{ $ord->total_harga ? 'Rp ' . number_format($ord->total_harga, 0, ',', '.') : 'Belum ada estimasi' }}
+                            </td>
+                            <td class="px-4 py-3.5 whitespace-nowrap">
+                                @if ($ord->total_harga)
+                                    <x-badge variant="success">
+                                        Harga Disepakati
+                                    </x-badge>
+                                @else
+                                    <x-badge variant="warning">
+                                        Menunggu Penetapan Harga
+                                    </x-badge>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3.5 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-1.5">
+                                    <a
+                                        href="{{ route('admin.pesanan.show', $ord->id_pemesanan) }}"
+                                        class="btn-secondary px-2.5 py-1 text-xs"
+                                        title="Detail Pesanan &amp; Tetapkan Harga"
+                                    >
+                                        Detail
+                                    </a>
+
+                                    <a
+                                        href="{{ route('admin.orders.invoice', $ord->id_pemesanan) }}"
+                                        class="btn-secondary px-2 py-1 text-xs text-[#667085] hover:text-[#1C2430]"
+                                        title="Cetak Faktur Pesanan"
+                                        target="_blank"
+                                    >
+                                        Faktur
+                                    </a>
+
                                     <button
                                         type="button"
-                                        @click="menuOpen = !menuOpen"
-                                        class="p-2 text-[#172A39] hover:bg-[#FAF8F5] rounded-xl border border-[#DCD6D0] hover:border-[#172A39] transition-all focus:outline-none cursor-pointer shadow-2xs"
-                                        title="Actions"
+                                        @click="deleteModalOpen = true; deleteActionUrl = '{{ route('admin.pesanan.destroy', $ord->id_pemesanan) }}'; deleteOrderLabel = '#ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }}'"
+                                        class="p-1 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
+                                        title="Hapus Pesanan"
                                     >
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                            <circle cx="12" cy="5" r="2"></circle>
-                                            <circle cx="12" cy="12" r="2"></circle>
-                                            <circle cx="12" cy="19" r="2"></circle>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
                                     </button>
-
-                                    <!-- Dropdown Menu -->
-                                    <div
-                                        x-show="menuOpen"
-                                        @click.away="menuOpen = false"
-                                        x-transition:enter="transition ease-out duration-100"
-                                        x-transition:enter-start="transform opacity-0 scale-95"
-                                        x-transition:enter-end="transform opacity-100 scale-100"
-                                        x-transition:leave="transition ease-in duration-75"
-                                        x-transition:leave-start="transform opacity-100 scale-100"
-                                        x-transition:leave-end="transform opacity-0 scale-95"
-                                        class="absolute right-0 mt-2 w-52 bg-white border-1.5 border-[#DCD6D0] rounded-2xl shadow-2xl py-2 z-30 text-left"
-                                        style="display: none;"
-                                    >
-                                        <a
-                                            href="{{ route('admin.pesanan.show', $ord->id_pemesanan) }}"
-                                            class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-[#172A39] hover:bg-[#FAF8F5] transition-colors font-bold text-decoration-none"
-                                        >
-                                            <svg class="w-4 h-4 text-[#172A39]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                            </svg>
-                                            <span>Detail / Set Price</span>
-                                        </a>
-
-                                        <a
-                                            href="{{ route('admin.orders.invoice', $ord->id_pemesanan) }}"
-                                            class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-[#172A39] hover:bg-[#FAF8F5] transition-colors font-bold text-decoration-none"
-                                        >
-                                            <svg class="w-4 h-4 text-[#172A39]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                            </svg>
-                                            <span>Cetak Invoice</span>
-                                        </a>
-
-                                        <a
-                                            href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $ord->no_hp) }}"
-                                            target="_blank"
-                                            class="flex items-center gap-2.5 px-4 py-2.5 text-xs text-emerald-700 hover:bg-emerald-50 transition-colors font-bold text-decoration-none"
-                                        >
-                                            <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41A10.1 10.1 0 0 0 12.04 21.66h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Z"/>
-                                            </svg>
-                                            <span>WhatsApp Chat</span>
-                                        </a>
-
-                                        <div class="border-t border-[#DCD6D0] my-1.5"></div>
-
-                                        <form action="{{ route('admin.pesanan.destroy', $ord->id_pemesanan) }}" method="POST" onsubmit="return confirm('Hapus pesanan #ORD-{{ $ord->id_pemesanan }}?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
-                                                type="submit"
-                                                class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-rose-700 hover:bg-rose-50 transition-colors font-bold cursor-pointer border-0 bg-transparent"
-                                            >
-                                                <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                                </svg>
-                                                <span>Hapus Pesanan</span>
-                                            </button>
-                                        </form>
-                                    </div>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-10 text-center text-[#6E7575] font-medium">
-                                Belum ada pesanan masuk di database.
+                            <td colspan="9" class="p-8 text-center">
+                                <x-empty-state title="Belum Ada Pesanan" message="Tidak ditemukan data pesanan yang sesuai dengan kriteria pencarian Anda.">
+                                    @if (request('search'))
+                                        <a href="{{ route('admin.pesanan.index') }}" class="btn-secondary text-xs px-3 py-1.5 mt-3 inline-block">
+                                            Bersihkan Pencarian
+                                        </a>
+                                    @endif
+                                </x-empty-state>
                             </td>
                         </tr>
                     @endforelse
@@ -166,5 +174,56 @@
         </div>
     </div>
 
+    <!-- DELETE CONFIRMATION MODAL -->
+    <div
+        x-show="deleteModalOpen"
+        x-transition:enter="ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 overflow-y-auto px-4 py-6 flex items-center justify-center"
+        style="display: none;"
+    >
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-[#1C2430]/60 backdrop-blur-xs" @click="deleteModalOpen = false"></div>
+
+        <!-- Modal Dialog -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all w-full max-w-md z-10 border border-[#E2E5E9] p-6 text-center">
+            <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 mx-auto flex items-center justify-center mb-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <h3 class="text-base font-semibold text-[#1C2430]">Konfirmasi Hapus Pesanan</h3>
+            <p class="text-xs text-[#667085] mt-1.5 leading-relaxed">
+                Apakah Anda yakin ingin menghapus data pesanan <strong class="text-[#1C2430]" x-text="deleteOrderLabel"></strong>? Tindakan ini tidak dapat dibatalkan.
+            </p>
+
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <button
+                    type="button"
+                    @click="deleteModalOpen = false"
+                    class="btn-secondary px-4 py-2 text-xs"
+                >
+                    Batal
+                </button>
+                <form :action="deleteActionUrl" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button
+                        type="submit"
+                        class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-medium transition-colors cursor-pointer border-0"
+                    >
+                        Hapus Permanen
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection
+
+

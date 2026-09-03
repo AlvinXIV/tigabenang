@@ -1,182 +1,199 @@
 @extends('layouts.admin')
 
-@section('title', 'Materials & Categories')
+@section('title', 'Kategori & Material Kain')
 
 @section('content')
-<div class="space-y-8 max-w-6xl mx-auto">
+<div
+    class="space-y-5"
+    x-data="{
+        activeTab: window.location.hash === '#material' ? 'material' : 'kategori',
+        searchKategori: '',
+        searchMaterial: '',
+        addKategoriOpen: false,
+        addMaterialOpen: false,
+        deleteModalOpen: false,
+        deleteActionUrl: '',
+        deleteItemName: ''
+    }"
+    x-init="
+        window.addEventListener('hashchange', () => {
+            activeTab = window.location.hash === '#material' ? 'material' : 'kategori';
+        });
+    "
+>
 
     <!-- TOP HEADER -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#DCD6D0]">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E5E9]">
         <div>
-            <div class="inline-flex items-center gap-2 px-3.5 py-1 bg-[#172A39] text-white rounded-full text-[11px] font-black uppercase tracking-widest mb-2 shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                Garment Taxonomy
-            </div>
-            <h1 class="text-2xl sm:text-3xl font-black text-[#172A39] tracking-tight">Materials &amp; Categories</h1>
-            <p class="text-xs sm:text-sm text-[#555E68] mt-1 font-medium">
-                Kelola master data kategori produk pakaian dan kurasi material kain atelier.
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight" x-text="activeTab === 'kategori' ? 'Kategori Produk' : 'Material Kain'">
+                Kategori Produk
+            </h1>
+            <p class="text-xs sm:text-sm text-[#667085] mt-1" x-text="activeTab === 'kategori' ? 'Kelola klasifikasi produk busana seperti Jaket, Kemeja, Polo, dll.' : 'Kelola kurasi jenis bahan kain garmen untuk pesanan custom.'">
+                Kelola klasifikasi produk busana.
             </p>
         </div>
-    </div>
 
-    <!-- SUMMARY METRICS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div class="admin-card-rich p-6 flex items-center justify-between">
-            <div>
-                <span class="text-[10px] sm:text-[11px] font-black tracking-widest text-[#6E7575] uppercase block">
-                    TOTAL KATEGORI
-                </span>
-                <h3 class="text-3xl font-black text-[#172A39] tracking-tight mt-2">
-                    {{ $summary['total_categories'] }}
-                </h3>
-            </div>
-            <div class="w-12 h-12 rounded-2xl bg-[#172A39] text-white flex items-center justify-center shadow-md shadow-[#172A39]/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+        <div class="flex items-center gap-2.5">
+            <!-- Contextual Action Button for Kategori -->
+            <button
+                type="button"
+                x-show="activeTab === 'kategori'"
+                @click="addKategoriOpen = !addKategoriOpen"
+                class="btn-primary px-3.5 py-2 text-xs sm:text-sm gap-1.5 cursor-pointer"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-            </div>
-        </div>
+                <span>+ Tambah Kategori</span>
+            </button>
 
-        <div class="admin-card-rich p-6 flex items-center justify-between">
-            <div>
-                <span class="text-[10px] sm:text-[11px] font-black tracking-widest text-[#6E7575] uppercase block">
-                    TOTAL MATERIAL KAIN
-                </span>
-                <h3 class="text-3xl font-black text-[#172A39] tracking-tight mt-2">
-                    {{ $summary['total_materials'] }}
-                </h3>
-            </div>
-            <div class="w-12 h-12 rounded-2xl bg-[#172A39] text-white flex items-center justify-center shadow-md shadow-[#172A39]/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+            <!-- Contextual Action Button for Material -->
+            <button
+                type="button"
+                x-show="activeTab === 'material'"
+                @click="addMaterialOpen = !addMaterialOpen"
+                class="btn-primary px-3.5 py-2 text-xs sm:text-sm gap-1.5 cursor-pointer"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-            </div>
+                <span>+ Tambah Material</span>
+            </button>
         </div>
     </div>
 
-    <!-- TWO COLUMN TABLES: KATEGORI & MATERIAL -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- TAB SEGMENTED NAVIGATION -->
+    <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm">
+        <button
+            type="button"
+            @click="activeTab = 'kategori'; window.location.hash = 'kategori'"
+            :class="activeTab === 'kategori' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]'"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer"
+        >
+            <span>Kategori Produk</span>
+            <span class="px-2 py-0.5 rounded-full text-xs" :class="activeTab === 'kategori' ? 'bg-[#F4E9E4] text-[#B8664A]' : 'bg-[#F7F7F5] text-[#667085]'">
+                {{ $summary['total_categories'] }}
+            </span>
+        </button>
+
+        <button
+            type="button"
+            @click="activeTab = 'material'; window.location.hash = 'material'"
+            :class="activeTab === 'material' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]'"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer"
+        >
+            <span>Material Kain</span>
+            <span class="px-2 py-0.5 rounded-full text-xs" :class="activeTab === 'material' ? 'bg-[#F4E9E4] text-[#B8664A]' : 'bg-[#F7F7F5] text-[#667085]'">
+                {{ $summary['total_materials'] }}
+            </span>
+        </button>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- TAB 1: KATEGORI PRODUK                         -->
+    <!-- ============================================== -->
+    <div x-show="activeTab === 'kategori'" class="space-y-4">
         
-        <!-- COLUMN 1: KATEGORI PRODUK -->
-        <div class="space-y-4">
-            <div class="admin-card-rich p-6 space-y-4">
-                <h2 class="text-base font-black text-[#172A39]">Tambah Kategori Baru</h2>
-                <form action="{{ route('admin.kategori.store') }}" method="POST" class="flex gap-2">
-                    @csrf
-                    <input
-                        type="text"
-                        name="nama_kategori"
-                        required
-                        placeholder="Nama kategori (mis. Jaket Varsity, Kaos)"
-                        class="flex-1 px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] text-xs font-bold text-[#172A39] rounded-xl focus:outline-none focus:border-[#172A39] focus:bg-white"
-                    />
-                    <button
-                        type="submit"
-                        class="btn-navy-pill px-6 py-2.5 text-xs uppercase tracking-wider cursor-pointer border-0 shadow-xs"
-                    >
-                        Tambah
+        <!-- Collapsible Add Category Panel -->
+        <div x-show="addKategoriOpen" x-transition class="admin-card p-4 bg-white border-[#B8664A]/30">
+            <h3 class="text-sm font-semibold text-[#1C2430] mb-2">Tambah Kategori Baru</h3>
+            <form action="{{ route('admin.kategori.store') }}" method="POST" class="flex flex-col sm:flex-row gap-2.5 max-w-xl">
+                @csrf
+                <input
+                    type="text"
+                    name="nama_kategori"
+                    required
+                    placeholder="Nama kategori, contoh: Jaket Varsity, Kemeja PDH"
+                    class="flex-1 px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                />
+                <div class="flex items-center gap-2">
+                    <button type="submit" class="btn-primary px-4 py-2 text-xs sm:text-sm cursor-pointer">
+                        Simpan
                     </button>
-                </form>
-            </div>
+                    <button type="button" @click="addKategoriOpen = false" class="btn-secondary px-3 py-2 text-xs cursor-pointer">
+                        Batal
+                    </button>
+                </div>
+            </form>
+        </div>
 
-            <div class="admin-card-rich overflow-hidden">
-                <table class="w-full text-left text-xs border-collapse">
+        <!-- Search Bar Toolbar -->
+        <div class="admin-card p-3 bg-white flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="relative w-full sm:max-w-md">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#98A2B3]">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input
+                    type="text"
+                    x-model="searchKategori"
+                    placeholder="Cari nama kategori..."
+                    class="w-full pl-9 pr-3.5 py-1.5 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                />
+            </div>
+            <span class="text-xs text-[#667085] shrink-0 self-end sm:self-center">
+                Total: <strong class="text-[#1C2430]">{{ $categories->count() }}</strong> kategori
+            </span>
+        </div>
+
+        <!-- Full-Width Category Table -->
+        <div class="admin-card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs sm:text-sm border-collapse">
                     <thead>
-                        <tr style="background:#172A39;color:#FAF8F5;" class="text-[10px] font-black tracking-wider uppercase">
-                            <th class="px-6 py-3.5">ID</th>
-                            <th class="px-6 py-3.5">NAMA KATEGORI</th>
-                            <th class="px-6 py-3.5">PRODUK</th>
-                            <th class="px-6 py-3.5 text-right">AKSI</th>
+                        <tr class="bg-[#F7F7F5] border-b border-[#E2E5E9] text-[11px] font-semibold text-[#667085] uppercase tracking-wider">
+                            <th class="px-4 py-3 font-mono">ID Kategori</th>
+                            <th class="px-4 py-3">Nama Kategori</th>
+                            <th class="px-4 py-3">Jumlah Produk</th>
+                            <th class="px-4 py-3 text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-[#DCD6D0] bg-white">
+                    <tbody class="divide-y divide-[#E2E5E9] bg-white">
                         @forelse ($categories as $cat)
-                            <tr class="admin-table-row">
-                                <td class="px-6 py-3.5 font-black text-[#6E7575]">#{{ $cat->id_kategori }}</td>
-                                <td class="px-6 py-3.5 font-extrabold text-[#172A39] text-sm">{{ $cat->nama_kategori }}</td>
-                                <td class="px-6 py-3.5 text-[#555E68] font-bold">{{ $cat->produk_count }} produk</td>
-                                <td class="px-6 py-3.5 text-right whitespace-nowrap">
-                                    <form action="{{ route('admin.kategori.destroy', $cat->id_kategori) }}" method="POST" onsubmit="return confirm('Hapus kategori {{ $cat->nama_kategori }}?');">
-                                        @csrf
-                                        @method('DELETE')
+                            <tr
+                                class="admin-table-row"
+                                x-show="!searchKategori || '{{ strtolower(addslashes($cat->nama_kategori)) }}'.includes(searchKategori.toLowerCase())"
+                            >
+                                <td class="px-4 py-3.5 font-mono text-xs text-[#667085] whitespace-nowrap">
+                                    #{{ $cat->id_kategori }}
+                                </td>
+                                <td class="px-4 py-3.5 font-medium text-[#1C2430]">
+                                    {{ $cat->nama_kategori }}
+                                </td>
+                                <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap">
+                                    <span class="px-2.5 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs text-[#1C2430] font-medium">
+                                        {{ $cat->produk_count }} produk
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3.5 text-right whitespace-nowrap">
+                                    <div class="flex items-center justify-end gap-1.5">
+                                        <a
+                                            href="{{ route('admin.kategori.edit', $cat->id_kategori) }}"
+                                            class="btn-secondary px-2.5 py-1 text-xs"
+                                            title="Ubah Kategori"
+                                        >
+                                            Ubah
+                                        </a>
+
                                         <button
-                                            type="submit"
-                                            class="p-1.5 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-lg transition-colors font-bold cursor-pointer border-0 bg-transparent"
+                                            type="button"
+                                            @click="deleteModalOpen = true; deleteActionUrl = '{{ route('admin.kategori.destroy', $cat->id_kategori) }}'; deleteItemName = 'kategori {{ $cat->nama_kategori }}'"
+                                            class="p-1 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
                                             title="Hapus Kategori"
                                         >
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                             </svg>
                                         </button>
-                                    </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-6 text-center text-[#6E7575] font-medium">Belum ada kategori di database.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- COLUMN 2: MATERIAL KAIN -->
-        <div class="space-y-4">
-            <div class="admin-card-rich p-6 space-y-4">
-                <h2 class="text-base font-black text-[#172A39]">Tambah Material Kain</h2>
-                <form action="{{ route('admin.kategori.store') }}" method="POST" class="flex gap-2">
-                    @csrf
-                    <input type="hidden" name="type" value="bahan" />
-                    <input
-                        type="text"
-                        name="nama_bahan"
-                        required
-                        placeholder="Nama material (mis. Fleece, Cotton Combed)"
-                        class="flex-1 px-4 py-2.5 bg-[#FAF8F5] border border-[#DCD6D0] text-xs font-bold text-[#172A39] rounded-xl focus:outline-none focus:border-[#172A39] focus:bg-white"
-                    />
-                    <button
-                        type="submit"
-                        class="btn-navy-pill px-6 py-2.5 text-xs uppercase tracking-wider cursor-pointer border-0 shadow-xs"
-                    >
-                        Tambah
-                    </button>
-                </form>
-            </div>
-
-            <div class="admin-card-rich overflow-hidden">
-                <table class="w-full text-left text-xs border-collapse">
-                    <thead>
-                        <tr style="background:#172A39;color:#FAF8F5;" class="text-[10px] font-black tracking-wider uppercase">
-                            <th class="px-6 py-3.5">ID</th>
-                            <th class="px-6 py-3.5">NAMA MATERIAL</th>
-                            <th class="px-6 py-3.5 text-right">AKSI</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-[#DCD6D0] bg-white">
-                        @forelse ($materials as $mat)
-                            <tr class="admin-table-row">
-                                <td class="px-6 py-3.5 font-black text-[#6E7575]">#{{ $mat->id_bahan }}</td>
-                                <td class="px-6 py-3.5 font-black text-[#172A39] text-sm">🧵 {{ $mat->nama_bahan }}</td>
-                                <td class="px-6 py-3.5 text-right whitespace-nowrap">
-                                    <form action="{{ route('admin.kategori.destroy', ['kategori' => $mat->id_bahan, 'type' => 'bahan']) }}" method="POST" onsubmit="return confirm('Hapus material {{ $mat->nama_bahan }}?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button
-                                            type="submit"
-                                            class="p-1.5 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-lg transition-colors font-bold cursor-pointer border-0 bg-transparent"
-                                            title="Hapus Material"
-                                        >
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </form>
+                                <td colspan="4" class="px-4 py-8 text-center text-xs text-[#667085]">
+                                    Belum ada kategori terdaftar di sistem.
                                 </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="px-6 py-6 text-center text-[#6E7575] font-medium">Belum ada material kain di database.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -186,5 +203,155 @@
 
     </div>
 
+    <!-- ============================================== -->
+    <!-- TAB 2: MATERIAL KAIN                           -->
+    <!-- ============================================== -->
+    <div x-show="activeTab === 'material'" class="space-y-4" style="display: none;">
+        
+        <!-- Collapsible Add Material Panel -->
+        <div x-show="addMaterialOpen" x-transition class="admin-card p-4 bg-white border-[#B8664A]/30">
+            <h3 class="text-sm font-semibold text-[#1C2430] mb-2">Tambah Material Kain Baru</h3>
+            <form action="{{ route('admin.kategori.store') }}" method="POST" class="flex flex-col sm:flex-row gap-2.5 max-w-xl">
+                @csrf
+                <input type="hidden" name="type" value="bahan" />
+                <input
+                    type="text"
+                    name="nama_bahan"
+                    required
+                    placeholder="Nama material, contoh: Cotton Combed 24s, Fleece Tebal"
+                    class="flex-1 px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                />
+                <div class="flex items-center gap-2">
+                    <button type="submit" class="btn-primary px-4 py-2 text-xs sm:text-sm cursor-pointer">
+                        Simpan
+                    </button>
+                    <button type="button" @click="addMaterialOpen = false" class="btn-secondary px-3 py-2 text-xs cursor-pointer">
+                        Batal
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Search Bar Toolbar -->
+        <div class="admin-card p-3 bg-white flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="relative w-full sm:max-w-md">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#98A2B3]">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <input
+                    type="text"
+                    x-model="searchMaterial"
+                    placeholder="Cari nama material kain..."
+                    class="w-full pl-9 pr-3.5 py-1.5 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                />
+            </div>
+            <span class="text-xs text-[#667085] shrink-0 self-end sm:self-center">
+                Total: <strong class="text-[#1C2430]">{{ $materials->count() }}</strong> material
+            </span>
+        </div>
+
+        <!-- Full-Width Material Table -->
+        <div class="admin-card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-[#F7F7F5] border-b border-[#E2E5E9] text-[11px] font-semibold text-[#667085] uppercase tracking-wider">
+                            <th class="px-4 py-3 font-mono">ID Material</th>
+                            <th class="px-4 py-3">Nama Material Kain</th>
+                            <th class="px-4 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[#E2E5E9] bg-white">
+                        @forelse ($materials as $mat)
+                            <tr
+                                class="admin-table-row"
+                                x-show="!searchMaterial || '{{ strtolower(addslashes($mat->nama_bahan)) }}'.includes(searchMaterial.toLowerCase())"
+                            >
+                                <td class="px-4 py-3.5 font-mono text-xs text-[#667085] whitespace-nowrap">
+                                    #{{ $mat->id_bahan }}
+                                </td>
+                                <td class="px-4 py-3.5 font-medium text-[#1C2430]">
+                                    {{ $mat->nama_bahan }}
+                                </td>
+                                <td class="px-4 py-3.5 text-right whitespace-nowrap">
+                                    <div class="flex items-center justify-end gap-1.5">
+                                        <button
+                                            type="button"
+                                            @click="deleteModalOpen = true; deleteActionUrl = '{{ route('admin.kategori.destroy', ['kategori' => $mat->id_bahan, 'type' => 'bahan']) }}'; deleteItemName = 'material {{ $mat->nama_bahan }}'"
+                                            class="p-1 text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded transition-colors cursor-pointer"
+                                            title="Hapus Material"
+                                        >
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-4 py-8 text-center text-xs text-[#667085]">
+                                    Belum ada material kain terdaftar di sistem.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DELETE CONFIRMATION MODAL -->
+    <div
+        x-show="deleteModalOpen"
+        x-transition:enter="ease-out duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-50 overflow-y-auto px-4 py-6 flex items-center justify-center"
+        style="display: none;"
+    >
+        <div class="fixed inset-0 bg-[#1C2430]/60 backdrop-blur-xs" @click="deleteModalOpen = false"></div>
+
+        <div class="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all w-full max-w-md z-10 border border-[#E2E5E9] p-6 text-center">
+            <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 mx-auto flex items-center justify-center mb-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <h3 class="text-base font-semibold text-[#1C2430]">Konfirmasi Hapus Data</h3>
+            <p class="text-xs text-[#667085] mt-1.5 leading-relaxed">
+                Apakah Anda yakin ingin menghapus data <strong class="text-[#1C2430]" x-text="deleteItemName"></strong>? Produk yang menggunakan data ini dapat terpengaruh.
+            </p>
+
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <button
+                    type="button"
+                    @click="deleteModalOpen = false"
+                    class="btn-secondary px-4 py-2 text-xs"
+                >
+                    Batal
+                </button>
+                <form :action="deleteActionUrl" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button
+                        type="submit"
+                        class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-medium transition-colors cursor-pointer border-0"
+                    >
+                        Hapus Permanen
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection
+
+

@@ -30,40 +30,41 @@
     <!-- Backdrop -->
     <div
         x-show="show"
-        x-transition:enter="ease-out duration-300"
+        x-transition:enter="ease-out duration-200"
         x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100"
-        x-transition:leave="ease-in duration-200"
+        x-transition:leave="ease-in duration-150"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
+        class="fixed inset-0 bg-[#1C2430]/60 backdrop-blur-xs transition-opacity"
         x-on:click="show = false"
     ></div>
 
     <!-- Modal Dialog -->
     <div
         x-show="show"
-        x-transition:enter="ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        x-transition:enter="ease-out duration-200"
+        x-transition:enter-start="opacity-0 translate-y-2 sm:scale-98"
         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-        x-transition:leave="ease-in duration-200"
+        x-transition:leave="ease-in duration-150"
         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        class="bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all w-full {{ $maxWidths[$maxWidth] ?? 'max-w-2xl' }} z-10 border border-slate-200/80 my-8"
+        x-transition:leave-end="opacity-0 translate-y-2 sm:scale-98"
+        class="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all w-full {{ $maxWidths[$maxWidth] ?? 'max-w-2xl' }} z-10 border border-[#E2E5E9] my-8"
     >
         @if ($title)
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <h3 class="text-base font-semibold text-slate-900">{{ $title }}</h3>
-                <button type="button" x-on:click="show = false" class="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 hover:bg-slate-100 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="px-5 sm:px-6 py-4 border-b border-[#E2E5E9] flex items-center justify-between bg-[#F7F7F5]">
+                <h3 class="text-sm sm:text-base font-semibold text-[#1C2430]">{{ $title }}</h3>
+                <button type="button" x-on:click="show = false" class="text-[#667085] hover:text-[#1C2430] rounded-md p-1 hover:bg-[#E2E5E9] transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
         @endif
 
-        <div class="p-6">
+        <div class="p-5 sm:p-6">
             {{ $slot }}
         </div>
     </div>
 </div>
+

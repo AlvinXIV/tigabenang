@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Create Account')
+@section('title', 'Daftar Akun Vendor')
 
 @section('content')
 <div
@@ -25,10 +25,10 @@
         },
         validateFullName() {
             if (!this.fullName || !this.fullName.trim()) {
-                this.errors.fullName = 'Full name is required.';
+                this.errors.fullName = 'Nama lengkap wajib diisi.';
                 return false;
             } else if (this.fullName.trim().length < 2) {
-                this.errors.fullName = 'Full name must be at least 2 characters.';
+                this.errors.fullName = 'Nama lengkap minimal 2 karakter.';
                 return false;
             }
             this.errors.fullName = '';
@@ -37,10 +37,10 @@
         validateEmail() {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!this.email || !this.email.trim()) {
-                this.errors.email = 'Email address is required.';
+                this.errors.email = 'Alamat email wajib diisi.';
                 return false;
             } else if (!re.test(this.email.trim())) {
-                this.errors.email = 'Please enter a valid email address.';
+                this.errors.email = 'Format alamat email tidak valid.';
                 return false;
             }
             this.errors.email = '';
@@ -48,10 +48,10 @@
         },
         validatePassword() {
             if (!this.password) {
-                this.errors.password = 'Password is required.';
+                this.errors.password = 'Password wajib diisi.';
                 return false;
             } else if (this.password.length < 6) {
-                this.errors.password = 'Password must be at least 6 characters.';
+                this.errors.password = 'Password minimal 6 karakter.';
                 return false;
             }
             this.errors.password = '';
@@ -62,10 +62,10 @@
         },
         validateConfirmPassword() {
             if (!this.confirmPassword) {
-                this.errors.confirmPassword = 'Confirm password is required.';
+                this.errors.confirmPassword = 'Konfirmasi password wajib diisi.';
                 return false;
             } else if (this.confirmPassword !== this.password) {
-                this.errors.confirmPassword = 'Passwords do not match.';
+                this.errors.confirmPassword = 'Password konfirmasi tidak cocok.';
                 return false;
             }
             this.errors.confirmPassword = '';
@@ -73,7 +73,7 @@
         },
         validateTerms() {
             if (!this.termsAccepted) {
-                this.errors.terms = 'You must agree to the Terms of Service & Privacy Policy.';
+                this.errors.terms = 'Anda harus menyetujui syarat & ketentuan layanan.';
                 return false;
             }
             this.errors.terms = '';
@@ -96,42 +96,34 @@
         }
     }"
 >
-    <!-- Seamless Brand Emblem (No Card, Blends into Base Layer) -->
+    <!-- Brand Emblem -->
     <div class="inline-flex flex-col items-center justify-center mb-6 select-none">
-        <svg class="w-12 h-12 text-[#B85331]" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Rounded decorative stitch frame -->
-            <rect x="5" y="5" width="46" height="46" rx="14" stroke="#B85331" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- 3 Woven Threads (Tiga Benang) & Stylized 't' 'b' monogram -->
-            <path d="M19 17c0-2.5 2-4.5 4.5-4.5s4.5 2 4.5 4.5v19c0 3.5 2.8 6.5 6.5 6.5s6.5-3 6.5-6.5-2.8-6.5-6.5-6.5H18" stroke="#B85331" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M15 22.5h15" stroke="#B85331" stroke-width="2.2" stroke-linecap="round"/>
-            <path d="M22 36c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5-2-4.5-4.5-4.5-4.5 2-4.5 4.5z" stroke="#B85331" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-        <span class="text-[8.5px] font-mono font-bold tracking-[0.28em] text-[#B85331] uppercase mt-2">TIGABENANG</span>
+        <div class="w-12 h-12 bg-[#B8664A] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
+            TB
+        </div>
+        <span class="text-sm font-bold tracking-tight text-[#1C2430]">Tigabenang</span>
+        <span class="text-[11px] text-[#667085] font-medium">Konveksi &amp; Atelier Digital</span>
     </div>
 
     <!-- Portal Title & Subtitle -->
-    <div class="text-center max-w-lg mx-auto mb-8">
-        <h1 class="text-3xl sm:text-4xl font-normal text-[#1C1917] tracking-tight leading-tight">
-            Vendor Management<br class="hidden sm:inline"> Portal
-        </h1>
-        <p class="text-xs sm:text-sm text-[#78716C] mt-2.5 leading-relaxed max-w-sm mx-auto">
-            Create your vendor account and start managing your business.
+    <div class="text-center max-w-md mx-auto mb-6">
+        <h1 class="text-xl sm:text-2xl font-bold text-[#1C2430] tracking-tight">Daftar Akun Vendor</h1>
+        <p class="text-xs text-[#667085] mt-1 leading-relaxed">
+            Daftarkan workshop atau usaha konveksi Anda ke sistem manajemen Tigabenang.
         </p>
     </div>
 
     <!-- Register Card Container -->
-    <div class="w-full max-w-2xl bg-white border border-[#EADACE] shadow-[0_4px_24px_rgba(0,0,0,0.015)] p-8 sm:p-12">
+    <div class="w-full max-w-xl bg-white border border-[#E2E5E9] rounded-xl shadow-xs p-6 sm:p-8">
         
-        <h2 class="text-xl font-normal text-[#1C1917] mb-6">Create your account</h2>
-
-        <form action="{{ route('register') }}" method="POST" @submit="handleSubmit($event)" class="space-y-5">
+        <form action="{{ route('register') }}" method="POST" @submit="handleSubmit($event)" class="space-y-4">
             @csrf
 
             <!-- Row 1: Full Name & Business Name -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="fullName" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        FULL NAME
+                    <label for="fullName" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        Nama Lengkap <span class="text-rose-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -140,35 +132,34 @@
                         x-model="fullName"
                         @blur="validateFullName()"
                         @input="if(errors.fullName) validateFullName()"
-                        placeholder="Jane Doe"
-                        :class="errors.fullName ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-400' : 'border-[#D9CCC1] focus:border-[#B85331] focus:ring-[#B85331]'"
-                        class="w-full px-3.5 py-2.5 sm:py-3 bg-white border text-xs sm:text-sm text-[#292524] placeholder-[#C2B5A9] rounded-none focus:outline-none focus:ring-1 transition-colors"
+                        placeholder="Nama admin"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                     <template x-if="errors.fullName">
-                        <p class="text-[11px] text-rose-600 mt-1 font-sans" x-text="errors.fullName"></p>
+                        <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.fullName"></p>
                     </template>
                 </div>
 
                 <div>
-                    <label for="businessName" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        BUSINESS / VENDOR NAME
+                    <label for="businessName" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        Nama Usaha / Konveksi
                     </label>
                     <input
                         type="text"
                         id="businessName"
                         name="business_name"
                         x-model="businessName"
-                        placeholder="Acme Textiles"
-                        class="w-full px-3.5 py-2.5 sm:py-3 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] placeholder-[#C2B5A9] rounded-none focus:outline-none transition-colors"
+                        placeholder="Contoh: CV Tigabenang Mandiri"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                 </div>
             </div>
 
             <!-- Row 2: Email Address & Phone Number -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="email" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        EMAIL ADDRESS
+                    <label for="email" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        Alamat Email <span class="text-rose-500">*</span>
                     </label>
                     <input
                         type="email"
@@ -177,35 +168,34 @@
                         x-model="email"
                         @blur="validateEmail()"
                         @input="if(errors.email) validateEmail()"
-                        placeholder="jane@example.com"
-                        :class="errors.email ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-400' : 'border-[#D9CCC1] focus:border-[#B85331] focus:ring-[#B85331]'"
-                        class="w-full px-3.5 py-2.5 sm:py-3 bg-white border text-xs sm:text-sm text-[#292524] placeholder-[#C2B5A9] rounded-none focus:outline-none focus:ring-1 transition-colors"
+                        placeholder="admin@domain.com"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                     <template x-if="errors.email">
-                        <p class="text-[11px] text-rose-600 mt-1 font-sans" x-text="errors.email"></p>
+                        <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.email"></p>
                     </template>
                 </div>
 
                 <div>
-                    <label for="phone" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        PHONE NUMBER
+                    <label for="phone" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        Nomor WhatsApp / HP
                     </label>
                     <input
                         type="text"
                         id="phone"
                         name="phone"
                         x-model="phone"
-                        placeholder="+1 (555) 000-0000"
-                        class="w-full px-3.5 py-2.5 sm:py-3 bg-white border border-[#D9CCC1] focus:border-[#B85331] focus:ring-1 focus:ring-[#B85331] text-xs sm:text-sm text-[#292524] placeholder-[#C2B5A9] rounded-none focus:outline-none transition-colors"
+                        placeholder="08123456789"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                 </div>
             </div>
 
             <!-- Row 3: Password & Confirm Password -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="password" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        PASSWORD
+                    <label for="password" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        Kata Sandi <span class="text-rose-500">*</span>
                     </label>
                     <div class="relative">
                         <input
@@ -216,33 +206,30 @@
                             @blur="validatePassword()"
                             @input="if(errors.password) validatePassword()"
                             placeholder="••••••••"
-                            :class="errors.password ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-400' : 'border-[#D9CCC1] focus:border-[#B85331] focus:ring-[#B85331]'"
-                            class="w-full pl-3.5 pr-10 py-2.5 sm:py-3 bg-white border text-xs sm:text-sm text-[#292524] placeholder-[#C2B5A9] rounded-none focus:outline-none focus:ring-1 transition-colors tracking-widest"
+                            class="w-full pl-3.5 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                         />
                         <button
                             type="button"
                             @click="showPassword = !showPassword"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#A89A8E] hover:text-[#786C62] transition-colors focus:outline-none"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#98A2B3] hover:text-[#1C2430] transition-colors focus:outline-none"
                         >
-                            <!-- Eye icon -->
                             <svg x-show="!showPassword" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                             </svg>
-                            <!-- Eye off icon -->
                             <svg x-show="showPassword" style="display: none;" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path>
                             </svg>
                         </button>
                     </div>
                     <template x-if="errors.password">
-                        <p class="text-[11px] text-rose-600 mt-1 font-sans" x-text="errors.password"></p>
+                        <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.password"></p>
                     </template>
                 </div>
 
                 <div>
-                    <label for="confirmPassword" class="block text-[11px] font-mono font-medium tracking-widest text-[#786C62] uppercase mb-1.5">
-                        CONFIRM PASSWORD
+                    <label for="confirmPassword" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        Konfirmasi Kata Sandi <span class="text-rose-500">*</span>
                     </label>
                     <div class="relative">
                         <input
@@ -253,70 +240,67 @@
                             @blur="validateConfirmPassword()"
                             @input="if(errors.confirmPassword) validateConfirmPassword()"
                             placeholder="••••••••"
-                            :class="errors.confirmPassword ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-400' : 'border-[#D9CCC1] focus:border-[#B85331] focus:ring-[#B85331]'"
-                            class="w-full pl-3.5 pr-10 py-2.5 sm:py-3 bg-white border text-xs sm:text-sm text-[#292524] placeholder-[#C2B5A9] rounded-none focus:outline-none focus:ring-1 transition-colors tracking-widest"
+                            class="w-full pl-3.5 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                         />
                         <button
                             type="button"
                             @click="showConfirmPassword = !showConfirmPassword"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#A89A8E] hover:text-[#786C62] transition-colors focus:outline-none"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#98A2B3] hover:text-[#1C2430] transition-colors focus:outline-none"
                         >
-                            <!-- Eye icon -->
                             <svg x-show="!showConfirmPassword" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                             </svg>
-                            <!-- Eye off icon -->
                             <svg x-show="showConfirmPassword" style="display: none;" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path>
                             </svg>
                         </button>
                     </div>
                     <template x-if="errors.confirmPassword">
-                        <p class="text-[11px] text-rose-600 mt-1 font-sans" x-text="errors.confirmPassword"></p>
+                        <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.confirmPassword"></p>
                     </template>
                 </div>
             </div>
 
             <!-- Checkbox Terms of Service -->
-            <div class="pt-2">
+            <div class="pt-1">
                 <label class="flex items-start gap-2.5 cursor-pointer select-none">
                     <input
                         type="checkbox"
                         x-model="termsAccepted"
                         @change="validateTerms()"
-                        class="mt-0.5 w-4 h-4 rounded-none border-[#D9CCC1] text-[#B85331] focus:ring-[#B85331]"
+                        class="mt-0.5 w-4 h-4 rounded border-[#D0D5DD] text-[#B8664A] focus:ring-[#B8664A]"
                     />
-                    <span class="text-xs text-[#78716C] leading-snug">
-                        I agree to the <a href="#" class="text-[#B85331] hover:underline">Terms of Service</a> and <a href="#" class="text-[#B85331] hover:underline">Privacy Policy</a>.
+                    <span class="text-xs text-[#667085] leading-snug">
+                        Saya menyetujui <a href="#" class="text-[#B8664A] hover:underline font-medium">Syarat &amp; Ketentuan</a> serta <a href="#" class="text-[#B8664A] hover:underline font-medium">Kebijakan Privasi</a> portal Tigabenang.
                     </span>
                 </label>
                 <template x-if="errors.terms">
-                    <p class="text-[11px] text-rose-600 mt-1 font-sans" x-text="errors.terms"></p>
+                    <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.terms"></p>
                 </template>
             </div>
 
             <!-- Submit Button -->
-            <div class="pt-3">
+            <div class="pt-2">
                 <button
                     type="submit"
                     :disabled="isSubmitting"
-                    class="w-full py-3.5 bg-[#B85331] hover:bg-[#A34524] active:bg-[#8F3C1F] disabled:opacity-75 disabled:cursor-not-allowed text-white text-sm font-normal tracking-wide transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                    class="w-full py-2.5 bg-[#B8664A] hover:bg-[#9A4E3A] active:bg-[#8A4330] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
                 >
                     <svg x-show="isSubmitting" class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24" style="display: none;">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span x-text="isSubmitting ? 'Creating Account...' : 'Create Account'"></span>
+                    <span x-text="isSubmitting ? 'Memproses Pendaftaran...' : 'Daftarkan Akun Vendor'"></span>
                 </button>
             </div>
 
             <!-- Divider Line inside card -->
-            <div class="border-t border-[#F0E6DD] pt-6 text-center">
-                <p class="text-xs sm:text-sm text-[#78716C]">
-                    <span>Already have an account?</span>
-                    <a href="{{ route('login') }}" class="text-[#B85331] hover:underline font-medium ml-1 transition-colors">
-                        Sign In
+            <div class="border-t border-[#E2E5E9] pt-4 text-center">
+                <p class="text-xs text-[#667085]">
+                    <span>Sudah memiliki akun vendor?</span>
+                    <a href="{{ route('login') }}" class="text-[#B8664A] hover:underline font-medium ml-1 transition-colors">
+                        Masuk di Sini
                     </a>
                 </p>
             </div>
@@ -327,3 +311,4 @@
 
 </div>
 @endsection
+

@@ -6,39 +6,37 @@
 
 @php
     $sizes = [
-        'sm' => 'px-2 py-0.5 text-[11px]',
-        'md' => 'px-2.5 py-1 text-xs',
-        'lg' => 'px-3 py-1.5 text-sm',
+        'sm' => 'px-2 py-0.5 text-[10px]',
+        'md' => 'px-2.5 py-0.5 text-[11px]',
+        'lg' => 'px-3 py-1 text-xs',
     ];
 
     $variants = [
-        'emerald' => 'bg-emerald-50 text-emerald-700 border border-emerald-200/80',
-        'success' => 'bg-emerald-50 text-emerald-700 border border-emerald-200/80',
-        'amber'   => 'bg-amber-50 text-amber-700 border border-amber-200/80',
-        'warning' => 'bg-amber-50 text-amber-700 border border-amber-200/80',
-        'sky'     => 'bg-sky-50 text-sky-700 border border-sky-200/80',
-        'info'    => 'bg-sky-50 text-sky-700 border border-sky-200/80',
-        'indigo'  => 'bg-indigo-50 text-indigo-700 border border-indigo-200/80',
-        'primary' => 'bg-indigo-50 text-indigo-700 border border-indigo-200/80',
-        'rose'    => 'bg-rose-50 text-rose-700 border border-rose-200/80',
-        'danger'  => 'bg-rose-50 text-rose-700 border border-rose-200/80',
-        'purple'  => 'bg-purple-50 text-purple-700 border border-purple-200/80',
+        'emerald' => 'bg-emerald-50 text-emerald-800 border border-emerald-200',
+        'success' => 'bg-emerald-50 text-emerald-800 border border-emerald-200',
+        'amber'   => 'bg-amber-50 text-amber-800 border border-amber-200',
+        'warning' => 'bg-amber-50 text-amber-800 border border-amber-200',
+        'rose'    => 'bg-rose-50 text-rose-700 border border-rose-200',
+        'danger'  => 'bg-rose-50 text-rose-700 border border-rose-200',
+        'terracotta' => 'bg-[#F4E9E4] text-[#9A4E3A] border border-[#E2D5CF]',
+        'primary' => 'bg-[#F4E9E4] text-[#9A4E3A] border border-[#E2D5CF]',
+        'info'    => 'bg-sky-50 text-sky-800 border border-sky-200',
         'slate'   => 'bg-slate-100 text-slate-700 border border-slate-200',
+        'neutral' => 'bg-slate-100 text-slate-700 border border-slate-200',
     ];
 
     $dotColors = [
-        'emerald' => 'bg-emerald-500',
-        'success' => 'bg-emerald-500',
-        'amber'   => 'bg-amber-500',
-        'warning' => 'bg-amber-500',
-        'sky'     => 'bg-sky-500',
-        'info'    => 'bg-sky-500',
-        'indigo'  => 'bg-indigo-500',
-        'primary' => 'bg-indigo-500',
-        'rose'    => 'bg-rose-500',
-        'danger'  => 'bg-rose-500',
-        'purple'  => 'bg-purple-500',
-        'slate'   => 'bg-slate-400',
+        'emerald' => 'bg-emerald-600',
+        'success' => 'bg-emerald-600',
+        'amber'   => 'bg-amber-600',
+        'warning' => 'bg-amber-600',
+        'rose'    => 'bg-rose-600',
+        'danger'  => 'bg-rose-600',
+        'terracotta' => 'bg-[#B8664A]',
+        'primary' => 'bg-[#B8664A]',
+        'info'    => 'bg-sky-600',
+        'slate'   => 'bg-slate-500',
+        'neutral' => 'bg-slate-500',
     ];
 
     $badgeClass = 'inline-flex items-center gap-1.5 font-medium rounded-full ' . ($sizes[$size] ?? $sizes['md']) . ' ' . ($variants[$variant] ?? $variants['slate']);
@@ -46,7 +44,8 @@
 
 <span {{ $attributes->merge(['class' => $badgeClass]) }}>
     @if ($dot)
-        <span class="w-1.5 h-1.5 rounded-full {{ $dotColors[$variant] ?? 'bg-slate-400' }} animate-pulse"></span>
+        <span class="w-1.5 h-1.5 rounded-full {{ $dotColors[$variant] ?? 'bg-slate-400' }}"></span>
     @endif
     {{ $slot }}
 </span>
+

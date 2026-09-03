@@ -1,159 +1,142 @@
 @extends('layouts.admin')
 
-@section('title', 'Analytics & Reports')
+@section('title', 'Analisis Bisnis')
 
 @section('content')
-<div class="space-y-8 max-w-6xl mx-auto">
+<div class="space-y-6">
 
     <!-- TOP HEADER -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#DCD6D0]">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <div class="inline-flex items-center gap-2 px-3.5 py-1 bg-[#172A39] text-[#FAF8F5] rounded-full text-[11px] font-black uppercase tracking-widest mb-2 shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                Business Intelligence
-            </div>
-            <h1 class="text-2xl sm:text-3xl font-black text-[#172A39] tracking-tight">Analytics &amp; Reports</h1>
-            <p class="text-xs sm:text-sm text-[#555E68] mt-1 font-medium">
-                Laporan performa omzet penjualan, konversi pesanan, dan tren penggunaan material atelier.
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Analisis Bisnis</h1>
+            <p class="text-xs sm:text-sm text-[#667085] mt-1">
+                Ringkasan performa pesanan dan popularitas material garmen Tigabenang.
             </p>
         </div>
     </div>
 
-    <!-- 4 KPI SUMMARY CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="admin-card-rich p-6 flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[10px] sm:text-[11px] font-black tracking-widest text-[#6E7575] uppercase">
-                    TOTAL REVENUE
-                </span>
-                <div class="w-10 h-10 rounded-xl bg-[#172A39] text-white flex items-center justify-center shadow-xs">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="mt-4">
-                <h3 class="text-2xl sm:text-3xl font-black text-[#172A39] tracking-tight">
+    <!-- 4 COMPACT KPI SUMMARY CARDS -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+        <!-- Card 1: Total Estimasi -->
+        <div class="admin-card p-4 sm:p-5 flex flex-col justify-between">
+            <span class="text-xs font-medium text-[#667085]">Total Estimasi</span>
+            <div class="mt-2 flex items-baseline justify-between">
+                <span class="text-xl sm:text-2xl font-semibold text-[#1C2430] font-mono tracking-tight">
                     {{ $kpis['total_revenue'] }}
-                </h3>
+                </span>
             </div>
+            <span class="text-[11px] text-[#667085] mt-1">Akumulasi estimasi harga</span>
         </div>
 
-        <div class="admin-card-rich p-6 flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[10px] sm:text-[11px] font-black tracking-widest text-[#6E7575] uppercase">
-                    TOTAL PESANAN
-                </span>
-                <div class="w-10 h-10 rounded-xl bg-[#172A39] text-white flex items-center justify-center shadow-xs">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="mt-4">
-                <h3 class="text-2xl sm:text-3xl font-black text-[#172A39] tracking-tight">
+        <!-- Card 2: Total Pesanan -->
+        <div class="admin-card p-4 sm:p-5 flex flex-col justify-between">
+            <span class="text-xs font-medium text-[#667085]">Total Pesanan</span>
+            <div class="mt-2 flex items-baseline justify-between">
+                <span class="text-2xl sm:text-3xl font-semibold text-[#1C2430] tracking-tight">
                     {{ $kpis['total_orders'] }}
-                </h3>
+                </span>
             </div>
+            <span class="text-[11px] text-[#667085] mt-1">Seluruh order masuk</span>
         </div>
 
-        <div class="admin-card-rich p-6 flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[10px] sm:text-[11px] font-black tracking-widest text-[#6E7575] uppercase">
-                    RATA-RATA PESANAN
-                </span>
-                <div class="w-10 h-10 rounded-xl bg-[#172A39] text-white flex items-center justify-center shadow-xs">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="mt-4">
-                <h3 class="text-2xl sm:text-3xl font-black text-[#172A39] tracking-tight">
+        <!-- Card 3: Rata-Rata Order -->
+        <div class="admin-card p-4 sm:p-5 flex flex-col justify-between">
+            <span class="text-xs font-medium text-[#667085]">Rata-Rata Order</span>
+            <div class="mt-2 flex items-baseline justify-between">
+                <span class="text-xl sm:text-2xl font-semibold text-[#1C2430] font-mono tracking-tight">
                     {{ $kpis['avg_order_value'] }}
-                </h3>
+                </span>
             </div>
+            <span class="text-[11px] text-[#667085] mt-1">Estimasi per transaksi</span>
         </div>
 
-        <div class="admin-card-rich p-6 flex flex-col justify-between">
-            <div class="flex items-center justify-between">
-                <span class="text-[10px] sm:text-[11px] font-black tracking-widest text-[#6E7575] uppercase">
-                    PRODUK AKTIF
-                </span>
-                <div class="w-10 h-10 rounded-xl bg-[#172A39] text-white flex items-center justify-center shadow-xs">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="mt-4">
-                <h3 class="text-2xl sm:text-3xl font-black text-[#172A39] tracking-tight">
+        <!-- Card 4: Produk Aktif -->
+        <div class="admin-card p-4 sm:p-5 flex flex-col justify-between">
+            <span class="text-xs font-medium text-[#667085]">Produk Aktif</span>
+            <div class="mt-2 flex items-baseline justify-between">
+                <span class="text-2xl sm:text-3xl font-semibold text-[#1C2430] tracking-tight">
                     {{ $kpis['active_products'] }}
-                </h3>
+                </span>
             </div>
+            <span class="text-[11px] text-[#667085] mt-1">Koleksi busana terdaftar</span>
         </div>
     </div>
 
     <!-- TOP PERFORMING TABLES -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         
         <!-- TOP PRODUCTS -->
-        <div class="admin-card-rich overflow-hidden">
-            <div class="p-5 border-b border-[#DCD6D0] bg-[#FAF8F5]">
-                <h2 class="text-xs font-black uppercase tracking-wider text-[#172A39]">Top Produk Paling Sering Dipesan</h2>
+        <div class="admin-card overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-[#E2E5E9] bg-white flex items-center justify-between">
+                <h2 class="text-sm font-semibold text-[#1C2430]">Top Produk Paling Sering Dipesan</h2>
+                <a href="{{ route('admin.produk.index') }}" class="text-xs text-[#B8664A] hover:underline font-medium text-decoration-none">Katalog &rarr;</a>
             </div>
-            <table class="w-full text-left text-xs border-collapse">
-                <thead>
-                    <tr style="background:#172A39;color:#FAF8F5;" class="text-[10px] font-black uppercase tracking-wider">
-                        <th class="px-6 py-3.5">PRODUK</th>
-                        <th class="px-6 py-3.5">KATEGORI</th>
-                        <th class="px-6 py-3.5 text-right">JUMLAH PESANAN</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-[#DCD6D0] bg-white">
-                    @forelse ($topProducts as $prod)
-                        <tr class="admin-table-row">
-                            <td class="px-6 py-3.5 font-black text-[#172A39]">{{ $prod->nama_produk }}</td>
-                            <td class="px-6 py-3.5 text-[#555E68] font-bold">{{ $prod->kategori ? $prod->kategori->nama_kategori : '-' }}</td>
-                            <td class="px-6 py-3.5 text-right font-black text-[#172A39]">{{ $prod->pemesanan_count }} x</td>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-[#F7F7F5] border-b border-[#E2E5E9] text-[11px] font-semibold text-[#667085] uppercase tracking-wider">
+                            <th class="px-4 py-3">Produk</th>
+                            <th class="px-4 py-3">Kategori</th>
+                            <th class="px-4 py-3 text-right">Frekuensi Order</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="px-6 py-8 text-center text-[#6E7575] font-medium">Belum ada data pesanan produk.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="divide-y divide-[#E2E5E9] bg-white">
+                        @forelse ($topProducts as $prod)
+                            <tr class="admin-table-row">
+                                <td class="px-4 py-3.5 font-medium text-[#1C2430]">{{ $prod->nama_produk }}</td>
+                                <td class="px-4 py-3.5 text-[#667085] text-xs">
+                                    <span class="px-2 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded">
+                                        {{ $prod->kategori ? $prod->kategori->nama_kategori : '-' }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3.5 text-right font-semibold text-[#1C2430]">{{ $prod->pemesanan_count }} pesanan</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-4 py-8 text-center text-xs text-[#667085]">Belum ada data pesanan produk.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- TOP MATERIALS -->
-        <div class="admin-card-rich overflow-hidden">
-            <div class="p-5 border-b border-[#DCD6D0] bg-[#FAF8F5]">
-                <h2 class="text-xs font-black uppercase tracking-wider text-[#172A39]">Material Kain Paling Populer</h2>
+        <div class="admin-card overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-[#E2E5E9] bg-white flex items-center justify-between">
+                <h2 class="text-sm font-semibold text-[#1C2430]">Material Kain Paling Populer</h2>
+                <a href="{{ route('admin.kategori.index') }}#material" class="text-xs text-[#B8664A] hover:underline font-medium text-decoration-none">Material &rarr;</a>
             </div>
-            <table class="w-full text-left text-xs border-collapse">
-                <thead>
-                    <tr style="background:#172A39;color:#FAF8F5;" class="text-[10px] font-black uppercase tracking-wider">
-                        <th class="px-6 py-3.5">MATERIAL KAIN</th>
-                        <th class="px-6 py-3.5 text-right">FREKUENSI PESANAN</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-[#DCD6D0] bg-white">
-                    @forelse ($topMaterials as $mat)
-                        <tr class="admin-table-row">
-                            <td class="px-6 py-3.5 font-black text-[#172A39]">🧵 {{ $mat->nama_bahan }}</td>
-                            <td class="px-6 py-3.5 text-right font-black text-[#172A39]">{{ $mat->pemesanan_count }} x</td>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-[#F7F7F5] border-b border-[#E2E5E9] text-[11px] font-semibold text-[#667085] uppercase tracking-wider">
+                            <th class="px-4 py-3">Material Kain</th>
+                            <th class="px-4 py-3 text-right">Frekuensi Pemilihan</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="2" class="px-6 py-8 text-center text-[#6E7575] font-medium">Belum ada data material terpilih.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="divide-y divide-[#E2E5E9] bg-white">
+                        @forelse ($topMaterials as $mat)
+                            <tr class="admin-table-row">
+                                <td class="px-4 py-3.5 font-medium text-[#1C2430] flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#B8664A]"></span>
+                                    {{ $mat->nama_bahan }}
+                                </td>
+                                <td class="px-4 py-3.5 text-right font-semibold text-[#1C2430]">{{ $mat->pemesanan_count }} kali</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="2" class="px-4 py-8 text-center text-xs text-[#667085]">Belum ada data material terpilih.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
 
 </div>
 @endsection
+
+
