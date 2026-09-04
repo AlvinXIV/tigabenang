@@ -1,10 +1,16 @@
 import Alpine from 'alpinejs';
 
-// Expose Alpine to window for inline scripts and blade views
+// Expose Alpine to window for inline scripts, blade views, and Livewire 3
 window.Alpine = Alpine;
 
-// Start Alpine
-Alpine.start();
+// If Livewire is loaded on the page, Livewire starts Alpine automatically.
+// Otherwise (for pages without Livewire), start Alpine once DOM is ready.
+document.addEventListener('DOMContentLoaded', () => {
+    if (!window.Livewire && !window.__alpine_started) {
+        window.__alpine_started = true;
+        Alpine.start();
+    }
+});
 
 // Lazy-load Chart.js on demand
 window.loadChart = async () => {

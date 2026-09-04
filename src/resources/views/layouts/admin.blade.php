@@ -17,6 +17,7 @@
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+    @livewireStyles
 
     <style>
         :root {
@@ -442,6 +443,7 @@
             <!-- Main Body Content (Expanded for dense business software layout) -->
             <main class="flex-1 px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7 w-full max-w-[1440px] mx-auto min-w-0">
                 @include('layouts.partials.flash')
+                {{ $slot ?? '' }}
                 @yield('content')
             </main>
 
@@ -458,6 +460,7 @@
     </div>
 
     @stack('scripts')
+    @livewireScripts
 </body>
 </html>
 
