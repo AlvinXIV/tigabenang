@@ -190,23 +190,23 @@
                                 <div>
                                     <div class="mb-1 flex items-center justify-between">
                                         <label class="text-[11px] font-semibold text-[#1C2430]">Skala pakaian</label>
-                                        <span id="debug-scale-val" class="font-mono text-[11px] text-[#667085]">1.00</span>
+                                        <span id="debug-scale-val" class="font-mono text-[11px] text-[#667085]">1.02</span>
                                     </div>
-                                    <input type="range" id="debug-scale" min="0.1" max="3.0" step="0.01" value="1.00" class="w-full accent-[#1C2430]">
+                                    <input type="range" id="debug-scale" min="0.1" max="3.0" step="0.01" value="1.02" class="w-full accent-[#1C2430]">
                                 </div>
                                 <div>
                                     <div class="mb-1 flex items-center justify-between">
                                         <label class="text-[11px] font-semibold text-[#1C2430]">Geser vertikal</label>
-                                        <span id="debug-y-val" class="font-mono text-[11px] text-[#667085]">0.00</span>
+                                        <span id="debug-y-val" class="font-mono text-[11px] text-[#667085]">-0.30</span>
                                     </div>
-                                    <input type="range" id="debug-y" min="-3.0" max="3.0" step="0.01" value="0.00" class="w-full accent-[#1C2430]">
+                                    <input type="range" id="debug-y" min="-3.0" max="3.0" step="0.01" value="-0.30" class="w-full accent-[#1C2430]">
                                 </div>
                                 <div>
                                     <div class="mb-1 flex items-center justify-between">
                                         <label class="text-[11px] font-semibold text-[#1C2430]">Geser maju/mundur</label>
-                                        <span id="debug-z-val" class="font-mono text-[11px] text-[#667085]">0.00</span>
+                                        <span id="debug-z-val" class="font-mono text-[11px] text-[#667085]">0.12</span>
                                     </div>
-                                    <input type="range" id="debug-z" min="-3.0" max="3.0" step="0.01" value="0.00" class="w-full accent-[#1C2430]">
+                                    <input type="range" id="debug-z" min="-3.0" max="3.0" step="0.01" value="0.12" class="w-full accent-[#1C2430]">
                                 </div>
                             </div>
                         </div>

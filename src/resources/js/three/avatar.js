@@ -4,21 +4,28 @@ import * as THREE from 'three';
 // CONSTANTS
 // ──────────────────────────────────────────────────────────────
 
-const SEGS   = 32;   // vertices per ring
-const INTERP = 6;    // interpolation steps
+const SEGS   = 48;   // vertices per ring  (was 32 → smoother)
+const INTERP = 8;    // interpolation steps (was 6  → smoother)
 const NAME   = 'fitvendor-avatar';
 
 // ──────────────────────────────────────────────────────────────
-// SHARED MATERIAL
+// SHARED SKIN MATERIAL
+// ──────────────────────────────────────────────────────────────
+//
+// MeshPhysicalMaterial with clearcoat gives a subtle sheen
+// similar to mannequin plastic / matte skin.
 // ──────────────────────────────────────────────────────────────
 
 const material =
     new THREE.MeshPhysicalMaterial({
         color: 0xc8b8a8,
-        roughness: 0.55,
-        metalness: 0.02,
-        clearcoat: 0.12,
-        clearcoatRoughness: 0.4,
+        roughness: 0.48,
+        metalness: 0.0,
+        clearcoat: 0.18,
+        clearcoatRoughness: 0.35,
+        sheen: 0.15,
+        sheenRoughness: 0.6,
+        sheenColor: new THREE.Color(0xe8d0c0),
         side: THREE.DoubleSide,
     });
 
@@ -28,6 +35,9 @@ const material =
 
 const lerp = (a, b, t) =>
     a + (b - a) * t;
+
+const smoothstep = (t) =>
+    t * t * (3 - 2 * t);
 
 const catmull = (p0, p1, p2, p3, t) => {
     const t2 = t * t;
@@ -54,7 +64,7 @@ const catmull = (p0, p1, p2, p3, t) => {
 // GEOMETRY: LOFTED MESH FROM RINGS
 // ──────────────────────────────────────────────────────────────
 //
-// Each "ring" = { y, rx, rz }
+// Each "ring" = { y, rx, rz, x?, z? }
 //   rx = side-to-side half-width
 //   rz = front-to-back half-depth
 //
@@ -69,6 +79,7 @@ function loftGeo(
     capTop = false,
 ) {
     const pos = [];
+    const nrm = [];
     const idx = [];
     const vpr = segs + 1;
 
@@ -240,11 +251,7 @@ function circ(c, s, wr = 1.15) {
 }
 
 // ──────────────────────────────────────────────────────────────
-// BUILD LIMB TUBE
-// ──────────────────────────────────────────────────────────────
-//
-// Creates a tapered tube along the Y axis
-// with a gentle muscle bulge in the middle.
+// BUILD LIMB TUBE (improved with anatomical muscle curve)
 // ──────────────────────────────────────────────────────────────
 
 function limbRings(
@@ -252,7 +259,9 @@ function limbRings(
     rTop,
     rBot,
     yBase = 0,
-    n = 5,
+    n = 7,
+    bulgeAmount = 0.12,
+    bulgePeak = 0.35,
 ) {
     const keys = [];
 
@@ -261,10 +270,13 @@ function limbRings(
 
         const r = lerp(rTop, rBot, t);
 
-        // Slight muscle bulge
+        // Anatomical muscle bulge — peaks near top 1/3
+        const bulgeT = Math.sin(
+            Math.pow(t, 0.7) * Math.PI,
+        );
         const bulge =
-            Math.sin(t * Math.PI) *
-            0.12 *
+            bulgeT *
+            bulgeAmount *
             rTop;
 
         const rx =
@@ -279,7 +291,7 @@ function limbRings(
         });
     }
 
-    return smooth(keys, 4);
+    return smooth(keys, 5);
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -363,7 +375,7 @@ export function createAvatar(
     // ── Anatomy positions (from floor) ───
 
     const headH = h * 0.125;
-    const neckH = h * 0.028;
+    const neckH = h * 0.032;
 
     const yCrotch = h * crotchFrac;
 
@@ -399,19 +411,19 @@ export function createAvatar(
     const hipR = circ(
         hipCm,
         s,
-        1.25, // Kembali ke proporsi manusia normal
+        1.25,
     );
 
     const waistR = circ(
         waistCm,
         s,
-        1.15, // Pinggang normal
+        1.30,
     );
 
     const chestR = circ(
         chestCm,
         s,
-        1.5, // Lebar lebih besar, kedalaman (rz) lebih tipis agar muat di dalam baju
+        1.70,
     );
 
     const shW =
@@ -430,6 +442,11 @@ export function createAvatar(
     // ══════════════════════════════════════
     // TORSO  (crotch → neck base)
     // ══════════════════════════════════════
+    //
+    // Many more key-rings for anatomical
+    // detail: pelvis, obliques, ribcage,
+    // pectoral shelf, clavicle taper.
+    // ══════════════════════════════════════
 
     const shRx = Math.max(
         chestR.rx,
@@ -437,80 +454,139 @@ export function createAvatar(
     );
 
     const torsoKeys = [
-        // Crotch (narrow)
+        // ── Crotch (narrow V) ──
         {
             y: yCrotch,
-            rx: hipR.rx * 0.52,
-            rz: hipR.rz * 0.65,
+            rx: hipR.rx * 0.50,
+            rz: hipR.rz * 0.60,
             z: h * 0.015,
         },
 
-        // Lower hip
+        // ── Inner thigh junction ──
         {
-            y: lerp(yCrotch, yHip, 0.5),
-            rx: hipR.rx * 0.88,
-            rz: hipR.rz * 0.88,
+            y: lerp(yCrotch, yHip, 0.25),
+            rx: hipR.rx * 0.72,
+            rz: hipR.rz * 0.70,
+            z: h * 0.015,
+        },
+
+        // ── Lower pelvis ──
+        {
+            y: lerp(yCrotch, yHip, 0.50),
+            rx: hipR.rx * 0.90,
+            rz: hipR.rz * 0.82,
+            z: h * 0.012,
+        },
+
+        // ── Upper pelvis / gluteal shelf ──
+        {
+            y: lerp(yCrotch, yHip, 0.75),
+            rx: hipR.rx * 0.98,
+            rz: hipR.rz * 0.85,
+            z: h * 0.010,
+        },
+
+        // ── Hip (widest lower body) ──
+        {
+            y: yHip,
+            rx: hipR.rx,
+            rz: hipR.rz * 0.85,
+            z: h * 0.008,
+        },
+
+        // ── Iliac crest ──
+        {
+            y: lerp(yHip, yWaist, 0.25),
+            rx: lerp(hipR.rx, waistR.rx, 0.30),
+            rz: lerp(hipR.rz, waistR.rz, 0.25),
+            z: h * 0.005,
+        },
+
+        // ── Oblique area ──
+        {
+            y: lerp(yHip, yWaist, 0.55),
+            rx: lerp(hipR.rx, waistR.rx, 0.60),
+            rz: lerp(hipR.rz, waistR.rz, 0.50),
+            z: h * 0.002,
+        },
+
+        // ── Waist (narrowest) ──
+        {
+            y: yWaist,
+            rx: waistR.rx,
+            rz: waistR.rz * 0.90,
+            z: h * 0.000,
+        },
+
+        // ── Lower rib cage ──
+        {
+            y: lerp(yWaist, yChest, 0.25),
+            rx: lerp(waistR.rx, chestR.rx, 0.30),
+            rz: lerp(waistR.rz, chestR.rz, 0.20) * 0.90,
+            z: h * 0.005,
+        },
+
+        // ── Mid rib cage ──
+        {
+            y: lerp(yWaist, yChest, 0.45),
+            rx: lerp(waistR.rx, chestR.rx, 0.55),
+            rz: lerp(waistR.rz, chestR.rz, 0.30) * 0.90,
+            z: h * 0.005,
+        },
+
+        // ── Chest (pectoral shelf) ──
+        {
+            y: yChest,
+            rx: chestR.rx,
+            rz: chestR.rz * 0.90,
+            z: h * 0.000,
+        },
+
+        // ── Upper pectoral ──
+        {
+            y: lerp(yChest, yShoulder, 0.30),
+            rx: lerp(chestR.rx, shRx, 0.35),
+            rz: chestR.rz * 0.78,
+            z: h * 0.005,
+        },
+
+        // ── Clavicle level ──
+        {
+            y: lerp(yChest, yShoulder, 0.55),
+            rx: lerp(chestR.rx, shRx * 0.75, 0.50),
+            rz: chestR.rz * 0.50,
             z: -h * 0.005,
         },
 
-        // Hip (widest lower body, buttocks stick out back)
-        {
-            y: yHip,
-            ...hipR,
-            z: -h * 0.025, // Natural buttock curve
-        },
-
-        // Hip → Waist transition
-        {
-            y: lerp(yHip, yWaist, 0.5),
-            rx: lerp(hipR.rx, waistR.rx, 0.55),
-            rz: lerp(hipR.rz, waistR.rz, 0.5),
-            z: -h * 0.005, // Kurva lordosis
-        },
-
-        // Waist (narrowest, stomach forward)
-        {
-            y: yWaist,
-            ...waistR,
-            z: h * 0.015, // Natural waist curve
-        },
-
-        // Lower chest / rib cage
-        {
-            y: lerp(yWaist, yChest, 0.4),
-            rx: lerp(waistR.rx, chestR.rx, 0.45),
-            rz: lerp(waistR.rz, chestR.rz, 0.25),
-            z: h * 0.025, // Tulang rusuk bawah maju
-        },
-
-        // Chest (widest upper body)
-        {
-            y: yChest,
-            ...chestR,
-            z: h * 0.01, // Dikurangi agar tidak tembus baju depan
-        },
-
-        // Upper chest
-        {
-            y: lerp(yChest, yShoulder, 0.5),
-            rx: lerp(chestR.rx, shRx, 0.5),
-            rz: chestR.rz * 0.70, // Lebih tipis
-            z: h * 0.005, // Hampir rata
-        },
-
-        // Shoulder level (neck sits slightly forward)
+        // ── Shoulder level (sloped down) ──
         {
             y: yShoulder,
-            rx: shRx,
-            rz: chestR.rz * 0.50, // Pundak lebih tipis agar tidak tembus lengan baju
-            z: -h * 0.01, // Sedikit ke belakang
+            rx: shRx * 0.75,
+            rz: chestR.rz * 0.38,
+            z: -h * 0.006,
         },
 
-        // Neck base (taper quickly)
+        // ── Trapezius slope ──
         {
-            y: yNeckBase - neckH * 0.15,
-            rx: shRx * 0.22,
-            rz: chestR.rz * 0.28,
+            y: yShoulder + neckH * 0.20,
+            rx: shRx * 0.36,
+            rz: chestR.rz * 0.32,
+            z: h * 0.000,
+        },
+
+        // ── Upper trapezius ──
+        {
+            y: yShoulder + neckH * 0.42,
+            rx: shRx * 0.30,
+            rz: chestR.rz * 0.30,
+            z: h * 0.003,
+        },
+
+        // ── Neck base ──
+        {
+            y: yNeckBase - neckH * 0.10,
+            rx: shRx * 0.20,
+            rz: chestR.rz * 0.25,
             z: h * 0.005,
         },
     ];
@@ -531,115 +607,153 @@ export function createAvatar(
     avatar.add(torso);
 
     // ══════════════════════════════════════
-    // NECK
+    // NECK (more anatomical rings)
     // ══════════════════════════════════════
 
-    const neckR = h * 0.031;
+    const neckR = h * 0.032;
 
     const neckKeys = [
         {
-            y: yNeckBase - neckH * 0.15,
-            rx: neckR * 1.3,
-            rz: neckR * 1.2,
+            y: yNeckBase - neckH * 0.10,
+            rx: neckR * 1.35,
+            rz: neckR * 1.25,
             z: h * 0.005,
         },
         {
-            y: lerp(
-                yNeckBase,
-                yNeckBase + neckH * 0.5,
-                0.5,
-            ),
-            rx: neckR * 1.05,
-            rz: neckR,
+            y: yNeckBase + neckH * 0.15,
+            rx: neckR * 1.15,
+            rz: neckR * 1.10,
             z: h * 0.008,
         },
         {
-            y: yNeckBase + neckH,
-            rx: neckR,
+            y: yNeckBase + neckH * 0.45,
+            rx: neckR * 1.05,
+            rz: neckR * 1.00,
+            z: h * 0.010,
+        },
+        {
+            y: yNeckBase + neckH * 0.75,
+            rx: neckR * 1.00,
             rz: neckR * 0.95,
             z: h * 0.012,
+        },
+        {
+            y: yNeckBase + neckH,
+            rx: neckR * 0.96,
+            rz: neckR * 0.90,
+            z: h * 0.014,
         },
     ];
 
     const neckGeo = loftGeo(
-        smooth(neckKeys, 4),
+        smooth(neckKeys, 5),
     );
 
-    avatar.add(
-        new THREE.Mesh(neckGeo, material),
-    );
+    const neckMesh = new THREE.Mesh(neckGeo, material);
+    neckMesh.castShadow = true;
+    avatar.add(neckMesh);
 
     // ══════════════════════════════════════
-    // HEAD
+    // HEAD (skull-shaped ellipsoid)
     // ══════════════════════════════════════
 
     const headR = headH * 0.42;
 
+    // Cranium — slightly elongated top-to-bottom, narrower side-to-side
+    const headGeo = new THREE.SphereGeometry(
+        headR,
+        32,
+        26,
+    );
+
     const head = new THREE.Mesh(
-        new THREE.SphereGeometry(
-            headR,
-            28,
-            22,
-        ),
+        headGeo,
         material,
     );
 
-    head.scale.set(0.92, 1.1, 0.92);
+    head.scale.set(0.90, 1.12, 0.95);
     head.position.set(0, yHeadCenter, h * 0.015);
+    head.castShadow = true;
 
     avatar.add(head);
 
+    // Jaw / chin subtle bulge
+    const jawGeo = new THREE.SphereGeometry(
+        headR * 0.55,
+        16,
+        12,
+        0,
+        Math.PI * 2,
+        Math.PI * 0.3,
+        Math.PI * 0.7,
+    );
+
+    const jaw = new THREE.Mesh(jawGeo, material);
+    jaw.scale.set(0.82, 0.50, 0.85);
+    jaw.position.set(
+        0,
+        yHeadCenter - headR * 0.55,
+        h * 0.025,
+    );
+    avatar.add(jaw);
+
     // ══════════════════════════════════════
-    // SHOULDER CAPS (smooth bridge)
+    // SHOULDER CAPS (deltoid — dropped/sloped)
     // ══════════════════════════════════════
 
-    const capR = h * 0.024; // Kecilkan pundak agar tidak menonjol dari baju
+    const capR = h * 0.020;
 
     for (const side of [-1, 1]) {
+        // Deltoid cap — small, fits inside shirt
         const cap = new THREE.Mesh(
             new THREE.SphereGeometry(
                 capR,
-                16,
+                18,
                 12,
             ),
             material,
         );
 
-        cap.scale.set(1.0, 0.7, 0.7); // Pipihkan pundak dari depan-belakang
+        cap.scale.set(0.80, 0.55, 0.60);
 
         cap.position.set(
-            side * shW * 0.92,
-            yShoulder - h * 0.012,
-            h * 0.005,
+            side * shW * 0.86,
+            yShoulder - h * 0.016,
+            -h * 0.015,
         );
 
+        cap.castShadow = true;
         avatar.add(cap);
     }
 
     // ══════════════════════════════════════
-    // ARMS
+    // ARMS (improved muscle definition)
     // ══════════════════════════════════════
 
-    const upperArmLen = armLen * 0.5;
-    const forearmLen = armLen * 0.5;
+    const upperArmLen = armLen * 0.50;
+    const forearmLen = armLen * 0.50;
 
-    const upperArmR = h * 0.026; // Lengan atas dirampingkan agar masuk ke lengan baju
-    const forearmR = h * 0.020;  // Lengan bawah dirampingkan
-    const wristR = h * 0.016;
-    const handR = h * 0.018;
+    const upperArmR = h * 0.022;
+    const forearmR = h * 0.017;
+    const wristR = h * 0.013;
+    const handLen = h * 0.050;
+    const handW = h * 0.019;
 
-    const armAngleZ = 0.62; // Lebih terangkat ke samping agar masuk ke lubang lengan baju
-    const armAngleX = -0.12; // Sedikit ke depan supaya lengan mengikuti kurva baju
+    const armAngleZ = 0.62;  // More spread to raise arms higher
+    const armAngleX = 0.00;
 
     for (const side of [-1, 1]) {
         const arm = new THREE.Group();
 
-        // Upper arm
+        // ── Upper arm (bicep/tricep bulge) ──
         const upKeys = limbRings(
             upperArmLen,
             upperArmR,
             forearmR * 1.05,
             -upperArmLen,
+            8,
+            0.15,    // more pronounced muscle
+            0.35,
         );
 
         const upGeo = loftGeo(
@@ -659,27 +773,31 @@ export function createAvatar(
 
         arm.add(upperMesh);
 
-        // Elbow joint
+        // ── Elbow joint ──
         const elbow = new THREE.Mesh(
             new THREE.SphereGeometry(
-                forearmR * 1.1,
+                forearmR * 1.12,
+                14,
                 12,
-                10,
             ),
             material,
         );
 
         elbow.position.y =
             -upperArmLen;
+        elbow.scale.set(1.0, 0.85, 0.95);
 
         arm.add(elbow);
 
-        // Forearm
+        // ── Forearm (tapered) ──
         const fKeys = limbRings(
             forearmLen,
             forearmR,
             wristR,
             -upperArmLen - forearmLen,
+            8,
+            0.10,
+            0.30,
         );
 
         const fGeo = loftGeo(
@@ -699,34 +817,55 @@ export function createAvatar(
 
         arm.add(forearmMesh);
 
-        // Hand (simple sphere)
-        const hand = new THREE.Mesh(
+        // ── Wrist joint (smooth transition) ──
+        const wrist = new THREE.Mesh(
             new THREE.SphereGeometry(
-                handR,
+                wristR * 1.05,
                 12,
                 10,
             ),
             material,
         );
+        wrist.position.y =
+            -upperArmLen - forearmLen;
+        wrist.scale.set(1.05, 0.80, 0.90);
+        arm.add(wrist);
 
-        hand.scale.set(
-            0.7,
-            1.1,
-            0.5,
+        // ── Hand (palm + finger taper) ──
+        const handKeys = [
+            { y: 0, rx: handW, rz: handW * 0.45 },
+            { y: -handLen * 0.15, rx: handW * 1.10, rz: handW * 0.48 },
+            { y: -handLen * 0.40, rx: handW * 1.05, rz: handW * 0.45 },
+            { y: -handLen * 0.65, rx: handW * 0.90, rz: handW * 0.38 },
+            { y: -handLen * 0.85, rx: handW * 0.65, rz: handW * 0.30 },
+            { y: -handLen, rx: handW * 0.35, rz: handW * 0.22 },
+        ];
+
+        const handGeo = loftGeo(
+            smooth(handKeys, 4),
+            SEGS,
+            true,
+            true,
         );
 
-        hand.position.y =
+        const handMesh = new THREE.Mesh(
+            handGeo,
+            material,
+        );
+
+        handMesh.position.y =
             -upperArmLen -
             forearmLen -
-            handR * 0.6;
+            wristR * 0.5;
 
-        arm.add(hand);
+        handMesh.castShadow = true;
+        arm.add(handMesh);
 
-        // Position & rotate arm
+        // ── Position & rotate arm (raised higher) ──
         arm.position.set(
-            side * shW * 0.92,
-            yShoulder - h * 0.012,
-            h * 0.005,
+            side * shW * 0.88,
+            yShoulder - h * 0.008,
+            -h * 0.015,
         );
 
         arm.rotation.order = 'ZXY';
@@ -737,7 +876,7 @@ export function createAvatar(
     }
 
     // ══════════════════════════════════════
-    // LEGS
+    // LEGS (improved anatomy)
     // ══════════════════════════════════════
 
     const thighLen =
@@ -746,24 +885,26 @@ export function createAvatar(
     const calfLen =
         (yKnee - yAnkle) * 1.0;
 
-    const thighR = h * 0.058;
-    const kneeR = h * 0.04;
-    const calfR = h * 0.038;
-    const ankleR = h * 0.025;
+    const thighR = h * 0.050;
+    const kneeR = h * 0.038;
+    const calfR = h * 0.037;
+    const ankleR = h * 0.024;
 
     const legSpacing = Math.max(
-        hipR.rx * 0.48,
-        h * 0.042,
+        hipR.rx * 0.35,
+        h * 0.035,
     );
 
     for (const side of [-1, 1]) {
-        // Thigh
+        // ── Thigh (quadriceps bulge) ──
         const tKeys = limbRings(
             thighLen,
             thighR,
             kneeR,
             yKnee,
-            6,
+            8,
+            0.10,
+            0.35,
         );
 
         const tGeo = loftGeo(
@@ -778,42 +919,64 @@ export function createAvatar(
             material,
         );
 
-        thigh.position.x =
-            side * legSpacing;
+        thigh.position.set(
+            side * legSpacing,
+            0,
+            h * 0.015,
+        );
 
         thigh.castShadow = true;
 
         avatar.add(thigh);
 
-        // Knee joint
+        // ── Knee (slightly bony) ──
         const knee = new THREE.Mesh(
             new THREE.SphereGeometry(
-                kneeR * 1.0,
-                14,
-                10,
+                kneeR * 1.02,
+                16,
+                12,
             ),
             material,
         );
 
+        knee.scale.set(1.0, 0.85, 1.05);
+
         knee.position.set(
             side * legSpacing,
             yKnee,
-            0,
+            h * 0.015,
         );
 
+        knee.castShadow = true;
         avatar.add(knee);
 
-        // Calf
-        const cKeys = limbRings(
-            calfLen,
-            calfR,
-            ankleR,
-            yAnkle,
-            6,
-        );
+        // ── Calf (gastrocnemius bulge near top) ──
+        const cKeys = [];
+        const calfSteps = 9;
+        for (let i = 0; i <= calfSteps; i++) {
+            const t = i / calfSteps;
+            const base = lerp(calfR, ankleR, t);
+
+            // Calf muscle bulge — peaks at t≈0.25
+            const calfBulge =
+                Math.sin(Math.pow(t, 0.5) * Math.PI) *
+                calfR * 0.18;
+
+            // Slightly wider in back (gastrocnemius)
+            const rzExtra = (t < 0.5)
+                ? calfBulge * 0.5
+                : 0;
+
+            cKeys.push({
+                y: yAnkle + calfLen * (1 - t),
+                rx: (base + calfBulge) * 1.02,
+                rz: base + calfBulge + rzExtra,
+                z: (t < 0.4) ? -calfR * 0.06 : 0,
+            });
+        }
 
         const cGeo = loftGeo(
-            cKeys,
+            smooth(cKeys, 5),
             SEGS,
             true,
             false,
@@ -824,46 +987,88 @@ export function createAvatar(
             material,
         );
 
-        calf.position.x =
-            side * legSpacing;
+        calf.position.set(
+            side * legSpacing,
+            0,
+            h * 0.015,
+        );
 
         calf.castShadow = true;
 
         avatar.add(calf);
-    }
 
-    // ══════════════════════════════════════
-    // FEET
-    // ══════════════════════════════════════
-
-    const footR = h * 0.032;
-
-    for (const side of [-1, 1]) {
-        const foot = new THREE.Mesh(
-            new THREE.CapsuleGeometry(
-                footR,
-                h * 0.04,
-                8,
-                12,
+        // ── Ankle transition ──
+        const ankle = new THREE.Mesh(
+            new THREE.SphereGeometry(
+                ankleR * 1.05,
+                14,
+                10,
             ),
             material,
         );
 
-        foot.rotation.x =
-            Math.PI / 2;
-
-        foot.scale.set(
-            0.85,
-            1.4,
-            0.55,
+        ankle.scale.set(1.05, 0.75, 0.90);
+        ankle.position.set(
+            side * legSpacing,
+            yAnkle,
+            h * 0.015,
         );
+
+        avatar.add(ankle);
+    }
+
+    // ══════════════════════════════════════
+    // FEET (anatomically shaped)
+    // ══════════════════════════════════════
+
+    const footLen = h * 0.078;
+    const footW = h * 0.032;
+    const footH = h * 0.022;
+
+    for (const side of [-1, 1]) {
+        const footKeys = [
+            // Heel
+            { y: 0, rx: footW * 0.85, rz: footH * 0.90 },
+            // Arch
+            { y: 0, rx: footW * 0.88, rz: footH * 0.75, z: footLen * 0.20 },
+            // Mid-foot
+            { y: 0, rx: footW * 1.00, rz: footH * 0.80, z: footLen * 0.45 },
+            // Ball of foot
+            { y: 0, rx: footW * 1.05, rz: footH * 0.85, z: footLen * 0.70 },
+            // Toe taper
+            { y: 0, rx: footW * 0.72, rz: footH * 0.60, z: footLen * 0.90 },
+            // Toe tip
+            { y: 0, rx: footW * 0.30, rz: footH * 0.35, z: footLen },
+        ];
+
+        // Rotate foot keys: swap y↔z for horizontal loft along Z
+        const rotatedKeys = footKeys.map(k => ({
+            y: (k.z || 0) - footLen * 0.30, // center on ball
+            rx: k.rx,
+            rz: k.rz,
+        }));
+
+        const footGeo = loftGeo(
+            smooth(rotatedKeys, 4),
+            SEGS,
+            true,
+            true,
+        );
+
+        const foot = new THREE.Mesh(
+            footGeo,
+            material,
+        );
+
+        foot.rotation.x = Math.PI / 2;
 
         foot.position.set(
             side * legSpacing,
-            footR * 0.5,
-            h * 0.025,
+            footH * 0.85,
+            h * 0.035,
         );
 
+        foot.castShadow = true;
         avatar.add(foot);
     }
 

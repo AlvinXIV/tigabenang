@@ -46,6 +46,8 @@
         }
         #fitting-viewport { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 680px; }
         #fitting-viewport canvas { display: block; width: 100% !important; height: 100% !important; }
+        .fv-icon-wrap svg, .fv-services__icon svg { width: 20px !important; height: 20px !important; max-width: 20px !important; max-height: 20px !important; flex-shrink: 0 !important; }
+        .fv-contact-icon svg { width: 24px !important; height: 24px !important; max-width: 24px !important; max-height: 24px !important; flex-shrink: 0 !important; }
     </style>
 </head>
 <body class="min-h-screen bg-surface-alt text-text-base antialiased">

@@ -62,7 +62,14 @@ export function createFittingScene(container) {
     renderer.outputColorSpace =
         THREE.SRGBColorSpace;
 
+    renderer.toneMapping =
+        THREE.ACESFilmicToneMapping;
+
+    renderer.toneMappingExposure = 1.0;
+
     renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type =
+        THREE.PCFSoftShadowMap;
 
     container.appendChild(
         renderer.domElement,
@@ -105,15 +112,16 @@ export function createFittingScene(container) {
         new THREE.HemisphereLight(
             0xfff8ed,
             0x8d8174,
-            2.0,
+            1.8,
         );
 
     scene.add(ambient);
 
+    // Key light (main, slightly warm)
     const key =
         new THREE.DirectionalLight(
-            0xffffff,
-            2.0,
+            0xfff5e8,
+            2.2,
         );
 
     key.position.set(
@@ -123,13 +131,17 @@ export function createFittingScene(container) {
     );
 
     key.castShadow = true;
+    key.shadow.mapSize.width = 1024;
+    key.shadow.mapSize.height = 1024;
+    key.shadow.bias = -0.002;
 
     scene.add(key);
 
+    // Fill light (soft, opposite side)
     const fill =
         new THREE.DirectionalLight(
-            0xffdfc8,
-            0.6,
+            0xdde8ff,
+            0.7,
         );
 
     fill.position.set(
@@ -139,6 +151,36 @@ export function createFittingScene(container) {
     );
 
     scene.add(fill);
+
+    // Rim / back light (edge definition)
+    const rim =
+        new THREE.DirectionalLight(
+            0xffffff,
+            1.0,
+        );
+
+    rim.position.set(
+        0,
+        3,
+        -4,
+    );
+
+    scene.add(rim);
+
+    // Subtle bottom fill to soften shadows under chin
+    const bottomFill =
+        new THREE.DirectionalLight(
+            0xeee8dd,
+            0.3,
+        );
+
+    bottomFill.position.set(
+        0,
+        -1,
+        2,
+    );
+
+    scene.add(bottomFill);
 
     /*
     |--------------------------------------------------------------------------

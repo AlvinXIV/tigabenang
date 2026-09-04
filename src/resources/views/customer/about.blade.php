@@ -90,16 +90,16 @@
                     <div class="fv-icon-card">
                         <div class="fv-icon-wrap" aria-hidden="true">
                             @if ($item['icon'] === 'garment')
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 5 4 8v3h3v8h10v-8h3V8l-4-3-2 2.5L12 7l-2 .5L8 5Z"/>
                                 </svg>
                             @elseif ($item['icon'] === 'fabric')
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v10H4V7Z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7v10M12 7v10M16 7v10M4 12h16"/>
                                 </svg>
                             @else
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4a3 3 0 0 1 3 3v2H9V7a3 3 0 0 1 3-3Z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8l1 11H7L8 9Z"/>
                                 </svg>
@@ -172,7 +172,7 @@
                     @if ($whatsappHref)
                         <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-5">
                             <span class="fv-contact-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <svg class="h-6 w-6 shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                     <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41A10.1 10.1 0 0 0 12.04 21.66h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Zm5.76 14.16c-.24.67-1.18 1.23-1.93 1.4-.51.11-1.18.2-3.44-.74-2.89-1.2-4.75-4.13-4.89-4.32-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.44.03.64.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.39 1.46.3.14.48.12.66-.07.18-.19.77-.9.98-1.21.21-.3.42-.26.7-.15.28.1 1.78.84 2.08.99.3.15.5.22.57.35.07.13.07.75-.17 1.42Z"/>
                                 </svg>
                             </span>
@@ -185,7 +185,7 @@
                     @if ($vendorEmail !== '')
                         <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-5">
                             <span class="fv-contact-icon" aria-hidden="true">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                <svg class="h-6 w-6 shrink-0" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6.75A1.75 1.75 0 0 1 5.75 5h12.5A1.75 1.75 0 0 1 20 6.75v10.5A1.75 1.75 0 0 1 18.25 19H5.75A1.75 1.75 0 0 1 4 17.25V6.75Z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m5 7 7 5 7-5"/>
                                 </svg>
@@ -199,7 +199,7 @@
                     @if ($vendorLocation !== '')
                         <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-5">
                             <span class="fv-contact-icon" aria-hidden="true">
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                                <svg class="h-6 w-6 shrink-0" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/>
                                 </svg>

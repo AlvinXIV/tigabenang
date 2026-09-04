@@ -76,7 +76,7 @@
             <div class="grid gap-4 md:grid-cols-3 md:gap-6">
                 <article class="fv-icon-card">
                     <div class="fv-icon-wrap" aria-hidden="true">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                        <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h10M4 17h7M19 10v8m0 0-2.5-2.5M19 18l2.5-2.5"/>
                         </svg>
                     </div>
@@ -88,7 +88,7 @@
 
                 <article class="fv-icon-card">
                     <div class="fv-icon-wrap" aria-hidden="true">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                        <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5 14 10m0 0 2.5-2.5a3.5 3.5 0 1 0-5-5L9 5m5 5-5-5m-3.5 8.5 1.5 1.5M7 19l-3 1 1-3"/>
                         </svg>
                     </div>
@@ -100,7 +100,7 @@
 
                 <article class="fv-icon-card">
                     <div class="fv-icon-wrap" aria-hidden="true">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                        <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5h6a2 2 0 0 1 2 2v12l-5-2-5 2V7a2 2 0 0 1 2-2Z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 10h5M9.5 13.5h3.5"/>
                         </svg>
@@ -246,20 +246,20 @@
                     <div class="fv-services__item">
                         <div class="fv-services__icon" aria-hidden="true">
                             @if ($s['icon'] === 'jacket')
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 4 4 7v13h5v-6h6v6h5V7l-4-3-3 3-3-3Z"/>
                                 </svg>
                             @elseif ($s['icon'] === 'shirt')
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 5 4 8v3h3v8h10v-8h3V8l-4-3-2 2.5L12 7l-2 .5L8 5Z"/>
                                 </svg>
                             @elseif ($s['icon'] === 'sport')
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3c2.2 3 3.3 6 3.3 9S14.2 18 12 21c-2.2-3-3.3-6-3.3-9S9.8 6 12 3Z"/>
                                 </svg>
                             @else
-                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5 6 8v11h12V8l-3-3H9Z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5c0 1.5 1.3 3 3 3s3-1.5 3-3"/>
                                 </svg>

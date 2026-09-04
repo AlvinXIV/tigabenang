@@ -262,7 +262,13 @@ const initFitting = async () => {
 
             // ── Dynamic 3D Garment Morphing & Fitting ──
             if (currentGarmentWrapper) {
-                fitGarmentToAvatar(currentGarmentWrapper, p, activeSizeSpec, currentMatchText, avatar);
+                // Gunakan size M atau index 1 sebagai base
+                const baseSizeSpec = product?.sizes?.find(s => s.name === 'M') 
+                    || product?.sizes?.[1] 
+                    || product?.sizes?.[0] 
+                    || { lebar_dada: 50, panjang: 70 };
+
+                fitGarmentToAvatar(currentGarmentWrapper, p, activeSizeSpec, currentMatchText, avatar, baseSizeSpec);
             }
         };
 
@@ -405,9 +411,9 @@ const initFitting = async () => {
                 debugYVal.textContent = yOffset.toFixed(2);
                 debugZVal.textContent = zOffset.toFixed(2);
                 
-                currentGarmentWrapper.scale.set(scale, scale, scale);
-                currentGarmentWrapper.position.y = yOffset;
-                currentGarmentWrapper.position.z = zOffset;
+                // Re-trigger dynamic fitting to respect dynamic scaling instead of overriding absolute transforms
+                const product = findProduct(productSelect?.value) || catalog[0];
+                recalculateFit(product);
             };
 
             debugScale.addEventListener('input', updateDebugTransform);
