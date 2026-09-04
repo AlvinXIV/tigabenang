@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=2">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     @php
         $viteHotFile = public_path('hot');
         $viteOrigin = is_file($viteHotFile) ? trim((string) file_get_contents($viteHotFile)) : null;
@@ -22,7 +22,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- Critical catalog grid: ships with HTML so product tiles never wait on Vite/Tailwind. --}}
     <style>
-        body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #F7F7F5; color: #1C2430; }
+        html, body { max-width: 100%; overflow-x: clip; }
+        body { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; background: #F7F7F5; color: #1C2430; }
+        #main-content, .main-navbar, footer { width: 100%; max-width: 100%; min-width: 0; }
+        fieldset { min-width: 0; max-width: 100%; }
         .catalog-shell { width: 100%; max-width: 1200px; margin-inline: auto; }
         .catalog-grid { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr); column-gap: 1.25rem; row-gap: 1.75rem; }
         .catalog-grid > * { min-width: 0; width: 100%; max-width: 100%; }

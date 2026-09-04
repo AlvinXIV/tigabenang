@@ -73,42 +73,43 @@
 
     <section class="bg-white py-12">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
-            <div class="grid gap-8 md:grid-cols-3">
-                <div class="flex flex-col items-center text-center">
-                    <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0F4F8] text-[#102A43]">
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
+            <div class="grid gap-4 md:grid-cols-3 md:gap-6">
+                <article class="fv-icon-card">
+                    <div class="fv-icon-wrap" aria-hidden="true">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h10M4 17h7M19 10v8m0 0-2.5-2.5M19 18l2.5-2.5"/>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-[#1C2430]">Bahan terukur</h3>
+                    <h3 class="mt-4 text-lg font-bold text-[#1C2430]">Bahan terukur</h3>
                     <p class="mt-2 text-sm leading-relaxed text-[#667085]">
                         Pilih kain dari katalog yang sama dengan stok produksi, bukan spek yang dibuat-buat.
                     </p>
-                </div>
+                </article>
 
-                <div class="flex flex-col items-center text-center">
-                    <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0F4F8] text-[#102A43]">
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                <article class="fv-icon-card">
+                    <div class="fv-icon-wrap" aria-hidden="true">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5 14 10m0 0 2.5-2.5a3.5 3.5 0 1 0-5-5L9 5m5 5-5-5m-3.5 8.5 1.5 1.5M7 19l-3 1 1-3"/>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-[#1C2430]">Jahitan rapi</h3>
+                    <h3 class="mt-4 text-lg font-bold text-[#1C2430]">Jahitan rapi</h3>
                     <p class="mt-2 text-sm leading-relaxed text-[#667085]">
                         Pola dan produksi dikerjakan per pesanan supaya hasilnya konsisten untuk tim Anda.
                     </p>
-                </div>
+                </article>
 
-                <div class="flex flex-col items-center text-center">
-                    <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0F4F8] text-[#102A43]">
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                <article class="fv-icon-card">
+                    <div class="fv-icon-wrap" aria-hidden="true">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5h6a2 2 0 0 1 2 2v12l-5-2-5 2V7a2 2 0 0 1 2-2Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 10h5M9.5 13.5h3.5"/>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-[#1C2430]">Proses jelas</h3>
+                    <h3 class="mt-4 text-lg font-bold text-[#1C2430]">Proses jelas</h3>
                     <p class="mt-2 text-sm leading-relaxed text-[#667085]">
                         Kirim permintaan, bahas harga di WhatsApp, lalu produksi berjalan setelah konfirmasi.
                     </p>
-                </div>
+                </article>
             </div>
         </div>
     </section>
@@ -222,27 +223,52 @@
         </section>
     @endif
 
-    <section class="bg-[#1C2430] py-16 text-white">
-        <div class="mx-auto max-w-[1000px] px-5 lg:px-8">
-            <div class="mb-10 text-center">
-                <p class="text-sm font-medium text-white/70">Layanan produksi</p>
-                <h2 class="mt-2 text-[clamp(1.5rem,3vw,2rem)] font-bold">
-                    Pesanan custom untuk berbagai kebutuhan
+    <section class="fv-services">
+        <div class="fv-services__inner">
+            <div class="fv-services__intro">
+                <h2 class="fv-services__title">
+                    Layanan produksi
                 </h2>
+                <p class="fv-services__lead">
+                    Pesanan custom untuk berbagai kebutuhan.
+                </p>
             </div>
-            <div class="grid gap-8 sm:grid-cols-2">
+            <div class="fv-services__grid">
                 @php
                     $services = [
-                        ['title' => 'Jaket dan outerwear angkatan', 'desc' => 'Varsity, windbreaker, work jacket, dan hoodie dengan bordir atau sablon sesuai identitas tim.'],
-                        ['title' => 'Seragam kerja dan organisasi', 'desc' => 'Kemeja PDH/PDL, rompi, dan polo untuk aktivitas kantor atau lapangan.'],
-                        ['title' => 'Jersey dan sportswear', 'desc' => 'Jersey tim dengan kain dry-fit dan cetak yang tahan dipakai latihan.'],
-                        ['title' => 'Kaos event dan merchandise', 'desc' => 'Kaos cotton combed untuk acara, panitia, atau clothing line.'],
+                        ['title' => 'Jaket dan outerwear angkatan', 'desc' => 'Varsity, windbreaker, work jacket, dan hoodie dengan bordir atau sablon sesuai identitas tim.', 'icon' => 'jacket'],
+                        ['title' => 'Seragam kerja dan organisasi', 'desc' => 'Kemeja PDH/PDL, rompi, dan polo untuk aktivitas kantor atau lapangan.', 'icon' => 'shirt'],
+                        ['title' => 'Jersey dan sportswear', 'desc' => 'Jersey tim dengan kain dry-fit dan cetak yang tahan dipakai latihan.', 'icon' => 'sport'],
+                        ['title' => 'Kaos event dan merchandise', 'desc' => 'Kaos cotton combed untuk acara, panitia, atau clothing line.', 'icon' => 'tee'],
                     ];
                 @endphp
                 @foreach ($services as $s)
-                    <div>
-                        <h3 class="text-base font-bold">{{ $s['title'] }}</h3>
-                        <p class="mt-2 max-w-md text-sm leading-relaxed text-white/70">{{ $s['desc'] }}</p>
+                    <div class="fv-services__item">
+                        <div class="fv-services__icon" aria-hidden="true">
+                            @if ($s['icon'] === 'jacket')
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 4 4 7v13h5v-6h6v6h5V7l-4-3-3 3-3-3Z"/>
+                                </svg>
+                            @elseif ($s['icon'] === 'shirt')
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 5 4 8v3h3v8h10v-8h3V8l-4-3-2 2.5L12 7l-2 .5L8 5Z"/>
+                                </svg>
+                            @elseif ($s['icon'] === 'sport')
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3c2.2 3 3.3 6 3.3 9S14.2 18 12 21c-2.2-3-3.3-6-3.3-9S9.8 6 12 3Z"/>
+                                </svg>
+                            @else
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5 6 8v11h12V8l-3-3H9Z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5c0 1.5 1.3 3 3 3s3-1.5 3-3"/>
+                                </svg>
+                            @endif
+                        </div>
+                        <div class="fv-services__copy">
+                            <h3>{{ $s['title'] }}</h3>
+                            <p>{{ $s['desc'] }}</p>
+                        </div>
                     </div>
                 @endforeach
             </div>

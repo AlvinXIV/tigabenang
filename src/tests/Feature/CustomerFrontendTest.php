@@ -20,8 +20,17 @@ class CustomerFrontendTest extends TestCase
         $this->get('/')->assertOk();
         $this->get('/collection')->assertOk();
         $this->get('/materials')->assertOk();
-        $this->get('/virtual-fitting')->assertOk();
-        $this->get('/about')->assertOk();
+        $this->get('/virtual-fitting')
+            ->assertOk()
+            ->assertSee('T-shirt preview')
+            ->assertSee('Pilihan pakaian');
+        $this->get('/about')
+            ->assertOk()
+            ->assertSee('Visi')
+            ->assertSee('Misi')
+            ->assertSee('Hubungi Kami')
+            ->assertSee(config('fitvendor.contact.email'));
+
         $this->get('/order/create')->assertOk();
     }
 
@@ -46,11 +55,23 @@ class CustomerFrontendTest extends TestCase
 
         $this->get('/order/create?product='.$produk->id_produk)
             ->assertOk()
+            ->assertSee('Kategori pakaian')
+            ->assertSee('Pilih kategori pakaian yang ingin Anda pesan.')
+            ->assertSee('Kaos')
+            ->assertDontSee('Model pakaian')
+            ->assertDontSee('Harga mengikuti model yang dipilih.')
+            ->assertDontSee('Kaos Studio · Rp')
             ->assertSee('Cotton Combed')
+            ->assertSee('name="produk_id"', false)
             ->assertSee('name="materials[]"', false)
             ->assertSee('>M</label>', false)
             ->assertSee('name="sizes[0][ukuran_id]"', false)
             ->assertSee('name="sizes[0][kuantitas]"', false);
+
+        // A category holding one product resolves it without asking the customer.
+        $this->get('/order/create')
+            ->assertOk()
+            ->assertSee('value="'.$produk->id_produk.'"', false);
 
         $this->get('/collection/'.$produk->id_produk)
             ->assertOk()
@@ -153,7 +174,8 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Atelier Piece 1')
             ->assertSee('Atelier Piece 7')
             ->assertSee('Rp 107.000')
-            ->assertSee('Kaos');
+            ->assertSee('Kaos')
+            ->assertDontSee('Pesan sesuai kebutuhan');
 
         $this->get('/collection?category=kaos')
             ->assertOk()
