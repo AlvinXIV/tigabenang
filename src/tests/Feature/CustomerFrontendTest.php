@@ -17,7 +17,15 @@ class CustomerFrontendTest extends TestCase
 
     public function test_customer_pages_render(): void
     {
-        $this->get('/')->assertOk();
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Bagus Pratama')
+            ->assertSee('Nadia Putri')
+            ->assertSee('Yoga Prasetyo')
+            ->assertSee('images/profile1.jpg', false)
+            ->assertSee('images/profile8.jpg', false)
+            ->assertSee('images/virtual.jpg', false)
+            ->assertDontSee('virtual-fitting-teaser.jpg');
         $this->get('/collection')->assertOk();
         $this->get('/materials')->assertOk();
         $this->get('/virtual-fitting')
@@ -29,6 +37,11 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Visi')
             ->assertSee('Misi')
             ->assertSee('Hubungi Kami')
+            ->assertSee('Antara meja potong dan layar fitting')
+            ->assertSee('images/tentang1.jpg', false)
+            ->assertSee('images/tentang2.jpg', false)
+            ->assertSee('images/tentang3.jpg', false)
+            ->assertSee('images/tentang4.jpg', false)
             ->assertSee(config('fitvendor.contact.email'));
 
         $this->get('/order/create')->assertOk();

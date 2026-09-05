@@ -277,13 +277,15 @@
 
     <section class="border-y border-[#E2E5E9] bg-white py-16">
         <div class="mx-auto grid max-w-[1200px] items-center gap-10 lg:gap-16 px-5 lg:grid-cols-2 lg:px-8">
-            <div class="fv-media aspect-[4/3]">
-                <img
-                    src="{{ asset('images/virtual-fitting-teaser.jpg') }}?v=11"
-                    alt="Studio virtual fitting FitVendor"
-                    class="h-full w-full object-cover object-[center_30%]"
-                    loading="lazy"
-                >
+            <div class="fv-fitting-promo-media">
+                <div class="fv-media aspect-[4/3]">
+                    <img
+                        src="{{ asset('images/virtual.jpg') }}"
+                        alt="Studio virtual fitting FitVendor"
+                        class="h-full w-full object-cover object-center"
+                        loading="lazy"
+                    >
+                </div>
             </div>
             <div class="lg:pl-8 xl:pl-12">
                 <p class="text-sm font-medium text-[#667085]">Studio interaktif</p>
@@ -380,8 +382,8 @@
 
     <section class="border-t border-[#E2E5E9] bg-white py-16">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
-            <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
-                <div class="max-w-xl">
+            <div class="testimonial-header mb-8">
+                <div class="testimonial-header__copy">
                     <span class="section-badge mb-3">Cerita pelanggan</span>
                     <h2 class="mt-1 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
                         Dipakai tim yang butuh hasil rapi
@@ -390,7 +392,7 @@
                         Cuplikan dari komunitas, brand, dan panitia yang memesan lewat FitVendor.
                     </p>
                 </div>
-                <div class="flex gap-2">
+                <div class="testimonial-header__nav">
                     <button type="button" id="testimonial-prev-btn" aria-label="Testimoni sebelumnya" class="flex h-11 w-11 items-center justify-center rounded-[8px] border border-[#E2E5E9] bg-white text-[#102A43]">
                         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
                     </button>
@@ -403,12 +405,14 @@
             <div id="testimonial-carousel-track" class="flex cursor-grab gap-4 overflow-x-auto pb-2" style="scroll-snap-type:x mandatory;scrollbar-width:none;">
                 @php
                     $testimonials = [
-                        ['name' => 'Bagus Pratama', 'role' => 'Kepala kreatif, Studio Karsa', 'tag' => 'Jaket kerja', 'avatar_bg' => '#102A43', 'avatar_text' => 'BP', 'quote' => 'Jahitannya rapi. Virtual fitting membantu tim kami memilih ukuran tanpa bolak-balik sampel fisik.'],
-                        ['name' => 'Alika Salsabila', 'role' => 'Koordinator komunitas, Urban Runners ID', 'tag' => 'Windbreaker', 'avatar_bg' => '#2A3442', 'avatar_text' => 'AS', 'quote' => 'Kain dan bordir sesuai yang dijanjikan. Warna konsisten, bahannya nyaman dipakai lari, komunikasi cepat.'],
-                        ['name' => 'Dimas Arya Nugraha', 'role' => 'Pendiri, Niscala Apparel', 'tag' => 'Hoodie', 'avatar_bg' => '#2A3542', 'avatar_text' => 'DA', 'quote' => 'Pola jatuhnya pas. Jahitan kuat, dan timnya jelas dari diskusi awal sampai barang sampai.'],
-                        ['name' => 'Jessica Tandiono', 'role' => 'Direktur proyek, Arkana Agency', 'tag' => 'Varsity', 'avatar_bg' => '#102A43', 'avatar_text' => 'JT', 'quote' => 'Bahan wool blend dan aksen kulit sintetis terasa solid. Tim puas dengan hasil varsity-nya.'],
-                        ['name' => 'Rian Hidayat', 'role' => 'Kapten, Garuda Basketball Club', 'tag' => 'Jersey', 'avatar_bg' => '#2A3442', 'avatar_text' => 'RH', 'quote' => 'Jersey menyerap keringat, sablon dan emblem tahan cuci. Cocok untuk kebutuhan tim olahraga.'],
-                        ['name' => 'Fikri Ramadhan', 'role' => 'Penyelenggara acara, Tech Innovators', 'tag' => 'Kaos oversized', 'avatar_bg' => '#2A3542', 'avatar_text' => 'FR', 'quote' => 'Cotton combed 24s terasa tebal tapi tetap adem. Potongan oversized-nya konsisten untuk ratusan panitia.'],
+                        ['name' => 'Bagus Pratama', 'role' => 'Kepala kreatif, Studio Karsa', 'tag' => 'Jaket kerja', 'photo' => 'images/profile1.jpg', 'quote' => 'Jahitannya rapi. Virtual fitting membantu tim kami memilih ukuran tanpa bolak-balik sampel fisik.'],
+                        ['name' => 'Alika Salsabila', 'role' => 'Koordinator komunitas, Urban Runners ID', 'tag' => 'Windbreaker', 'photo' => 'images/profile2.jpg', 'quote' => 'Kain dan bordir sesuai yang dijanjikan. Warna konsisten, bahannya nyaman dipakai lari, komunikasi cepat.'],
+                        ['name' => 'Dimas Arya Nugraha', 'role' => 'Pendiri, Niscala Apparel', 'tag' => 'Hoodie', 'photo' => 'images/profile3.jpg', 'quote' => 'Pola jatuhnya pas. Jahitan kuat, dan timnya jelas dari diskusi awal sampai barang sampai.'],
+                        ['name' => 'Jessica Tandiono', 'role' => 'Direktur proyek, Arkana Agency', 'tag' => 'Varsity', 'photo' => 'images/profile4.jpg', 'quote' => 'Bahan wool blend dan aksen kulit sintetis terasa solid. Tim puas dengan hasil varsity-nya.'],
+                        ['name' => 'Rian Hidayat', 'role' => 'Kapten, Garuda Basketball Club', 'tag' => 'Jersey', 'photo' => 'images/profile5.jpg', 'quote' => 'Jersey menyerap keringat, sablon dan emblem tahan cuci. Cocok untuk kebutuhan tim olahraga.'],
+                        ['name' => 'Fikri Ramadhan', 'role' => 'Penyelenggara acara, Tech Innovators', 'tag' => 'Kaos oversized', 'photo' => 'images/profile6.jpg', 'quote' => 'Cotton combed 24s terasa tebal tapi tetap adem. Potongan oversized-nya konsisten untuk ratusan panitia.'],
+                        ['name' => 'Nadia Putri', 'role' => 'Bendahara, Himpunan Mahasiswa Desain', 'tag' => 'Kaos', 'photo' => 'images/profile7.jpg', 'quote' => 'Ukuran dan bahan yang kami pilih sesuai kebutuhan tim. Proses pemesanannya juga jelas dari awal.'],
+                        ['name' => 'Yoga Prasetyo', 'role' => 'Koordinator komunitas, Komunitas Sepeda Pagi', 'tag' => 'Windbreaker', 'photo' => 'images/profile8.jpg', 'quote' => 'Jahitannya rapi dan komunikasinya cepat selama pengerjaan. Cocok untuk kebutuhan komunitas kami.'],
                     ];
                 @endphp
                 @foreach($testimonials as $t)
@@ -416,14 +420,18 @@
                         <div class="mb-4 flex items-center justify-end">
                             <span class="rounded-[8px] border border-[#E2E5E9] bg-white px-2 py-1 text-xs font-medium text-[#102A43]">{{ $t['tag'] }}</span>
                         </div>
-                        <p class="mb-5 text-sm leading-relaxed text-[#102A43]">{{ $t['quote'] }}</p>
-                        <div class="flex items-center gap-3 border-t border-[#E2E5E9] pt-4">
-                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] text-sm font-semibold text-white" style="background:{{ $t['avatar_bg'] }};">
-                                {{ $t['avatar_text'] }}
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-[#102A43]">{{ $t['name'] }}</h3>
-                                <p class="text-xs text-[#667085]">{{ $t['role'] }}</p>
+                        <p class="testimonial-slide-card__quote text-sm leading-relaxed text-[#102A43]">{{ $t['quote'] }}</p>
+                        <div class="testimonial-identity">
+                            <img
+                                src="{{ asset($t['photo']) }}"
+                                alt="{{ $t['name'] }}"
+                                width="40"
+                                height="40"
+                                loading="lazy"
+                            >
+                            <div class="testimonial-identity__copy">
+                                <h3 class="testimonial-identity__name">{{ $t['name'] }}</h3>
+                                <p class="testimonial-identity__role">{{ $t['role'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -473,7 +481,83 @@
         details.faq-item[open] { border-color: #102A43; }
         details.faq-item[open] .faq-icon { background: #102A43; color: #fff; border-color: #102A43; }
         details.faq-item[open] .faq-icon svg { transform: rotate(180deg); }
+        .fv-fitting-promo-media {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        .fv-fitting-promo-media .fv-media {
+            width: 92%;
+            max-width: 100%;
+        }
+        .testimonial-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+            overflow: visible;
+        }
+        .testimonial-header__copy {
+            min-width: 0;
+            max-width: 36rem;
+            flex: 1 1 16rem;
+        }
+        .testimonial-header__nav {
+            display: flex;
+            flex-shrink: 0;
+            gap: 0.5rem;
+        }
+        .testimonial-header__nav button {
+            flex-shrink: 0;
+        }
+        #testimonial-carousel-track {
+            align-items: stretch;
+        }
         #testimonial-carousel-track::-webkit-scrollbar { display: none; }
+        .testimonial-slide-card {
+            display: flex;
+            flex-direction: column;
+        }
+        .testimonial-slide-card__quote {
+            flex: 1 1 auto;
+            margin: 0 0 1.25rem;
+        }
+        .testimonial-identity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #E2E5E9;
+        }
+        .testimonial-identity img {
+            display: block;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .testimonial-identity__copy {
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+        .testimonial-identity__name {
+            margin: 0;
+            font-size: 0.875rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #102A43;
+        }
+        .testimonial-identity__role {
+            margin: 2px 0 0;
+            min-height: 2.7em;
+            font-size: 0.75rem;
+            font-weight: 400;
+            line-height: 1.35;
+            color: #667085;
+        }
     </style>
 
 @endsection
