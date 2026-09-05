@@ -74,38 +74,38 @@
     <section class="bg-white py-12">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
             <div class="grid gap-4 md:grid-cols-3 md:gap-6">
-                <article class="fv-icon-card">
-                    <div class="fv-icon-wrap" aria-hidden="true">
+                <article class="fv-icon-card text-center">
+                    <div class="fv-icon-wrap mx-auto" aria-hidden="true">
                         <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h10M4 17h7M19 10v8m0 0-2.5-2.5M19 18l2.5-2.5"/>
                         </svg>
                     </div>
-                    <h3 class="mt-4 text-lg font-bold text-[#1C2430]">Bahan terukur</h3>
+                    <h3 class="mt-4 text-lg font-bold text-[#102A43]">Bahan terukur</h3>
                     <p class="mt-2 text-sm leading-relaxed text-[#667085]">
                         Pilih kain dari katalog yang sama dengan stok produksi, bukan spek yang dibuat-buat.
                     </p>
                 </article>
 
-                <article class="fv-icon-card">
-                    <div class="fv-icon-wrap" aria-hidden="true">
+                <article class="fv-icon-card text-center">
+                    <div class="fv-icon-wrap mx-auto" aria-hidden="true">
                         <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5 14 10m0 0 2.5-2.5a3.5 3.5 0 1 0-5-5L9 5m5 5-5-5m-3.5 8.5 1.5 1.5M7 19l-3 1 1-3"/>
                         </svg>
                     </div>
-                    <h3 class="mt-4 text-lg font-bold text-[#1C2430]">Jahitan rapi</h3>
+                    <h3 class="mt-4 text-lg font-bold text-[#102A43]">Jahitan rapi</h3>
                     <p class="mt-2 text-sm leading-relaxed text-[#667085]">
                         Pola dan produksi dikerjakan per pesanan supaya hasilnya konsisten untuk tim Anda.
                     </p>
                 </article>
 
-                <article class="fv-icon-card">
-                    <div class="fv-icon-wrap" aria-hidden="true">
+                <article class="fv-icon-card text-center">
+                    <div class="fv-icon-wrap mx-auto" aria-hidden="true">
                         <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5h6a2 2 0 0 1 2 2v12l-5-2-5 2V7a2 2 0 0 1 2-2Z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 10h5M9.5 13.5h3.5"/>
                         </svg>
                     </div>
-                    <h3 class="mt-4 text-lg font-bold text-[#1C2430]">Proses jelas</h3>
+                    <h3 class="mt-4 text-lg font-bold text-[#102A43]">Proses jelas</h3>
                     <p class="mt-2 text-sm leading-relaxed text-[#667085]">
                         Kirim permintaan, bahas harga di WhatsApp, lalu produksi berjalan setelah konfirmasi.
                     </p>
@@ -118,12 +118,12 @@
         <div class="mx-auto grid max-w-[1200px] items-center gap-10 px-5 lg:grid-cols-2 lg:px-8">
             <div>
                 <span class="section-badge mb-3">Tentang kami</span>
-                <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-[#1C2430]">
+                <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-[#102A43]">
                     7+ tahun memproduksi pakaian custom berkualitas
                 </h2>
                 <div class="mt-5 space-y-3 text-sm leading-relaxed text-[#667085]">
                     <p>
-                        <strong class="font-semibold text-[#1C2430]">FitVendor</strong> adalah konveksi garmen berbasis di Bandung dengan pengalaman lebih dari 7 tahun. Kami dipercaya ratusan komunitas, kampus, dan brand untuk memproduksi jaket, kemeja, jersey, hingga seragam kerja.
+                        <strong class="font-semibold text-[#102A43]">FitVendor</strong> adalah konveksi garmen berbasis di Bandung dengan pengalaman lebih dari 7 tahun. Kami dipercaya ratusan komunitas, kampus, dan brand untuk memproduksi jaket, kemeja, jersey, hingga seragam kerja.
                     </p>
                     <p>
                         Dengan meja potong mandiri dan penjahit ahli, setiap pesanan dikerjakan dengan bahan pilihan, pola proporsional, dan proses produksi yang transparan.
@@ -132,15 +132,15 @@
 
                 <div class="mt-6 grid grid-cols-3 gap-3 border-y border-[#E2E5E9] py-3.5">
                     <div>
-                        <p class="text-base font-bold text-[#1C2430] sm:text-lg">7+ Tahun</p>
+                        <p class="text-base font-bold text-[#102A43] sm:text-lg">7+ Tahun</p>
                         <p class="text-[11px] text-[#667085] sm:text-xs">Pengalaman garmen</p>
                     </div>
                     <div>
-                        <p class="text-base font-bold text-[#1C2430] sm:text-lg">50.000+</p>
+                        <p class="text-base font-bold text-[#102A43] sm:text-lg">50.000+</p>
                         <p class="text-[11px] text-[#667085] sm:text-xs">Pcs diproduksi</p>
                     </div>
                     <div>
-                        <p class="text-base font-bold text-[#1C2430] sm:text-lg">300+</p>
+                        <p class="text-base font-bold text-[#102A43] sm:text-lg">300+</p>
                         <p class="text-[11px] text-[#667085] sm:text-xs">Mitra & komunitas</p>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                 <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
                     <div>
                         <span class="section-badge mb-3">Karya kami</span>
-                        <h2 class="mt-1 text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-[#1C2430]">
+                        <h2 class="mt-1 text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-[#102A43]">
                             Pilihan kategori
                         </h2>
                         <p class="mt-2 max-w-xl text-sm text-[#667085]">
@@ -203,14 +203,14 @@
                                         class="absolute inset-0 h-full w-full object-cover"
                                     >
                                 @endif
-                                <span class="absolute bottom-4 right-4 rounded-xl bg-[#1C2430] px-3 py-1.5 text-xs font-semibold text-white">
+                                <span class="absolute bottom-4 right-4 rounded-xl bg-[#102A43] px-3 py-1.5 text-xs font-semibold text-white">
                                     Lihat kategori
                                 </span>
                             </div>
                             <div class="mt-3">
-                                <h3 class="text-lg font-bold text-[#1C2430]">{{ \App\Support\CustomerCatalog::categoryLabel($cat->nama_kategori) }}</h3>
+                                <h3 class="text-lg font-bold text-[#102A43]">{{ \App\Support\CustomerCatalog::categoryLabel($cat->nama_kategori) }}</h3>
                                 @if ($prod)
-                                    <p class="mt-1 font-bold text-[#1C2430]"><x-price :amount="$prod->harga" /></p>
+                                    <p class="mt-1 font-bold text-[#102A43]"><x-price :amount="$prod->harga" /></p>
                                     <span class="hidden" data-product="{{ $prod->nama_produk }}">{{ $prod->nama_produk }}</span>
                                 @else
                                     <p class="mt-1 text-sm text-[#667085]">Pakaian custom</p>
@@ -279,7 +279,7 @@
         <div class="mx-auto grid max-w-[1200px] items-center gap-10 px-5 lg:grid-cols-2 lg:px-8">
             <div>
                 <p class="text-sm font-medium text-[#667085]">Studio interaktif</p>
-                <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#1C2430]">
+                <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
                     Coba fitting virtual sebelum pesan
                 </h2>
                 <p class="mt-4 max-w-lg text-sm leading-relaxed text-[#667085]">
@@ -305,7 +305,7 @@
             <div class="grid gap-10 lg:grid-cols-12">
                 <div class="lg:col-span-5">
                     <span class="section-badge mb-3">Pertanyaan umum</span>
-                    <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#1C2430]">
+                    <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
                         Hal yang sering ditanyakan
                     </h2>
                     <p class="mt-3 max-w-md text-sm leading-relaxed text-[#667085]">
@@ -318,12 +318,15 @@
                     @endphp
 
                     <div class="mt-8 max-w-md rounded-[14px] border border-[#E2E5E9] bg-white p-5">
-                        <h3 class="text-base font-bold text-[#1C2430]">Masih ada pertanyaan?</h3>
+                        <h3 class="text-base font-bold text-[#102A43]">Masih ada pertanyaan?</h3>
                         <p class="mt-1 text-sm leading-relaxed text-[#667085]">
                             Tim kami siap membahas bahan, jumlah, dan jadwal lewat WhatsApp.
                         </p>
-                        <a href="{{ $waUrl }}" target="_blank" rel="noopener noreferrer" class="btn-primary mt-4">
-                            Tanya via WhatsApp
+                        <a href="{{ $waUrl }}" target="_blank" rel="noopener noreferrer" class="btn-primary mt-4 inline-flex items-center gap-2">
+                            <svg class="h-4 w-4 shrink-0 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41A10.1 10.1 0 0 0 12.04 21.66h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Zm5.76 14.16c-.24.67-1.18 1.23-1.93 1.4-.51.11-1.18.2-3.44-.74-2.89-1.2-4.75-4.13-4.89-4.32-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.44.03.64.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.39 1.46.3.14.48.12.66-.07.18-.19.77-.9.98-1.21.21-.3.42-.26.7-.15.28.1 1.78.84 2.08.99.3.15.5.22.57.35.07.13.07.75-.17 1.42Z"/>
+                            </svg>
+                            <span>Tanya via WhatsApp</span>
                         </a>
                     </div>
                 </div>
@@ -356,7 +359,7 @@
                     <div class="flex flex-col gap-3">
                         @foreach ($faqs as $index => $faq)
                             <details class="faq-item rounded-[14px] border border-[#E2E5E9] bg-white px-5 py-4" {{ $index === 0 ? 'open' : '' }}>
-                                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[0.95rem] font-semibold text-[#1C2430]">
+                                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[0.95rem] font-semibold text-[#102A43]">
                                     <span>{{ $faq['q'] }}</span>
                                     <span class="faq-icon inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#E2E5E9] bg-[#F7F7F5]">
                                         <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -380,7 +383,7 @@
             <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
                 <div class="max-w-xl">
                     <span class="section-badge mb-3">Cerita pelanggan</span>
-                    <h2 class="mt-1 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#1C2430]">
+                    <h2 class="mt-1 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
                         Dipakai tim yang butuh hasil rapi
                     </h2>
                     <p class="mt-3 text-sm leading-relaxed text-[#667085]">
@@ -388,10 +391,10 @@
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <button type="button" id="testimonial-prev-btn" aria-label="Testimoni sebelumnya" class="flex h-11 w-11 items-center justify-center rounded-[8px] border border-[#E2E5E9] bg-white text-[#1C2430]">
+                    <button type="button" id="testimonial-prev-btn" aria-label="Testimoni sebelumnya" class="flex h-11 w-11 items-center justify-center rounded-[8px] border border-[#E2E5E9] bg-white text-[#102A43]">
                         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <button type="button" id="testimonial-next-btn" aria-label="Testimoni berikutnya" class="flex h-11 w-11 items-center justify-center rounded-[8px] bg-[#1C2430] text-white">
+                    <button type="button" id="testimonial-next-btn" aria-label="Testimoni berikutnya" class="flex h-11 w-11 items-center justify-center rounded-[8px] bg-[#102A43] text-white">
                         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
@@ -400,10 +403,10 @@
             <div id="testimonial-carousel-track" class="flex cursor-grab gap-4 overflow-x-auto pb-2" style="scroll-snap-type:x mandatory;scrollbar-width:none;">
                 @php
                     $testimonials = [
-                        ['name' => 'Bagus Pratama', 'role' => 'Kepala kreatif, Studio Karsa', 'tag' => 'Jaket kerja', 'avatar_bg' => '#1C2430', 'avatar_text' => 'BP', 'quote' => 'Jahitannya rapi. Fitting virtual membantu tim kami memilih ukuran tanpa bolak-balik sampel fisik.'],
+                        ['name' => 'Bagus Pratama', 'role' => 'Kepala kreatif, Studio Karsa', 'tag' => 'Jaket kerja', 'avatar_bg' => '#102A43', 'avatar_text' => 'BP', 'quote' => 'Jahitannya rapi. Fitting virtual membantu tim kami memilih ukuran tanpa bolak-balik sampel fisik.'],
                         ['name' => 'Alika Salsabila', 'role' => 'Koordinator komunitas, Urban Runners ID', 'tag' => 'Windbreaker', 'avatar_bg' => '#2A3442', 'avatar_text' => 'AS', 'quote' => 'Kain dan bordir sesuai yang dijanjikan. Warna konsisten, bahannya nyaman dipakai lari, komunikasi cepat.'],
                         ['name' => 'Dimas Arya Nugraha', 'role' => 'Pendiri, Niscala Apparel', 'tag' => 'Hoodie', 'avatar_bg' => '#2A3542', 'avatar_text' => 'DA', 'quote' => 'Pola jatuhnya pas. Jahitan kuat, dan timnya jelas dari diskusi awal sampai barang sampai.'],
-                        ['name' => 'Jessica Tandiono', 'role' => 'Direktur proyek, Arkana Agency', 'tag' => 'Varsity', 'avatar_bg' => '#1C2430', 'avatar_text' => 'JT', 'quote' => 'Bahan wool blend dan aksen kulit sintetis terasa solid. Tim puas dengan hasil varsity-nya.'],
+                        ['name' => 'Jessica Tandiono', 'role' => 'Direktur proyek, Arkana Agency', 'tag' => 'Varsity', 'avatar_bg' => '#102A43', 'avatar_text' => 'JT', 'quote' => 'Bahan wool blend dan aksen kulit sintetis terasa solid. Tim puas dengan hasil varsity-nya.'],
                         ['name' => 'Rian Hidayat', 'role' => 'Kapten, Garuda Basketball Club', 'tag' => 'Jersey', 'avatar_bg' => '#2A3442', 'avatar_text' => 'RH', 'quote' => 'Jersey menyerap keringat, sablon dan emblem tahan cuci. Cocok untuk kebutuhan tim olahraga.'],
                         ['name' => 'Fikri Ramadhan', 'role' => 'Penyelenggara acara, Tech Innovators', 'tag' => 'Kaos oversized', 'avatar_bg' => '#2A3542', 'avatar_text' => 'FR', 'quote' => 'Cotton combed 24s terasa tebal tapi tetap adem. Potongan oversized-nya konsisten untuk ratusan panitia.'],
                     ];
@@ -411,15 +414,15 @@
                 @foreach($testimonials as $t)
                     <div class="testimonial-slide-card w-[min(360px,85vw)] shrink-0 snap-start rounded-[14px] border border-[#E2E5E9] bg-[#F7F7F5] p-6">
                         <div class="mb-4 flex items-center justify-end">
-                            <span class="rounded-[8px] border border-[#E2E5E9] bg-white px-2 py-1 text-xs font-medium text-[#1C2430]">{{ $t['tag'] }}</span>
+                            <span class="rounded-[8px] border border-[#E2E5E9] bg-white px-2 py-1 text-xs font-medium text-[#102A43]">{{ $t['tag'] }}</span>
                         </div>
-                        <p class="mb-5 text-sm leading-relaxed text-[#1C2430]">{{ $t['quote'] }}</p>
+                        <p class="mb-5 text-sm leading-relaxed text-[#102A43]">{{ $t['quote'] }}</p>
                         <div class="flex items-center gap-3 border-t border-[#E2E5E9] pt-4">
                             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] text-sm font-semibold text-white" style="background:{{ $t['avatar_bg'] }};">
                                 {{ $t['avatar_text'] }}
                             </div>
                             <div>
-                                <h3 class="text-sm font-bold text-[#1C2430]">{{ $t['name'] }}</h3>
+                                <h3 class="text-sm font-bold text-[#102A43]">{{ $t['name'] }}</h3>
                                 <p class="text-xs text-[#667085]">{{ $t['role'] }}</p>
                             </div>
                         </div>
@@ -467,8 +470,8 @@
     <style>
         details.faq-item summary::-webkit-details-marker,
         details.faq-item summary::marker { display: none; content: ""; }
-        details.faq-item[open] { border-color: #1C2430; }
-        details.faq-item[open] .faq-icon { background: #1C2430; color: #fff; border-color: #1C2430; }
+        details.faq-item[open] { border-color: #102A43; }
+        details.faq-item[open] .faq-icon { background: #102A43; color: #fff; border-color: #102A43; }
         details.faq-item[open] .faq-icon svg { transform: rotate(180deg); }
         #testimonial-carousel-track::-webkit-scrollbar { display: none; }
     </style>

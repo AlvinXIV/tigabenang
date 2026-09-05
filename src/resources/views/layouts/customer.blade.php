@@ -23,7 +23,7 @@
     {{-- Critical catalog grid: ships with HTML so product tiles never wait on Vite/Tailwind. --}}
     <style>
         html, body { max-width: 100%; overflow-x: clip; }
-        body { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; background: #F7F7F5; color: #1C2430; }
+        body { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; background: #F7F7F5; color: #102A43; }
         #main-content, .main-navbar, footer { width: 100%; max-width: 100%; min-width: 0; }
         fieldset { min-width: 0; max-width: 100%; }
         .catalog-shell { width: 100%; max-width: 1200px; margin-inline: auto; }
@@ -46,7 +46,8 @@
         }
         #fitting-viewport { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 680px; }
         #fitting-viewport canvas { display: block; width: 100% !important; height: 100% !important; }
-        .fv-icon-wrap svg, .fv-services__icon svg { width: 20px !important; height: 20px !important; max-width: 20px !important; max-height: 20px !important; flex-shrink: 0 !important; }
+        .fv-icon-wrap svg { width: 28px !important; height: 28px !important; max-width: 28px !important; max-height: 28px !important; flex-shrink: 0 !important; }
+        .fv-services__icon svg { width: 20px !important; height: 20px !important; max-width: 20px !important; max-height: 20px !important; flex-shrink: 0 !important; }
         .fv-contact-icon svg { width: 24px !important; height: 24px !important; max-width: 24px !important; max-height: 24px !important; flex-shrink: 0 !important; }
     </style>
 </head>

@@ -150,13 +150,16 @@ export function fitGarmentToAvatar(garmentWrapper, body = {}, sizeSpec = null, m
     // Jika baju lebih kecil dari tubuh (misal dada 110 pakai baju S), 
     // baju tidak boleh menyusut tembus daging. Baju akan ditahan di ukuran badan (nge-press).
     // Baju akan terlihat kecil (cingkrang) karena scaleY (panjang) tetap menyusut.
-    const minScaleX = avatarScaleX * 1.02; // Minimal 2% lebih besar dari daging agar ketat
+    const minScaleX = avatarScaleX * 1.03; // Minimal 3% lebih besar dari daging agar ketat
     finalScaleX = Math.max(finalScaleX, minScaleX);
 
     let finalScaleZ = finalScaleX; 
     // Untuk baju kebesaran (scaleX > 1.0), ketebalan depan juga ditambah sedikit
     if (scaleX > 1.0) {
         finalScaleZ += (scaleX - 1.0) * 0.2; 
+    } else {
+        // Baju kekecilan/ketat. Pastikan Z cukup tebal agar dada/punggung tidak nembus
+        finalScaleZ = Math.max(finalScaleZ, avatarScaleX * 1.06); 
     }
 
     garmentWrapper.scale.set(finalScaleX, finalScaleY, finalScaleZ);
@@ -177,15 +180,21 @@ export function fitGarmentToAvatar(garmentWrapper, body = {}, sizeSpec = null, m
 
     // Offset nilai default
     const uiYOffset = debugY - (-0.30) - 0.01; 
-    const uiZOffset = debugZ - (0.12);
 
-    garmentWrapper.position.y = cache.initialY + pivotCompensationY + uiYOffset;
+    // Kompensasi Tinggi Badan (Height)
+    // Avatar base height adalah 170cm. yShoulder = h * 0.843
+    const avatarHeight = (body && body.height) ? body.height : 170;
+    const heightDiff = avatarHeight - 170;
+    const heightCompensationY = (heightDiff / 100) * 0.843; // Geser baju ke atas mengikuti bahu
+
+    garmentWrapper.position.y = cache.initialY + pivotCompensationY + uiYOffset + heightCompensationY;
     
     // Kompensasi Maju ke Depan (Z axis)
     // Pengguna mengamati dada depan tembus saat ukuran baju membesar.
     // L (skala 1.08) butuh sedikit maju (0.012), XL (1.16) butuh (0.024), 2XL (1.24) butuh batas maksimal (0.032).
     // Rumus linear: (scale - 1.00) * 0.15 secara presisi mengenai L(0.012) dan XL(0.024)!
     let pivotCompensationZ = 0;
+    const uiZOffset = debugZ - (0.12);
     if (finalScaleX > 1.00) { 
         pivotCompensationZ = Math.min((finalScaleX - 1.00) * 0.15, 0.032); 
     }

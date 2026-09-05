@@ -19,7 +19,7 @@
                 <span class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[10px] border border-[#E2E5E9] bg-white">
                     <img src="{{ asset('images/clothiq-logo.png') }}?v=2" alt="Logo FitVendor" width="32" height="32" class="h-[78%] w-[78%] object-contain">
                 </span>
-                <span class="text-[1.05rem] font-semibold tracking-tight text-[#1C2430]">FitVendor</span>
+                <span class="text-[1.05rem] font-semibold tracking-tight text-[#102A43]">FitVendor</span>
             </a>
 
             <div class="hidden items-center gap-1 lg:flex">
@@ -27,7 +27,7 @@
                     @php $isActive = request()->routeIs($link['routeMatch'] ?? $link['route']); @endphp
                     <a
                         href="{{ route($link['route']) }}"
-                        class="border-b-2 px-3 py-2 text-sm no-underline transition-colors {{ $isActive ? 'border-[#1C2430] font-semibold text-[#1C2430]' : 'border-transparent font-medium text-[#667085] hover:text-[#1C2430]' }}"
+                        class="border-b-2 px-3 py-2 text-sm no-underline transition-colors {{ $isActive ? 'border-[#102A43] font-semibold text-[#102A43]' : 'border-transparent font-medium text-[#667085] hover:text-[#102A43]' }}"
                     >
                         {{ $link['label'] }}
                     </a>
@@ -52,7 +52,7 @@
                     id="nav-toggle"
                     data-nav-toggle
                     type="button"
-                    class="flex h-10 w-10 items-center justify-center rounded-[10px] border border-[#E2E5E9] bg-white text-[#1C2430]"
+                    class="flex h-10 w-10 items-center justify-center rounded-[10px] border border-[#E2E5E9] bg-white text-[#102A43]"
                     onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
                     aria-label="Buka menu"
                     aria-expanded="false"
@@ -70,7 +70,7 @@
                     @php $isActive = request()->routeIs($link['routeMatch'] ?? $link['route']); @endphp
                     <a
                         href="{{ route($link['route']) }}"
-                        class="rounded-[10px] px-3 py-3 text-sm no-underline {{ $isActive ? 'bg-[#1C2430] font-semibold text-white' : 'font-medium text-[#667085]' }}"
+                        class="rounded-[10px] px-3 py-3 text-sm no-underline {{ $isActive ? 'bg-[#102A43] font-semibold text-white' : 'font-medium text-[#667085]' }}"
                     >
                         {{ $link['label'] }}
                     </a>

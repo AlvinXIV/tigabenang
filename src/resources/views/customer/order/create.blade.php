@@ -33,7 +33,7 @@
             border: 1px solid #E2E5E9 !important;
             border-radius: 8px !important;
             background: #FFFFFF !important;
-            color: #1C2430 !important;
+            color: #102A43 !important;
             text-align: center !important;
         }
         .request-total-actions { display:grid; grid-template-columns:1fr; gap:1rem; }
@@ -267,7 +267,7 @@
                     </fieldset>
 
                     <div class="request-upload-panel">
-                        <label for="upload_design" class="block text-sm font-semibold text-[#1C2430]">
+                        <label for="upload_design" class="block text-sm font-semibold text-[#102A43]">
                             Unggah desain <span class="font-normal text-[#667085]">(opsional)</span>
                         </label>
                         <div class="mt-4 rounded-[12px] border border-dashed border-[#D0D5DD] bg-[#F7F7F5] p-5 text-center">
@@ -278,13 +278,13 @@
                                 onchange="document.getElementById('design-file-name').textContent = this.files.length ? this.files[0].name : 'Belum ada file dipilih';"
                             >
                             <label for="upload_design" class="btn-primary cursor-pointer">Pilih file desain</label>
-                            <p id="design-file-name" class="mt-3 text-sm font-medium text-[#1C2430]">Belum ada file dipilih</p>
+                            <p id="design-file-name" class="mt-3 text-sm font-medium text-[#102A43]">Belum ada file dipilih</p>
                             <p class="mt-1 text-xs text-[#667085]">JPG, PNG, WEBP, atau PDF. Maksimum 5 MB.</p>
                         </div>
                     </div>
 
                     <div class="rounded-[14px] border border-[#E2E5E9] bg-white p-5 sm:p-6">
-                        <label for="notes" class="mb-1.5 block text-sm font-semibold text-[#1C2430]">
+                        <label for="notes" class="mb-1.5 block text-sm font-semibold text-[#102A43]">
                             Catatan <span class="font-normal text-[#667085]">(opsional)</span>
                         </label>
                         <textarea
@@ -297,13 +297,13 @@
                     <div class="request-total-actions">
                         <div class="rounded-[14px] border border-[#E2E5E9] bg-white p-5">
                             <p class="text-sm font-semibold text-[#667085]">Estimasi total</p>
-                            <p class="mt-1 text-3xl font-bold tracking-tight text-[#1C2430]" data-order-total>Rp 0</p>
+                            <p class="mt-1 text-3xl font-bold tracking-tight text-[#102A43]" data-order-total>Rp 0</p>
                             <p class="mt-2 text-xs leading-relaxed text-[#667085]">
                                 Harga produk dikali jumlah. Harga final dikonfirmasi tim kami.
                             </p>
                         </div>
-                        <div class="flex flex-col justify-center rounded-[14px] bg-[#1C2430] p-5">
-                            <button type="submit" class="btn-primary min-h-12" style="background:#FFFFFF;color:#1C2430 !important;border-color:#FFFFFF;">
+                        <div class="flex flex-col justify-center rounded-[14px] bg-[#102A43] p-5">
+                            <button type="submit" class="btn-primary min-h-12" style="background:#FFFFFF;color:#102A43 !important;border-color:#FFFFFF;">
                                 Kirim permintaan
                             </button>
                         </div>

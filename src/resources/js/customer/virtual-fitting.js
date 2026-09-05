@@ -4,9 +4,9 @@ import { createFittingScene } from '../three/scene';
 import { createAvatar, updateAvatar } from '../three/avatar';
 
 const stateColors = {
-    'Too Tight': '#DC2626',
-    'Perfect Fit': '#059669',
-    'Too Loose': '#2563EB',
+    'Kekecilan': '#DC2626',
+    'Sangat Pas': '#10B981',
+    'Kebesaran': '#3B82F6',
 };
 
 const parseJsonScript = (root, selector) => {
@@ -30,11 +30,11 @@ const PROTO_TSHIRT = {
     category: 'Prototipe',
     modelUrl: '/models/t-shirt.glb',
     sizes: [
-        { name: 'S', lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
-        { name: 'M', lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
-        { name: 'L', lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
-        { name: 'XL', lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
-        { name: 'XXL', lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+        { name: 'S', lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
+        { name: 'M', lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
+        { name: 'L', lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
+        { name: 'XL', lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
+        { name: '2XL', lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
     ],
 };
 
@@ -157,7 +157,7 @@ const initFitting = async () => {
                 <li class="flex items-center justify-between py-1.5 border-b border-[#E2E5E9]">
                     <span class="text-xs font-semibold text-[#1C2430]">${item.area}</span>
                     <span class="rounded-[8px] px-2 py-0.5 text-[11px] font-semibold"
-                          style="color:${stateColors[item.state] || '#1C2430'};background:${item.state === 'Too Tight' ? '#FEE2E2' : (item.state === 'Too Loose' ? '#DBEAFE' : '#E8F3EE')};">
+                          style="color:${stateColors[item.state] || '#1C2430'};background:${item.state === 'Kekecilan' ? '#FEE2E2' : (item.state === 'Kebesaran' ? '#DBEAFE' : '#E8F3EE')};">
                         ${item.state}
                     </span>
                 </li>
@@ -167,11 +167,11 @@ const initFitting = async () => {
         const updateFitBadge = (matchText) => {
             if (!matchNode) return;
             matchNode.textContent = matchText;
-            if (matchText === 'Too Tight') {
+            if (matchText === 'Kekecilan') {
                 matchNode.style.background = '#FEE2E2';
                 matchNode.style.color = '#991B1B';
                 matchNode.style.borderColor = '#FCA5A5';
-            } else if (matchText === 'Too Loose') {
+            } else if (matchText === 'Kebesaran') {
                 matchNode.style.background = '#DBEAFE';
                 matchNode.style.color = '#1E40AF';
                 matchNode.style.borderColor = '#93C5FD';
@@ -188,11 +188,11 @@ const initFitting = async () => {
             const sizes = product?.sizes?.length > 0
                 ? product.sizes
                 : [
-                    { name: 'S', lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
-                    { name: 'M', lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
-                    { name: 'L', lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
-                    { name: 'XL', lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
-                    { name: 'XXL', lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+                    { name: 'S', lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
+                    { name: 'M', lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
+                    { name: 'L', lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
+                    { name: 'XL', lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
+                    { name: '2XL', lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
                 ];
 
             if (!selectedSizeName) {
@@ -233,6 +233,7 @@ const initFitting = async () => {
                 hipCm: p.hip,
                 shoulderCm: p.shoulder,
                 sizes: product?.sizes || [],
+                selectedSizeName: selectedSizeName,
             });
 
             if (sizeNode) {
@@ -241,11 +242,11 @@ const initFitting = async () => {
 
             // Find current active size spec
             const activeSizeSpec = product?.sizes?.find((s) => s.name === selectedSizeName) || {
-                S: { lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
-                M: { lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
-                L: { lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
-                XL: { lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
-                XXL: { lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+                S: { lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
+                M: { lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
+                L: { lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
+                XL: { lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
+                '2XL': { lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
             }[selectedSizeName || 'M'];
 
             // Calculate fit classification for this specific size
@@ -253,9 +254,9 @@ const initFitting = async () => {
             const garmentHalfChest = activeSizeSpec?.lebar_dada || 50;
             const ratio = customerHalfChest / garmentHalfChest;
 
-            let currentMatchText = 'Perfect Fit';
-            if (ratio > 1.05) currentMatchText = 'Too Tight';
-            else if (ratio < 0.92) currentMatchText = 'Too Loose';
+            let currentMatchText = 'Sangat Pas';
+            if (ratio > 1.05) currentMatchText = 'Kekecilan';
+            else if (ratio < 0.95) currentMatchText = 'Kebesaran';
 
             updateFitBadge(currentMatchText);
             renderHeatmap(result.heatmap || []);
@@ -348,21 +349,17 @@ const initFitting = async () => {
 
             try {
                 console.log('[VF] Starting GLB load from URL:', product.modelUrl);
-                debugOverlay.textContent = 'Memuat model... URL: ' + product.modelUrl;
-                debugOverlay.style.background = 'rgba(255,165,0,0.9)'; // Orange
+                debugOverlay.style.display = 'none';
 
                 currentGarmentWrapper = await loadGarment(
                     product.modelUrl,
                     studio.garmentGroup,
                     (percent) => {
                         if (statusNode) statusNode.textContent = `Memuat 3D Model: ${percent}%`;
-                        debugOverlay.textContent = `Loading ${percent}%... URL: ` + product.modelUrl;
                     }
                 );
 
                 if (currentGarmentWrapper) {
-                    debugOverlay.innerHTML = `Sukses memuat GLB!<br/>URL: ${product.modelUrl}`;
-                    debugOverlay.style.background = 'rgba(0,128,0,0.9)'; // Green
                     if (statusNode) {
                         statusNode.textContent = 'Pakaian siap';
                         statusNode.style.color = '#3F7A62';
@@ -371,6 +368,7 @@ const initFitting = async () => {
                 }
             } catch (error) {
                 console.error('[VF] GLB load FAILED:', error);
+                debugOverlay.style.display = 'block';
                 debugOverlay.innerHTML = `ERROR MEMUAT GLB!<br/>URL: ${product.modelUrl}<br/>Error: ${error.message || error}`;
                 debugOverlay.style.background = 'rgba(255,0,0,0.9)'; // Red
 

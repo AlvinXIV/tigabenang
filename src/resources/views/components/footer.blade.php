@@ -13,7 +13,7 @@
     ];
 @endphp
 
-<footer style="background:#1C2430;color:#FFFFFF;border-top:1px solid rgba(255,255,255,0.08);">
+<footer style="background:#0D2237;color:#FFFFFF;border-top:1px solid rgba(255,255,255,0.08);">
     <div class="mx-auto max-w-[1200px] px-5 py-12 lg:px-8">
         <div class="grid gap-10 lg:grid-cols-3">
             <div>

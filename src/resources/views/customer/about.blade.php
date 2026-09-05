@@ -23,7 +23,7 @@
                 <span class="section-badge">Cerita</span>
             </div>
             <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">
+                <h2 class="text-3xl font-bold tracking-tight text-[#102A43] md:text-4xl">
                     Antara meja potong dan layar fitting
                 </h2>
                 <p class="mt-5 text-sm leading-relaxed text-[#667085] md:text-base">
@@ -39,7 +39,7 @@
                 <span class="section-badge">Visi</span>
             </div>
             <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">Visi</h2>
+                <h2 class="text-3xl font-bold tracking-tight text-[#102A43] md:text-4xl">Visi</h2>
                 <p class="mt-5 text-sm leading-relaxed text-[#667085] md:text-base">
                     Menjadi vendor pakaian yang terpercaya untuk kebutuhan tim, komunitas, acara, dan brand melalui kualitas produksi yang konsisten dan pelayanan yang jelas.
                 </p>
@@ -53,7 +53,7 @@
                 <span class="section-badge">Misi</span>
             </div>
             <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">Misi</h2>
+                <h2 class="text-3xl font-bold tracking-tight text-[#102A43] md:text-4xl">Misi</h2>
                 <ul class="mt-5 space-y-3 p-0 text-sm leading-relaxed text-[#667085] md:text-base">
                     <li class="flex gap-3">
                         <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
@@ -105,7 +105,7 @@
                                 </svg>
                             @endif
                         </div>
-                        <h3 class="mt-4 text-base font-bold text-[#1C2430]">{{ $item['title'] }}</h3>
+                        <h3 class="mt-4 text-base font-bold text-[#102A43]">{{ $item['title'] }}</h3>
                         <p class="mt-2 text-sm leading-relaxed text-[#667085]">{{ $item['desc'] }}</p>
                     </div>
                 @endforeach
@@ -126,8 +126,8 @@
                     ['num' => '04', 'title' => 'Kirim permintaan', 'desc' => 'Isi data pemesan, rincian ukuran, dan catatan desain. Tanpa akun.'],
                 ] as $step)
                     <li class="rounded-[14px] border border-[#E2E5E9] bg-[#F7F7F5] p-6">
-                        <span class="text-2xl font-semibold text-[#1C2430]">{{ $step['num'] }}</span>
-                        <h3 class="mt-2 text-base font-bold text-[#1C2430]">{{ $step['title'] }}</h3>
+                        <span class="text-2xl font-semibold text-[#102A43]">{{ $step['num'] }}</span>
+                        <h3 class="mt-2 text-base font-bold text-[#102A43]">{{ $step['title'] }}</h3>
                         <p class="mt-2 text-sm leading-relaxed text-[#667085]">{{ $step['desc'] }}</p>
                     </li>
                 @endforeach
@@ -141,7 +141,7 @@
                 <span class="section-badge">Tim</span>
             </div>
             <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">Studio kecil, dekat dengan produksinya</h2>
+                <h2 class="text-3xl font-bold tracking-tight text-[#102A43] md:text-4xl">Studio kecil, dekat dengan produksinya</h2>
                 <p class="mt-5 text-sm leading-relaxed text-[#667085] md:text-base">
                     Pola, produksi, dan fitting digital dibahas dalam satu alur. Permintaan Anda dibaca orang, bukan portal otomatis.
                 </p>
@@ -163,7 +163,7 @@
                 <span class="section-badge">Hubungi kami</span>
             </div>
             <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">Hubungi Kami</h2>
+                <h2 class="text-3xl font-bold tracking-tight text-[#102A43] md:text-4xl">Hubungi Kami</h2>
                 <p class="mt-4 max-w-xl text-sm leading-relaxed text-[#667085] md:text-base">
                     Punya pertanyaan atau ingin membahas kebutuhan produksi?
                 </p>
@@ -177,7 +177,7 @@
                                 </svg>
                             </span>
                             <p class="text-sm font-semibold text-[#667085]">WhatsApp</p>
-                            <a href="{{ $whatsappHref }}" target="_blank" rel="noopener noreferrer" class="mt-2 block text-sm font-semibold text-[#1C2430] no-underline hover:text-[#B8664A]">
+                            <a href="{{ $whatsappHref }}" target="_blank" rel="noopener noreferrer" class="mt-2 block text-sm font-semibold text-[#102A43] no-underline hover:text-[#B8664A]">
                                 {{ $whatsappNumber }}
                             </a>
                         </div>
@@ -191,7 +191,7 @@
                                 </svg>
                             </span>
                             <p class="text-sm font-semibold text-[#667085]">Email</p>
-                            <a href="mailto:{{ $vendorEmail }}" class="mt-2 block text-sm font-semibold text-[#1C2430] underline underline-offset-2 hover:text-[#B8664A]">
+                            <a href="mailto:{{ $vendorEmail }}" class="mt-2 block text-sm font-semibold text-[#102A43] underline underline-offset-2 hover:text-[#B8664A]">
                                 {{ $vendorEmail }}
                             </a>
                         </div>
@@ -205,7 +205,7 @@
                                 </svg>
                             </span>
                             <p class="text-sm font-semibold text-[#667085]">Alamat</p>
-                            <p class="mt-2 text-sm font-semibold text-[#1C2430]">{{ $vendorLocation }}</p>
+                            <p class="mt-2 text-sm font-semibold text-[#102A43]">{{ $vendorLocation }}</p>
                         </div>
                     @endif
                 </div>

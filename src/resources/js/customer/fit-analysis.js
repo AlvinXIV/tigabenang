@@ -17,24 +17,35 @@ export const FIT_DISCLAIMER =
  *
  * @param {number} customerValue – Ukuran customer
  * @param {number|null} garmentValue – Ukuran garment
- * @returns {'Too Tight'|'Perfect Fit'|'Too Loose'}
+ * @param {string} area - Area pengukuran (Dada, Panjang, dll)
+ * @returns {'Kekecilan'|'Sangat Pas'|'Kebesaran'}
  */
-function classify(customerValue, garmentValue) {
+function classify(customerValue, garmentValue, area) {
     if (garmentValue == null || garmentValue <= 0) {
-        return 'Perfect Fit';
+        return 'Sangat Pas';
     }
 
     const ratio = customerValue / garmentValue;
+    
+    let maxRatio = 1.05;
+    let minRatio = 0.85;
 
-    if (ratio > 1.06) {
-        return 'Too Tight';
+    // Untuk lingkar (Dada, Pinggang, Pinggul), butuh ruang gerak (ease).
+    // Baju yang ukurannya sama dengan badan (ratio 1.0) sudah pasti ketat/kekecilan.
+    if (area === 'Dada' || area === 'Pinggang' || area === 'Pinggul') {
+        maxRatio = 0.98;
+        minRatio = 0.82;
     }
 
-    if (ratio < 0.92) {
-        return 'Too Loose';
+    if (ratio > maxRatio) {
+        return 'Kekecilan';
     }
 
-    return 'Perfect Fit';
+    if (ratio < minRatio) {
+        return 'Kebesaran';
+    }
+
+    return 'Sangat Pas';
 }
 
 /**
@@ -56,6 +67,7 @@ export function analyzeFit({
     hipCm,
     shoulderCm,
     sizes,
+    selectedSizeName,
 }) {
     const height = Number(heightCm) || 170;
     const chest = Number(chestCm) || 92;
@@ -74,7 +86,7 @@ export function analyzeFit({
     if (available.length === 0) {
         return {
             recommendedSize: null,
-            overallMatch: 'Unavailable',
+            overallMatch: 'Tidak Tersedia',
             heatmap: [],
         };
     }
@@ -124,30 +136,35 @@ export function analyzeFit({
     const recommended =
         scored[0]?.size ?? available[0];
 
+    // Find target size for heatmap (use selected size if provided, otherwise recommended)
+    const targetSize = selectedSizeName
+        ? (available.find(s => s.name === selectedSizeName) || recommended)
+        : recommended;
+
     // ─────────────────────────────────────────────────────────
     // GARMENT MEASUREMENTS
     // ─────────────────────────────────────────────────────────
 
     const garmentChest =
-        Number(recommended.lebar_dada) || null;
+        Number(targetSize.lebar_dada) || null;
 
     const garmentShoulder =
-        Number(recommended.lebar_bahu) || null;
+        Number(targetSize.lebar_bahu) || null;
 
     const garmentSleeve =
-        Number(recommended.panjang_lengan) ||
+        Number(targetSize.panjang_lengan) ||
         null;
 
     const garmentLength =
-        Number(recommended.panjang) || null;
+        Number(targetSize.panjang) || null;
 
-    // Estimasi waist dan hip dari chest width.
+    // Estimasi waist dan hip dari chest width (potongan lurus seperti Jersey/Kaos)
     const garmentWaist = garmentChest
-        ? garmentChest * 0.88
+        ? garmentChest * 1.0
         : null;
 
     const garmentHip = garmentChest
-        ? garmentChest * 1.02
+        ? garmentChest * 1.0
         : null;
 
     // ─────────────────────────────────────────────────────────
@@ -156,46 +173,28 @@ export function analyzeFit({
 
     const heatmap = [
         {
-            area: 'Chest',
-            state: classify(
-                halfChest,
-                garmentChest,
-            ),
+            area: 'Dada',
+            state: classify(halfChest, garmentChest, 'Dada'),
         },
         {
-            area: 'Shoulder',
-            state: classify(
-                halfShoulder,
-                garmentShoulder,
-            ),
+            area: 'Bahu',
+            state: classify(halfShoulder, garmentShoulder, 'Bahu'),
         },
         {
-            area: 'Waist',
-            state: classify(
-                halfWaist,
-                garmentWaist,
-            ),
+            area: 'Pinggang',
+            state: classify(halfWaist, garmentWaist, 'Pinggang'),
         },
         {
-            area: 'Hip',
-            state: classify(
-                halfHip,
-                garmentHip,
-            ),
+            area: 'Pinggul',
+            state: classify(halfHip, garmentHip, 'Pinggul'),
         },
         {
-            area: 'Sleeve',
-            state: classify(
-                estSleeve,
-                garmentSleeve,
-            ),
+            area: 'Lengan',
+            state: classify(estSleeve, garmentSleeve, 'Lengan'),
         },
         {
-            area: 'Length',
-            state: classify(
-                estLength,
-                garmentLength,
-            ),
+            area: 'Panjang',
+            state: classify(estLength, garmentLength, 'Panjang'),
         },
     ];
 
@@ -204,27 +203,27 @@ export function analyzeFit({
     // ─────────────────────────────────────────────────────────
 
     const tightCount = heatmap.filter(
-        (i) => i.state === 'Too Tight',
+        (i) => i.state === 'Kekecilan',
     ).length;
 
     const looseCount = heatmap.filter(
-        (i) => i.state === 'Too Loose',
+        (i) => i.state === 'Kebesaran',
     ).length;
 
     const perfectCount = heatmap.filter(
-        (i) => i.state === 'Perfect Fit',
+        (i) => i.state === 'Sangat Pas',
     ).length;
 
     let overallMatch;
 
     if (perfectCount >= 4) {
-        overallMatch = 'Perfect Fit';
+        overallMatch = 'Sangat Pas';
     } else if (tightCount >= 3) {
-        overallMatch = 'Too Tight';
+        overallMatch = 'Kekecilan';
     } else if (looseCount >= 3) {
-        overallMatch = 'Too Loose';
+        overallMatch = 'Kebesaran';
     } else {
-        overallMatch = `${Math.round((perfectCount / heatmap.length) * 100)}% Match`;
+        overallMatch = `${Math.round((perfectCount / heatmap.length) * 100)}% Kecocokan`;
     }
 
     return {

@@ -57,11 +57,11 @@
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="text-sm font-semibold text-[#667085]">Produk dipilih</p>
-                            <p class="mt-1 text-2xl font-bold text-[#1C2430]">{{ $pemesanan->produk?->nama_produk }}</p>
+                            <p class="mt-1 text-2xl font-bold text-[#102A43]">{{ $pemesanan->produk?->nama_produk }}</p>
                             <p class="mt-0.5 text-sm font-medium text-[#667085]">{{ \App\Support\CustomerCatalog::categoryLabel($pemesanan->produk?->kategori?->nama_kategori) }}</p>
-                            <p class="mt-2 text-sm font-semibold text-[#1C2430]">Nomor permintaan #{{ $pemesanan->id_pemesanan }}</p>
+                            <p class="mt-2 text-sm font-semibold text-[#102A43]">Nomor permintaan #{{ $pemesanan->id_pemesanan }}</p>
                         </div>
-                        <span class="shrink-0 rounded-lg bg-[#1C2430] px-2.5 py-1 text-xs font-bold text-white">
+                        <span class="shrink-0 rounded-lg bg-[#102A43] px-2.5 py-1 text-xs font-bold text-white">
                             #{{ $pemesanan->id_pemesanan }}
                         </span>
                     </div>
@@ -73,8 +73,8 @@
                         <ul class="space-y-2 text-sm">
                             @forelse ($pemesanan->ukuran as $ukuran)
                                 <li class="flex justify-between">
-                                    <span class="font-semibold text-[#1C2430]">{{ $ukuran->nama_ukuran }}</span>
-                                    <span class="font-bold text-[#1C2430]">× {{ $ukuran->pivot->kuantitas }}</span>
+                                    <span class="font-semibold text-[#102A43]">{{ $ukuran->nama_ukuran }}</span>
+                                    <span class="font-bold text-[#102A43]">× {{ $ukuran->pivot->kuantitas }}</span>
                                 </li>
                             @empty
                                 <li class="text-[#667085]">Tidak ada ukuran tercatat.</li>
@@ -85,7 +85,7 @@
                         <p class="mb-3 text-sm font-semibold text-[#667085]">Bahan dipilih</p>
                         <ul class="space-y-2 text-sm">
                             @forelse ($pemesanan->bahan as $bahan)
-                                <li class="font-semibold text-[#1C2430]">{{ $bahan->nama_bahan }}</li>
+                                <li class="font-semibold text-[#102A43]">{{ $bahan->nama_bahan }}</li>
                             @empty
                                 <li class="text-[#667085]">Tidak ada bahan tercatat.</li>
                             @endforelse
@@ -95,7 +95,7 @@
 
                 <div class="border-t border-[#E2E5E9] bg-[#F7F7F5] px-5 py-5">
                     <p class="text-sm font-semibold text-[#667085]">Estimasi total</p>
-                    <p class="mt-1 text-3xl font-bold tracking-tight text-[#1C2430]">
+                    <p class="mt-1 text-3xl font-bold tracking-tight text-[#102A43]">
                         <x-price :amount="$pemesanan->total_harga" />
                     </p>
                     <p class="mt-2 text-xs leading-relaxed text-[#667085]">
@@ -107,7 +107,7 @@
             <div class="overflow-hidden rounded-[14px] border border-[#E2E5E9] bg-white">
                 <div class="border-b border-[#E2E5E9] bg-[#F7F7F5] px-5 py-4">
                     <span class="section-badge">Langkah berikutnya</span>
-                    <h2 class="mt-2 text-xl font-bold text-[#1C2430]">Konfirmasi harga</h2>
+                    <h2 class="mt-2 text-xl font-bold text-[#102A43]">Konfirmasi harga</h2>
                 </div>
                 <div class="px-5 py-5">
                     <p class="text-sm leading-relaxed text-[#667085]">
@@ -117,12 +117,12 @@
                     @if ($vendorEmail !== '' || $vendorLocation !== '')
                         <div class="mt-5 rounded-xl border border-[#E2E5E9] bg-[#F7F7F5] p-4">
                             <p class="mb-1 text-sm font-semibold text-[#667085]">Kontak vendor</p>
-                            <p class="font-bold text-[#1C2430]">FitVendor</p>
+                            <p class="font-bold text-[#102A43]">FitVendor</p>
                             @if ($vendorLocation !== '')
                                 <p class="mt-1 text-sm text-[#667085]">{{ $vendorLocation }}</p>
                             @endif
                             @if ($vendorEmail !== '')
-                                <a href="mailto:{{ $vendorEmail }}" class="mt-1 block text-sm font-medium text-[#1C2430] underline underline-offset-2 hover:text-[#B8664A]">{{ $vendorEmail }}</a>
+                                <a href="mailto:{{ $vendorEmail }}" class="mt-1 block text-sm font-medium text-[#102A43] underline underline-offset-2 hover:text-[#B8664A]">{{ $vendorEmail }}</a>
                             @endif
                         </div>
                     @endif

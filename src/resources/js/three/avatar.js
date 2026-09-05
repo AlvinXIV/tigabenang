@@ -398,19 +398,18 @@ export function createAvatar(
 
     const headH = h * 0.125;
     const neckH = h * 0.032;
+    const yShoulder = h - headH - neckH;
+    const yWaist = yShoulder - torsoCm * s;
 
-    const yCrotch = h * crotchFrac;
+    // Calculate crotch and prevent it from going above the waist (which breaks geometry)
+    let yCrotch = h * crotchFrac;
+    const maxCrotch = yWaist - h * 0.05; // Pelvis must have at least some height
+    if (yCrotch > maxCrotch) {
+        yCrotch = maxCrotch;
+    }
 
     const yAnkle = h * 0.046;
-    const yKnee =
-        yAnkle +
-        (yCrotch - yAnkle) * 0.47;
-
-    const yShoulder =
-        h - headH - neckH;
-
-    const yWaist =
-        yShoulder - torsoCm * s;
+    const yKnee = yAnkle + (yCrotch - yAnkle) * 0.47;
 
     const yHip = lerp(
         yCrotch,
@@ -476,27 +475,27 @@ export function createAvatar(
     );
 
     const torsoKeys = [
-        // ── Crotch (narrow V) ──
+        // ── Crotch (Base of pelvis) ──
         {
             y: yCrotch,
-            rx: hipR.rx * 0.50,
-            rz: hipR.rz * 0.60,
+            rx: hipR.rx * 0.90, // Diperlebar agar menutupi pangkal paha
+            rz: hipR.rz * 0.75,
             z: h * 0.015,
         },
 
         // ── Inner thigh junction ──
         {
             y: lerp(yCrotch, yHip, 0.25),
-            rx: hipR.rx * 0.72,
-            rz: hipR.rz * 0.70,
+            rx: hipR.rx * 0.95, // Diperlebar
+            rz: hipR.rz * 0.80,
             z: h * 0.015,
         },
 
         // ── Lower pelvis ──
         {
             y: lerp(yCrotch, yHip, 0.50),
-            rx: hipR.rx * 0.90,
-            rz: hipR.rz * 0.82,
+            rx: hipR.rx * 0.98,
+            rz: hipR.rz * 0.85,
             z: h * 0.012,
         },
 
