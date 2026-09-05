@@ -1,7 +1,7 @@
 @extends('layouts.customer')
 
 @section('title', 'Tentang')
-@section('description', 'Profil FitVendor. Vendor pakaian custom dengan fitting virtual dan produksi sesuai pesanan.')
+@section('description', 'Profil FitVendor. Vendor pakaian custom dengan virtual fitting dan produksi sesuai pesanan.')
 
 @section('content')
 
@@ -122,7 +122,7 @@
                 @foreach ([
                     ['num' => '01', 'title' => 'Pilih pakaian', 'desc' => 'Jelajahi koleksi dan buka model yang sesuai kebutuhan.'],
                     ['num' => '02', 'title' => 'Pilih bahan',  'desc' => 'Ambil satu atau lebih bahan yang tersedia untuk produk itu.'],
-                    ['num' => '03', 'title' => 'Lihat fitting',   'desc' => 'Pakai fitting virtual jika ada file 3D, atau langsung ke formulir.'],
+                    ['num' => '03', 'title' => 'Lihat fitting',   'desc' => 'Pakai virtual fitting jika ada file 3D, atau langsung ke formulir.'],
                     ['num' => '04', 'title' => 'Kirim permintaan', 'desc' => 'Isi data pemesan, rincian ukuran, dan catatan desain. Tanpa akun.'],
                 ] as $step)
                     <li class="rounded-[14px] border border-[#E2E5E9] bg-[#F7F7F5] p-6">

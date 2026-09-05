@@ -333,12 +333,6 @@ model-viewer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: transform 0.2s ease;
-}
-
-.fv-icon-card:hover {
-    background: transparent;
-    transform: translateY(-2px);
 }
 
 .fv-icon-wrap {

@@ -63,7 +63,7 @@
                         </p>
                         <div class="fv-home-hero__actions">
                             <a href="{{ route('order.create') }}" class="fv-home-hero__cta">Pesan custom</a>
-                            <a href="{{ route('virtual-fitting') }}" class="fv-home-hero__cta-secondary">Coba fitting virtual</a>
+                            <a href="{{ route('virtual-fitting') }}" class="fv-home-hero__cta-secondary">Coba virtual fitting</a>
                         </div>
                     </div>
                 </div>
@@ -276,26 +276,26 @@
     </section>
 
     <section class="border-y border-[#E2E5E9] bg-white py-16">
-        <div class="mx-auto grid max-w-[1200px] items-center gap-10 px-5 lg:grid-cols-2 lg:px-8">
-            <div>
-                <p class="text-sm font-medium text-[#667085]">Studio interaktif</p>
-                <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
-                    Coba fitting virtual sebelum pesan
-                </h2>
-                <p class="mt-4 max-w-lg text-sm leading-relaxed text-[#667085]">
-                    Gunakan fitting virtual untuk melihat perkiraan tampilan pakaian pada ukuran tubuh Anda. Ini pratinjau, bukan pengukuran jahit final.
-                </p>
-                <div class="mt-6">
-                    <a href="{{ route('virtual-fitting') }}" class="btn-primary">Buka fitting virtual</a>
-                </div>
-            </div>
+        <div class="mx-auto grid max-w-[1200px] items-center gap-10 lg:gap-16 px-5 lg:grid-cols-2 lg:px-8">
             <div class="fv-media aspect-[4/3]">
                 <img
                     src="{{ asset('images/virtual-fitting-teaser.jpg') }}?v=11"
-                    alt="Studio fitting virtual FitVendor"
+                    alt="Studio virtual fitting FitVendor"
                     class="h-full w-full object-cover object-[center_30%]"
                     loading="lazy"
                 >
+            </div>
+            <div class="lg:pl-8 xl:pl-12">
+                <p class="text-sm font-medium text-[#667085]">Studio interaktif</p>
+                <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
+                    Coba virtual fitting sebelum pesan
+                </h2>
+                <p class="mt-4 max-w-lg text-sm leading-relaxed text-[#667085]">
+                    Gunakan virtual fitting untuk melihat perkiraan tampilan pakaian pada ukuran tubuh Anda. Ini pratinjau, bukan pengukuran jahit final.
+                </p>
+                <div class="mt-6">
+                    <a href="{{ route('virtual-fitting') }}" class="btn-primary">Buka virtual fitting</a>
+                </div>
             </div>
         </div>
     </section>
@@ -309,7 +309,7 @@
                         Hal yang sering ditanyakan
                     </h2>
                     <p class="mt-3 max-w-md text-sm leading-relaxed text-[#667085]">
-                        Seputar jumlah pesanan, fitting virtual, desain, dan jadwal produksi.
+                        Seputar jumlah pesanan, virtual fitting, desain, dan jadwal produksi.
                     </p>
 
                     @php
@@ -339,8 +339,8 @@
                                 'a' => 'Kami menerima pesanan mulai 12 pcs sampai skala besar untuk komunitas, organisasi, kampus, atau clothing brand.',
                             ],
                             [
-                                'q' => 'Bagaimana cara kerja fitting virtual?',
-                                'a' => 'Masukkan tinggi, lingkar dada, pinggang, dan pinggul di halaman Fitting virtual. Sistem menampilkan pratinjau 3D. Ini perkiraan tampilan, bukan ukur jahit final.',
+                                'q' => 'Bagaimana cara kerja virtual fitting?',
+                                'a' => 'Masukkan tinggi, lingkar dada, pinggang, dan pinggul di halaman Virtual fitting. Sistem menampilkan pratinjau 3D. Ini perkiraan tampilan, bukan ukur jahit final.',
                             ],
                             [
                                 'q' => 'Bisa pakai desain dan bahan sendiri?',
@@ -403,7 +403,7 @@
             <div id="testimonial-carousel-track" class="flex cursor-grab gap-4 overflow-x-auto pb-2" style="scroll-snap-type:x mandatory;scrollbar-width:none;">
                 @php
                     $testimonials = [
-                        ['name' => 'Bagus Pratama', 'role' => 'Kepala kreatif, Studio Karsa', 'tag' => 'Jaket kerja', 'avatar_bg' => '#102A43', 'avatar_text' => 'BP', 'quote' => 'Jahitannya rapi. Fitting virtual membantu tim kami memilih ukuran tanpa bolak-balik sampel fisik.'],
+                        ['name' => 'Bagus Pratama', 'role' => 'Kepala kreatif, Studio Karsa', 'tag' => 'Jaket kerja', 'avatar_bg' => '#102A43', 'avatar_text' => 'BP', 'quote' => 'Jahitannya rapi. Virtual fitting membantu tim kami memilih ukuran tanpa bolak-balik sampel fisik.'],
                         ['name' => 'Alika Salsabila', 'role' => 'Koordinator komunitas, Urban Runners ID', 'tag' => 'Windbreaker', 'avatar_bg' => '#2A3442', 'avatar_text' => 'AS', 'quote' => 'Kain dan bordir sesuai yang dijanjikan. Warna konsisten, bahannya nyaman dipakai lari, komunikasi cepat.'],
                         ['name' => 'Dimas Arya Nugraha', 'role' => 'Pendiri, Niscala Apparel', 'tag' => 'Hoodie', 'avatar_bg' => '#2A3542', 'avatar_text' => 'DA', 'quote' => 'Pola jatuhnya pas. Jahitan kuat, dan timnya jelas dari diskusi awal sampai barang sampai.'],
                         ['name' => 'Jessica Tandiono', 'role' => 'Direktur proyek, Arkana Agency', 'tag' => 'Varsity', 'avatar_bg' => '#102A43', 'avatar_text' => 'JT', 'quote' => 'Bahan wool blend dan aksen kulit sintetis terasa solid. Tim puas dengan hasil varsity-nya.'],

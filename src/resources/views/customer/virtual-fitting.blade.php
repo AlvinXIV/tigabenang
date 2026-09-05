@@ -7,8 +7,8 @@
 
     <section class="fv-page-hero">
         <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-12">
-            <span class="section-badge mb-3">Fitting virtual</span>
-            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Fitting virtual</h1>
+            <span class="section-badge mb-3">Virtual fitting</span>
+            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Virtual fitting</h1>
             <p class="mt-2.5 max-w-2xl text-sm leading-relaxed">
                 Sesuaikan ukuran tubuh dan lihat bagaimana pakaian 3D pas, sempit, atau longgar pada avatar digital.
             </p>
@@ -103,7 +103,7 @@
                     <div
                         class="flex border-b border-[#E2E5E9]"
                         role="tablist"
-                        aria-label="Panel fitting virtual"
+                        aria-label="Panel virtual fitting"
                     >
                         <button
                             type="button"

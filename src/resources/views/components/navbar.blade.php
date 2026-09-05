@@ -2,7 +2,7 @@
     $links = [
         ['label' => 'Portofolio',       'route' => 'home',             'routeMatch' => 'home'],
         ['label' => 'Koleksi',          'route' => 'collection.index', 'routeMatch' => 'collection.*'],
-        ['label' => 'Fitting virtual',  'route' => 'virtual-fitting',  'routeMatch' => 'virtual-fitting'],
+        ['label' => 'Virtual fitting',  'route' => 'virtual-fitting',  'routeMatch' => 'virtual-fitting'],
         ['label' => 'Tentang',          'route' => 'about',            'routeMatch' => 'about'],
     ];
 @endphp
