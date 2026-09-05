@@ -279,23 +279,21 @@
                                     {{ $s->panjang_lengan ? $s->panjang_lengan . ' cm' : '-' }}
                                 </td>
                                 <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                    <div class="flex items-center justify-end gap-2">
-                                        <button
-                                            type="button"
-                                            wire:click="startEdit({{ $s->id_ukuran }})"
-                                            class="text-xs text-[#667085] hover:text-[#B8664A] font-medium"
-                                        >
-                                            Ubah
-                                        </button>
-                                        <button
-                                            type="button"
+                                    <x-action-menu :label="'Menu aksi ukuran ' . $s->nama_ukuran">
+                                        <x-action-menu.item href="{{ route('admin.ukuran.edit', $s->id_ukuran) }}">
+                                            Ubah Dimensi
+                                        </x-action-menu.item>
+
+                                        <x-action-menu.divider />
+
+                                        <x-action-menu.item
+                                            danger
                                             wire:click="delete({{ $s->id_ukuran }})"
                                             wire:confirm="Yakin ingin menghapus ukuran '{{ $s->nama_ukuran }}'?"
-                                            class="text-xs text-rose-500 hover:text-rose-700 font-medium"
                                         >
                                             Hapus
-                                        </button>
-                                    </div>
+                                        </x-action-menu.item>
+                                    </x-action-menu>
                                 </td>
                             </tr>
                         @endif

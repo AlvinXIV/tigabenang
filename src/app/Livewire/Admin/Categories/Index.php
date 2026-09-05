@@ -4,10 +4,12 @@ namespace App\Livewire\Admin\Categories;
 
 use App\Models\Bahan;
 use App\Models\Kategori;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Index extends Component
 {
+    #[Url(as: 'tab')]
     public string $activeTab = 'kategori';
     public string $searchKategori = '';
     public string $searchMaterial = '';
@@ -29,13 +31,10 @@ class Index extends Component
     // Feedback
     public ?string $feedbackMessage = null;
 
-    protected $queryString = [
-        'activeTab' => ['except' => 'kategori'],
-    ];
-
     public function mount()
     {
-        if (request()->query('tab') === 'material') {
+        $requestedTab = request()->query('tab', request()->query('activeTab'));
+        if ($requestedTab === 'material') {
             $this->activeTab = 'material';
         }
     }

@@ -150,12 +150,15 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                <a
-                                    href="{{ route('admin.pesanan.show', $ord->id_pemesanan) }}"
-                                    class="text-xs text-[#B8664A] hover:underline font-medium text-decoration-none"
-                                >
-                                    Rincian &rarr;
-                                </a>
+                                <x-action-menu :label="'Menu aksi pesanan #ORD-' . str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT)">
+                                    <x-action-menu.item href="{{ route('admin.pesanan.show', $ord->id_pemesanan) }}">
+                                        Lihat Detail
+                                    </x-action-menu.item>
+
+                                    <x-action-menu.item href="{{ route('admin.orders.invoice', $ord->id_pemesanan) }}" target="_blank">
+                                        Lihat Faktur
+                                    </x-action-menu.item>
+                                </x-action-menu>
                             </td>
                         </tr>
                     @empty

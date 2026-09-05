@@ -1,4 +1,23 @@
-<div class="space-y-5">
+<div
+    x-data
+    x-init="
+        const syncHashTab = () => {
+            const params = new URLSearchParams(window.location.search);
+            if (window.location.hash === '#material' || params.get('tab') === 'material') {
+                if ($wire.activeTab !== 'material') {
+                    $wire.switchTab('material');
+                }
+            } else if (window.location.hash === '#kategori' || (!params.get('tab') && !window.location.hash)) {
+                if ($wire.activeTab !== 'kategori') {
+                    $wire.switchTab('kategori');
+                }
+            }
+        };
+        syncHashTab();
+        window.addEventListener('hashchange', syncHashTab);
+    "
+    class="space-y-5"
+>
 
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E5E9]">
@@ -53,27 +72,29 @@
 
     <!-- TAB SEGMENTED NAVIGATION -->
     <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm">
-        <button
-            type="button"
-            wire:click="switchTab('kategori')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $activeTab === 'kategori' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+        <a
+            href="{{ route('admin.kategori.index') }}"
+            wire:click.prevent="switchTab('kategori')"
+            @click="window.location.hash = ''"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'kategori' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
         >
             <span>Kategori Produk</span>
             <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'kategori' ? 'bg-[#F4E9E4] text-[#B8664A]' : 'bg-[#F7F7F5] text-[#667085]' }}">
                 {{ $summary['total_categories'] }}
             </span>
-        </button>
+        </a>
 
-        <button
-            type="button"
-            wire:click="switchTab('material')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $activeTab === 'material' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+        <a
+            href="{{ route('admin.kategori.index', ['tab' => 'material']) }}#material"
+            wire:click.prevent="switchTab('material')"
+            @click="window.location.hash = 'material'"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'material' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
         >
             <span>Material Kain</span>
             <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'material' ? 'bg-[#F4E9E4] text-[#B8664A]' : 'bg-[#F7F7F5] text-[#667085]' }}">
                 {{ $summary['total_materials'] }}
             </span>
-        </button>
+        </a>
     </div>
 
     <!-- ============================================== -->
@@ -174,23 +195,21 @@
                                         </span>
                                     </td>
                                     <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <button
-                                                type="button"
-                                                wire:click="startEditKategori({{ $cat->id_kategori }}, '{{ addslashes($cat->nama_kategori) }}')"
-                                                class="text-xs text-[#667085] hover:text-[#B8664A] font-medium"
-                                            >
-                                                Ubah
-                                            </button>
-                                            <button
-                                                type="button"
+                                        <x-action-menu :label="'Menu aksi kategori ' . $cat->nama_kategori">
+                                            <x-action-menu.item href="{{ route('admin.kategori.edit', $cat->id_kategori) }}">
+                                                Ubah Kategori
+                                            </x-action-menu.item>
+
+                                            <x-action-menu.divider />
+
+                                            <x-action-menu.item
+                                                danger
                                                 wire:click="deleteKategori({{ $cat->id_kategori }})"
                                                 wire:confirm="Yakin ingin menghapus kategori '{{ $cat->nama_kategori }}'?"
-                                                class="text-xs text-rose-500 hover:text-rose-700 font-medium"
                                             >
                                                 Hapus
-                                            </button>
-                                        </div>
+                                            </x-action-menu.item>
+                                        </x-action-menu>
                                     </td>
                                 </tr>
                             @empty
@@ -304,23 +323,21 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-3.5 text-right whitespace-nowrap">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <button
-                                                type="button"
-                                                wire:click="startEditBahan({{ $mat->id_bahan }}, '{{ addslashes($mat->nama_bahan) }}')"
-                                                class="text-xs text-[#667085] hover:text-[#B8664A] font-medium"
-                                            >
-                                                Ubah
-                                            </button>
-                                            <button
-                                                type="button"
+                                        <x-action-menu :label="'Menu aksi material ' . $mat->nama_bahan">
+                                            <x-action-menu.item href="{{ route('admin.kategori.edit', ['kategori' => $mat->id_bahan, 'type' => 'bahan']) }}">
+                                                Ubah Material
+                                            </x-action-menu.item>
+
+                                            <x-action-menu.divider />
+
+                                            <x-action-menu.item
+                                                danger
                                                 wire:click="deleteMaterial({{ $mat->id_bahan }})"
                                                 wire:confirm="Yakin ingin menghapus material '{{ $mat->nama_bahan }}'?"
-                                                class="text-xs text-rose-500 hover:text-rose-700 font-medium"
                                             >
                                                 Hapus
-                                            </button>
-                                        </div>
+                                            </x-action-menu.item>
+                                        </x-action-menu>
                                     </td>
                                 </tr>
                             @empty
