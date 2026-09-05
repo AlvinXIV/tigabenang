@@ -46,6 +46,7 @@ class CustomerFrontendTest extends TestCase
             'panjang_lengan' => 21,
         ]);
         $bahan = Bahan::query()->create(['nama_bahan' => 'Cotton Combed']);
+        Bahan::query()->create(['nama_bahan' => 'Baby Terry']);
         $produk = Produk::query()->create([
             'kategori_id' => $kategori->id_kategori,
             'nama_produk' => 'Kaos Studio',
@@ -76,7 +77,15 @@ class CustomerFrontendTest extends TestCase
         $this->get('/collection/'.$produk->id_produk)
             ->assertOk()
             ->assertSee('Kaos Studio')
-            ->assertSee('Pesan produk ini');
+            ->assertSee('Pesan produk ini')
+            ->assertSee('Bahan tersedia')
+            ->assertSee('Bahan yang terhubung dengan produk ini.')
+            ->assertSee('Cotton Combed')
+            ->assertSee('Baby Terry')
+            ->assertSee('images/materials/cotton_combed.jpg', false)
+            ->assertSee('images/materials/baby_terry.jpg', false)
+            ->assertDontSee('Ukuran tersedia')
+            ->assertDontSee('Mengikuti size chart kategori produk.');
 
         $this->get('/collection/99999')->assertNotFound();
 
@@ -166,7 +175,9 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Karya kami')
             ->assertSee('Lihat koleksi')
             ->assertSee('Atelier Piece 7')
-            ->assertDontSee('Atelier Piece 1');
+            ->assertDontSee('Atelier Piece 1')
+            ->assertDontSee('Bahan produksi')
+            ->assertDontSee('Lihat semua bahan');
 
         $collection = $this->get('/collection');
         $collection->assertOk()
@@ -180,5 +191,72 @@ class CustomerFrontendTest extends TestCase
         $this->get('/collection?category=kaos')
             ->assertOk()
             ->assertSee('Atelier Piece 1');
+    }
+
+    public function test_customer_category_label_and_material_preview_bounds(): void
+    {
+        $kategori = Kategori::query()->create(['nama_kategori' => 'JaketWindbreaker']);
+        $taslan = Bahan::query()->create(['nama_bahan' => 'Taslan']);
+        $fleece = Bahan::query()->create(['nama_bahan' => 'Fleece']);
+        $drill = Bahan::query()->create(['nama_bahan' => 'Drill']);
+        $dryFit = Bahan::query()->create(['nama_bahan' => 'Dry Fit']);
+
+        $produk = Produk::query()->create([
+            'kategori_id' => $kategori->id_kategori,
+            'nama_produk' => 'Windbreaker Studio',
+            'harga' => 300000,
+        ]);
+        $produk->bahan()->attach($taslan->id_bahan);
+
+        $this->get('/collection')
+            ->assertOk()
+            ->assertSee('Jaket Windbreaker')
+            ->assertDontSee('JaketWindbreaker');
+
+        $this->get('/order/create')
+            ->assertOk()
+            ->assertSee('Jaket Windbreaker');
+
+        $detail = $this->get('/collection/'.$produk->id_produk);
+        $detail->assertOk()
+            ->assertSee('Jaket Windbreaker')
+            ->assertDontSee('JaketWindbreaker')
+            ->assertSee('Taslan')
+            ->assertSee('Fleece')
+            ->assertDontSee('Ukuran tersedia');
+
+        $this->assertSame(2, substr_count($detail->getContent(), 'class="fv-material-thumb"'));
+
+        $second = Produk::query()->create([
+            'kategori_id' => $kategori->id_kategori,
+            'nama_produk' => 'Windbreaker Cadet',
+            'harga' => 325000,
+        ]);
+        $second->bahan()->attach($taslan->id_bahan);
+
+        $evenDetail = $this->get('/collection/'.$second->id_produk);
+        $evenDetail->assertOk()
+            ->assertSee('Taslan')
+            ->assertSee('Fleece')
+            ->assertSee('Drill');
+
+        $this->assertSame(3, substr_count($evenDetail->getContent(), 'class="fv-material-thumb"'));
+
+        $produk->bahan()->sync([
+            $taslan->id_bahan,
+            $fleece->id_bahan,
+            $drill->id_bahan,
+            $dryFit->id_bahan,
+        ]);
+
+        $capped = $this->get('/collection/'.$produk->id_produk);
+        $capped->assertOk()
+            ->assertSee('Taslan')
+            ->assertSee('Fleece')
+            ->assertSee('Drill')
+            ->assertDontSee('Dry Fit');
+
+        $this->assertSame(3, substr_count($capped->getContent(), 'class="fv-material-thumb"'));
+        $this->assertSame(4, $produk->fresh()->bahan()->count());
     }
 }

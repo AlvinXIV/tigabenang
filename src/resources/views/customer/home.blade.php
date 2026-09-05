@@ -195,7 +195,7 @@
                                 @if ($imgUrl)
                                     <img
                                         src="{{ $imgUrl }}"
-                                        alt="{{ $prod ? $prod->nama_produk : $cat->nama_kategori }}"
+                                        alt="{{ $prod ? $prod->nama_produk : \App\Support\CustomerCatalog::categoryLabel($cat->nama_kategori) }}"
                                         width="600"
                                         height="750"
                                         loading="lazy"
@@ -208,7 +208,7 @@
                                 </span>
                             </div>
                             <div class="mt-3">
-                                <h3 class="text-lg font-bold text-[#1C2430]">{{ $cat->nama_kategori }}</h3>
+                                <h3 class="text-lg font-bold text-[#1C2430]">{{ \App\Support\CustomerCatalog::categoryLabel($cat->nama_kategori) }}</h3>
                                 @if ($prod)
                                     <p class="mt-1 font-bold text-[#1C2430]"><x-price :amount="$prod->harga" /></p>
                                     <span class="hidden" data-product="{{ $prod->nama_produk }}">{{ $prod->nama_produk }}</span>

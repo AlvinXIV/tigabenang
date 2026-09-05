@@ -52,7 +52,7 @@
                             <p style="font-size:0.9375rem;font-weight:800;color:#172A39;margin:0;">
                                 {{ $pemesanan->produk?->nama_produk }}
                                 @if ($pemesanan->produk?->kategori)
-                                    <span style="font-size:0.75rem;font-weight:600;color:#6E7575;">({{ $pemesanan->produk->kategori->nama_kategori }})</span>
+                                    <span style="font-size:0.75rem;font-weight:600;color:#6E7575;">({{ \App\Support\CustomerCatalog::categoryLabel($pemesanan->produk->kategori->nama_kategori) }})</span>
                                 @endif
                             </p>
                             <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.4rem;">

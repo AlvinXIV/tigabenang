@@ -7,7 +7,6 @@
     $navLinks = [
         ['Portofolio',       'home'],
         ['Koleksi',          'collection.index'],
-        ['Bahan',            'materials.index'],
         ['Fitting virtual',  'virtual-fitting'],
         ['Tentang',          'about'],
         ['Pesan custom',     'order.create'],

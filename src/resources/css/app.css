@@ -814,3 +814,147 @@ model-viewer {
     color: rgba(255, 255, 255, 0.7);
 }
 
+.fv-material-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.fv-material-thumb {
+    display: flex;
+    width: 96px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+}
+
+.fv-material-thumb--static {
+    cursor: default;
+}
+
+.fv-material-thumb__frame {
+    display: block;
+    width: 96px;
+    height: 96px;
+    overflow: hidden;
+    border: 1px solid #E2E5E9;
+    border-radius: 10px;
+    background: #FFFFFF;
+}
+
+.fv-material-thumb__frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fv-material-thumb__frame--empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: #F7F7F5;
+    color: #667085;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.fv-material-thumb__name {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #1C2430;
+}
+
+@media (max-width: 430px) {
+    .fv-material-thumbs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-items: start;
+    }
+}
+
+.fv-material-lightbox[hidden] {
+    display: none;
+}
+
+.fv-material-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+}
+
+.fv-material-lightbox__backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    padding: 0;
+    background: rgba(28, 36, 48, 0.55);
+    cursor: pointer;
+}
+
+.fv-material-lightbox__panel {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 40rem);
+    max-height: min(90vh, 44rem);
+    padding: 1.25rem 1.25rem 1.5rem;
+    overflow: auto;
+    border: 1px solid #E2E5E9;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 12px 32px rgba(28, 36, 48, 0.16);
+}
+
+.fv-material-lightbox__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #E2E5E9;
+    border-radius: 8px;
+    background: #FFFFFF;
+    color: #1C2430;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.fv-material-lightbox__title {
+    margin: 0 2.5rem 0.75rem 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #1C2430;
+}
+
+.fv-material-lightbox__image {
+    display: block;
+    width: 100%;
+    max-height: min(70vh, 32rem);
+    object-fit: contain;
+    border: 1px solid #E2E5E9;
+    border-radius: 10px;
+    background: #F7F7F5;
+}
+

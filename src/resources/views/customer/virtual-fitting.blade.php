@@ -68,7 +68,7 @@
                     </p>
                     <div class="rounded-[12px] border border-[#E2E5E9] bg-white p-3 shadow-[0_1px_2px_rgba(28,36,48,0.04)]">
                         <p class="text-sm font-semibold text-[#1C2430]" data-fitting-name>{{ $selected?->nama_produk ?? 'T-shirt preview' }}</p>
-                        <p class="mt-0.5 text-xs font-medium text-[#667085]" data-fitting-category>{{ $selected?->kategori?->nama_kategori ?? 'Prototipe' }}</p>
+                        <p class="mt-0.5 text-xs font-medium text-[#667085]" data-fitting-category>{{ \App\Support\CustomerCatalog::categoryLabel($selected?->kategori?->nama_kategori) ?: 'Prototipe' }}</p>
                     </div>
                 </div>
 
@@ -154,7 +154,7 @@
                             >
                                 @forelse ($products as $prod)
                                     <option value="{{ $prod->id_produk }}" @selected($selected && $selected->id_produk === $prod->id_produk)>
-                                        {{ $prod->nama_produk }} ({{ $prod->kategori?->nama_kategori ?? 'Katalog' }})
+                                        {{ $prod->nama_produk }} ({{ \App\Support\CustomerCatalog::categoryLabel($prod->kategori?->nama_kategori) ?: 'Katalog' }})
                                     </option>
                                 @empty
                                     <option value="tshirt-preview" selected>T-shirt preview</option>

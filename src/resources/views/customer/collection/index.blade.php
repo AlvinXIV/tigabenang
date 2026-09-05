@@ -33,7 +33,7 @@
                         href="{{ route('collection.index', ['category' => $slug]) }}"
                         class="fv-chip {{ $isActive ? 'is-active' : '' }}"
                     >
-                        {{ $kategori->nama_kategori }}
+                        {{ \App\Support\CustomerCatalog::categoryLabel($kategori->nama_kategori) }}
                     </a>
                 @endforeach
             </div>

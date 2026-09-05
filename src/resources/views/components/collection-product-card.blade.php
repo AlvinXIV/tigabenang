@@ -4,9 +4,10 @@
 ])
 
 @php
+    use App\Support\CustomerCatalog;
     use App\Support\CustomerMedia;
     $imageUrl = CustomerMedia::productImageUrl($produk);
-    $category = $produk->kategori?->nama_kategori;
+    $category = CustomerCatalog::categoryLabel($produk->kategori?->nama_kategori);
     $detailUrl = route('collection.show', $produk->id_produk);
 @endphp
 

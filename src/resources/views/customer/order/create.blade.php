@@ -192,7 +192,7 @@
                                             value="{{ $category['id'] }}"
                                             @selected((string) ($activeCategory['id'] ?? '') === (string) $category['id'])
                                         >
-                                            {{ $category['name'] }}
+                                            {{ \App\Support\CustomerCatalog::categoryLabel($category['name']) }}
                                         </option>
                                     @endforeach
                                 </select>

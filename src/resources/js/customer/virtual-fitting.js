@@ -300,7 +300,11 @@ const initFitting = async () => {
             console.log('[VF] Applying product:', product.name, 'modelUrl:', product.modelUrl);
 
             if (nameNode) nameNode.textContent = product.name;
-            if (categoryNode) categoryNode.textContent = product.category || 'Katalog';
+            if (categoryNode) {
+                categoryNode.textContent = product.category === 'JaketWindbreaker'
+                    ? 'Jaket Windbreaker'
+                    : (product.category || 'Katalog');
+            }
 
             renderSizeButtons(product, selectedSizeName);
 

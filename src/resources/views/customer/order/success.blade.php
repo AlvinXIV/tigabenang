@@ -58,7 +58,7 @@
                         <div>
                             <p class="text-sm font-semibold text-[#667085]">Produk dipilih</p>
                             <p class="mt-1 text-2xl font-bold text-[#1C2430]">{{ $pemesanan->produk?->nama_produk }}</p>
-                            <p class="mt-0.5 text-sm font-medium text-[#667085]">{{ $pemesanan->produk?->kategori?->nama_kategori }}</p>
+                            <p class="mt-0.5 text-sm font-medium text-[#667085]">{{ \App\Support\CustomerCatalog::categoryLabel($pemesanan->produk?->kategori?->nama_kategori) }}</p>
                             <p class="mt-2 text-sm font-semibold text-[#1C2430]">Nomor permintaan #{{ $pemesanan->id_pemesanan }}</p>
                         </div>
                         <span class="shrink-0 rounded-lg bg-[#1C2430] px-2.5 py-1 text-xs font-bold text-white">
