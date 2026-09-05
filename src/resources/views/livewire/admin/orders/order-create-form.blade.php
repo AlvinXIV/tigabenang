@@ -83,9 +83,9 @@
                     </label>
                     <select
                         id="produk_id"
-                        wire:model="produk_id"
+                        wire:model.live="produk_id"
                         required
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     >
                         <option value="">Pilih Produk Busana...</option>
                         @foreach ($products as $p)
@@ -105,7 +105,7 @@
                     </label>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                         @foreach ($materials as $m)
-                            <label class="flex items-center gap-2 p-2 border border-[#E2E5E9] rounded-lg hover:bg-[#F7F7F5] cursor-pointer text-xs">
+                            <label class="flex items-center gap-2 p-2 border border-[#E2E5E9] rounded-lg hover:bg-[#F7F7F5] cursor-pointer text-xs transition-colors">
                                 <input
                                     type="checkbox"
                                     wire:model="bahan_ids"
@@ -122,20 +122,39 @@
                     <label class="block text-xs font-semibold text-[#1C2430] mb-2">
                         Kuantitas Berdasarkan Ukuran (Pcs)
                     </label>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        @foreach ($sizes as $s)
-                            <div class="p-2.5 border border-[#E2E5E9] rounded-lg bg-[#F7F7F5] space-y-1">
-                                <span class="text-xs font-bold text-[#1C2430] block">{{ $s->nama_ukuran }}</span>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    wire:model="ukuran.{{ $s->id_ukuran }}"
-                                    placeholder="0"
-                                    class="w-full px-2 py-1 bg-white border border-[#D0D5DD] rounded text-xs text-center font-mono font-semibold"
-                                />
-                            </div>
-                        @endforeach
-                    </div>
+
+                    @if ($sizes->isNotEmpty())
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                            @foreach ($sizes as $s)
+                                <div class="p-3 border border-[#E2E5E9] rounded-lg bg-[#F7F7F5] flex flex-col items-center justify-center space-y-1.5 text-center">
+                                    <span class="text-xs font-bold text-[#1C2430] block tracking-wide">{{ $s->nama_ukuran }}</span>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        wire:model="ukuran.{{ $s->id_ukuran }}"
+                                        placeholder="0"
+                                        class="w-full px-2 py-1.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] rounded text-xs text-center font-mono font-semibold text-[#1C2430] focus:outline-none transition-colors"
+                                    />
+                                </div>
+                            @endforeach
+                        </div>
+                        @if ($selectedProduct && $selectedProduct->kategori)
+                            <p class="text-[11px] text-[#667085] mt-2">
+                                Menampilkan ukuran standar pola kategori <strong>{{ $selectedProduct->kategori->nama_kategori }}</strong>.
+                            </p>
+                        @endif
+                    @elseif ($produk_id)
+                        <div class="p-4 border border-dashed border-[#D0D5DD] rounded-lg bg-[#F7F7F5] text-center text-xs text-[#667085]">
+                            Kategori produk ini belum memiliki konfigurasi ukuran.
+                        </div>
+                    @else
+                        <div class="p-4 border border-dashed border-[#D0D5DD] rounded-lg bg-[#F7F7F5] text-center text-xs text-[#667085]">
+                            Silakan pilih produk terlebih dahulu untuk menampilkan pilihan ukuran.
+                        </div>
+                    @endif
+                    @error('ukuran.*')
+                        <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
         </div>
