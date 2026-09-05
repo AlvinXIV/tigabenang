@@ -5,22 +5,15 @@
 @section('content')
 <div class="space-y-6 max-w-2xl mx-auto">
 
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
-        <div>
-            <a href="{{ route('admin.ukuran.index') }}" class="text-xs text-[#667085] hover:text-[#B8664A] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                <span>Kembali ke Standar Ukuran</span>
-            </a>
-            <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">Tambah Ukuran Baru</h1>
-            <p class="text-xs sm:text-sm text-[#667085] mt-1">
-                Tentukan kategori pakaian dan spesifikasi ukuran dalam satuan cm.
-            </p>
-        </div>
+    <div class="pb-5 border-b border-[#E2E5E9]">
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">Tambah Ukuran Baru</h1>
+        <p class="text-xs sm:text-sm text-[#667085] mt-1">
+            Tentukan kategori pakaian dan spesifikasi ukuran dalam satuan cm.
+        </p>
     </div>
 
     <form
+        id="size-create-form"
         action="{{ route('admin.ukuran.store') }}"
         method="POST"
         class="admin-card p-6 sm:p-8 space-y-5"
