@@ -1,45 +1,13 @@
 <div class="space-y-6">
 
     <!-- TOP HEADER -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
-        <div>
-            <a href="{{ route('admin.produk.index') }}" class="text-xs text-[#667085] hover:text-[#B8664A] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                <span>Kembali ke Katalog Produk</span>
-            </a>
-            <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">
-                {{ $productId ? 'Ubah Produk' : 'Tambah Produk Baru' }}
-            </h1>
-            <p class="text-xs sm:text-sm text-[#667085] mt-1">
-                {{ $productId ? 'Perbarui spesifikasi produk garmen custom.' : 'Daftarkan busana garmen custom baru ke dalam katalog Tigabenang.' }}
-            </p>
-        </div>
-
-        <div class="flex items-center gap-2.5 shrink-0">
-            <a
-                href="{{ route('admin.produk.index') }}"
-                class="btn-secondary px-4 py-2 text-xs sm:text-sm"
-            >
-                Batal
-            </a>
-            <button
-                type="button"
-                wire:click="save"
-                wire:loading.attr="disabled"
-                class="btn-primary px-5 py-2 text-xs sm:text-sm font-medium cursor-pointer"
-            >
-                <span wire:loading.remove>{{ $productId ? 'Perbarui Produk' : 'Simpan Produk' }}</span>
-                <span wire:loading class="flex items-center gap-1.5">
-                    <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                    </svg>
-                    Menyimpan...
-                </span>
-            </button>
-        </div>
+    <div class="pb-5 border-b border-[#E2E5E9]">
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">
+            {{ $productId ? 'Ubah Produk' : 'Tambah Produk Baru' }}
+        </h1>
+        <p class="text-xs sm:text-sm text-[#667085] mt-1">
+            {{ $productId ? 'Perbarui spesifikasi produk garmen custom.' : 'Daftarkan busana garmen custom baru ke dalam katalog Tigabenang.' }}
+        </p>
     </div>
 
     <!-- MAIN FORM -->
@@ -246,6 +214,29 @@
 
             </div>
 
+        </div>
+
+        <div class="pt-6 border-t border-[#E2E5E9] flex items-center justify-end gap-3">
+            <a
+                href="{{ route('admin.produk.index') }}"
+                class="btn-secondary px-4 py-2.5 text-xs sm:text-sm"
+            >
+                Batal
+            </a>
+            <button
+                type="submit"
+                wire:loading.attr="disabled"
+                class="btn-primary px-6 py-2.5 text-xs sm:text-sm font-medium cursor-pointer shadow-2xs"
+            >
+                <span wire:loading.remove>{{ $productId ? 'Simpan Perubahan' : 'Simpan Produk' }}</span>
+                <span wire:loading class="flex items-center gap-1.5">
+                    <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                    Menyimpan...
+                </span>
+            </button>
         </div>
     </form>
 

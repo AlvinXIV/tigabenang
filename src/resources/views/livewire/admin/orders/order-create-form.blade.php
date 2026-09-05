@@ -1,22 +1,14 @@
 <div class="space-y-6 max-w-4xl mx-auto">
 
     <!-- TOP HEADER -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
-        <div>
-            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#667085] hover:text-[#B8664A] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                <span>Kembali ke Daftar Pesanan</span>
-            </a>
-            <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">Tambah Pesanan Manual</h1>
-            <p class="text-xs sm:text-sm text-[#667085] mt-1">
-                Catat pesanan garmen yang masuk secara offline atau kesepakatan langsung via WhatsApp.
-            </p>
-        </div>
+    <div class="pb-5 border-b border-[#E2E5E9]">
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">Tambah Pesanan Manual</h1>
+        <p class="text-xs sm:text-sm text-[#667085] mt-1">
+            Catat pesanan garmen yang masuk secara offline atau kesepakatan langsung via WhatsApp.
+        </p>
     </div>
 
-    <form wire:submit="save" class="space-y-6">
+    <form id="order-create-form" wire:submit="save" class="space-y-6">
 
         <!-- SECTION 1: PELANGGAN -->
         <div class="admin-card p-5 sm:p-6 space-y-4">

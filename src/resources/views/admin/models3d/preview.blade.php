@@ -31,12 +31,6 @@
 
         <div class="flex items-center gap-2.5">
             <a
-                href="{{ route('admin.model-3d.index') }}"
-                class="btn-secondary px-4 py-2 text-xs sm:text-sm"
-            >
-                Library 3D
-            </a>
-            <a
                 href="{{ route('admin.produk.edit', $product->id_produk) }}"
                 class="btn-primary px-4 py-2 text-xs sm:text-sm font-medium"
             >
