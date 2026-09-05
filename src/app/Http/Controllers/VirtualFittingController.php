@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\Produk;
 use App\Support\CustomerCatalog;
 use App\Support\CustomerMedia;
@@ -13,7 +14,7 @@ class VirtualFittingController extends Controller
     public function index(Request $request): View
     {
         $products = Produk::query()
-            ->select(['id_produk', 'kategori_id', 'nama_produk', 'harga', 'file_model_3d'])
+            ->select(['id_produk', 'kategori_id', 'nama_produk', 'harga', 'gambar', 'file_model_3d'])
             ->whereNotNull('file_model_3d')
             ->where('file_model_3d', '!=', '')
             ->orderBy('nama_produk')
@@ -30,6 +31,7 @@ class VirtualFittingController extends Controller
                 'name' => $produk->nama_produk,
                 'category' => $produk->kategori?->nama_kategori,
                 'price' => (float) $produk->harga,
+                'imageUrl' => CustomerMedia::productImageUrl($produk),
                 'modelUrl' => CustomerMedia::modelUrl($produk->file_model_3d),
                 'sizes' => $produk->kategori?->ukuran
                     ?->map(fn ($ukuran) => [
@@ -43,10 +45,13 @@ class VirtualFittingController extends Controller
             ];
         })->values();
 
+        $allCategories = Kategori::orderBy('nama_kategori')->get();
+
         return view('customer.virtual-fitting', [
             'products' => $products,
             'selected' => $selected,
             'catalog' => $catalog,
+            'allCategories' => $allCategories,
         ]);
     }
 }

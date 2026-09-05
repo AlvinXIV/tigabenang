@@ -133,6 +133,17 @@
                             style="color:#667085;"
                             role="tab"
                             aria-selected="false"
+                            data-fitting-tab="size"
+                        >
+                            Uji ukuran
+                        </button>
+
+                        <button
+                            type="button"
+                            class="flex-1 border-b-2 border-transparent py-3.5 text-xs font-semibold transition-colors"
+                            style="color:#667085;"
+                            role="tab"
+                            aria-selected="false"
                             data-fitting-tab="info"
                         >
                             Panduan
@@ -144,24 +155,39 @@
                         data-fitting-panel="garment"
                         role="tabpanel"
                     >
-                        <div>
-                            <label class="mb-2 block text-sm font-semibold text-[#102A43]">
+                        <div class="space-y-3">
+                            <label class="block text-sm font-semibold text-[#102A43]">
                                 Pilihan pakaian
                             </label>
-                            <select
-                                data-fitting-product
-                                class="fv-select"
-                            >
-                                @forelse ($products as $prod)
-                                    <option value="{{ $prod->id_produk }}" @selected($selected && $selected->id_produk === $prod->id_produk)>
-                                        {{ $prod->nama_produk }} ({{ \App\Support\CustomerCatalog::categoryLabel($prod->kategori?->nama_kategori) ?: 'Katalog' }})
-                                    </option>
-                                @empty
-                                    <option value="tshirt-preview" selected>T-shirt preview</option>
-                                @endforelse
-                            </select>
+                            <div class="flex gap-2">
+                                <select data-fitting-category-filter class="fv-select flex-1 text-xs">
+                                    <option value="">Semua Kategori</option>
+                                    @php
+                                        $categories = $allCategories->map(fn($c) => \App\Support\CustomerCatalog::categoryLabel($c->nama_kategori) ?: 'Katalog')->unique()->filter()->values();
+                                    @endphp
+                                    @foreach($categories as $cat)
+                                        <option value="{{ $cat }}">{{ $cat }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="relative flex-[1.2]">
+                                    <input type="text" data-fitting-search-filter class="fv-input text-xs pr-8" placeholder="Cari baju...">
+                                    <svg class="absolute right-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#667085]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-2 max-h-[320px] overflow-y-auto pr-1 pb-1" data-fitting-product-list>
+                                <!-- JS will populate this -->
+                            </div>
                         </div>
+                    </div>
 
+                    <div
+                        class="hidden max-h-[520px] space-y-6 overflow-y-auto p-6"
+                        data-fitting-panel="size"
+                        role="tabpanel"
+                    >
                         <div>
                             <div class="mb-2 flex items-center justify-between">
                                 <label class="text-sm font-semibold text-[#102A43]">
@@ -183,8 +209,6 @@
                                 Pilih ukuran untuk melihat perubahan ketat, pas, atau longgar.
                             </p>
                         </div>
-
-
 
                         <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-4">
                             <p class="mb-2 text-xs font-semibold text-[#667085]">Analisis tekanan tubuh</p>
@@ -295,14 +319,7 @@
                     </div>
                 </div>
 
-                <div class="border-t border-[#E2E5E9] bg-[#F7F7F5] p-6">
-                    <a
-                        href="{{ route('order.create') }}"
-                        class="btn-primary w-full"
-                    >
-                        Pesan ukuran ini
-                    </a>
-                </div>
+
 
             </aside>
         </div>

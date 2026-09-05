@@ -62,18 +62,75 @@ const initFitting = async () => {
     if (!Array.isArray(catalog) || catalog.length === 0) {
         catalog = [PROTO_TSHIRT];
     }
+    const findProduct = (id) => {
+        return catalog.find((item) => String(item.id) === String(id));
+    };
     const viewport = document.getElementById('fitting-viewport');
     if (!viewport) return;
 
     // Elements
-    const productSelect = root.querySelector('[data-fitting-product]');
-    if (productSelect && productSelect.options.length === 0) {
-        const option = document.createElement('option');
-        option.value = PROTO_TSHIRT.id;
-        option.textContent = PROTO_TSHIRT.name;
-        productSelect.appendChild(option);
-        productSelect.value = PROTO_TSHIRT.id;
-    }
+    const categoryFilter = root.querySelector('[data-fitting-category-filter]');
+    const searchFilter = root.querySelector('[data-fitting-search-filter]');
+    const productListContainer = root.querySelector('[data-fitting-product-list]');
+    
+    let selectedProductId = null;
+    let filteredCatalog = [...catalog];
+
+    const renderProductList = () => {
+        if (!productListContainer) return;
+        
+        if (filteredCatalog.length === 0) {
+            productListContainer.innerHTML = '<p class="col-span-full text-xs text-center text-[#667085] py-4">Tidak ada baju yang bisa dicoba di kategori ini</p>';
+            return;
+        }
+
+        productListContainer.innerHTML = filteredCatalog.map(prod => {
+            const isSelected = String(prod.id) === String(selectedProductId);
+            const displayCat = prod.category === 'JaketWindbreaker' ? 'Jaket Windbreaker' : (prod.category || 'Katalog');
+            
+            return `
+                <div data-product-card="${prod.id}" class="group relative cursor-pointer overflow-hidden rounded-[8px] border transition-all ${isSelected ? 'border-[#102A43] ring-1 ring-[#102A43]' : 'border-[#E2E5E9] hover:border-[#102A43]'} bg-white">
+                    <div class="aspect-[4/5] w-full bg-[#F7F7F5]">
+                        ${prod.imageUrl 
+                            ? '<img src="' + prod.imageUrl + '" alt="' + (prod.name || '') + '" class="h-full w-full object-cover">' 
+                            : '<div class="flex h-full w-full items-center justify-center"><span class="text-[10px] text-[#667085]">No Image</span></div>'
+                        }
+                    </div>
+                    <div class="p-2">
+                        <p class="truncate text-[11px] font-bold text-[#102A43] leading-tight">${prod.name}</p>
+                        <p class="text-[9px] text-[#667085] truncate mt-0.5">${displayCat}</p>
+                    </div>
+                    ${isSelected ? '<div class="absolute right-1 top-1 rounded-full bg-[#102A43] p-0.5 text-white shadow-sm"><svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>' : ''}
+                </div>
+            `;
+        }).join('');
+
+        productListContainer.querySelectorAll('[data-product-card]').forEach(card => {
+            card.addEventListener('click', () => {
+                selectedProductId = card.dataset.productCard;
+                renderProductList();
+                const prod = findProduct(selectedProductId);
+                if (applyProduct) applyProduct(prod);
+            });
+        });
+    };
+
+    const applyFilters = () => {
+        const cat = categoryFilter?.value || '';
+        const query = searchFilter?.value.toLowerCase() || '';
+
+        filteredCatalog = catalog.filter(prod => {
+            const displayCat = prod.category === 'JaketWindbreaker' ? 'Jaket Windbreaker' : (prod.category || 'Katalog');
+            const matchCat = cat === '' || displayCat === cat;
+            const matchQuery = query === '' || prod.name.toLowerCase().includes(query);
+            return matchCat && matchQuery;
+        });
+
+        renderProductList();
+    };
+
+    if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
+    if (searchFilter) searchFilter.addEventListener('input', applyFilters);
     const nameNode = root.querySelector('[data-fitting-name]');
     const categoryNode = root.querySelector('[data-fitting-category]');
     const sizeNode = root.querySelector('[data-fitting-size]');
@@ -124,6 +181,7 @@ const initFitting = async () => {
     let avatar = null;
     let currentGarmentWrapper = null;
     let selectedSizeName = null;
+    let applyProduct = null;
 
     try {
         studio = createFittingScene(viewport);
@@ -146,10 +204,6 @@ const initFitting = async () => {
         if (statusNode) {
             statusNode.textContent = 'Manekin siap';
         }
-
-        const findProduct = (id) => {
-            return catalog.find((item) => String(item.id) === String(id));
-        };
 
         const renderHeatmap = (heatmap) => {
             if (!heatmapNode) return;
@@ -283,7 +337,7 @@ const initFitting = async () => {
 
             saveProfile(p);
 
-            const product = findProduct(productSelect?.value) || catalog[0];
+            const product = findProduct(selectedProductId) || catalog[0];
             recalculateFit(product);
 
             if (statusNode) {
@@ -292,7 +346,7 @@ const initFitting = async () => {
         };
 
         // ── 3. Apply Product & Load 3D Garment ──
-        const applyProduct = async (product) => {
+        applyProduct = async (product) => {
             if (!product) {
                 console.warn('[VF] No product to apply');
                 return;
@@ -414,7 +468,7 @@ const initFitting = async () => {
                 debugZVal.textContent = zOffset.toFixed(2);
                 
                 // Re-trigger dynamic fitting to respect dynamic scaling instead of overriding absolute transforms
-                const product = findProduct(productSelect?.value) || catalog[0];
+                const product = findProduct(selectedProductId) || catalog[0];
                 recalculateFit(product);
             };
 
@@ -423,12 +477,7 @@ const initFitting = async () => {
             debugZ.addEventListener('input', updateDebugTransform);
         }
 
-        if (productSelect) {
-            productSelect.addEventListener('change', () => {
-                const prod = findProduct(productSelect.value);
-                applyProduct(prod);
-            });
-        }
+        // (productSelect listener removed)
 
         // ── Tabs Switching ──
         tabs.forEach((tab) => {
@@ -449,7 +498,13 @@ const initFitting = async () => {
         });
 
         // ── Initial Setup ──
-        const initialProduct = productSelect ? (findProduct(productSelect.value) || catalog[0]) : catalog[0];
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlProductId = urlParams.get('product');
+        let initialProduct = catalog.find(p => String(p.id) === String(urlProductId)) || catalog[0];
+        
+        selectedProductId = initialProduct ? initialProduct.id : null;
+        renderProductList();
+        
         await applyProduct(initialProduct);
 
         window.addEventListener('beforeunload', () => {
