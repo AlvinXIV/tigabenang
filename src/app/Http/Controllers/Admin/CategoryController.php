@@ -43,10 +43,16 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
-        $kategori = Kategori::find($id);
+        $kategori = null;
         $bahan = null;
-        if (!$kategori) {
+
+        if (request('type') === 'bahan') {
             $bahan = Bahan::findOrFail($id);
+        } else {
+            $kategori = Kategori::find($id);
+            if (!$kategori) {
+                $bahan = Bahan::findOrFail($id);
+            }
         }
 
         return view('admin.categories.edit', compact('kategori', 'bahan'));

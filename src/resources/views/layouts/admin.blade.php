@@ -17,6 +17,7 @@
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+    @livewireStyles
 
     <style>
         :root {
@@ -175,11 +176,7 @@
             } elseif (request()->routeIs('admin.produk.*')) {
                 $activeNav = 'products';
             } elseif (request()->routeIs('admin.kategori.*')) {
-                if (request('tab') === 'material' || request('type') === 'bahan' || (isset($bahan) && $bahan && (!isset($kategori) || !$kategori))) {
-                    $activeNav = 'materials';
-                } else {
-                    $activeNav = 'categories';
-                }
+                $activeNav = 'categories';
             } elseif (request()->routeIs('admin.ukuran.*')) {
                 $activeNav = 'sizes';
             } elseif (request()->routeIs('admin.model-3d.*')) {
@@ -192,21 +189,7 @@
         @endphp
         <aside
             x-data="{
-                currentNav: '{{ $activeNav }}',
-                init() {
-                    if (window.location.pathname.includes('/admin/kategori')) {
-                        const syncCategoryTab = () => {
-                            const params = new URLSearchParams(window.location.search);
-                            const isMaterial = window.location.hash === '#material' || params.get('tab') === 'material';
-                            this.currentNav = isMaterial ? 'materials' : 'categories';
-                        };
-                        syncCategoryTab();
-                        window.addEventListener('hashchange', syncCategoryTab);
-                        window.addEventListener('tab-changed', (e) => {
-                            this.currentNav = e.detail === 'material' ? 'materials' : 'categories';
-                        });
-                    }
-                }
+                currentNav: '{{ $activeNav }}'
             }"
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
             class="fixed inset-y-0 left-0 z-50 w-64 h-full flex flex-col justify-between transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 shrink-0 select-none bg-[#1C2430] border-r border-[#2A3442]"
@@ -308,18 +291,6 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                                 </svg>
                                 <span>Katalog Produk</span>
-                            </a>
-
-                            <!-- Material Kain -->
-                            <a
-                                href="{{ route('admin.kategori.index') }}?tab=material#material"
-                                :class="currentNav === 'materials' ? 'active' : ''"
-                                class="sidebar-nav-link {{ $activeNav === 'materials' ? 'active' : '' }}"
-                            >
-                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
-                                </svg>
-                                <span>Material Kain</span>
                             </a>
 
                             <!-- Kategori Produk -->
@@ -442,6 +413,7 @@
             <!-- Main Body Content (Expanded for dense business software layout) -->
             <main class="flex-1 px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7 w-full max-w-[1440px] mx-auto min-w-0">
                 @include('layouts.partials.flash')
+                {{ $slot ?? '' }}
                 @yield('content')
             </main>
 
@@ -458,6 +430,7 @@
     </div>
 
     @stack('scripts')
+    @livewireScripts
 </body>
 </html>
 
