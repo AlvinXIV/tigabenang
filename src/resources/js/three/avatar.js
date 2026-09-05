@@ -30,6 +30,28 @@ const material =
     });
 
 // ──────────────────────────────────────────────────────────────
+// PANTS MATERIAL (Dark Navy / Jeans)
+// ──────────────────────────────────────────────────────────────
+const pantsMaterial =
+    new THREE.MeshPhysicalMaterial({
+        color: 0x1e293b, 
+        roughness: 0.80,
+        metalness: 0.10,
+        side: THREE.DoubleSide,
+    });
+
+// ──────────────────────────────────────────────────────────────
+// SHOES MATERIAL (Black / Charcoal)
+// ──────────────────────────────────────────────────────────────
+const shoesMaterial =
+    new THREE.MeshPhysicalMaterial({
+        color: 0x18181b, // Zinc-900 / Sangat gelap
+        roughness: 0.70,
+        metalness: 0.25, // Sedikit memantul cahaya (kulit sintetis)
+        side: THREE.DoubleSide,
+    });
+
+// ──────────────────────────────────────────────────────────────
 // MATH
 // ──────────────────────────────────────────────────────────────
 
@@ -607,6 +629,31 @@ export function createAvatar(
     avatar.add(torso);
 
     // ══════════════════════════════════════
+    // PELVIS COVER (Pants Upper Part)
+    // ══════════════════════════════════════
+    // Duplicate the lower portion of the torso keys to create
+    // a seamless "shorts" or "pants" base covering the crotch to waist.
+    const pelvisKeys = torsoKeys.slice(0, 5).map(k => ({
+        y: k.y,
+        rx: k.rx * 1.015, // Slightly larger to avoid Z-fighting with skin
+        rz: k.rz * 1.015,
+        z: k.z,
+    }));
+    
+    // Add a top cap at the waist to ensure it looks like a waistband
+    pelvisKeys.push({
+        y: yWaist + h * 0.005,
+        rx: waistR.rx * 1.015,
+        rz: waistR.rz * 0.90 * 1.015,
+        z: 0,
+    });
+
+    const pelvisGeo = loftGeo(smooth(pelvisKeys));
+    const pelvisCover = new THREE.Mesh(pelvisGeo, pantsMaterial);
+    pelvisCover.castShadow = true;
+    avatar.add(pelvisCover);
+
+    // ══════════════════════════════════════
     // NECK (more anatomical rings)
     // ══════════════════════════════════════
 
@@ -615,33 +662,33 @@ export function createAvatar(
     const neckKeys = [
         {
             y: yNeckBase - neckH * 0.10,
-            rx: neckR * 1.35,
-            rz: neckR * 1.25,
-            z: h * 0.005,
+            rx: neckR * 1.30,
+            rz: neckR * 1.30,
+            z: h * 0.010,
         },
         {
             y: yNeckBase + neckH * 0.15,
-            rx: neckR * 1.15,
-            rz: neckR * 1.10,
-            z: h * 0.008,
+            rx: neckR * 1.30,
+            rz: neckR * 1.30,
+            z: h * 0.010,
         },
         {
             y: yNeckBase + neckH * 0.45,
-            rx: neckR * 1.05,
-            rz: neckR * 1.00,
+            rx: neckR * 1.30,
+            rz: neckR * 1.30,
             z: h * 0.010,
         },
         {
             y: yNeckBase + neckH * 0.75,
-            rx: neckR * 1.00,
-            rz: neckR * 0.95,
-            z: h * 0.012,
+            rx: neckR * 1.30,
+            rz: neckR * 1.30,
+            z: h * 0.010,
         },
         {
             y: yNeckBase + neckH,
-            rx: neckR * 0.96,
-            rz: neckR * 0.90,
-            z: h * 0.014,
+            rx: neckR * 1.30,
+            rz: neckR * 1.30,
+            z: h * 0.010,
         },
     ];
 
@@ -671,7 +718,7 @@ export function createAvatar(
         material,
     );
 
-    head.scale.set(0.90, 1.12, 0.95);
+    head.scale.set(1.00, 1.12, 1.00);
     head.position.set(0, yHeadCenter, h * 0.015);
     head.castShadow = true;
 
@@ -701,7 +748,7 @@ export function createAvatar(
     // SHOULDER CAPS (deltoid — dropped/sloped)
     // ══════════════════════════════════════
 
-    const capR = h * 0.020;
+    const capR = h * 0.017; // Diperkecil agar tidak menembus kerah
 
     for (const side of [-1, 1]) {
         // Deltoid cap — small, fits inside shirt
@@ -714,11 +761,11 @@ export function createAvatar(
             material,
         );
 
-        cap.scale.set(0.80, 0.55, 0.60);
+        cap.scale.set(0.80, 0.40, 0.60); // Y diperkecil
 
         cap.position.set(
             side * shW * 0.86,
-            yShoulder - h * 0.016,
+            yShoulder - h * 0.020, // Diturunkan agar tidak mencuat
             -h * 0.015,
         );
 
@@ -733,8 +780,8 @@ export function createAvatar(
     const upperArmLen = armLen * 0.50;
     const forearmLen = armLen * 0.50;
 
-    const upperArmR = h * 0.022;
-    const forearmR = h * 0.017;
+    const upperArmR = h * 0.016; // Diperkurus drastis agar tidak pernah tembus lengan baju
+    const forearmR = h * 0.016;
     const wristR = h * 0.013;
     const handLen = h * 0.050;
     const handW = h * 0.019;
@@ -864,7 +911,7 @@ export function createAvatar(
         // ── Position & rotate arm (raised higher) ──
         arm.position.set(
             side * shW * 0.88,
-            yShoulder - h * 0.008,
+            yShoulder - h * 0.012, // Dikembalikan agak naik, agar ketiak bawah tidak jebol di baju M
             -h * 0.015,
         );
 
@@ -916,7 +963,7 @@ export function createAvatar(
 
         const thigh = new THREE.Mesh(
             tGeo,
-            material,
+            pantsMaterial,
         );
 
         thigh.position.set(
@@ -936,7 +983,7 @@ export function createAvatar(
                 16,
                 12,
             ),
-            material,
+            pantsMaterial,
         );
 
         knee.scale.set(1.0, 0.85, 1.05);
@@ -984,7 +1031,7 @@ export function createAvatar(
 
         const calf = new THREE.Mesh(
             cGeo,
-            material,
+            pantsMaterial,
         );
 
         calf.position.set(
@@ -1004,7 +1051,7 @@ export function createAvatar(
                 14,
                 10,
             ),
-            material,
+            shoesMaterial,
         );
 
         ankle.scale.set(1.05, 0.75, 0.90);
@@ -1057,7 +1104,7 @@ export function createAvatar(
 
         const foot = new THREE.Mesh(
             footGeo,
-            material,
+            shoesMaterial,
         );
 
         foot.rotation.x = Math.PI / 2;

@@ -125,56 +125,75 @@ export function fitGarmentToAvatar(garmentWrapper, body = {}, sizeSpec = null, m
     const scaleX = sizeSpec.lebar_dada / (baseSizeSpec.lebar_dada || 50);
     const scaleY = sizeSpec.panjang / (baseSizeSpec.panjang || 70);
 
-    const debugScaleEl = document.getElementById('debug-scale');
-    const debugScale = debugScaleEl ? parseFloat(debugScaleEl.value) : 1.0;
+    // Hardcode nilai kalibrasi dasar (sebelumnya dari slider)
+    const debugScale = 1.02; 
+    const debugY = -0.30;
+    const debugZ = 0.12;
 
-    const debugYEl = document.getElementById('debug-y');
-    const debugY = debugYEl ? parseFloat(debugYEl.value) : 0.0;
-
-    const debugZEl = document.getElementById('debug-z');
-    const debugZ = debugZEl ? parseFloat(debugZEl.value) : 0.0;
-
-    // Kalkulasi final: base x rasio_size x slider
+    // Kalkulasi final: base x rasio_size x kalibrasi
     let finalScaleX = scaleX * debugScale;
     const finalScaleY = scaleY * debugScale;
 
-    // A-Pose & Fat Tolerance:
-    // Jika baju lebih besar dari ukuran dasar (scaleX > 1.0),
-    // lengan A-pose dan perut avatar membengkak menembus sisi ketiak/lengan bawah.
-    // Kita berikan ekstra kelonggaran pelebaran (X dan Z) secara progresif.
+    // Perkirakan besaran tubuh avatar di sumbu X (berdasarkan chest)
+    // Asumsi avatar standar M memiliki half-chest sekitar 48cm (lebar dada baju M dikurangi kelonggaran 2cm)
+    const avatarBaseHalfChest = (baseSizeSpec.lebar_dada || 50) - 2;
+    const customerHalfChest = (body && body.chest) ? (body.chest / 2) : avatarBaseHalfChest;
+    const avatarScaleX = customerHalfChest / avatarBaseHalfChest;
+
+    // A-Pose & Fat Tolerance: ekstra kelonggaran untuk baju besar
     if (scaleX > 1.0) {
-        const extraFit = (scaleX - 1.0) * 0.35; // Tambah 35% kelonggaran dari selisih pelebaran
+        const extraFit = (scaleX - 1.0) * 0.35;
         finalScaleX += extraFit;
     }
-    
-    let finalScaleZ = finalScaleX; // Ketebalan perut/dada
-    // Untuk ukuran besar, manusia biasanya membesar ke depan (Z) lebih banyak daripada ke samping (X).
+
+    // CEGAH TEMBUS (CLIPPING) UNTUK BAJU KEKECILAN:
+    // Jika baju lebih kecil dari tubuh (misal dada 110 pakai baju S), 
+    // baju tidak boleh menyusut tembus daging. Baju akan ditahan di ukuran badan (nge-press).
+    // Baju akan terlihat kecil (cingkrang) karena scaleY (panjang) tetap menyusut.
+    const minScaleX = avatarScaleX * 1.02; // Minimal 2% lebih besar dari daging agar ketat
+    finalScaleX = Math.max(finalScaleX, minScaleX);
+
+    let finalScaleZ = finalScaleX; 
+    // Untuk baju kebesaran (scaleX > 1.0), ketebalan depan juga ditambah sedikit
     if (scaleX > 1.0) {
         finalScaleZ += (scaleX - 1.0) * 0.2; 
     }
 
     garmentWrapper.scale.set(finalScaleX, finalScaleY, finalScaleZ);
 
-    // Kompensasi pivot kerah: 
-    // Kita ingin kerah (titik Y tertinggi) tidak bergeser ke atas saat ukuran berubah.
-    // Jika ukuran Y membesar, kerah aslinya akan naik sejauh: collarYLocal * (finalScaleY - 1).
-    // Kita menurunkannya sebesar itu agar statis, ditambah sedikit "turun ekstra" 
-    // sesuai permintaan user agar kerah baju XL sedikit lebih melorot/turun.
-    const extraSag = (finalScaleY > 1.0) ? ((finalScaleY - 1.0) * 0.25) : 0;
-    const pivotCompensationY = - (cache.collarYLocal * (finalScaleY - 1)) - extraSag;
+    // Kompensasi pivot kerah (sagging / melorot proporsional)
+    // - Ukuran L (skala Y ~ 1.028) paling pas dengan dropFactor 1.20.
+    // - Ukuran XL & 2XL: 1.20 terlalu ke bawah, 1.15 masih kurang ke bawah sedikit.
+    //   Maka kita gunakan nilai 1.18
+    let dropFactor = 1.0;
+    if (finalScaleY > 1.0) {
+        if (finalScaleY < 1.05) {
+            dropFactor = 1.20; // L
+        } else {
+            dropFactor = 1.18; // XL dan 2XL (Titik antara 1.15 dan 1.20)
+        }
+    }
+    const pivotCompensationY = - (cache.collarYLocal * (finalScaleY - 1)) * dropFactor;
 
-    // Pengguna menginginkan UI slider start di -0.30 (Y) dan 0.12 (Z).
-    // Nilai ini di-"netralkan" agar tidak mendorong baju turun/maju ganda saat inisiasi.
-    // Di nilai -0.30, posisi yang dirasa pas adalah offset -0.01 dari titik otomatis (initialY).
+    // Offset nilai default
     const uiYOffset = debugY - (-0.30) - 0.01; 
     const uiZOffset = debugZ - (0.12);
 
     garmentWrapper.position.y = cache.initialY + pivotCompensationY + uiYOffset;
     
+    // Kompensasi Maju ke Depan (Z axis)
+    // Pengguna mengamati dada depan tembus saat ukuran baju membesar.
+    // L (skala 1.08) butuh sedikit maju (0.012), XL (1.16) butuh (0.024), 2XL (1.24) butuh batas maksimal (0.032).
+    // Rumus linear: (scale - 1.00) * 0.15 secara presisi mengenai L(0.012) dan XL(0.024)!
+    let pivotCompensationZ = 0;
+    if (finalScaleX > 1.00) { 
+        pivotCompensationZ = Math.min((finalScaleX - 1.00) * 0.15, 0.032); 
+    }
+
     if (typeof cache.initialZ === 'undefined') {
         cache.initialZ = garmentWrapper.position.z;
     }
-    garmentWrapper.position.z = cache.initialZ + uiZOffset;
+    garmentWrapper.position.z = cache.initialZ + uiZOffset + pivotCompensationZ;
 }
 
 /**
