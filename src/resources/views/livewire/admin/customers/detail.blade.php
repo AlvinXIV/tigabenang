@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="p-3.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg flex items-center justify-between">
-                    <span class="text-xs text-[#667085]">Total Estimasi</span>
+                    <span class="text-xs text-[#667085]">Total Transaksi Disepakati</span>
                     <span class="text-lg font-semibold text-[#1C2430] font-mono">
                         {{ $customer['total_spent'] ? 'Rp ' . number_format($customer['total_spent'], 0, ',', '.') : 'Rp 0' }}
                     </span>
@@ -139,7 +139,7 @@
                                 @if ($ord->total_harga)
                                     <span class="font-medium text-[#1C2430]">Rp {{ number_format($ord->total_harga, 0, ',', '.') }}</span>
                                 @else
-                                    <span class="text-[#667085] italic">Belum Ada Estimasi</span>
+                                    <span class="text-[#667085] italic">Menunggu Penetapan Harga</span>
                                 @endif
                             </td>
                             <td class="px-4 py-3.5 whitespace-nowrap">

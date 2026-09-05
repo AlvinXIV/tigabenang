@@ -8,7 +8,7 @@
         <div>
             <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Analisis Bisnis</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
-                Pantau tren pesanan, produk, material, dan estimasi nilai penjualan.
+                Pantau tren pesanan, produk, material, dan nilai transaksi disepakati.
             </p>
         </div>
 
@@ -109,10 +109,10 @@
             <span class="text-[11px] text-[#667085] mt-1.5">Seluruh pesanan masuk</span>
         </div>
 
-        <!-- KPI 2: Total Estimasi -->
+        <!-- KPI 2: Total Transaksi Disepakati -->
         <div class="admin-card p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-medium text-[#667085]">Total Estimasi</span>
+                <span class="text-xs font-medium text-[#667085]">Total Transaksi Disepakati</span>
                 <span class="p-1.5 bg-[#FDF8F6] rounded-md text-[#B8664A]">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -124,7 +124,7 @@
                     {{ $kpis['total_revenue'] ?? 'Rp 0' }}
                 </span>
             </div>
-            <span class="text-[11px] text-[#667085] mt-1.5">Akumulasi estimasi harga</span>
+            <span class="text-[11px] text-[#667085] mt-1.5">Akumulasi nilai transaksi disepakati</span>
         </div>
 
         <!-- KPI 3: Rata-Rata Pesanan -->
@@ -177,7 +177,7 @@
                 Harga Terendah: <span class="font-semibold text-[#1C2430]" x-text="kpiLowestOrder > 0 ? formatRupiah(kpiLowestOrder) : '-'">-</span>
             </div>
             <div>
-                Belum Ada Estimasi Harga: 
+                Menunggu Penetapan Harga: 
                 <span
                     class="font-semibold px-2 py-0.5 rounded-full"
                     :class="kpiOrdersWithoutPrice > 0 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'"
@@ -223,12 +223,12 @@
             </div>
         </div>
 
-        <!-- CHART 2: TREN ESTIMASI NILAI PESANAN -->
+        <!-- CHART 2: TREN NILAI TRANSAKSI DISEPAKATI -->
         <div class="admin-card p-5 space-y-3">
             <div class="flex items-center justify-between border-b border-[#E2E5E9] pb-3">
                 <div>
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Tren Estimasi Nilai Pesanan</h2>
-                    <p class="text-xs text-[#667085] mt-0.5">Akumulasi estimasi harga garmen berdasarkan tanggal transaksi.</p>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Tren Nilai Transaksi Disepakati</h2>
+                    <p class="text-xs text-[#667085] mt-0.5">Akumulasi nilai transaksi garmen yang disepakati berdasarkan tanggal transaksi.</p>
                 </div>
                 <span class="text-[11px] font-medium text-[#667085] bg-[#F7F7F5] px-2.5 py-1 rounded border border-[#E2E5E9]" x-text="periodLabel">
                     Semua Waktu
@@ -867,7 +867,7 @@
                             data: {
                                 labels: labels,
                                 datasets: [{
-                                    label: 'Estimasi Nilai Pesanan',
+                                    label: 'Nilai Transaksi Disepakati',
                                     data: revenues,
                                     borderColor: '#1C2430',
                                     backgroundColor: 'rgba(28, 36, 48, 0.05)',
@@ -897,7 +897,7 @@
                                                 return fullDates[items[0].dataIndex] || items[0].label;
                                             },
                                             label: function(item) {
-                                                return 'Estimasi: ' + self.formatRupiah(item.raw);
+                                                return 'Nilai Disepakati: ' + self.formatRupiah(item.raw);
                                             }
                                         }
                                     }

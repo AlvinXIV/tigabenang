@@ -49,7 +49,7 @@
                 </h1>
 
                 <p class="mt-4 text-2xl font-bold text-[#1C2430]">
-                    <x-price :amount="$product->harga" />
+                    Estimasi mulai <x-price :amount="$product->harga" /> / pcs
                 </p>
 
                 @if (filled($product->deskripsi ?? null))

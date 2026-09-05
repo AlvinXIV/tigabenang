@@ -85,7 +85,7 @@ class OrderController extends Controller
                     'alamat' => $request->validated('alamat'),
                     'no_hp' => $request->validated('no_hp'),
                     'produk_id' => $produk->id_produk,
-                    'total_harga' => $totalHarga,
+                    'total_harga' => null,
                     'upload_design' => $designPath,
                     'notes' => $request->validated('notes'),
                 ]);

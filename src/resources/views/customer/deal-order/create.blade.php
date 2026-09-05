@@ -1,7 +1,7 @@
 @extends('layouts.deal-order')
 
 @section('title', 'Formulir Konfirmasi Pemesanan')
-@section('description', 'Formulir resmi konfirmasi pemesanan pakaian custom Clothiq Atelier.')
+@section('description', 'Formulir resmi permintaan pesanan pakaian custom Tigabenang Atelier.')
 
 @section('content')
 
@@ -13,13 +13,13 @@
         <div class="mx-auto max-w-4xl px-5 lg:px-8 relative">
             <div style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.35rem 1rem;background:rgba(234,226,216,0.12);border:1px solid rgba(234,226,216,0.25);border-radius:9999px;font-size:0.75rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#EAE2D8;margin-bottom:1rem;">
                 <span style="width:6px;height:6px;border-radius:50%;background:#EAE2D8;"></span>
-                Official Deal Order Form
+                Official Order Form
             </div>
             <h1 style="font-size:clamp(1.85rem, 3.5vw, 2.75rem);font-weight:900;letter-spacing:-0.03em;line-height:1.15;margin:0;color:#FFFFFF;">
-                Formulir Konfirmasi Pesanan
+                Formulir Pemesanan
             </h1>
             <p style="margin-top:0.875rem;font-size:0.9375rem;line-height:1.7;color:rgba(255,255,255,0.8);max-width:640px;">
-                Lengkapi rincian pesanan berikut sesuai kesepakatan final dengan tim Clothiq. Data ini akan menjadi acuan resmi jadwal produksi dan spesifikasi pakaian Anda.
+                Lengkapi rincian pesanan berikut untuk pengajuan pesanan dengan tim Tigabenang. Data ini akan menjadi acuan konfirmasi spesifikasi pakaian dan antrean produksi Anda.
             </p>
         </div>
     </section>
@@ -330,14 +330,14 @@
                     {{-- Submit Button Card --}}
                     <div style="background:#172A39;border-radius:1.5rem;padding:2rem;box-shadow:0 10px 30px rgba(23,42,57,0.25);display:flex;flex-direction:column;justify-content:center;align-items:stretch;">
                         <p style="font-size:0.75rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin:0 0 0.875rem;">
-                            Sudah deal &amp; sesuai?
+                            Periksa Rincian Permintaan Anda
                         </p>
                         <button
                             type="submit"
                             class="deal-btn-pill"
                             style="width:100%;min-height:3.5rem;padding:0.875rem 2rem;background:linear-gradient(135deg, #FAF8F5 0%, #EAE2D8 100%);color:#172A39;border:2px solid #EAE2D8;font-size:1rem;font-weight:900;letter-spacing:0.02em;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.3);"
                         >
-                            Kirim Konfirmasi Pesanan
+                            Kirim Permintaan Pesanan
                         </button>
                     </div>
                 </div>
