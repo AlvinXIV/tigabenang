@@ -115,7 +115,7 @@
                     <tr class="border-b border-[#E2E5E9] bg-[#F7F7F5] text-[10px] font-bold tracking-wider text-[#1C2430] uppercase">
                         <th class="p-3">Nama Produk</th>
                         <th class="p-3">Spesifikasi Bahan &amp; Ukuran</th>
-                        <th class="p-3 text-right">Estimasi Harga</th>
+                        <th class="p-3 text-right">Harga Disepakati</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9]">
@@ -131,7 +131,7 @@
                             <p class="mt-1"><strong class="text-[#1C2430]">Ukuran:</strong> {{ $order->ukuran->map(fn($u) => $u->nama_ukuran . ' (' . $u->pivot->kuantitas . ' pcs)')->implode(', ') ?: '-' }}</p>
                         </td>
                         <td class="p-4 text-right font-bold text-base text-[#1C2430] align-top">
-                            {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : 'Menunggu Penetapan Harga' }}
+                            {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : 'Belum Ditetapkan' }}
                         </td>
                     </tr>
                 </tbody>
@@ -141,19 +141,26 @@
         <!-- Totals & Payment Info -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
             
-            <div class="bg-[#F7F7F5] p-4 border border-[#E2E5E9] rounded-lg text-xs">
-                <span class="text-[10px] font-bold tracking-wider text-[#667085] uppercase block mb-1.5">REKENING PEMBAYARAN KESEPAKATAN:</span>
-                <div class="space-y-1 text-[#1C2430]">
-                    <p>Bank: <strong class="text-[#1C2430]">Bank Central Asia (BCA)</strong></p>
-                    <p>No. Rekening: <strong class="text-[#1C2430] font-mono text-xs sm:text-sm">8420-9988-771</strong></p>
-                    <p>Atas Nama: <strong class="text-[#1C2430]">Tigabenang Konveksi Digital</strong></p>
+            @if ($order->total_harga)
+                <div class="bg-[#F7F7F5] p-4 border border-[#E2E5E9] rounded-lg text-xs">
+                    <span class="text-[10px] font-bold tracking-wider text-[#667085] uppercase block mb-1.5">REKENING PEMBAYARAN:</span>
+                    <div class="space-y-1 text-[#1C2430]">
+                        <p>Bank: <strong class="text-[#1C2430]">Bank Central Asia (BCA)</strong></p>
+                        <p>No. Rekening: <strong class="text-[#1C2430] font-mono text-xs sm:text-sm">8420-9988-771</strong></p>
+                        <p>Atas Nama: <strong class="text-[#1C2430]">Tigabenang Konveksi Digital</strong></p>
+                    </div>
                 </div>
-            </div>
+            @else
+                <div class="bg-[#F7F7F5] p-4 border border-dashed border-[#E2E5E9] rounded-lg text-xs text-[#667085]">
+                    <span class="text-[10px] font-bold tracking-wider text-[#667085] uppercase block mb-1.5">INFORMASI PEMBAYARAN:</span>
+                    <p class="leading-relaxed">Instruksi pembayaran dan nomor rekening akan ditampilkan setelah harga disepakati bersama vendor.</p>
+                </div>
+            @endif
 
             <!-- Summary Calculations -->
             <div class="space-y-2 text-xs flex flex-col justify-center">
                 <div class="flex justify-between items-center py-2.5 border-t border-[#E2E5E9] text-sm font-semibold text-[#1C2430]">
-                    <span>Total Estimasi Disepakati:</span>
+                    <span>Total Harga Disepakati:</span>
                     <span class="text-[#1C2430] text-lg sm:text-xl font-bold">
                         {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : 'Belum Ditetapkan' }}
                     </span>

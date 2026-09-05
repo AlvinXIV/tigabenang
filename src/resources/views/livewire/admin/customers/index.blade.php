@@ -68,7 +68,7 @@
                         <th class="px-4 py-3 font-mono">WhatsApp</th>
                         <th class="px-4 py-3">Alamat Pengiriman</th>
                         <th class="px-4 py-3 text-center">Jumlah Pesanan</th>
-                        <th class="px-4 py-3 font-mono">Total Estimasi</th>
+                        <th class="px-4 py-3 font-mono">Total Transaksi</th>
                         <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>

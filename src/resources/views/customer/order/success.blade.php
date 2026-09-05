@@ -9,12 +9,13 @@
     $totalQuantity = $pemesanan
         ? (int) $pemesanan->ukuran->sum(fn ($ukuran) => (int) ($ukuran->pivot->kuantitas ?? 0))
         : 0;
-    $estimatedTotalLabel = $pemesanan
-        ? 'Rp '.number_format((float) $pemesanan->total_harga, 0, ',', '.')
-        : 'Rp 0';
+    $estimatedTotal = $pemesanan
+        ? (float) ($pemesanan->produk?->harga ?? 0) * $totalQuantity
+        : 0;
+    $estimatedTotalLabel = 'Rp '.number_format($estimatedTotal, 0, ',', '.');
     $whatsappMessage = $pemesanan
         ? implode("\n", array_filter([
-            'Halo FitVendor,',
+            'Halo Tigabenang,',
             '',
             'Saya ingin melanjutkan konfirmasi pesanan.',
             '',
@@ -96,10 +97,10 @@
                 <div class="border-t border-[#E2E5E9] bg-[#F7F7F5] px-5 py-5">
                     <p class="text-sm font-semibold text-[#667085]">Estimasi total</p>
                     <p class="mt-1 text-3xl font-bold tracking-tight text-[#1C2430]">
-                        <x-price :amount="$pemesanan->total_harga" />
+                        <x-price :amount="$estimatedTotal" />
                     </p>
                     <p class="mt-2 text-xs leading-relaxed text-[#667085]">
-                        Angka ini estimasi. Bisa berubah sesuai detail produksi yang disepakati.
+                        Harga ini merupakan estimasi awal. Harga final akan dikonfirmasi bersama vendor melalui WhatsApp.
                     </p>
                 </div>
             </div>
@@ -117,7 +118,7 @@
                     @if ($vendorEmail !== '' || $vendorLocation !== '')
                         <div class="mt-5 rounded-xl border border-[#E2E5E9] bg-[#F7F7F5] p-4">
                             <p class="mb-1 text-sm font-semibold text-[#667085]">Kontak vendor</p>
-                            <p class="font-bold text-[#1C2430]">FitVendor</p>
+                            <p class="font-bold text-[#1C2430]">Tigabenang</p>
                             @if ($vendorLocation !== '')
                                 <p class="mt-1 text-sm text-[#667085]">{{ $vendorLocation }}</p>
                             @endif

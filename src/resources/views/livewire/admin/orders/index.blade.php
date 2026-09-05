@@ -237,7 +237,7 @@
             <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-5 space-y-4">
                 <div class="flex items-center justify-between border-b border-[#E2E5E9] pb-3">
                     <div>
-                        <h3 class="font-semibold text-sm sm:text-base text-[#1C2430]">Tetapkan Estimasi Harga</h3>
+                        <h3 class="font-semibold text-sm sm:text-base text-[#1C2430]">Tetapkan Harga Disepakati</h3>
                         <p class="text-xs text-[#667085]">{{ $quickOrderNumber }} &bull; {{ $quickCustomerName }}</p>
                     </div>
                     <button type="button" wire:click="cancelQuickPrice" class="text-gray-400 hover:text-gray-600 text-sm font-bold">&times;</button>
@@ -246,7 +246,7 @@
                 <form wire:submit="saveQuickPrice" class="space-y-4">
                     <div>
                         <label for="quickPrice" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
-                            Total Estimasi Harga (Rp) <span class="text-rose-500">*</span>
+                            Harga Disepakati (Rp) <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center font-mono text-xs text-[#667085] pointer-events-none">Rp</span>
@@ -270,7 +270,7 @@
                             Batal
                         </button>
                         <button type="submit" class="btn-primary px-5 py-2 text-xs sm:text-sm">
-                            Simpan Kesepakatan
+                            Simpan Harga Disepakati
                         </button>
                     </div>
                 </form>

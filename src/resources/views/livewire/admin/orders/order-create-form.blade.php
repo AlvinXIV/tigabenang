@@ -149,7 +149,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label for="total_harga" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
-                        Estimasi Total Harga Disepakati (Rp)
+                        Harga Disepakati (Rp)
                     </label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-xs font-semibold text-[#667085] pointer-events-none">Rp</span>
@@ -162,6 +162,7 @@
                             class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                         />
                     </div>
+                    <p class="text-[11px] text-[#667085] mt-1">Kosongkan jika harga masih dalam tahap negosiasi.</p>
                     @error('total_harga')
                         <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
                     @enderror

@@ -35,7 +35,7 @@
         <h3 class="mt-1 line-clamp-2 min-h-[2.5rem] text-[0.95rem] font-semibold leading-snug text-[#1C2430]">
             <a href="{{ $detailUrl }}" class="no-underline hover:text-[#B8664A]">{{ $produk->nama_produk }}</a>
         </h3>
-        <p class="mt-1 text-sm font-semibold text-[#1C2430]"><x-price :amount="$produk->harga" /></p>
+        <p class="mt-1 text-sm font-semibold text-[#1C2430]">Mulai <x-price :amount="$produk->harga" /></p>
         @if (filled($produk->deskripsi ?? null))
             <p class="mt-1 line-clamp-2 text-sm leading-relaxed text-[#667085]">{{ $produk->deskripsi }}</p>
         @endif

@@ -210,7 +210,7 @@
                             <div class="mt-3">
                                 <h3 class="text-lg font-bold text-[#1C2430]">{{ $cat->nama_kategori }}</h3>
                                 @if ($prod)
-                                    <p class="mt-1 font-bold text-[#1C2430]"><x-price :amount="$prod->harga" /></p>
+                                    <p class="mt-1 font-bold text-[#1C2430]">Mulai <x-price :amount="$prod->harga" /></p>
                                     <span class="hidden" data-product="{{ $prod->nama_produk }}">{{ $prod->nama_produk }}</span>
                                 @else
                                     <p class="mt-1 text-sm text-[#667085]">Pakaian custom</p>
@@ -314,7 +314,7 @@
 
                     @php
                         $waNum = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number'));
-                        $waUrl = $waNum ? 'https://wa.me/'.$waNum.'?text='.rawurlencode('Halo FitVendor, saya ingin bertanya soal pesanan custom.') : 'https://wa.me/6281234567890';
+                        $waUrl = $waNum ? 'https://wa.me/'.$waNum.'?text='.rawurlencode('Halo Tigabenang, saya ingin bertanya soal pesanan custom.') : 'https://wa.me/6281234567890';
                     @endphp
 
                     <div class="mt-8 max-w-md rounded-[14px] border border-[#E2E5E9] bg-white p-5">

@@ -269,23 +269,34 @@
             <!-- Price Agreement Card -->
             <div class="admin-card p-5 space-y-4">
                 <div class="border-b border-[#E2E5E9] pb-3">
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Estimasi &amp; Kesepakatan Harga</h2>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Kesepakatan Harga</h2>
                 </div>
 
-                <div class="bg-[#F7F7F5] p-3.5 rounded-lg border border-[#E2E5E9]">
-                    <span class="text-xs text-[#667085] block">Nilai Estimasi Saat Ini:</span>
-                    <span class="text-xl font-semibold text-[#1C2430] font-mono mt-0.5 block">
-                        {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : 'Belum ada estimasi' }}
-                    </span>
-                    <span class="text-[11px] text-[#667085] block mt-1">
+                @php
+                    $totalQty = $order->ukuran ? $order->ukuran->sum('pivot.kuantitas') : 0;
+                    $estimasiAwal = (float) ($order->produk?->harga ?? 0) * $totalQty;
+                @endphp
+
+                <div class="bg-[#F7F7F5] p-3.5 rounded-lg border border-[#E2E5E9] space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-[#667085]">Estimasi Awal Customer:</span>
+                        <span class="font-semibold text-[#1C2430] font-mono">Rp {{ number_format($estimasiAwal, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pt-2 border-t border-[#E2E5E9]">
+                        <span class="text-[#667085]">{{ $order->total_harga ? 'Harga Disepakati (Final):' : 'Harga Disepakati:' }}</span>
+                        <span class="font-semibold font-mono {{ $order->total_harga ? 'text-emerald-700 text-sm' : 'text-amber-700' }}">
+                            {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : 'Belum ditetapkan' }}
+                        </span>
+                    </div>
+                    <div class="text-[11px] text-[#667085] pt-1">
                         Status: <strong class="{{ $order->total_harga ? 'text-emerald-700' : 'text-amber-700' }}">{{ $order->total_harga ? 'Harga Disepakati' : 'Menunggu Penetapan Harga' }}</strong>
-                    </span>
+                    </div>
                 </div>
 
                 <form wire:submit="updatePrice" class="space-y-3.5 pt-1">
                     <div>
                         <label for="total_harga" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
-                            Total Estimasi Harga Disepakati (Rp) <span class="text-rose-500">*</span>
+                            Harga Disepakati (Rp) <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-xs font-semibold text-[#667085] pointer-events-none">
@@ -311,7 +322,7 @@
                         wire:loading.attr="disabled"
                         class="btn-primary w-full py-2.5 text-xs sm:text-sm font-medium cursor-pointer shadow-2xs"
                     >
-                        <span wire:loading.remove>Simpan Kesepakatan Harga</span>
+                        <span wire:loading.remove>{{ $order->total_harga ? 'Simpan Harga Disepakati' : 'Tetapkan Harga' }}</span>
                         <span wire:loading>Menyimpan...</span>
                     </button>
                 </form>

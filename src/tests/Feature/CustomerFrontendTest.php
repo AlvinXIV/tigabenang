@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Bahan;
 use App\Models\Kategori;
+use App\Models\Pemesanan;
 use App\Models\Produk;
 use App\Models\Ukuran;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -97,7 +98,7 @@ class CustomerFrontendTest extends TestCase
         $this->assertDatabaseHas('pemesanan', [
             'nama' => 'Sari Atelier',
             'produk_id' => $produk->id_produk,
-            'total_harga' => 450000,
+            'total_harga' => null,
         ]);
 
         $whatsappNumber = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number'));
@@ -180,5 +181,105 @@ class CustomerFrontendTest extends TestCase
         $this->get('/collection?category=kaos')
             ->assertOk()
             ->assertSee('Atelier Piece 1');
+    }
+
+    public function test_price_estimation_flow_to_agreed_price_and_invoice(): void
+    {
+        $kategori = Kategori::query()->create(['nama_kategori' => 'Kemeja']);
+        $produk = Produk::query()->create([
+            'kategori_id' => $kategori->id_kategori,
+            'nama_produk' => 'Kemeja Oxford',
+            'harga' => 200000,
+        ]);
+        $bahan = Bahan::query()->create(['nama_bahan' => 'Katun Oxford']);
+        $ukuran = Ukuran::query()->create([
+            'kategori_id' => $kategori->id_kategori,
+            'nama_ukuran' => 'L',
+        ]);
+
+        // CASE A: Customer creates new standard order
+        $this->post('/order', [
+            'nama' => 'Budi Santoso',
+            'alamat' => 'Jl. Merdeka No. 10',
+            'no_hp' => '081299887766',
+            'produk_id' => $produk->id_produk,
+            'materials' => [$bahan->id_bahan],
+            'sizes' => [
+                ['ukuran_id' => $ukuran->id_ukuran, 'kuantitas' => 2],
+            ],
+            'notes' => 'Tolong kancing putih',
+        ])->assertRedirect(route('order.success'));
+
+        // Case A checks: total_harga is NULL in database
+        $this->assertDatabaseHas('pemesanan', [
+            'nama' => 'Budi Santoso',
+            'produk_id' => $produk->id_produk,
+            'total_harga' => null,
+        ]);
+
+        $order = Pemesanan::query()->where('nama', 'Budi Santoso')->firstOrFail();
+
+        // Customer success page shows dynamic estimate: Rp 400.000, Tigabenang branding
+        $this->get(route('order.success'))
+            ->assertOk()
+            ->assertSee('Estimasi total')
+            ->assertSee('Rp 400.000')
+            ->assertSee('Harga ini merupakan estimasi awal.')
+            ->assertSee('Halo%20Tigabenang');
+
+        // Admin Pesanan Index shows "Menunggu Penetapan" badge
+        $this->get(route('admin.pesanan.index'))
+            ->assertOk()
+            ->assertSee('Menunggu Penetapan');
+
+        // CASE D: Invoice before price agreed:
+        // Status: "Menunggu Penetapan Harga", Total: "Belum Ditetapkan", No bank transfer details
+        $this->get(route('admin.orders.invoice', $order->id_pemesanan))
+            ->assertOk()
+            ->assertSee('Menunggu Penetapan Harga')
+            ->assertSee('Belum Ditetapkan')
+            ->assertDontSee('8420-9988-771');
+
+        // CASE B: Admin sets price (e.g. Rp 450.000)
+        $order->update(['total_harga' => 450000]);
+
+        // Admin pesanan detail shows agreed price
+        $this->get(route('admin.pesanan.show', $order->id_pemesanan))
+            ->assertOk()
+            ->assertSee('Harga Disepakati')
+            ->assertSee('Rp 450.000');
+
+        // CASE E: Invoice after price agreed:
+        $this->get(route('admin.orders.invoice', $order->id_pemesanan))
+            ->assertOk()
+            ->assertSee('Harga Disepakati')
+            ->assertSee('Total Harga Disepakati')
+            ->assertSee('Rp 450.000')
+            ->assertSee('REKENING PEMBAYARAN:')
+            ->assertSee('8420-9988-771');
+
+        // CASE C: Deal order form submission also sets total_harga to NULL
+        $this->post('/form-pemesanan', [
+            'nama' => 'Dewi Sartika',
+            'alamat' => 'Bandung',
+            'no_hp' => '081233445566',
+            'produk_id' => $produk->id_produk,
+            'materials' => [$bahan->id_bahan],
+            'sizes' => [
+                ['ukuran_id' => $ukuran->id_ukuran, 'kuantitas' => 5],
+            ],
+        ])->assertRedirect(route('deal-order.success'));
+
+        $this->assertDatabaseHas('pemesanan', [
+            'nama' => 'Dewi Sartika',
+            'total_harga' => null,
+        ]);
+
+        $this->get(route('deal-order.success'))
+            ->assertOk()
+            ->assertSee('Estimasi Total:')
+            ->assertSee('Rp 1.000.000')
+            ->assertSee('Tigabenang')
+            ->assertSee('#TB-');
     }
 }

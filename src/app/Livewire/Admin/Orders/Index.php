@@ -43,7 +43,7 @@ class Index extends Component
 
         $this->quickOrderId = null;
         $this->quickPrice = '';
-        $this->feedbackMessage = 'Estimasi harga pesanan ' . $this->quickOrderNumber . ' berhasil ditetapkan!';
+        $this->feedbackMessage = 'Harga disepakati pesanan ' . $this->quickOrderNumber . ' berhasil ditetapkan!';
     }
 
     public function cancelQuickPrice()
