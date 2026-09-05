@@ -129,7 +129,7 @@
                                     <div class="w-10 h-10 rounded border border-[#E2E5E9] bg-[#F7F7F5] shrink-0 overflow-hidden flex items-center justify-center">
                                         @if ($product->gambar)
                                             <img
-                                                src="{{ asset('storage/' . $product->gambar) }}"
+                                                src="{{ \App\Support\CustomerMedia::imageUrl($product->gambar) }}"
                                                 alt="{{ $product->nama_produk }}"
                                                 class="w-full h-full object-cover"
                                             />

@@ -18,12 +18,14 @@ class Index extends Component
     {
         $product = Produk::findOrFail($id);
 
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+
         if ($product->gambar) {
-            ImageOptimizer::deleteWithWebp($product->gambar, 'public');
+            ImageOptimizer::deleteWithWebp($product->gambar, $disk);
         }
 
-        if ($product->file_model_3d && Storage::disk('public')->exists($product->file_model_3d)) {
-            Storage::disk('public')->delete($product->file_model_3d);
+        if ($product->file_model_3d && Storage::disk($disk)->exists($product->file_model_3d)) {
+            Storage::disk($disk)->delete($product->file_model_3d);
         }
 
         $product->bahan()->detach();

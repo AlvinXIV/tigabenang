@@ -46,7 +46,7 @@
         <div class="lg:col-span-2 admin-card p-4 space-y-3">
             <div class="h-[460px] w-full bg-[#1C2430] rounded-xl relative overflow-hidden shadow-inner">
                 <model-viewer
-                    src="{{ asset('storage/' . $product->file_model_3d) }}"
+                    src="{{ \App\Support\CustomerMedia::modelUrl($product->file_model_3d) }}"
                     alt="{{ $product->nama_produk }}"
                     camera-controls
                     touch-action="pan-y"

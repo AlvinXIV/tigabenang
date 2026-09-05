@@ -149,7 +149,7 @@
                             @if ($gambar)
                                 <img src="{{ $gambar->temporaryUrl() }}" alt="Preview" class="w-full h-full object-cover" />
                             @elseif ($existingGambar)
-                                <img src="{{ asset('storage/' . $existingGambar) }}" alt="Existing Foto" class="w-full h-full object-cover" />
+                                <img src="{{ \App\Support\CustomerMedia::imageUrl($existingGambar) }}" alt="Existing Foto" class="w-full h-full object-cover" />
                             @else
                                 <div class="text-center p-4">
                                     <svg class="w-10 h-10 mx-auto text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">

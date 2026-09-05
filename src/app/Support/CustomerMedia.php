@@ -82,6 +82,11 @@ class CustomerMedia
             return self::$imageUrlCache[$path] = self::browserUrl('storage/'.$normalized);
         }
 
+        $cloudUrl = config('filesystems.disks.supabase.url') ?: config('filesystems.disks.s3.url');
+        if ($cloudUrl && (str_starts_with($normalized, 'models3d/') || str_starts_with($normalized, 'produk/') || str_starts_with($normalized, 'designs/'))) {
+            return self::$imageUrlCache[$path] = rtrim($cloudUrl, '/').'/'.$normalized;
+        }
+
         return self::$imageUrlCache[$path] = null;
     }
 

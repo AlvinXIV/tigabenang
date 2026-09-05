@@ -68,16 +68,18 @@ class ProductForm extends Component
             'harga' => $this->harga,
         ];
 
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+
         if ($this->gambar) {
             if ($this->existingGambar) {
-                ImageOptimizer::deleteWithWebp($this->existingGambar, 'public');
+                ImageOptimizer::deleteWithWebp($this->existingGambar, $disk);
             }
-            $data['gambar'] = $this->gambar->store('produk', 'public');
-            ImageOptimizer::convertToWebp($data['gambar'], 'public');
+            $data['gambar'] = $this->gambar->store('produk', $disk);
+            ImageOptimizer::convertToWebp($data['gambar'], $disk);
         }
 
         if ($this->file_model_3d) {
-            $data['file_model_3d'] = $this->file_model_3d->store('models3d', 'public');
+            $data['file_model_3d'] = $this->file_model_3d->store('models3d', $disk);
         }
 
         if ($this->productId) {

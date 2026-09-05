@@ -31,14 +31,25 @@ class ImageOptimizer
             return $storageRelativePath;
         }
 
-        $sourceFullPath = $storage->path($storageRelativePath);
         $webpRelativePath = self::getWebpRelativePath($storageRelativePath);
-        $targetFullPath = $storage->path($webpRelativePath);
+        $isCloud = false;
+        $sourceFullPath = '';
+        $targetFullPath = '';
 
-        // Ensure destination directory exists
-        $targetDir = dirname($targetFullPath);
-        if (! is_dir($targetDir)) {
-            @mkdir($targetDir, 0755, true);
+        try {
+            $sourceFullPath = $storage->path($storageRelativePath);
+            $targetFullPath = $storage->path($webpRelativePath);
+
+            $targetDir = dirname($targetFullPath);
+            if (! is_dir($targetDir)) {
+                @mkdir($targetDir, 0755, true);
+            }
+        } catch (\Throwable $e) {
+            $isCloud = true;
+            $tempDir = sys_get_temp_dir();
+            $sourceFullPath = $tempDir . '/' . uniqid('img_src_', true) . '.' . $extension;
+            $targetFullPath = $tempDir . '/' . uniqid('img_dst_', true) . '.webp';
+            file_put_contents($sourceFullPath, $storage->get($storageRelativePath));
         }
 
         // 1. Primary engine: cwebp CLI utility
@@ -46,7 +57,14 @@ class ImageOptimizer
             $process = Process::run(['cwebp', '-q', (string) $quality, $sourceFullPath, '-o', $targetFullPath]);
 
             if ($process->successful() && file_exists($targetFullPath) && filesize($targetFullPath) > 0) {
-                @chmod($targetFullPath, 0644);
+                if ($isCloud) {
+                    $storage->put($webpRelativePath, file_get_contents($targetFullPath));
+                    @unlink($sourceFullPath);
+                    @unlink($targetFullPath);
+                } else {
+                    @chmod($targetFullPath, 0644);
+                }
+
                 return $webpRelativePath;
             }
         } catch (\Throwable $e) {

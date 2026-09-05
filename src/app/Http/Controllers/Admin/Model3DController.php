@@ -40,11 +40,13 @@ class Model3DController extends Controller
 
         $produk = Produk::findOrFail($validated['produk_id']);
 
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+
         if ($request->hasFile('file_model_3d')) {
-            if ($produk->file_model_3d && Storage::disk('public')->exists($produk->file_model_3d)) {
-                Storage::disk('public')->delete($produk->file_model_3d);
+            if ($produk->file_model_3d && Storage::disk($disk)->exists($produk->file_model_3d)) {
+                Storage::disk($disk)->delete($produk->file_model_3d);
             }
-            $produk->file_model_3d = $request->file('file_model_3d')->store('models3d', 'public');
+            $produk->file_model_3d = $request->file('file_model_3d')->store('models3d', $disk);
             $produk->save();
         }
 
@@ -67,11 +69,13 @@ class Model3DController extends Controller
             'file_model_3d' => 'nullable|file|mimes:glb,gltf|max:20480',
         ]);
 
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+
         if ($request->hasFile('file_model_3d')) {
-            if ($produk->file_model_3d && Storage::disk('public')->exists($produk->file_model_3d)) {
-                Storage::disk('public')->delete($produk->file_model_3d);
+            if ($produk->file_model_3d && Storage::disk($disk)->exists($produk->file_model_3d)) {
+                Storage::disk($disk)->delete($produk->file_model_3d);
             }
-            $produk->file_model_3d = $request->file('file_model_3d')->store('models3d', 'public');
+            $produk->file_model_3d = $request->file('file_model_3d')->store('models3d', $disk);
             $produk->save();
         }
 
@@ -88,8 +92,10 @@ class Model3DController extends Controller
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);
-        if ($produk->file_model_3d && Storage::disk('public')->exists($produk->file_model_3d)) {
-            Storage::disk('public')->delete($produk->file_model_3d);
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+
+        if ($produk->file_model_3d && Storage::disk($disk)->exists($produk->file_model_3d)) {
+            Storage::disk($disk)->delete($produk->file_model_3d);
         }
         $produk->file_model_3d = null;
         $produk->save();

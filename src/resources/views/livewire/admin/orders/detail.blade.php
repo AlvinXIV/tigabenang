@@ -162,7 +162,7 @@
                     @php
                         $fileExt = strtolower(pathinfo($order->upload_design, PATHINFO_EXTENSION));
                         $isImage = in_array($fileExt, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
-                        $fileUrl = asset('storage/' . $order->upload_design);
+                        $fileUrl = \App\Support\CustomerMedia::imageUrl($order->upload_design) ?? asset('storage/' . $order->upload_design);
                     @endphp
 
                     <div class="p-4 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

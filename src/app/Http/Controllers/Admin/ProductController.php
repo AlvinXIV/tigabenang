@@ -51,15 +51,16 @@ class ProductController extends Controller
             'bahan_ids.*' => 'exists:bahan,id_bahan',
         ]);
 
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
         $gambarPath = null;
         if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('produk', 'public');
-            ImageOptimizer::convertToWebp($gambarPath, 'public');
+            $gambarPath = $request->file('gambar')->store('produk', $disk);
+            ImageOptimizer::convertToWebp($gambarPath, $disk);
         }
 
         $model3dPath = null;
         if ($request->hasFile('file_model_3d')) {
-            $model3dPath = $request->file('file_model_3d')->store('models3d', 'public');
+            $model3dPath = $request->file('file_model_3d')->store('models3d', $disk);
         }
 
         $produk = Produk::create([
@@ -100,19 +101,21 @@ class ProductController extends Controller
             'bahan_ids.*' => 'exists:bahan,id_bahan',
         ]);
 
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+
         if ($request->hasFile('gambar')) {
             if ($produk->gambar) {
-                ImageOptimizer::deleteWithWebp($produk->gambar, 'public');
+                ImageOptimizer::deleteWithWebp($produk->gambar, $disk);
             }
-            $produk->gambar = $request->file('gambar')->store('produk', 'public');
-            ImageOptimizer::convertToWebp($produk->gambar, 'public');
+            $produk->gambar = $request->file('gambar')->store('produk', $disk);
+            ImageOptimizer::convertToWebp($produk->gambar, $disk);
         }
 
         if ($request->hasFile('file_model_3d')) {
-            if ($produk->file_model_3d && Storage::disk('public')->exists($produk->file_model_3d)) {
-                Storage::disk('public')->delete($produk->file_model_3d);
+            if ($produk->file_model_3d && Storage::disk($disk)->exists($produk->file_model_3d)) {
+                Storage::disk($disk)->delete($produk->file_model_3d);
             }
-            $produk->file_model_3d = $request->file('file_model_3d')->store('models3d', 'public');
+            $produk->file_model_3d = $request->file('file_model_3d')->store('models3d', $disk);
         }
 
         $produk->nama_produk = $validated['nama_produk'];
@@ -132,12 +135,13 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
         
         if ($produk->gambar) {
-            ImageOptimizer::deleteWithWebp($produk->gambar, 'public');
+            ImageOptimizer::deleteWithWebp($produk->gambar, $disk);
         }
-        if ($produk->file_model_3d && Storage::disk('public')->exists($produk->file_model_3d)) {
-            Storage::disk('public')->delete($produk->file_model_3d);
+        if ($produk->file_model_3d && Storage::disk($disk)->exists($produk->file_model_3d)) {
+            Storage::disk($disk)->delete($produk->file_model_3d);
         }
 
         $produk->bahan()->detach();
