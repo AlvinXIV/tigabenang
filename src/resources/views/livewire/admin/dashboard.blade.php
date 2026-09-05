@@ -7,8 +7,8 @@
         <div>
             <div class="flex items-center gap-2.5">
                 <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Ikhtisar Dashboard</h1>
-                <span wire:loading class="inline-flex items-center gap-1.5 text-xs text-[#B8664A] font-medium bg-[#B8664A]/10 px-2 py-0.5 rounded-full">
-                    <svg class="animate-spin w-3 h-3 text-[#B8664A]" fill="none" viewBox="0 0 24 24">
+                <span wire:loading class="inline-flex items-center gap-1.5 text-xs text-[#102A43] font-medium bg-[#102A43]/10 px-2 py-0.5 rounded-full">
+                    <svg class="animate-spin w-3 h-3 text-[#102A43]" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                     </svg>
@@ -102,7 +102,7 @@
                     <span class="text-xs text-[#667085] bg-[#F7F7F5] px-2 py-0.5 rounded border border-[#E2E5E9]">Filter: "{{ $search }}"</span>
                 @endif
             </div>
-            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#B8664A] hover:text-[#9A4E3A] font-medium text-decoration-none">
+            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#102A43] hover:text-[#193B5C] font-semibold text-decoration-none">
                 Buka Pesanan Masuk &rarr;
             </a>
         </div>
@@ -188,7 +188,7 @@
                 <span class="w-2 h-2 rounded-full bg-[#1C2430]"></span>
                 <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Pesanan Terbaru</h2>
             </div>
-            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#B8664A] hover:text-[#9A4E3A] font-medium text-decoration-none">
+            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#102A43] hover:text-[#193B5C] font-semibold text-decoration-none">
                 Lihat Semua &rarr;
             </a>
         </div>

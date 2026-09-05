@@ -33,7 +33,7 @@
                 id="produk_id"
                 name="produk_id"
                 required
-                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
             >
                 <option value="" disabled selected>Pilih Produk Katalog...</option>
                 @foreach ($availableProducts as $prod)
@@ -55,7 +55,7 @@
                 name="file_model_3d"
                 accept=".glb,.gltf"
                 required
-                class="w-full text-xs text-[#667085] file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-[#B8664A] file:text-white hover:file:bg-[#9A4E3A] cursor-pointer"
+                class="w-full text-xs text-[#667085] file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-[#102A43] file:text-white hover:file:bg-[#193B5C] cursor-pointer"
             />
             <p class="text-[11px] text-[#667085] mt-2">Format yang didukung: <strong>.glb</strong> atau <strong>.gltf</strong> (Maksimal 20MB).</p>
             @error('file_model_3d')

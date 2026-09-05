@@ -14,9 +14,9 @@
     --color-primary-light: #193B5C;
     --color-primary-muted: #EBF1F8;
 
-    --color-accent: #B8664A;
-    --color-accent-dark: #9A4E3A;
-    --color-accent-light: #F4E9E4;
+    --color-accent: #102A43;
+    --color-accent-dark: #193B5C;
+    --color-accent-light: #EBF1F7;
 
     --color-sand: #F7F7F5;
     --color-sand-light: #F7F7F5;
@@ -43,8 +43,8 @@
     --color-charcoal: #102A43;
     --color-ink: #0A1C2E;
     --color-muted: #667085;
-    --color-terracotta: #B8664A;
-    --color-terracotta-dark: #9A4E3A;
+    --color-terracotta: #102A43;
+    --color-terracotta-dark: #193B5C;
     --color-line: #E2E5E9;
     --color-paper: #F7F7F5;
 }
@@ -160,14 +160,14 @@ model-viewer {
 }
 
 .btn-accent {
-    background: #B8664A;
+    background: #102A43;
     color: #FFFFFF !important;
-    border: 1px solid #B8664A;
+    border: 1px solid #102A43;
 }
 
 .btn-accent:hover {
-    background: #9A4E3A;
-    border-color: #9A4E3A;
+    background: #193B5C;
+    border-color: #193B5C;
 }
 
 .hero-collection-action,

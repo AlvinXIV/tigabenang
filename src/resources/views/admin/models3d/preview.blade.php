@@ -12,7 +12,7 @@
     <!-- Header Navigation -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <a href="{{ route('admin.model-3d.index') }}" class="text-xs text-[#667085] hover:text-[#B8664A] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
+            <a href="{{ route('admin.model-3d.index') }}" class="text-xs text-[#667085] hover:text-[#102A43] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
@@ -66,7 +66,7 @@
 
                 <div class="absolute bottom-3.5 right-3.5 bg-[#1C2430]/90 backdrop-blur-xs px-3 py-1.5 border border-white/20 rounded-lg flex items-center gap-2 text-xs text-white">
                     <label class="flex items-center gap-2 cursor-pointer text-xs">
-                        <input type="checkbox" x-model="autoRotate" class="rounded text-[#B8664A] focus:ring-[#B8664A]" />
+                        <input type="checkbox" x-model="autoRotate" class="rounded text-[#102A43] focus:ring-[#102A43]" />
                         <span>Putar Otomatis</span>
                     </label>
                 </div>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="flex justify-between py-2">
                         <span class="text-[#667085]">Produk Terhubung:</span>
-                        <a href="{{ route('admin.produk.edit', $product->id_produk) }}" class="font-medium text-[#B8664A] hover:underline">
+                        <a href="{{ route('admin.produk.edit', $product->id_produk) }}" class="font-medium text-[#102A43] hover:underline">
                             {{ $product->nama_produk }}
                         </a>
                     </div>

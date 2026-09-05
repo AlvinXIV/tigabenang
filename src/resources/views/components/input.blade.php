@@ -26,13 +26,13 @@
             <textarea
                 id="{{ $id }}"
                 {{ $disabled ? 'disabled' : '' }}
-                {{ $attributes->merge(['class' => 'w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#1C2430] placeholder-[#98A2B3] focus:outline-none focus:ring-2 focus:ring-[#B8664A]/20 focus:border-[#B8664A] transition-colors duration-150 disabled:bg-[#F7F7F5] disabled:text-[#98A2B3] resize-y shadow-2xs']) }}
+                {{ $attributes->merge(['class' => 'w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#1C2430] placeholder-[#98A2B3] focus:outline-none focus:ring-2 focus:ring-[#102A43]/20 focus:border-[#102A43] transition-colors duration-150 disabled:bg-[#F7F7F5] disabled:text-[#98A2B3] resize-y shadow-2xs']) }}
             >{{ $slot }}</textarea>
         @elseif ($type === 'select')
             <select
                 id="{{ $id }}"
                 {{ $disabled ? 'disabled' : '' }}
-                {{ $attributes->merge(['class' => 'w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#1C2430] focus:outline-none focus:ring-2 focus:ring-[#B8664A]/20 focus:border-[#B8664A] transition-colors duration-150 disabled:bg-[#F7F7F5] disabled:text-[#98A2B3] shadow-2xs']) }}
+                {{ $attributes->merge(['class' => 'w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#1C2430] focus:outline-none focus:ring-2 focus:ring-[#102A43]/20 focus:border-[#102A43] transition-colors duration-150 disabled:bg-[#F7F7F5] disabled:text-[#98A2B3] shadow-2xs']) }}
             >
                 {{ $slot }}
             </select>
@@ -41,7 +41,7 @@
                 type="{{ $type }}"
                 id="{{ $id }}"
                 {{ $disabled ? 'disabled' : '' }}
-                {{ $attributes->merge(['class' => 'w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#1C2430] placeholder-[#98A2B3] focus:outline-none focus:ring-2 focus:ring-[#B8664A]/20 focus:border-[#B8664A] transition-colors duration-150 disabled:bg-[#F7F7F5] disabled:text-[#98A2B3] shadow-2xs']) }}
+                {{ $attributes->merge(['class' => 'w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#1C2430] placeholder-[#98A2B3] focus:outline-none focus:ring-2 focus:ring-[#102A43]/20 focus:border-[#102A43] transition-colors duration-150 disabled:bg-[#F7F7F5] disabled:text-[#98A2B3] shadow-2xs']) }}
             />
         @endif
     </div>

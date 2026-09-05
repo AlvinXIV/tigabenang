@@ -36,7 +36,7 @@
                                 wire:model="nama_produk"
                                 required
                                 placeholder="Contoh: Varsity Jacket Polman, Kemeja Workwear Oxford"
-                                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                             />
                             @error('nama_produk')
                                 <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -53,7 +53,7 @@
                                     id="kategori_id"
                                     wire:model="kategori_id"
                                     required
-                                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                                 >
                                     <option value="">Pilih Kategori...</option>
                                     @foreach ($categories as $cat)
@@ -80,7 +80,7 @@
                                         required
                                         min="0"
                                         placeholder="150000"
-                                        class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                        class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                                     />
                                 </div>
                                 @error('harga')
@@ -98,7 +98,7 @@
                             <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Material Kain yang Didukung</h2>
                             <p class="text-xs text-[#667085] mt-0.5">Pilih material kain garmen yang dapat dipilih pemesan.</p>
                         </div>
-                        <a href="{{ route('admin.kategori.index', ['tab' => 'material']) }}" target="_blank" class="text-xs text-[#B8664A] hover:text-[#9A4E3A] font-medium text-decoration-none">
+                        <a href="{{ route('admin.kategori.index', ['tab' => 'material']) }}" target="_blank" class="text-xs text-[#102A43] hover:text-[#193B5C] font-medium text-decoration-none">
                             Kelola Material &rarr;
                         </a>
                     </div>
@@ -116,7 +116,7 @@
                                             type="checkbox"
                                             wire:model="bahan_ids"
                                             value="{{ $material->id_bahan }}"
-                                            class="w-4 h-4 rounded text-[#B8664A] focus:ring-[#B8664A] border-[#D0D5DD]"
+                                            class="w-4 h-4 rounded text-[#102A43] focus:ring-[#102A43] border-[#D0D5DD]"
                                         />
                                         <span class="text-xs text-[#1C2430] font-medium select-none truncate">
                                             {{ $material->nama_bahan }}
@@ -160,7 +160,7 @@
                             @endif
 
                             <div wire:loading wire:target="gambar" class="absolute inset-0 bg-white/80 flex items-center justify-center">
-                                <span class="text-xs text-[#B8664A] font-medium">Memproses gambar...</span>
+                                <span class="text-xs text-[#102A43] font-medium">Memproses gambar...</span>
                             </div>
                         </div>
 
@@ -203,7 +203,7 @@
                             accept=".glb,.gltf"
                             class="w-full text-xs text-[#667085] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-[#F7F7F5] file:text-[#1C2430] hover:file:bg-[#E2E5E9] cursor-pointer"
                         />
-                        <div wire:loading wire:target="file_model_3d" class="text-xs text-[#B8664A] font-medium">
+                        <div wire:loading wire:target="file_model_3d" class="text-xs text-[#102A43] font-medium">
                             Mengunggah berkas 3D...
                         </div>
                         @error('file_model_3d')

@@ -49,14 +49,14 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari nama produk..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Status 3D Filter -->
             <select
                 x-model="statusFilter"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
             >
                 <option value="all">Semua Status 3D</option>
                 <option value="connected">Terhubung ({{ $models->count() }})</option>
@@ -69,7 +69,7 @@
                     type="button"
                     @click="statusFilter = 'all'"
                     wire:click="$set('search', '')"
-                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -90,7 +90,7 @@
         @foreach ($models as $prod)
             <div
                 x-show="statusFilter === 'all' || statusFilter === 'connected'"
-                class="admin-card p-4 space-y-3 flex flex-col justify-between hover:border-[#B8664A]/40 transition-colors"
+                class="admin-card p-4 space-y-3 flex flex-col justify-between hover:border-[#102A43]/40 transition-colors"
             >
                 <div class="space-y-2.5">
                     <div class="flex items-center justify-between">
@@ -131,7 +131,7 @@
                     <a
                         href="{{ route('admin.model-3d.preview', $prod->id_produk) }}"
                         target="_blank"
-                        class="text-xs font-medium text-[#B8664A] hover:underline text-decoration-none"
+                        class="text-xs font-medium text-[#102A43] hover:underline text-decoration-none"
                     >
                         Buka Pratinjau 3D &rarr;
                     </a>
@@ -143,7 +143,7 @@
         @foreach ($availableProducts as $prod)
             <div
                 x-show="(statusFilter === 'all' || statusFilter === 'missing') && ('{{ addslashes(strtolower($prod->nama_produk)) }}'.includes('{{ addslashes(strtolower($search)) }}'))"
-                class="admin-card p-4 space-y-3 flex flex-col justify-between hover:border-[#B8664A]/40 transition-colors bg-white/70"
+                class="admin-card p-4 space-y-3 flex flex-col justify-between hover:border-[#102A43]/40 transition-colors bg-white/70"
             >
                 <div class="space-y-2.5">
                     <div class="flex items-center justify-between">
@@ -166,7 +166,7 @@
                 <div class="pt-2.5 border-t border-[#E2E5E9] flex items-center justify-end">
                     <a
                         href="{{ route('admin.model-3d.create') }}"
-                        class="text-xs font-medium text-[#B8664A] hover:underline text-decoration-none inline-flex items-center gap-1"
+                        class="text-xs font-medium text-[#102A43] hover:underline text-decoration-none inline-flex items-center gap-1"
                     >
                         Hubungkan 3D &rarr;
                     </a>

@@ -40,10 +40,10 @@
         <button
             type="button"
             wire:click="filterStatus('all')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'all' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'all' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
         >
             <span>Semua Pesanan</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'all' ? 'bg-[#F4E9E4] text-[#B8664A]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'all' ? 'bg-[#EBF1F7] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
                 {{ $counts['all'] }}
             </span>
         </button>
@@ -51,7 +51,7 @@
         <button
             type="button"
             wire:click="filterStatus('waiting')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'waiting' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'waiting' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
         >
             <span>Menunggu Penetapan Harga</span>
             <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'waiting' ? 'bg-amber-100 text-amber-800' : 'bg-[#F7F7F5] text-[#667085]' }}">
@@ -62,7 +62,7 @@
         <button
             type="button"
             wire:click="filterStatus('agreed')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'agreed' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'agreed' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
         >
             <span>Harga Disepakati</span>
             <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'agreed' ? 'bg-emerald-100 text-emerald-800' : 'bg-[#F7F7F5] text-[#667085]' }}">
@@ -84,14 +84,14 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari ID pesanan, pelanggan, atau nomor HP..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
             @if (!empty($search))
                 <button
                     type="button"
                     wire:click="$set('search', '')"
-                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -171,7 +171,7 @@
                                     <button
                                         type="button"
                                         wire:click="openQuickPrice({{ $ord->id_pemesanan }})"
-                                        class="text-[#B8664A] hover:underline text-xs font-medium cursor-pointer"
+                                        class="text-[#102A43] hover:underline text-xs font-medium cursor-pointer"
                                     >
                                         + Input Harga
                                     </button>
@@ -257,7 +257,7 @@
                                 required
                                 min="0"
                                 placeholder="Contoh: 1500000"
-                                class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                                class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                             />
                         </div>
                         @error('quickPrice')

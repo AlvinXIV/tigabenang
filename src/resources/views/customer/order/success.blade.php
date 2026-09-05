@@ -123,7 +123,7 @@
                                 <p class="mt-1 text-sm text-[#667085]">{{ $vendorLocation }}</p>
                             @endif
                             @if ($vendorEmail !== '')
-                                <a href="mailto:{{ $vendorEmail }}" class="mt-1 block text-sm font-medium text-[#102A43] underline underline-offset-2 hover:text-[#B8664A]">{{ $vendorEmail }}</a>
+                                <a href="mailto:{{ $vendorEmail }}" class="mt-1 block text-sm font-medium text-[#102A43] underline underline-offset-2 hover:text-[#102A43]">{{ $vendorEmail }}</a>
                             @endif
                         </div>
                     @endif

@@ -3,7 +3,7 @@
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <a href="{{ route('admin.customers.index') }}" class="text-xs text-[#667085] hover:text-[#B8664A] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
+            <a href="{{ route('admin.customers.index') }}" class="text-xs text-[#667085] hover:text-[#102A43] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
@@ -97,7 +97,7 @@
                     type="text"
                     wire:model.live.debounce.250ms="orderSearch"
                     placeholder="Filter ID pesanan / produk..."
-                    class="w-full px-3 py-1.5 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#B8664A] text-xs text-[#1C2430] rounded-lg focus:outline-none"
+                    class="w-full px-3 py-1.5 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#102A43] text-xs text-[#1C2430] rounded-lg focus:outline-none"
                 />
             </div>
         </div>

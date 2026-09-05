@@ -33,9 +33,9 @@
             <span class="text-xs font-medium text-[#667085]">{{ $category }}</span>
         @endif
         <h3 class="mt-1 line-clamp-2 text-[0.95rem] font-semibold leading-snug text-[#1C2430]">
-            <a href="{{ $detailUrl }}" class="no-underline hover:text-[#B8664A]">{{ $produk->nama_produk }}</a>
+            <a href="{{ $detailUrl }}" class="no-underline hover:text-[#102A43]">{{ $produk->nama_produk }}</a>
         </h3>
-        <a href="{{ $detailUrl }}" class="mt-2 text-sm font-semibold text-[#1C2430] no-underline hover:text-[#B8664A]">
+        <a href="{{ $detailUrl }}" class="mt-2 text-sm font-semibold text-[#1C2430] no-underline hover:text-[#102A43]">
             Lihat detail
         </a>
     </div>

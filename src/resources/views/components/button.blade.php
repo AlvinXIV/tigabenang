@@ -16,7 +16,7 @@
     ];
     
     $variants = [
-        'primary' => 'bg-[#B8664A] hover:bg-[#9A4E3A] active:bg-[#8A4330] text-white focus:ring-[#B8664A]/30 border border-transparent shadow-2xs',
+        'primary' => 'bg-[#102A43] hover:bg-[#193B5C] active:bg-[#0D2237] text-white focus:ring-[#102A43]/30 border border-transparent shadow-2xs',
         'secondary' => 'bg-white hover:bg-[#F7F7F5] active:bg-[#EEEFEC] text-[#1C2430] focus:ring-slate-300 border border-[#E2E5E9] shadow-2xs',
         'success' => 'bg-[#3F7A62] hover:bg-[#346551] active:bg-[#2A5242] text-white focus:ring-[#3F7A62]/30 border border-transparent shadow-2xs',
         'danger' => 'bg-white hover:bg-rose-50 active:bg-rose-100 text-rose-700 focus:ring-rose-200 border border-rose-200 shadow-2xs',

@@ -56,19 +56,19 @@
                 <h2 class="text-3xl font-bold tracking-tight text-[#102A43] md:text-4xl">Misi</h2>
                 <ul class="mt-5 space-y-3 p-0 text-sm leading-relaxed text-[#667085] md:text-base">
                     <li class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
+                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#102A43]" aria-hidden="true"></span>
                         <span>Menjaga kualitas bahan dan hasil produksi.</span>
                     </li>
                     <li class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
+                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#102A43]" aria-hidden="true"></span>
                         <span>Memberikan proses pemesanan yang jelas dan mudah dipahami.</span>
                     </li>
                     <li class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
+                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#102A43]" aria-hidden="true"></span>
                         <span>Membantu pelanggan menentukan pilihan pakaian sesuai kebutuhan.</span>
                     </li>
                     <li class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
+                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#102A43]" aria-hidden="true"></span>
                         <span>Menjaga komunikasi yang cepat dan terbuka selama proses produksi.</span>
                     </li>
                 </ul>
@@ -177,7 +177,7 @@
                                 </svg>
                             </span>
                             <p class="text-sm font-semibold text-[#667085]">WhatsApp</p>
-                            <a href="{{ $whatsappHref }}" target="_blank" rel="noopener noreferrer" class="mt-2 block text-sm font-semibold text-[#102A43] no-underline hover:text-[#B8664A]">
+                            <a href="{{ $whatsappHref }}" target="_blank" rel="noopener noreferrer" class="mt-2 block text-sm font-semibold text-[#102A43] no-underline hover:text-[#102A43]">
                                 {{ $whatsappNumber }}
                             </a>
                         </div>
@@ -191,7 +191,7 @@
                                 </svg>
                             </span>
                             <p class="text-sm font-semibold text-[#667085]">Email</p>
-                            <a href="mailto:{{ $vendorEmail }}" class="mt-2 block text-sm font-semibold text-[#102A43] underline underline-offset-2 hover:text-[#B8664A]">
+                            <a href="mailto:{{ $vendorEmail }}" class="mt-2 block text-sm font-semibold text-[#102A43] underline underline-offset-2 hover:text-[#102A43]">
                                 {{ $vendorEmail }}
                             </a>
                         </div>

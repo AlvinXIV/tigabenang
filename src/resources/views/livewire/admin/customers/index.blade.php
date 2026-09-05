@@ -24,14 +24,14 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari nama pelanggan atau nomor WhatsApp..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Sort Select -->
             <select
                 wire:model.live="sortBy"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
             >
                 <option value="orders">Urut: Pesanan Terbanyak</option>
                 <option value="spent">Urut: Total Belanja Tertinggi</option>
@@ -43,7 +43,7 @@
                 <button
                     type="button"
                     wire:click="$set('search', ''); $set('sortBy', 'orders')"
-                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -76,7 +76,7 @@
                     @forelse ($customers as $c)
                         <tr class="admin-table-row">
                             <td class="px-4 py-3.5 font-medium text-[#1C2430] whitespace-nowrap">
-                                <a href="{{ route('admin.customers.show', $c['id']) }}" class="hover:text-[#B8664A] text-[#1C2430] text-decoration-none font-medium">
+                                <a href="{{ route('admin.customers.show', $c['id']) }}" class="hover:text-[#102A43] text-[#1C2430] text-decoration-none font-medium">
                                     {{ $c['name'] }}
                                 </a>
                             </td>

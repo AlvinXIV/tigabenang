@@ -56,14 +56,14 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari nama produk..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Category Filter -->
             <select
                 wire:model.live="categoryFilter"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
             >
                 <option value="">Semua Kategori</option>
                 @foreach ($categories as $cat)
@@ -76,7 +76,7 @@
             <!-- Model 3D Status Filter -->
             <select
                 x-model="model3dFilter"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
             >
                 <option value="">Semua Status 3D</option>
                 <option value="connected">Terhubung</option>
@@ -89,7 +89,7 @@
                     type="button"
                     @click="model3dFilter = ''"
                     wire:click="$set('search', ''); $set('categoryFilter', '')"
-                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -140,7 +140,7 @@
                                         @endif
                                     </div>
                                     <div class="min-w-0">
-                                        <a href="{{ route('admin.produk.edit', $product->id_produk) }}" class="font-medium text-[#1C2430] hover:text-[#B8664A] text-decoration-none block truncate">
+                                        <a href="{{ route('admin.produk.edit', $product->id_produk) }}" class="font-medium text-[#1C2430] hover:text-[#102A43] text-decoration-none block truncate">
                                             {{ $product->nama_produk }}
                                         </a>
                                         <div class="flex items-center gap-1.5 mt-0.5">

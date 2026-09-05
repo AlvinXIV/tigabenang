@@ -27,7 +27,7 @@
                         wire:model="nama"
                         required
                         placeholder="Contoh: Budi Pratama"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                     />
                     @error('nama')
                         <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -44,7 +44,7 @@
                         wire:model="no_hp"
                         required
                         placeholder="Contoh: 081234567890"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none font-mono"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none font-mono"
                     />
                     @error('no_hp')
                         <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -61,7 +61,7 @@
                         rows="2"
                         required
                         placeholder="Alamat lengkap tujuan pengiriman pesanan..."
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                     ></textarea>
                     @error('alamat')
                         <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -85,7 +85,7 @@
                         id="produk_id"
                         wire:model="produk_id"
                         required
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                     >
                         <option value="">Pilih Produk Busana...</option>
                         @foreach ($products as $p)
@@ -110,7 +110,7 @@
                                     type="checkbox"
                                     wire:model="bahan_ids"
                                     value="{{ $m->id_bahan }}"
-                                    class="rounded text-[#B8664A] focus:ring-[#B8664A]"
+                                    class="rounded text-[#102A43] focus:ring-[#102A43]"
                                 />
                                 <span class="truncate text-[#1C2430]">{{ $m->nama_bahan }}</span>
                             </label>
@@ -159,7 +159,7 @@
                             wire:model="total_harga"
                             min="0"
                             placeholder="Kosongkan jika masih proses negosiasi"
-                            class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                            class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                         />
                     </div>
                     <p class="text-[11px] text-[#667085] mt-1">Kosongkan jika harga masih dalam tahap negosiasi.</p>
@@ -177,7 +177,7 @@
                         wire:model="notes"
                         rows="3"
                         placeholder="Contoh: Bordir logo di dada kiri, sablon plastisol di punggung..."
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                     ></textarea>
                 </div>
             </div>

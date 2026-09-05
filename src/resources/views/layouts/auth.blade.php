@@ -24,7 +24,7 @@
         }
     </style>
 </head>
-<body class="min-h-full antialiased text-[#1C2430] bg-[#F7F7F5] flex flex-col justify-between py-10 sm:py-16 px-4 selection:bg-[#B8664A]/20 selection:text-[#1C2430]">
+<body class="min-h-full antialiased text-[#1C2430] bg-[#F7F7F5] flex flex-col justify-between py-10 sm:py-16 px-4 selection:bg-[#102A43]/20 selection:text-[#1C2430]">
 
     <div class="w-full flex-1 flex flex-col items-center justify-center">
         @yield('content')

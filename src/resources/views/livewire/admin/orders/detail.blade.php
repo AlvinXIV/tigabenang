@@ -3,7 +3,7 @@
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#667085] hover:text-[#B8664A] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
+            <a href="{{ route('admin.pesanan.index') }}" class="text-xs text-[#667085] hover:text-[#102A43] inline-flex items-center gap-1.5 mb-2 transition-colors text-decoration-none font-medium">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
@@ -103,7 +103,7 @@
                         <div class="flex flex-wrap gap-2">
                             @forelse ($order->bahan as $b)
                                 <span class="px-2.5 py-1 bg-[#F7F7F5] border border-[#E2E5E9] text-xs rounded-md text-[#1C2430] font-medium inline-flex items-center gap-1.5">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#B8664A]"></span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#102A43]"></span>
                                     {{ $b->nama_bahan }}
                                 </span>
                             @empty
@@ -231,7 +231,7 @@
                         <button
                             type="button"
                             wire:click="openEditCustomer"
-                            class="text-xs text-[#B8664A] hover:underline font-medium cursor-pointer"
+                            class="text-xs text-[#102A43] hover:underline font-medium cursor-pointer"
                         >
                             Ubah
                         </button>
@@ -308,7 +308,7 @@
                                 wire:model="total_harga"
                                 step="1000"
                                 placeholder="Contoh: 350000"
-                                class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm font-semibold text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm font-semibold text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                                 required
                             />
                         </div>

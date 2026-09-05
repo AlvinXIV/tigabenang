@@ -98,7 +98,7 @@
 >
     <!-- Brand Emblem -->
     <div class="inline-flex flex-col items-center justify-center mb-6 select-none">
-        <div class="w-12 h-12 bg-[#B8664A] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
+        <div class="w-12 h-12 bg-[#102A43] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
             TB
         </div>
         <span class="text-sm font-bold tracking-tight text-[#1C2430]">Tigabenang</span>
@@ -133,7 +133,7 @@
                         @blur="validateFullName()"
                         @input="if(errors.fullName) validateFullName()"
                         placeholder="Nama admin"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                     <template x-if="errors.fullName">
                         <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.fullName"></p>
@@ -150,7 +150,7 @@
                         name="business_name"
                         x-model="businessName"
                         placeholder="Contoh: CV Tigabenang Mandiri"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                 </div>
             </div>
@@ -169,7 +169,7 @@
                         @blur="validateEmail()"
                         @input="if(errors.email) validateEmail()"
                         placeholder="admin@domain.com"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                     <template x-if="errors.email">
                         <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.email"></p>
@@ -186,7 +186,7 @@
                         name="phone"
                         x-model="phone"
                         placeholder="08123456789"
-                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                 </div>
             </div>
@@ -206,7 +206,7 @@
                             @blur="validatePassword()"
                             @input="if(errors.password) validatePassword()"
                             placeholder="••••••••"
-                            class="w-full pl-3.5 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full pl-3.5 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                         />
                         <button
                             type="button"
@@ -240,7 +240,7 @@
                             @blur="validateConfirmPassword()"
                             @input="if(errors.confirmPassword) validateConfirmPassword()"
                             placeholder="••••••••"
-                            class="w-full pl-3.5 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full pl-3.5 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                         />
                         <button
                             type="button"
@@ -269,10 +269,10 @@
                         type="checkbox"
                         x-model="termsAccepted"
                         @change="validateTerms()"
-                        class="mt-0.5 w-4 h-4 rounded border-[#D0D5DD] text-[#B8664A] focus:ring-[#B8664A]"
+                        class="mt-0.5 w-4 h-4 rounded border-[#D0D5DD] text-[#102A43] focus:ring-[#102A43]"
                     />
                     <span class="text-xs text-[#667085] leading-snug">
-                        Saya menyetujui <a href="#" class="text-[#B8664A] hover:underline font-medium">Syarat &amp; Ketentuan</a> serta <a href="#" class="text-[#B8664A] hover:underline font-medium">Kebijakan Privasi</a> portal Tigabenang.
+                        Saya menyetujui <a href="#" class="text-[#102A43] hover:underline font-medium">Syarat &amp; Ketentuan</a> serta <a href="#" class="text-[#102A43] hover:underline font-medium">Kebijakan Privasi</a> portal Tigabenang.
                     </span>
                 </label>
                 <template x-if="errors.terms">
@@ -285,7 +285,7 @@
                 <button
                     type="submit"
                     :disabled="isSubmitting"
-                    class="w-full py-2.5 bg-[#B8664A] hover:bg-[#9A4E3A] active:bg-[#8A4330] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
+                    class="w-full py-2.5 bg-[#102A43] hover:bg-[#193B5C] active:bg-[#8A4330] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
                 >
                     <svg x-show="isSubmitting" class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24" style="display: none;">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -299,7 +299,7 @@
             <div class="border-t border-[#E2E5E9] pt-4 text-center">
                 <p class="text-xs text-[#667085]">
                     <span>Sudah memiliki akun vendor?</span>
-                    <a href="{{ route('login') }}" class="text-[#B8664A] hover:underline font-medium ml-1 transition-colors">
+                    <a href="{{ route('login') }}" class="text-[#102A43] hover:underline font-medium ml-1 transition-colors">
                         Masuk di Sini
                     </a>
                 </p>

@@ -74,7 +74,7 @@
 
     <!-- COLLAPSIBLE ADD SIZE FORM -->
     @if ($addFormOpen)
-        <div class="admin-card p-5 bg-white border-[#B8664A]/30 space-y-4">
+        <div class="admin-card p-5 bg-white border-[#102A43]/30 space-y-4">
             <div class="border-b border-[#E2E5E9] pb-3 flex items-center justify-between">
                 <div>
                     <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Tambah Spesifikasi Ukuran Baru</h2>
@@ -96,7 +96,7 @@
                             id="kategori_id"
                             wire:model="kategori_id"
                             required
-                            class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                         >
                             <option value="">Pilih Kategori...</option>
                             @foreach ($categories as $cat)
@@ -121,7 +121,7 @@
                             id="nama_ukuran"
                             required
                             placeholder="S, M, L..."
-                            class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                         />
                         @error('nama_ukuran')
                             <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -141,7 +141,7 @@
                                 id="lebar_dada"
                                 required
                                 placeholder="50"
-                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                             />
                             <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-[#98A2B3] pointer-events-none">cm</span>
                         </div>
@@ -163,7 +163,7 @@
                                 id="panjang"
                                 required
                                 placeholder="70"
-                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                             />
                             <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-[#98A2B3] pointer-events-none">cm</span>
                         </div>
@@ -184,7 +184,7 @@
                                 wire:model="lebar_bahu"
                                 id="lebar_bahu"
                                 placeholder="44"
-                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                             />
                             <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-[#98A2B3] pointer-events-none">cm</span>
                         </div>
@@ -217,14 +217,14 @@
                     type="text"
                     x-model="searchQuery"
                     placeholder="Cari ukuran atau kategori..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Category Filter -->
             <select
                 x-model="selectedCategory"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
             >
                 <option value="">Semua Kategori</option>
                 @foreach ($categories as $cat)
@@ -237,7 +237,7 @@
                 type="button"
                 x-show="hasFilter"
                 @click="resetFilter()"
-                class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 style="display: none;"
             >
                 <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -275,30 +275,30 @@
                             <tr class="bg-[#FFFDF9]">
                                 <td class="px-4 py-3 font-mono text-xs text-[#667085]">#{{ $s->id_ukuran }}</td>
                                 <td class="px-4 py-3">
-                                    <select wire:model="edit_kategori_id" class="px-2 py-1 border border-[#B8664A] rounded text-xs">
+                                    <select wire:model="edit_kategori_id" class="px-2 py-1 border border-[#102A43] rounded text-xs">
                                         @foreach ($categories as $cat)
                                             <option value="{{ $cat->id_kategori }}">{{ $cat->nama_kategori }}</option>
                                         @endforeach
                                     </select>
                                 </td>
                                 <td class="px-4 py-3">
-                                    <input type="text" wire:model="edit_nama_ukuran" class="w-16 px-2 py-1 border border-[#B8664A] rounded text-xs" />
+                                    <input type="text" wire:model="edit_nama_ukuran" class="w-16 px-2 py-1 border border-[#102A43] rounded text-xs" />
                                 </td>
                                 <td class="px-4 py-3">
-                                    <input type="number" step="0.1" wire:model="edit_lebar_dada" class="w-16 px-2 py-1 border border-[#B8664A] rounded text-xs font-mono" />
+                                    <input type="number" step="0.1" wire:model="edit_lebar_dada" class="w-16 px-2 py-1 border border-[#102A43] rounded text-xs font-mono" />
                                 </td>
                                 <td class="px-4 py-3">
-                                    <input type="number" step="0.1" wire:model="edit_panjang" class="w-16 px-2 py-1 border border-[#B8664A] rounded text-xs font-mono" />
+                                    <input type="number" step="0.1" wire:model="edit_panjang" class="w-16 px-2 py-1 border border-[#102A43] rounded text-xs font-mono" />
                                 </td>
                                 <td class="px-4 py-3">
-                                    <input type="number" step="0.1" wire:model="edit_lebar_bahu" class="w-16 px-2 py-1 border border-[#B8664A] rounded text-xs font-mono" />
+                                    <input type="number" step="0.1" wire:model="edit_lebar_bahu" class="w-16 px-2 py-1 border border-[#102A43] rounded text-xs font-mono" />
                                 </td>
                                 <td class="px-4 py-3">
-                                    <input type="number" step="0.1" wire:model="edit_panjang_lengan" class="w-16 px-2 py-1 border border-[#B8664A] rounded text-xs font-mono" />
+                                    <input type="number" step="0.1" wire:model="edit_panjang_lengan" class="w-16 px-2 py-1 border border-[#102A43] rounded text-xs font-mono" />
                                 </td>
                                 <td class="px-4 py-3 text-right whitespace-nowrap">
                                     <div class="flex items-center justify-end gap-1.5">
-                                        <button wire:click="update" class="px-2.5 py-1 bg-[#B8664A] text-white rounded text-xs font-medium cursor-pointer">Simpan</button>
+                                        <button wire:click="update" class="px-2.5 py-1 bg-[#102A43] text-white rounded text-xs font-medium cursor-pointer">Simpan</button>
                                         <button wire:click="cancelEdit" class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs cursor-pointer">Batal</button>
                                     </div>
                                 </td>
