@@ -76,30 +76,37 @@ export async function loadGarment(url, targetGroup, onProgress = null) {
     wrapper.renderOrder = 10;
     wrapper.add(model);
 
-    garmentCache.set(wrapper, {
-        rawSize: new THREE.Vector3(1, 1, 1),
-        model: model,
-    });
-
     targetGroup.add(wrapper);
 
-    // ── Auto-position baju agar langsung pas di badan avatar ──
-    // Avatar tinggi ~1.7 unit (170cm / 100). Bahu di sekitar y=1.44, selangkangan y=0.80
-    // Pusat torso avatar kira-kira y = 1.12
     const garmentBox = new THREE.Box3().setFromObject(wrapper);
     const garmentSize = garmentBox.getSize(new THREE.Vector3());
     const garmentCenter = garmentBox.getCenter(new THREE.Vector3());
 
     // Target: pusat vertikal baju sejajar dengan pusat torso avatar (y≈1.12)
     const avatarTorsoCenter = 1.12;
-    const yOffset = avatarTorsoCenter - garmentCenter.y;
-    wrapper.position.y += yOffset;
+    const autoYOffset = avatarTorsoCenter - garmentCenter.y;
+    
+    wrapper.position.y += autoYOffset;
 
     // Target: pusat horizontal baju sejajar dengan pusat avatar (x=0, z=0)
     wrapper.position.x -= garmentCenter.x;
     wrapper.position.z -= garmentCenter.z;
 
-    console.log(`[Garment] Auto-positioned: yOffset=${yOffset.toFixed(3)}, size=${garmentSize.y.toFixed(3)}h x ${garmentSize.x.toFixed(3)}w x ${garmentSize.z.toFixed(3)}d`);
+    // Hitung ulang BoundingBox setelah dipindah ke world position baru
+    const finalGarmentBox = new THREE.Box3().setFromObject(wrapper);
+    
+    // collarYLocal harus berupa jarak puncak kerah ke origin model lokal!
+    // Karena wrapper.position.y digeser, max.y dunia harus dikurangi wrapper.position.y
+    const collarYLocal = finalGarmentBox.max.y - wrapper.position.y;
+
+    garmentCache.set(wrapper, {
+        rawSize: garmentSize.clone(),
+        collarYLocal: collarYLocal,
+        model: model,
+        initialY: wrapper.position.y
+    });
+
+    console.log(`[Garment] Auto-positioned: yOffset=${autoYOffset.toFixed(3)}, size=${garmentSize.y.toFixed(3)}h x ${garmentSize.x.toFixed(3)}w x ${garmentSize.z.toFixed(3)}d`);
 
     console.log('[Garment] Baju 3D berhasil dipasang ke avatar');
 
@@ -109,12 +116,84 @@ export async function loadGarment(url, targetGroup, onProgress = null) {
 /**
  * Menyesuaikan ukuran dan posisi baju saat avatar atau ukuran pakaian diganti.
  */
-export function fitGarmentToAvatar(garmentWrapper, body = {}, sizeSpec = null, matchState = null, avatar = null) {
-    if (!avatar || !garmentWrapper) return;
+export function fitGarmentToAvatar(garmentWrapper, body = {}, sizeSpec = null, matchState = null, avatar = null, baseSizeSpec = null) {
+    if (!avatar || !garmentWrapper || !sizeSpec || !baseSizeSpec) return;
 
-    // Biarkan baju sesuai ukuran asli dari file GLB untuk sementara
-    // agar SkinnedMesh tidak rusak saat di-scale.
-    console.log('[Garment] fitGarmentToAvatar called but not squishing the avatar so we preserve human anatomy.');
+    const cache = garmentCache.get(garmentWrapper);
+    if (!cache) return;
+
+    const scaleX = sizeSpec.lebar_dada / (baseSizeSpec.lebar_dada || 50);
+    const scaleY = sizeSpec.panjang / (baseSizeSpec.panjang || 70);
+
+    // Hardcode nilai kalibrasi dasar (sebelumnya dari slider)
+    const debugScale = 1.02; 
+    const debugY = -0.30;
+    const debugZ = 0.12;
+
+    // Kalkulasi final: base x rasio_size x kalibrasi
+    let finalScaleX = scaleX * debugScale;
+    const finalScaleY = scaleY * debugScale;
+
+    // Perkirakan besaran tubuh avatar di sumbu X (berdasarkan chest)
+    // Asumsi avatar standar M memiliki half-chest sekitar 48cm (lebar dada baju M dikurangi kelonggaran 2cm)
+    const avatarBaseHalfChest = (baseSizeSpec.lebar_dada || 50) - 2;
+    const customerHalfChest = (body && body.chest) ? (body.chest / 2) : avatarBaseHalfChest;
+    const avatarScaleX = customerHalfChest / avatarBaseHalfChest;
+
+    // A-Pose & Fat Tolerance: ekstra kelonggaran untuk baju besar
+    if (scaleX > 1.0) {
+        const extraFit = (scaleX - 1.0) * 0.35;
+        finalScaleX += extraFit;
+    }
+
+    // CEGAH TEMBUS (CLIPPING) UNTUK BAJU KEKECILAN:
+    // Jika baju lebih kecil dari tubuh (misal dada 110 pakai baju S), 
+    // baju tidak boleh menyusut tembus daging. Baju akan ditahan di ukuran badan (nge-press).
+    // Baju akan terlihat kecil (cingkrang) karena scaleY (panjang) tetap menyusut.
+    const minScaleX = avatarScaleX * 1.02; // Minimal 2% lebih besar dari daging agar ketat
+    finalScaleX = Math.max(finalScaleX, minScaleX);
+
+    let finalScaleZ = finalScaleX; 
+    // Untuk baju kebesaran (scaleX > 1.0), ketebalan depan juga ditambah sedikit
+    if (scaleX > 1.0) {
+        finalScaleZ += (scaleX - 1.0) * 0.2; 
+    }
+
+    garmentWrapper.scale.set(finalScaleX, finalScaleY, finalScaleZ);
+
+    // Kompensasi pivot kerah (sagging / melorot proporsional)
+    // - Ukuran L (skala Y ~ 1.028) paling pas dengan dropFactor 1.20.
+    // - Ukuran XL & 2XL: 1.20 terlalu ke bawah, 1.15 masih kurang ke bawah sedikit.
+    //   Maka kita gunakan nilai 1.18
+    let dropFactor = 1.0;
+    if (finalScaleY > 1.0) {
+        if (finalScaleY < 1.05) {
+            dropFactor = 1.20; // L
+        } else {
+            dropFactor = 1.18; // XL dan 2XL (Titik antara 1.15 dan 1.20)
+        }
+    }
+    const pivotCompensationY = - (cache.collarYLocal * (finalScaleY - 1)) * dropFactor;
+
+    // Offset nilai default
+    const uiYOffset = debugY - (-0.30) - 0.01; 
+    const uiZOffset = debugZ - (0.12);
+
+    garmentWrapper.position.y = cache.initialY + pivotCompensationY + uiYOffset;
+    
+    // Kompensasi Maju ke Depan (Z axis)
+    // Pengguna mengamati dada depan tembus saat ukuran baju membesar.
+    // L (skala 1.08) butuh sedikit maju (0.012), XL (1.16) butuh (0.024), 2XL (1.24) butuh batas maksimal (0.032).
+    // Rumus linear: (scale - 1.00) * 0.15 secara presisi mengenai L(0.012) dan XL(0.024)!
+    let pivotCompensationZ = 0;
+    if (finalScaleX > 1.00) { 
+        pivotCompensationZ = Math.min((finalScaleX - 1.00) * 0.15, 0.032); 
+    }
+
+    if (typeof cache.initialZ === 'undefined') {
+        cache.initialZ = garmentWrapper.position.z;
+    }
+    garmentWrapper.position.z = cache.initialZ + uiZOffset + pivotCompensationZ;
 }
 
 /**

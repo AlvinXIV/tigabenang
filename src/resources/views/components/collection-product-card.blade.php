@@ -36,13 +36,9 @@
             <a href="{{ $detailUrl }}" class="no-underline hover:text-[#B8664A]">{{ $produk->nama_produk }}</a>
         </h3>
         <p class="mt-1 text-sm font-semibold text-[#1C2430]"><x-price :amount="$produk->harga" /></p>
-        <p class="mt-1 line-clamp-2 min-h-[2.25rem] text-sm leading-relaxed text-[#667085]">
-            @if (filled($produk->deskripsi ?? null))
-                {{ $produk->deskripsi }}
-            @else
-                Pesan sesuai kebutuhan{{ $category ? ', kategori '.$category : '' }}.
-            @endif
-        </p>
+        @if (filled($produk->deskripsi ?? null))
+            <p class="mt-1 line-clamp-2 text-sm leading-relaxed text-[#667085]">{{ $produk->deskripsi }}</p>
+        @endif
         <a href="{{ $detailUrl }}" class="mt-auto pt-3 text-sm font-semibold text-[#1C2430] no-underline hover:text-[#B8664A]">
             Lihat detail
         </a>

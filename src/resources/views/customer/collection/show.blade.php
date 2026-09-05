@@ -47,10 +47,6 @@
 
                 @if (filled($product->deskripsi ?? null))
                     <p class="mt-4 text-sm leading-relaxed text-[#667085]">{{ $product->deskripsi }}</p>
-                @else
-                    <p class="mt-4 text-sm leading-relaxed text-[#667085]">
-                        Pakaian pesan jadi dari lini {{ $product->kategori?->nama_kategori ?? 'FitVendor' }}. Kirim permintaan dengan bahan dan rincian ukuran yang Anda butuhkan.
-                    </p>
                 @endif
 
                 <div class="mt-8 flex flex-wrap items-center gap-3">
@@ -67,13 +63,11 @@
                     @endif
                 </div>
 
-                <div class="mt-6 flex flex-wrap gap-2">
-                    <span class="rounded-lg border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-semibold text-[#1C2430]">Pesan sesuai order</span>
-                    <span class="rounded-lg border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-semibold text-[#1C2430]">Ukuran custom</span>
-                    @if ($hasModel)
+                @if ($hasModel)
+                    <div class="mt-6">
                         <span class="rounded-[8px] border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-medium text-[#1C2430]">Ada pratinjau 3D</span>
-                    @endif
-                </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
