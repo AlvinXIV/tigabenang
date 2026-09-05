@@ -20,22 +20,7 @@
             </p>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2.5">
-            <!-- Live Search Bar -->
-            <div class="relative w-full sm:w-64">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#98A2B3]">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-                <input
-                    type="text"
-                    wire:model.live.debounce.300ms="search"
-                    placeholder="Cari pesanan, nama, no HP..."
-                    class="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-white border border-[#E2E5E9] rounded-lg text-[#1C2430] placeholder-[#98A2B3] focus:outline-none focus:border-[#B8664A] focus:ring-1 focus:ring-[#B8664A]"
-                >
-            </div>
-
+        <div class="flex items-center gap-2.5">
             <a
                 href="{{ route('admin.analytics') }}"
                 class="btn-secondary px-3.5 py-1.5 text-xs sm:text-sm gap-2"

@@ -1,4 +1,40 @@
-<div class="space-y-5">
+<div
+    class="space-y-5"
+    x-data="{
+        searchQuery: '',
+        selectedCategory: '',
+        items: [
+            @foreach ($sizes as $itemSize)
+            { id: {{ $itemSize->id_ukuran }}, catId: '{{ $itemSize->kategori_id }}', nama: '{{ addslashes(strtolower($itemSize->nama_ukuran)) }}', kategori: '{{ addslashes(strtolower($itemSize->kategori ? $itemSize->kategori->nama_kategori : '')) }}' },
+            @endforeach
+        ],
+        matches(catId, nama, kategori) {
+            const q = this.searchQuery.trim().toLowerCase();
+            const cat = this.selectedCategory;
+            const matchCat = !cat || String(catId) === String(cat);
+            if (!matchCat) return false;
+            if (!q) return true;
+            return nama.includes(q) || kategori.includes(q);
+        },
+        get visibleCount() {
+            const q = this.searchQuery.trim().toLowerCase();
+            const cat = this.selectedCategory;
+            return this.items.filter(item => {
+                const matchCat = !cat || item.catId === String(cat);
+                if (!matchCat) return false;
+                if (!q) return true;
+                return item.nama.includes(q) || item.kategori.includes(q);
+            }).length;
+        },
+        get hasFilter() {
+            return this.searchQuery.trim() !== '' || this.selectedCategory !== '';
+        },
+        resetFilter() {
+            this.searchQuery = '';
+            this.selectedCategory = '';
+        }
+    }"
+>
 
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
@@ -168,38 +204,52 @@
     @endif
 
     <!-- TOOLBAR & FILTERS -->
-    <div class="admin-card p-3 bg-white flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div class="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto flex-1">
+    <div class="admin-card p-3.5 bg-white flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2.5 flex-1">
             <!-- Search -->
-            <div class="relative w-full sm:max-w-xs">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#98A2B3]">
+            <div class="relative flex-1 min-w-[200px] sm:max-w-md w-full">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#98A2B3]">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
                 <input
                     type="text"
-                    wire:model.live.debounce.300ms="search"
-                    placeholder="Cari label ukuran..."
-                    class="w-full pl-9 pr-3.5 py-1.5 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    x-model="searchQuery"
+                    placeholder="Cari ukuran atau kategori..."
+                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Category Filter -->
             <select
-                wire:model.live="categoryFilter"
-                class="w-full sm:w-48 px-3 py-1.5 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                x-model="selectedCategory"
+                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
             >
                 <option value="">Semua Kategori</option>
                 @foreach ($categories as $cat)
                     <option value="{{ $cat->id_kategori }}">{{ $cat->nama_kategori }}</option>
                 @endforeach
             </select>
+
+            <!-- Reset Filter Button (Ghost Action) -->
+            <button
+                type="button"
+                x-show="hasFilter"
+                @click="resetFilter()"
+                class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                style="display: none;"
+            >
+                <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                <span>Reset Filter</span>
+            </button>
         </div>
 
-        <span class="text-xs text-[#667085] shrink-0">
-            Total: <strong class="text-[#1C2430]">{{ $sizes->count() }}</strong> spesifikasi
-        </span>
+        <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
+            Total: <strong class="text-[#1C2430]" x-text="visibleCount">{{ $sizes->count() }}</strong> spesifikasi
+        </div>
     </div>
 
     <!-- SIZES MATRIX TABLE -->
@@ -248,13 +298,16 @@
                                 </td>
                                 <td class="px-4 py-3 text-right whitespace-nowrap">
                                     <div class="flex items-center justify-end gap-1.5">
-                                        <button wire:click="update" class="px-2.5 py-1 bg-[#B8664A] text-white rounded text-xs font-medium">Simpan</button>
-                                        <button wire:click="cancelEdit" class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">Batal</button>
+                                        <button wire:click="update" class="px-2.5 py-1 bg-[#B8664A] text-white rounded text-xs font-medium cursor-pointer">Simpan</button>
+                                        <button wire:click="cancelEdit" class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs cursor-pointer">Batal</button>
                                     </div>
                                 </td>
                             </tr>
                         @else
-                            <tr class="admin-table-row">
+                            <tr
+                                class="admin-table-row"
+                                x-show="matches('{{ $s->kategori_id }}', '{{ addslashes(strtolower($s->nama_ukuran)) }}', '{{ addslashes(strtolower($s->kategori ? $s->kategori->nama_kategori : '')) }}')"
+                            >
                                 <td class="px-4 py-3.5 font-mono text-xs text-[#667085] whitespace-nowrap">
                                     #{{ $s->id_ukuran }}
                                 </td>
@@ -280,8 +333,12 @@
                                 </td>
                                 <td class="px-4 py-3.5 text-right whitespace-nowrap">
                                     <x-action-menu :label="'Menu aksi ukuran ' . $s->nama_ukuran">
+                                        <x-action-menu.item wire:click="startEdit({{ $s->id_ukuran }})">
+                                            Ubah Cepat (Inline)
+                                        </x-action-menu.item>
+
                                         <x-action-menu.item href="{{ route('admin.ukuran.edit', $s->id_ukuran) }}">
-                                            Ubah Dimensi
+                                            Halaman Ubah Penuh
                                         </x-action-menu.item>
 
                                         <x-action-menu.divider />
@@ -300,14 +357,17 @@
                     @empty
                         <tr>
                             <td colspan="8" class="px-4 py-8 text-center text-xs text-[#667085]">
-                                @if(!empty($search) || !empty($categoryFilter))
-                                    Tidak ada spesifikasi ukuran yang cocok dengan filter pencarian.
-                                @else
-                                    Belum ada spesifikasi ukuran tersimpan.
-                                @endif
+                                Belum ada spesifikasi ukuran tersimpan.
                             </td>
                         </tr>
                     @endforelse
+
+                    <!-- Empty state row when search/filter returns 0 items -->
+                    <tr x-show="visibleCount === 0" style="display: none;">
+                        <td colspan="8" class="px-4 py-8 text-center text-xs text-[#667085]">
+                            Tidak ada spesifikasi ukuran yang cocok dengan filter pencarian.
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

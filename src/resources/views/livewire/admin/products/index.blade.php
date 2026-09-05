@@ -1,4 +1,4 @@
-<div class="space-y-5">
+<div class="space-y-5" x-data="{ model3dFilter: '' }">
 
     <!-- TOP HEADER & ACTION BUTTON -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
@@ -43,11 +43,11 @@
     @endif
 
     <!-- FILTER & SEARCH BAR -->
-    <div class="admin-card p-3.5 bg-white flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div class="w-full flex flex-col sm:flex-row items-center gap-2.5">
+    <div class="admin-card p-3.5 bg-white flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2.5 flex-1">
             <!-- Search Input -->
-            <div class="relative w-full sm:max-w-sm">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#98A2B3]">
+            <div class="relative flex-1 min-w-[200px] sm:max-w-md w-full">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#98A2B3]">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -56,37 +56,50 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari nama produk..."
-                    class="w-full pl-9 pr-3.5 py-2 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Category Filter -->
-            <div class="w-full sm:w-56">
-                <select
-                    wire:model.live="categoryFilter"
-                    class="w-full px-3 py-2 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
-                >
-                    <option value="">Semua Kategori</option>
-                    @foreach ($categories as $cat)
-                        <option value="{{ $cat->id_kategori }}">
-                            {{ $cat->nama_kategori }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            <select
+                wire:model.live="categoryFilter"
+                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+            >
+                <option value="">Semua Kategori</option>
+                @foreach ($categories as $cat)
+                    <option value="{{ $cat->id_kategori }}">
+                        {{ $cat->nama_kategori }}
+                    </option>
+                @endforeach
+            </select>
 
-            @if ($search || $categoryFilter)
+            <!-- Model 3D Status Filter -->
+            <select
+                x-model="model3dFilter"
+                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+            >
+                <option value="">Semua Status 3D</option>
+                <option value="connected">Terhubung</option>
+                <option value="missing">Belum tersedia</option>
+            </select>
+
+            <!-- Reset Filter Button (Ghost Action) -->
+            <template x-if="model3dFilter || '{{ $search }}' || '{{ $categoryFilter }}'">
                 <button
                     type="button"
+                    @click="model3dFilter = ''"
                     wire:click="$set('search', ''); $set('categoryFilter', '')"
-                    class="text-xs text-[#667085] hover:text-[#B8664A] px-2 py-1 shrink-0 cursor-pointer"
+                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
-                    Reset Filter
+                    <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    <span>Reset Filter</span>
                 </button>
-            @endif
+            </template>
         </div>
 
-        <div class="text-xs text-[#667085] self-end sm:self-center shrink-0">
+        <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
             Total: <strong class="text-[#1C2430]">{{ $products->count() }}</strong> produk
         </div>
     </div>
@@ -106,7 +119,10 @@
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
                     @forelse ($products as $product)
-                        <tr class="admin-table-row">
+                        <tr
+                            class="admin-table-row"
+                            x-show="model3dFilter === '' || (model3dFilter === 'connected' && {{ $product->file_model_3d ? 'true' : 'false' }}) || (model3dFilter === 'missing' && {{ $product->file_model_3d ? 'false' : 'true' }})"
+                        >
                             <!-- Produk Thumbnail & Info -->
                             <td class="px-4 py-3.5">
                                 <div class="flex items-center gap-3">
@@ -153,11 +169,11 @@
                                 @if ($product->file_model_3d)
                                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                        Tersedia (.glb)
+                                        Terhubung (.glb)
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
-                                        Belum Ada
+                                        Belum tersedia
                                     </span>
                                 @endif
                             </td>
