@@ -45,7 +45,7 @@ class VirtualFittingController extends Controller
             ];
         })->values();
 
-        $allCategories = Kategori::orderBy('nama_kategori')->get();
+        $allCategories = CustomerCatalog::categories();
 
         return view('customer.virtual-fitting', [
             'products' => $products,

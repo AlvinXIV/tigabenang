@@ -19,7 +19,7 @@
             <div>
                 <a href="{{ route('home') }}" class="mb-4 inline-flex items-center gap-2.5 no-underline">
                     <span class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[10px] bg-white">
-                        <img src="{{ asset('images/clothiq-logo.png') }}?v=2" alt="Logo FitVendor" width="32" height="32" class="h-[78%] w-[78%] object-contain">
+                        <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo FitVendor" width="32" height="32" class="h-[78%] w-[78%] object-contain">
                     </span>
                     <span class="text-lg font-semibold tracking-tight text-white">FitVendor</span>
                 </a>

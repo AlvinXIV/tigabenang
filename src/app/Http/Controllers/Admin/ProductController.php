@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bahan;
 use App\Models\Kategori;
 use App\Models\Produk;
+use App\Support\ImageOptimizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -53,6 +54,7 @@ class ProductController extends Controller
         $gambarPath = null;
         if ($request->hasFile('gambar')) {
             $gambarPath = $request->file('gambar')->store('produk', 'public');
+            ImageOptimizer::convertToWebp($gambarPath, 'public');
         }
 
         $model3dPath = null;
@@ -99,10 +101,11 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            if ($produk->gambar && Storage::disk('public')->exists($produk->gambar)) {
-                Storage::disk('public')->delete($produk->gambar);
+            if ($produk->gambar) {
+                ImageOptimizer::deleteWithWebp($produk->gambar, 'public');
             }
             $produk->gambar = $request->file('gambar')->store('produk', 'public');
+            ImageOptimizer::convertToWebp($produk->gambar, 'public');
         }
 
         if ($request->hasFile('file_model_3d')) {
@@ -130,8 +133,8 @@ class ProductController extends Controller
     {
         $produk = Produk::findOrFail($id);
         
-        if ($produk->gambar && Storage::disk('public')->exists($produk->gambar)) {
-            Storage::disk('public')->delete($produk->gambar);
+        if ($produk->gambar) {
+            ImageOptimizer::deleteWithWebp($produk->gambar, 'public');
         }
         if ($produk->file_model_3d && Storage::disk('public')->exists($produk->file_model_3d)) {
             Storage::disk('public')->delete($produk->file_model_3d);

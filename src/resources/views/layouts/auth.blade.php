@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Masuk') - Tigabenang Vendor Portal</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=3">
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

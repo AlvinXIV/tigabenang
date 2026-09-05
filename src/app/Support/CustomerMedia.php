@@ -90,6 +90,40 @@ class CustomerMedia
         return self::imageUrl($path);
     }
 
+    public static function webpUrl(?string $path): ?string
+    {
+        if (! filled($path)) {
+            return null;
+        }
+
+        $cleanPath = parse_url($path, PHP_URL_PATH) ?? $path;
+        $webpCandidate = preg_replace('/\.(jpe?g|png)$/i', '.webp', $cleanPath);
+
+        if ($webpCandidate === $cleanPath) {
+            return self::imageUrl($cleanPath);
+        }
+
+        return self::imageUrl($webpCandidate);
+    }
+
+    public static function productWebpUrl(object|int $produk, ?string $gambar = null): ?string
+    {
+        $id = is_object($produk) ? (int) ($produk->id_produk ?? 0) : $produk;
+        $mapped = self::DEMO_PRODUCT_IMAGES[$id] ?? null;
+
+        if ($mapped) {
+            $url = self::webpUrl($mapped);
+
+            if ($url) {
+                return $url;
+            }
+        }
+
+        $stored = $gambar ?? (is_object($produk) ? ($produk->gambar ?? null) : null);
+
+        return self::webpUrl($stored);
+    }
+
     /**
      * Local dummy images for current bahan records.
      * Keys are lowercase material names. Database names are not modified.

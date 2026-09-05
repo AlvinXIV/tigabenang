@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Products;
 
 use App\Models\Kategori;
 use App\Models\Produk;
+use App\Support\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
@@ -17,8 +18,8 @@ class Index extends Component
     {
         $product = Produk::findOrFail($id);
 
-        if ($product->gambar && Storage::disk('public')->exists($product->gambar)) {
-            Storage::disk('public')->delete($product->gambar);
+        if ($product->gambar) {
+            ImageOptimizer::deleteWithWebp($product->gambar, 'public');
         }
 
         if ($product->file_model_3d && Storage::disk('public')->exists($product->file_model_3d)) {

@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Products;
 use App\Models\Bahan;
 use App\Models\Kategori;
 use App\Models\Produk;
+use App\Support\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -68,7 +69,11 @@ class ProductForm extends Component
         ];
 
         if ($this->gambar) {
+            if ($this->existingGambar) {
+                ImageOptimizer::deleteWithWebp($this->existingGambar, 'public');
+            }
             $data['gambar'] = $this->gambar->store('produk', 'public');
+            ImageOptimizer::convertToWebp($data['gambar'], 'public');
         }
 
         if ($this->file_model_3d) {

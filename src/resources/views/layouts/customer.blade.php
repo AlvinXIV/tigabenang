@@ -8,7 +8,7 @@
     <meta name="description" content="@yield('description', 'Pesan pakaian custom untuk tim, komunitas, acara, atau brand Anda.')">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=2">
+    <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     @php
         $viteHotFile = public_path('hot');

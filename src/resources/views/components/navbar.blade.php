@@ -17,7 +17,7 @@
 
             <a href="{{ route('home') }}" class="group flex shrink-0 items-center gap-2.5 no-underline">
                 <span class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[10px] border border-[#E2E5E9] bg-white">
-                    <img src="{{ asset('images/clothiq-logo.png') }}?v=2" alt="Logo FitVendor" width="32" height="32" class="h-[78%] w-[78%] object-contain">
+                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo FitVendor" width="32" height="32" class="h-[78%] w-[78%] object-contain">
                 </span>
                 <span class="text-[1.05rem] font-semibold tracking-tight text-[#102A43]">FitVendor</span>
             </a>

@@ -200,7 +200,7 @@
                 <div class="shrink-0 p-5 flex items-center justify-between border-b border-white/10">
                     <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 text-decoration-none">
                         <div class="w-9 h-9 bg-white rounded-lg flex items-center justify-center shrink-0 border border-white/20 shadow-xs overflow-hidden">
-                            <img src="{{ asset('images/clothiq-logo.png') }}?v=2" alt="Logo FitVendor" width="28" height="28" class="h-[75%] w-[75%] object-contain">
+                            <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo FitVendor" width="28" height="28" class="h-[75%] w-[75%] object-contain">
                         </div>
                         <div>
                             <div class="text-white text-sm font-bold tracking-tight">Tigabenang</div>

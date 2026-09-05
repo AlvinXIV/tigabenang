@@ -8,6 +8,7 @@
     @php
         use App\Support\CustomerMedia;
         $heroImgUrl = asset('images/hero-banner.jpg');
+        $heroWebpUrl = asset('images/hero-banner.webp');
     @endphp
 
     <style>
@@ -42,13 +43,16 @@
         <section class="fv-home-hero-wrap" aria-label="Pengantar FitVendor">
             <div class="fv-home-hero">
                 @if ($heroImgUrl)
-                    <img
-                        src="{{ $heroImgUrl }}"
-                        alt="Koleksi FitVendor"
-                        class="fv-home-hero__image"
-                        fetchpriority="high"
-                        decoding="async"
-                    >
+                    <picture>
+                        <source srcset="{{ $heroWebpUrl }}" type="image/webp">
+                        <img
+                            src="{{ $heroImgUrl }}"
+                            alt="Koleksi FitVendor"
+                            class="fv-home-hero__image"
+                            fetchpriority="high"
+                            decoding="async"
+                        >
+                    </picture>
                 @endif
                 <div class="fv-home-hero__overlay" aria-hidden="true"></div>
 
@@ -151,12 +155,15 @@
                 </div>
             </div>
             <div class="fv-media aspect-[4/3] shadow-sm">
-                <img
-                    src="{{ asset('images/about-production.jpg') }}"
-                    alt="Proses jahit dan produksi pakaian custom FitVendor"
-                    class="h-full w-full object-cover"
-                    loading="lazy"
-                >
+                <picture>
+                    <source srcset="{{ asset('images/about-production.webp') }}" type="image/webp">
+                    <img
+                        src="{{ asset('images/about-production.jpg') }}"
+                        alt="Proses jahit dan produksi pakaian custom FitVendor"
+                        class="h-full w-full object-cover"
+                        loading="lazy"
+                    >
+                </picture>
             </div>
         </div>
     </section>
@@ -189,19 +196,25 @@
                             $catSlug = \Illuminate\Support\Str::slug($cat->nama_kategori);
                             $catUrl = route('collection.index', ['category' => $catSlug]);
                             $imgUrl = $prod ? CustomerMedia::productImageUrl($prod) : null;
+                            $webpUrl = $prod ? CustomerMedia::productWebpUrl($prod) : null;
                         @endphp
                         <a href="{{ $catUrl }}" class="group block no-underline">
                             <div class="fv-media relative aspect-[4/5]">
                                 @if ($imgUrl)
-                                    <img
-                                        src="{{ $imgUrl }}"
-                                        alt="{{ $prod ? $prod->nama_produk : \App\Support\CustomerCatalog::categoryLabel($cat->nama_kategori) }}"
-                                        width="600"
-                                        height="750"
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="absolute inset-0 h-full w-full object-cover"
-                                    >
+                                    <picture>
+                                        @if ($webpUrl)
+                                            <source srcset="{{ $webpUrl }}" type="image/webp">
+                                        @endif
+                                        <img
+                                            src="{{ $imgUrl }}"
+                                            alt="{{ $prod ? $prod->nama_produk : \App\Support\CustomerCatalog::categoryLabel($cat->nama_kategori) }}"
+                                            width="600"
+                                            height="750"
+                                            loading="lazy"
+                                            decoding="async"
+                                            class="absolute inset-0 h-full w-full object-cover"
+                                        >
+                                    </picture>
                                 @endif
                                 <span class="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-xl bg-[#102A43] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 group-hover:bg-[#1C3D5A]">
                                     <span>Lihat kategori</span>
@@ -286,12 +299,15 @@
         <div class="mx-auto grid max-w-[1200px] items-center gap-10 lg:gap-16 px-5 lg:grid-cols-2 lg:px-8">
             <div class="fv-fitting-promo-media">
                 <div class="fv-media aspect-[4/3]">
-                    <img
-                        src="{{ asset('images/virtual.jpg') }}"
-                        alt="Studio virtual fitting FitVendor"
-                        class="h-full w-full object-cover object-center"
-                        loading="lazy"
-                    >
+                    <picture>
+                        <source srcset="{{ asset('images/virtual.webp') }}" type="image/webp">
+                        <img
+                            src="{{ asset('images/virtual.jpg') }}"
+                            alt="Studio virtual fitting FitVendor"
+                            class="h-full w-full object-cover object-center"
+                            loading="lazy"
+                        >
+                    </picture>
                 </div>
             </div>
             <div class="lg:pl-8 xl:pl-12">
@@ -434,13 +450,16 @@
                         </div>
                         <p class="testimonial-slide-card__quote text-sm leading-relaxed text-[#102A43]">{{ $t['quote'] }}</p>
                         <div class="testimonial-identity">
-                            <img
-                                src="{{ asset($t['photo']) }}"
-                                alt="{{ $t['name'] }}"
-                                width="40"
-                                height="40"
-                                loading="lazy"
-                            >
+                            <picture>
+                                <source srcset="{{ asset(preg_replace('/\.(jpe?g|png)$/i', '.webp', $t['photo'])) }}" type="image/webp">
+                                <img
+                                    src="{{ asset($t['photo']) }}"
+                                    alt="{{ $t['name'] }}"
+                                    width="40"
+                                    height="40"
+                                    loading="lazy"
+                                >
+                            </picture>
                             <div class="testimonial-identity__copy">
                                 <h3 class="testimonial-identity__name">{{ $t['name'] }}</h3>
                                 <p class="testimonial-identity__role">{{ $t['role'] }}</p>

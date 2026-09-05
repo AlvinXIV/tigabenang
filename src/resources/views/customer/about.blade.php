@@ -330,12 +330,15 @@
         <section class="fv-about__section bg-white">
             <div class="fv-about__shell">
                 <div class="fv-about__hero">
-                    <img
-                        src="{{ asset('images/tentang1.jpg') }}"
-                        alt="Studio produksi FitVendor"
-                        width="720"
-                        height="900"
-                    >                    <div class="fv-about__hero-body">
+                    <picture>
+                        <source srcset="{{ asset('images/tentang1.webp') }}" type="image/webp">
+                        <img
+                            src="{{ asset('images/tentang1.jpg') }}"
+                            alt="Studio produksi FitVendor"
+                            width="720"
+                            height="900"
+                        >
+                    </picture>                    <div class="fv-about__hero-body">
                         <span class="fv-about__hero-eyebrow">Tentang FitVendor</span>
                         <h1 class="fv-about__hero-title">
                             Vendor pakaian yang mengutamakan ukuran yang pas
@@ -365,12 +368,15 @@
                     </p>
                 </div>
                 <div class="fv-about__photo fv-about__photo--story">
-                    <img
-                        src="{{ asset('images/fitvendor.png') }}"
-                        alt="Identitas FitVendor"
-                        width="720"
-                        height="900"
-                    >
+                    <picture>
+                        <source srcset="{{ asset('images/fitvendor.webp') }}" type="image/webp">
+                        <img
+                            src="{{ asset('images/fitvendor.png') }}"
+                            alt="Identitas FitVendor"
+                            width="720"
+                            height="900"
+                        >
+                    </picture>
                 </div>
             </div>
         </section>
@@ -411,12 +417,15 @@
                     </div>
                 </div>
                 <div class="fv-about__photo fv-about__photo--work">
-                    <img
-                        src="{{ asset('images/tentang4.jpg') }}"
-                        alt="Tim FitVendor membahas bahan dan desain"
-                        width="720"
-                        height="900"
-                    >
+                    <picture>
+                        <source srcset="{{ asset('images/tentang4.webp') }}" type="image/webp">
+                        <img
+                            src="{{ asset('images/tentang4.jpg') }}"
+                            alt="Tim FitVendor membahas bahan dan desain"
+                            width="720"
+                            height="900"
+                        >
+                    </picture>
                 </div>
             </div>
         </section>

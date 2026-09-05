@@ -7,6 +7,7 @@
     use App\Support\CustomerCatalog;
     use App\Support\CustomerMedia;
     $imageUrl = CustomerMedia::productImageUrl($product);
+    $productWebpUrl = CustomerMedia::productWebpUrl($product);
     $hasModel = filled($product->file_model_3d);
     $categoryLabel = CustomerCatalog::categoryLabel($product->kategori?->nama_kategori);
     $displayMaterials = CustomerCatalog::previewMaterials(
@@ -23,13 +24,18 @@
             <div class="lg:col-span-5">
                 <div class="fv-media relative aspect-[3/4]">
                     @if ($imageUrl)
-                        <img
-                            src="{{ $imageUrl }}"
-                            alt="{{ $product->nama_produk }}"
-                            width="600" height="800"
-                            fetchpriority="high" decoding="async"
-                            class="h-full w-full object-cover"
-                        >
+                        <picture>
+                            @if ($productWebpUrl)
+                                <source srcset="{{ $productWebpUrl }}" type="image/webp">
+                            @endif
+                            <img
+                                src="{{ $imageUrl }}"
+                                alt="{{ $product->nama_produk }}"
+                                width="600" height="800"
+                                fetchpriority="high" decoding="async"
+                                class="h-full w-full object-cover"
+                            >
+                        </picture>
                     @else
                         <div class="flex h-full flex-col items-center justify-center gap-2 p-8 text-center">
                             <p class="text-xs font-medium text-[#667085]">{{ $categoryLabel !== '' ? $categoryLabel : 'Produk' }}</p>
@@ -89,6 +95,7 @@
                     @foreach ($displayMaterials as $bahan)
                         @php
                             $materialImageUrl = CustomerMedia::materialImageUrl($bahan->nama_bahan);
+                            $materialWebpUrl = $materialImageUrl ? CustomerMedia::webpUrl($materialImageUrl) : null;
                         @endphp
                         <li>
                             @if ($materialImageUrl)
@@ -99,12 +106,17 @@
                                     data-material-name="{{ $bahan->nama_bahan }}"
                                 >
                                     <span class="fv-material-thumb__frame">
-                                        <img
-                                            src="{{ $materialImageUrl }}"
-                                            alt="{{ $bahan->nama_bahan }}"
-                                            width="96"
-                                            height="96"
-                                        >
+                                        <picture>
+                                            @if ($materialWebpUrl)
+                                                <source srcset="{{ $materialWebpUrl }}" type="image/webp">
+                                            @endif
+                                            <img
+                                                src="{{ $materialImageUrl }}"
+                                                alt="{{ $bahan->nama_bahan }}"
+                                                width="96"
+                                                height="96"
+                                            >
+                                        </picture>
                                     </span>
                                     <span class="fv-material-thumb__name">{{ $bahan->nama_bahan }}</span>
                                 </button>
