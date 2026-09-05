@@ -8,7 +8,7 @@
     href="{{ $href }}"
     target="_blank"
     rel="noopener noreferrer"
-    class="fixed right-5 bottom-5 z-[90] inline-flex min-h-12 items-center gap-2 rounded-[8px] bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white no-underline shadow-[0_4px_16px_rgba(16,24,40,0.12)]"
+    class="fixed right-5 bottom-5 z-[90] inline-flex min-h-12 items-center gap-2.5 rounded-[10px] bg-[#102A43] px-4 py-2.5 text-sm font-semibold text-white no-underline shadow-[0_4px_16px_rgba(16,42,67,0.25)] transition-all duration-200 hover:bg-[#1C3D5A] hover:shadow-[0_8px_24px_rgba(16,42,67,0.35)] hover:-translate-y-0.5"
     aria-label="Hubungi via WhatsApp"
 >
     <svg class="h-5 w-5 shrink-0 fill-white" viewBox="0 0 24 24" aria-hidden="true">

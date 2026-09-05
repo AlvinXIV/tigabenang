@@ -35,13 +35,12 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Pilihan pakaian');
         $this->get('/about')
             ->assertOk()
-            ->assertSee('Visi')
-            ->assertSee('Misi')
+            ->assertSee('Tentang FitVendor')
+            ->assertSee('Cerita kami')
+            ->assertSee('Siapa itu FitVendor')
             ->assertSee('Hubungi Kami')
-            ->assertSee('Antara meja potong dan layar fitting')
             ->assertSee('images/tentang1.jpg', false)
-            ->assertSee('images/tentang2.jpg', false)
-            ->assertSee('images/tentang3.jpg', false)
+            ->assertSee('images/fitvendor.png', false)
             ->assertSee('images/tentang4.jpg', false)
             ->assertSee(config('fitvendor.contact.email'));
 

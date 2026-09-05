@@ -46,7 +46,15 @@
             transform: scale(1.02);
         }
         .fv-about__photo--hero { aspect-ratio: 4 / 5; }
-        .fv-about__photo--story { aspect-ratio: 4 / 3; }
+        .fv-about__photo--story {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 4 / 5;
+            margin-inline: auto;
+        }
+        @media (min-width: 768px) {
+            .fv-about__photo--story { max-width: 360px; }
+        }
         .fv-about__photo--process {
             width: 100%;
             max-width: 100%;
@@ -74,15 +82,21 @@
                 align-items: center;
             }
         }
-        .fv-about__photo--work { aspect-ratio: 4 / 5; }
-        .fv-about__intro,
+        .fv-about__photo--work {
+            width: 100%;
+            max-width: 340px;
+            aspect-ratio: 4 / 5;
+            margin-inline: auto;
+        }
+        @media (min-width: 768px) {
+            .fv-about__photo--work { max-width: 380px; }
+        }
         .fv-about__story,
         .fv-about__work {
             display: grid;
             gap: 2.25rem;
         }
         @media (min-width: 1024px) {
-            .fv-about__intro,
             .fv-about__story,
             .fv-about__work {
                 grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -178,7 +192,7 @@
         }
         .fv-about__steps {
             display: grid;
-            gap: 0;
+            gap: 1.5rem;
             margin: 2rem 0 0;
             padding: 0;
             list-style: none;
@@ -186,21 +200,21 @@
         @media (min-width: 768px) {
             .fv-about__steps {
                 grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 2rem;
             }
         }
         .fv-about__steps li {
-            padding: 1.25rem 0;
-            border-top: 1px solid #E2E5E9;
+            padding: 0;
+            border: 0;
         }
         @media (min-width: 768px) {
             .fv-about__steps li {
-                padding: 0 1.25rem 0 0;
-                border-top: 0;
-                border-right: 1px solid #E2E5E9;
+                padding: 0;
+                border: 0;
             }
             .fv-about__steps li:last-child {
-                padding-right: 0;
-                border-right: 0;
+                padding: 0;
+                border: 0;
             }
         }
         .fv-about__steps-num {
@@ -240,49 +254,120 @@
             .fv-about__process .fv-about__copy-col { order: 1; }
         }
         @media (max-width: 1023px) {
-            .fv-about__intro .fv-about__photo,
             .fv-about__work .fv-about__photo { order: 2; }
-            .fv-about__intro .fv-about__copy-col,
             .fv-about__work .fv-about__copy-col { order: 1; }
+        }
+        @media (min-width: 1024px) {
+            .fv-about__work .fv-about__photo { order: 1; justify-self: start; margin-inline: 0; }
+            .fv-about__work .fv-about__copy-col { order: 2; }
+        }
+        .fv-about__hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            background: #102A43;
+            aspect-ratio: 21 / 10;
+        }
+        .fv-about__hero img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .fv-about__hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13, 34, 55, 0.92) 0%, rgba(13, 34, 55, 0.55) 45%, rgba(13, 34, 55, 0.18) 100%);
+        }
+        .fv-about__hero-body {
+            position: absolute;
+            inset: auto 0 0 0;
+            z-index: 1;
+            padding: 2rem;
+        }
+        @media (min-width: 768px) {
+            .fv-about__hero-body { padding: 2.75rem; }
+        }
+        @media (min-width: 1024px) {
+            .fv-about__hero-body { padding: 3.25rem; }
+        }
+        .fv-about__hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 0 0.75rem;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #FFFFFF;
+        }
+        .fv-about__hero-eyebrow::before {
+            content: none;
+        }
+        .fv-about__hero-title {
+            margin: 0;
+            max-width: 24ch;
+            font-size: clamp(1.625rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #FFFFFF;
+            text-wrap: balance;
+        }
+        .fv-about__hero-lead {
+            margin: 1rem 0 0;
+            max-width: 44ch;
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
         }
     </style>
 
     <div class="fv-about">
         <section class="fv-about__section bg-white">
-            <div class="fv-about__shell fv-about__intro">
-                <div class="fv-about__copy-col">
-                    <span class="about-eyebrow">Tentang FitVendor</span>
-                    <h1 class="fv-about__heading">
-                        Vendor pakaian yang mengutamakan ukuran yang pas
-                    </h1>
-                    <p class="fv-about__lead">
-                        FitVendor membuat pakaian custom untuk tim, komunitas, dan individu. Dari pilihan model sampai potongan jadi.
-                    </p>
-                </div>
-                <div class="fv-about__photo fv-about__photo--hero">
+            <div class="fv-about__shell">
+                <div class="fv-about__hero">
                     <img
                         src="{{ asset('images/tentang1.jpg') }}"
                         alt="Studio produksi FitVendor"
                         width="720"
                         height="900"
-                    >
+                    >                    <div class="fv-about__hero-body">
+                        <span class="fv-about__hero-eyebrow">Tentang FitVendor</span>
+                        <h1 class="fv-about__hero-title">
+                            Vendor pakaian yang mengutamakan ukuran yang pas
+                        </h1>
+                        <p class="fv-about__hero-lead">
+                            FitVendor membuat pakaian custom untuk tim, komunitas, dan individu. Dari pilihan model sampai potongan jadi.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="fv-about__section bg-white">
-            <div class="fv-about__shell fv-about__process">
+            <div class="fv-about__shell fv-about__story">
                 <div class="fv-about__copy-col">
-                    <span class="about-eyebrow">Produksi</span>
-                    <h2 class="fv-about__heading">Proses yang kami kerjakan</h2>
+                    <span class="about-eyebrow">Cerita kami</span>
+                    <h2 class="fv-about__heading">Siapa itu FitVendor</h2>
                     <p class="fv-about__copy">
-                        FitVendor tetap memotong dan menjahit per pesanan, plus studio fitting digital supaya model bisa dilihat sebelum produksi.
+                        FitVendor lahir dari kebutuhan sederhana: pakaian custom yang benar-benar pas, tanpa harus bolak-balik tukang jahit.
+                        Kami menggabungkan pengalaman produksi garmen dengan fitting digital, sehingga pelanggan bisa melihat proporsi pakaian sebelum memesan.
+                    </p>
+                    <p class="fv-about__copy">
+                        Setiap pesanan dikerjakan per item. Bahan dipilih dari katalog yang memang tersedia, ukuran dirapikan lewat size chart, dan harga final dibahas terbuka bersama tim kami.
+                    </p>
+                    <p class="fv-about__copy">
+                        Berdiri sejak 2018, FitVendor kini telah memproduksi lebih dari 50.000 potong pakaian untuk tim, komunitas, dan brand di berbagai kota — dengan 5 jenis pakaian yang bisa dikustomisasi, dari varsity dan work jacket sampai jersey dan kaos.
                     </p>
                 </div>
-                <div class="fv-about__photo fv-about__photo--process">
+                <div class="fv-about__photo fv-about__photo--story">
                     <img
-                        src="{{ asset('images/tentang3.jpg') }}"
-                        alt="Gudang bahan dan proses produksi FitVendor"
+                        src="{{ asset('images/fitvendor.png') }}"
+                        alt="Identitas FitVendor"
                         width="720"
                         height="900"
                     >
@@ -340,11 +425,11 @@
             <div class="fv-about__shell">
                 <span class="about-eyebrow">Proses pemesanan</span>
                 <h2 class="fv-about__heading">Alur kerja</h2>
-                <ol class="fv-about__steps">
+                <ol class="fv-about__steps fv-about__steps--plain">
                     @foreach ([
-                        ['num' => '01', 'title' => 'Pilih pakaian', 'desc' => 'Jelajahi koleksi dan buka model yang sesuai kebutuhan.'],
-                        ['num' => '02', 'title' => 'Pilih bahan',  'desc' => 'Ambil satu atau lebih bahan yang tersedia untuk produk itu.'],
-                        ['num' => '03', 'title' => 'Lihat fitting',   'desc' => 'Pakai virtual fitting jika ada file 3D, atau langsung ke formulir.'],
+                        ['num' => '01', 'title' => 'Jelajahi koleksi kami', 'desc' => 'Lihat model pakaian yang tersedia dan temukan yang sesuai kebutuhan.'],
+                        ['num' => '02', 'title' => 'Konsultasikan pesanan',  'desc' => 'Diskusikan bahan, jumlah, dan kebutuhan tim Anda bersama kami.'],
+                        ['num' => '03', 'title' => 'Lihat fitting',   'desc' => 'Cek proporsi pakaian lewat virtual fitting jika ada file 3D.'],
                         ['num' => '04', 'title' => 'Kirim permintaan', 'desc' => 'Isi data pemesan, rincian ukuran, dan catatan desain. Tanpa akun.'],
                     ] as $step)
                         <li>
@@ -410,7 +495,7 @@
                                 </svg>
                             </span>
                             <p class="text-sm font-semibold text-[#667085]">Alamat</p>
-                            <p class="mt-2 text-sm font-semibold text-[#1C2430]">{{ $vendorLocation }}</p>
+                            <p class="mt-2 text-sm font-semibold leading-relaxed text-[#1C2430]">{{ $vendorLocation }}</p>
                         </div>
                     @endif
                 </div>

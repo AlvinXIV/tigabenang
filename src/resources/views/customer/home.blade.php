@@ -38,7 +38,7 @@
         }
     </style>
 
-    <div class="bg-white pt-4 pb-6 sm:pb-8 lg:pb-10">
+    <div class="bg-white pt-4 pb-12 sm:pb-16 lg:pb-24">
         <section class="fv-home-hero-wrap" aria-label="Pengantar FitVendor">
             <div class="fv-home-hero">
                 @if ($heroImgUrl)
@@ -71,7 +71,7 @@
         </section>
     </div>
 
-    <section class="bg-white py-12">
+    <section class="bg-white pt-6 pb-24 sm:pt-8 sm:pb-28 lg:pt-12 lg:pb-36">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
             <div class="grid gap-4 md:grid-cols-3 md:gap-6">
                 <article class="fv-icon-card text-center">
@@ -114,7 +114,7 @@
         </div>
     </section>
 
-    <section class="bg-[#F7F7F5] py-16">
+    <section class="bg-[#F7F7F5] py-16 sm:py-20 lg:py-24">
         <div class="mx-auto grid max-w-[1200px] items-center gap-10 px-5 lg:grid-cols-2 lg:px-8">
             <div>
                 <span class="section-badge mb-3">Tentang kami</span>
@@ -166,8 +166,8 @@
     @endphp
 
     @if ($showcaseItems->isNotEmpty())
-        <section class="border-y border-[#E2E5E9] bg-white py-16">
-            <div class="mx-auto max-w-[1400px] px-5 lg:px-8">
+        <section class="border-y border-[#E2E5E9] bg-white py-16 sm:py-20 lg:py-24">
+            <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
                 <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
                     <div>
                         <span class="section-badge mb-3">Karya kami</span>
@@ -203,8 +203,11 @@
                                         class="absolute inset-0 h-full w-full object-cover"
                                     >
                                 @endif
-                                <span class="absolute bottom-4 right-4 rounded-xl bg-[#102A43] px-3 py-1.5 text-xs font-semibold text-white">
-                                    Lihat kategori
+                                <span class="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-xl bg-[#102A43] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-all duration-200 group-hover:bg-[#1C3D5A]">
+                                    <span>Lihat kategori</span>
+                                    <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+                                    </svg>
                                 </span>
                             </div>
                             <div class="mt-3">
@@ -223,14 +226,18 @@
         </section>
     @endif
 
-    <section class="fv-services">
+    <section
+        class="fv-services border-y border-[#E2E5E9]"
+        style="background-image: linear-gradient(180deg, rgba(247, 247, 245, 0.93) 0%, rgba(247, 247, 245, 0.88) 50%, rgba(247, 247, 245, 0.95) 100%), url('{{ asset('images/bgproduksi.jpg') }}'); background-size: cover; background-position: center;"
+    >
         <div class="fv-services__inner">
             <div class="fv-services__intro">
-                <h2 class="fv-services__title">
-                    Layanan produksi
+                <span class="section-badge mb-3">Layanan produksi</span>
+                <h2 class="fv-services__title mt-1">
+                    Pesanan custom untuk berbagai kebutuhan
                 </h2>
                 <p class="fv-services__lead">
-                    Pesanan custom untuk berbagai kebutuhan.
+                    Pilihan produksi pakaian berkualitas sesuai kebutuhan tim dan organisasi Anda.
                 </p>
             </div>
             <div class="fv-services__grid">
@@ -275,7 +282,7 @@
         </div>
     </section>
 
-    <section class="border-y border-[#E2E5E9] bg-white py-16">
+    <section class="border-y border-[#E2E5E9] bg-white py-16 sm:py-20 lg:py-24">
         <div class="mx-auto grid max-w-[1200px] items-center gap-10 lg:gap-16 px-5 lg:grid-cols-2 lg:px-8">
             <div class="fv-fitting-promo-media">
                 <div class="fv-media aspect-[4/3]">
@@ -296,13 +303,18 @@
                     Gunakan virtual fitting untuk melihat perkiraan tampilan pakaian pada ukuran tubuh Anda. Ini pratinjau, bukan pengukuran jahit final.
                 </p>
                 <div class="mt-6">
-                    <a href="{{ route('virtual-fitting') }}" class="btn-primary">Buka virtual fitting</a>
+                    <a href="{{ route('virtual-fitting') }}" class="btn-primary group inline-flex items-center gap-2">
+                        <span>Buka virtual fitting</span>
+                        <svg class="h-4 w-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5 19.5 4.5m0 0H8.25m11.25 0v11.25"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="bg-[#F7F7F5] py-16">
+    <section class="bg-[#F7F7F5] py-16 sm:py-20 lg:py-24">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
             <div class="grid gap-10 lg:grid-cols-12">
                 <div class="lg:col-span-5">
@@ -380,7 +392,7 @@
         </div>
     </section>
 
-    <section class="border-t border-[#E2E5E9] bg-white py-16">
+    <section class="border-t border-[#E2E5E9] bg-white py-16 sm:py-20 lg:py-24">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
             <div class="testimonial-header mb-8">
                 <div class="testimonial-header__copy">

@@ -724,9 +724,25 @@ model-viewer {
 }
 
 .fv-services {
-    background: #102A43;
-    color: #FFFFFF;
-    padding: 4rem 0;
+    position: relative;
+    isolation: isolate;
+    color: #102A43;
+    padding: 4.5rem 0;
+    background-color: #F7F7F5;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (min-width: 1024px) {
+    .fv-services {
+        padding: 5.5rem 0;
+    }
+}
+
+.fv-services::before,
+.fv-services::after {
+    display: none;
 }
 
 .fv-services__inner {
@@ -747,7 +763,7 @@ model-viewer {
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: #102A43;
 }
 
 .fv-services__lead {
@@ -755,7 +771,7 @@ model-viewer {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
-    color: rgba(255, 255, 255, 0.7);
+    color: #667085;
 }
 
 .fv-services__grid {
@@ -790,9 +806,10 @@ model-viewer {
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.08);
-    color: #FFFFFF;
+    border: 1px solid #E2E5E9;
+    background: #FFFFFF;
+    color: #102A43;
+    box-shadow: 0 1px 3px rgba(16, 42, 67, 0.06);
 }
 
 .fv-services__icon svg {
@@ -811,14 +828,14 @@ model-viewer {
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.35;
-    color: #FFFFFF;
+    color: #102A43;
 }
 
 .fv-services__copy p {
     margin: 8px 0 0;
     font-size: 0.875rem;
     line-height: 1.55;
-    color: rgba(255, 255, 255, 0.7);
+    color: #667085;
 }
 
 .fv-material-thumbs {
