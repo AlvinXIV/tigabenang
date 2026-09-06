@@ -12,7 +12,7 @@
 <article {{ $attributes->class(['product-tile group']) }}>
     <div class="image-frame">
         @if ($imageUrl)
-            <picture>
+            <picture class="absolute inset-0 block h-full w-full">
                 @if ($webpUrl)
                     <source srcset="{{ $webpUrl }}" type="image/webp">
                 @endif
@@ -21,7 +21,7 @@
                     alt="{{ $bahan->nama_bahan }}"
                     width="480"
                     height="640"
-                    class="transition-transform duration-500 group-hover:scale-[1.03]"
+                    class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
                     @if ($lazy) loading="lazy" decoding="async" @else fetchpriority="high" decoding="async" @endif
                 >
             </picture>
