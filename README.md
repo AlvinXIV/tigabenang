@@ -26,7 +26,7 @@ Tigabenang adalah aplikasi web vendor pakaian custom yang membantu pelanggan mel
 
 Pemesanan pakaian custom biasanya melibatkan beberapa langkah yang terpisah: memilih model, menentukan bahan dan ukuran, mengirim desain, lalu menawar harga. Proses itu sering terjadi di chat, tanpa catatan yang rapi di sisi vendor.
 
-Tujuannya meniru alur kerja nyata dari permintaan pelanggan sampai pemrosesan admin, tanpa bergantung pada partner bisnis atau API supplier eksternal.
+Tujuannya adalah merepresentasikan alur kerja pemesanan yang mendekati proses bisnis nyata, mulai dari permintaan pelanggan hingga pengelolaan dan pemrosesan pesanan oleh admin secara terstruktur.
 
 ### Tujuan
 
@@ -185,8 +185,10 @@ Bentuk kontribusinya:
 | Templating | Laravel Blade | View customer dan admin |
 | Admin UI | Livewire 3 (`^3.8`) | Dashboard, produk, pesanan, analytics, dan modul admin lain |
 | Database | PostgreSQL | `DB_CONNECTION=pgsql` |
+| Cloud Database | Supabase | PostgreSQL cloud untuk kebutuhan database project |
 | Session, cache, queue | Driver `database` (contoh env) | `src/.env.example` |
-| Storage | Flysystem, disk `local` / `public` / `supabase` | `supabase` memakai S3-compatible API |
+| Storage | Flysystem | Mendukung disk `local`, `public`, dan `supabase` |
+| Cloud Storage | Supabase Storage | Penyimpanan file berbasis object storage melalui konfigurasi S3-compatible |
 | Build frontend | Vite 8 | `src/vite.config.js` |
 | CSS | Tailwind CSS 4 | Plugin `@tailwindcss/vite` |
 | Interaksi UI | Alpine.js 3 | `resources/js/app.js` |
@@ -197,8 +199,9 @@ Bentuk kontribusinya:
 | Orkestrasi | Docker Compose | `docker-compose.yml` |
 | HTTP | Nginx Alpine | Port host `8000` |
 | Frontend container | Node 22 Alpine | Profile Compose `vite`, port `5173` |
-| Postgres Docker | PostgreSQL 16 Alpine | Port host `5433` |
+| Postgres Docker | PostgreSQL 16 Alpine | Database lokal, port host `5433` |
 | GUI DB (opsional) | pgAdmin 4 | Port host `8080` |
+| Deployment | Vercel | Platform deployment untuk environment hosting project |
 
 ---
 
