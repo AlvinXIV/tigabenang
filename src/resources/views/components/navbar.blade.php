@@ -1,6 +1,6 @@
 @php
     $links = [
-        ['label' => 'Portofolio',       'route' => 'home',             'routeMatch' => 'home'],
+        ['label' => 'Beranda',          'route' => 'home',             'routeMatch' => 'home'],
         ['label' => 'Koleksi',          'route' => 'collection.index', 'routeMatch' => 'collection.*'],
         ['label' => 'Virtual fitting',  'route' => 'virtual-fitting',  'routeMatch' => 'virtual-fitting'],
         ['label' => 'Tentang',          'route' => 'about',            'routeMatch' => 'about'],
