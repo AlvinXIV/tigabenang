@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'Permintaan diterima')
+@section('title', 'Pesanan Berhasil')
 
 @php
     $whatsappNumber = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number'));

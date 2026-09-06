@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faktur Pesanan #INV-TB-{{ str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) }} | Tigabenang</title>
+    <title>Faktur #INV-TB-{{ str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) }} | Tigabenang</title>
+
+    <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=3">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     
     @vite(['resources/css/app.css'])
 
     <style>
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: #F7F7F5;
-            color: #1C2430;
+            color: #102A43;
         }
         @page {
             size: A4 portrait;

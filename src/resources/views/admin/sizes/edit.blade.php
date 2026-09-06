@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Ubah Spesifikasi Ukuran')
+@section('title', 'Ubah Ukuran')
 
 @section('content')
 <div class="space-y-6 max-w-2xl mx-auto">
 
     <div class="pb-5 border-b border-[#E2E5E9]">
-        <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">Ubah Spesifikasi Ukuran</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#102A43] tracking-tight">Ubah Spesifikasi Ukuran</h1>
         <p class="text-xs sm:text-sm text-[#667085] mt-1">
             Perbarui dimensi pola potong pakaian: {{ $ukuran->nama_ukuran }}.
         </p>
@@ -24,14 +24,14 @@
         @method('PUT')
 
         <div>
-            <label for="kategori_id" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+            <label for="kategori_id" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                 Kategori Produk <span class="text-rose-500">*</span>
             </label>
             <select
                 id="kategori_id"
                 name="kategori_id"
                 required
-                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
             >
                 @foreach ($categories as $cat)
                     <option value="{{ $cat->id_kategori }}" {{ old('kategori_id', $ukuran->kategori_id) == $cat->id_kategori ? 'selected' : '' }}>
@@ -45,7 +45,7 @@
         </div>
 
         <div>
-            <label for="nama_ukuran" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+            <label for="nama_ukuran" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                 Label Ukuran <span class="text-rose-500">*</span>
             </label>
             <input
@@ -54,7 +54,7 @@
                 name="nama_ukuran"
                 value="{{ old('nama_ukuran', $ukuran->nama_ukuran) }}"
                 required
-                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
             />
             @error('nama_ukuran')
                 <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -63,7 +63,7 @@
 
         <div class="grid grid-cols-2 gap-4">
             <div>
-                <label for="lebar_dada" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                <label for="lebar_dada" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                     Lebar Dada (cm)
                 </label>
                 <input
@@ -73,12 +73,12 @@
                     name="lebar_dada"
                     value="{{ old('lebar_dada', $ukuran->lebar_dada) }}"
                     placeholder="54.0"
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <div>
-                <label for="panjang" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                <label for="panjang" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                     Panjang Badan (cm)
                 </label>
                 <input
@@ -88,12 +88,12 @@
                     name="panjang"
                     value="{{ old('panjang', $ukuran->panjang) }}"
                     placeholder="68.0"
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <div>
-                <label for="lebar_bahu" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                <label for="lebar_bahu" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                     Lebar Bahu (cm)
                 </label>
                 <input
@@ -103,12 +103,12 @@
                     name="lebar_bahu"
                     value="{{ old('lebar_bahu', $ukuran->lebar_bahu) }}"
                     placeholder="48.0"
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <div>
-                <label for="panjang_lengan" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                <label for="panjang_lengan" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                     Panjang Lengan (cm)
                 </label>
                 <input
@@ -118,7 +118,7 @@
                     name="panjang_lengan"
                     value="{{ old('panjang_lengan', $ukuran->panjang_lengan) }}"
                     placeholder="62.0"
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
         </div>

@@ -7,7 +7,7 @@
 
     <!-- TOP HEADER -->
     <div class="pb-5 border-b border-[#E2E5E9]">
-        <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">Hubungkan Model 3D</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#102A43] tracking-tight">Hubungkan Model 3D</h1>
         <p class="text-xs sm:text-sm text-[#667085] mt-1">
             Pilih produk katalog dan unggah file 3D (.glb / .gltf) untuk simulasi virtual fitting.
         </p>
@@ -26,14 +26,14 @@
         @csrf
 
         <div>
-            <label for="produk_id" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+            <label for="produk_id" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                 Pilih Produk Katalog <span class="text-rose-500">*</span>
             </label>
             <select
                 id="produk_id"
                 name="produk_id"
                 required
-                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
             >
                 <option value="" disabled selected>Pilih Produk Katalog...</option>
                 @foreach ($availableProducts as $prod)
@@ -46,7 +46,7 @@
         </div>
 
         <div>
-            <label for="file_model_3d" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+            <label for="file_model_3d" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                 File Model 3D (.glb / .gltf) <span class="text-rose-500">*</span>
             </label>
             <input

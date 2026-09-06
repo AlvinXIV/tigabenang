@@ -12,6 +12,12 @@ class Index extends Component
     public string $categoryFilter = '';
     public bool $addFormOpen = false;
 
+    public function resetFilters()
+    {
+        $this->search = '';
+        $this->categoryFilter = '';
+    }
+
     // Create form fields
     public ?int $kategori_id = null;
     public string $nama_ukuran = '';
@@ -124,10 +130,20 @@ class Index extends Component
         if (!empty($this->search)) {
             $s = trim($this->search);
             $query->where(function ($q) use ($s) {
-                $q->where('nama_ukuran', 'like', "%{$s}%")
+                $q->where('nama_ukuran', 'ilike', "%{$s}%")
                   ->orWhereHas('kategori', function ($cq) use ($s) {
-                      $cq->where('nama_kategori', 'like', "%{$s}%");
+                      $cq->where('nama_kategori', 'ilike', "%{$s}%");
                   });
+
+                // Support numeric dimension searches: lebar_dada, panjang, lebar_bahu, panjang_lengan
+                $cleanNum = str_replace(',', '.', $s);
+                if (is_numeric($cleanNum)) {
+                    $num = (float) $cleanNum;
+                    $q->orWhere('lebar_dada', $num)
+                      ->orWhere('panjang', $num)
+                      ->orWhere('lebar_bahu', $num)
+                      ->orWhere('panjang_lengan', $num);
+                }
             });
         }
 

@@ -10,6 +10,12 @@ class Index extends Component
     public string $search = '';
     public string $sortBy = 'orders'; // 'orders', 'spent', 'recent'
 
+    public function resetFilters()
+    {
+        $this->search = '';
+        $this->sortBy = 'orders';
+    }
+
     public function render()
     {
         $allOrders = Pemesanan::with(['produk', 'bahan', 'ukuran'])->latest('id_pemesanan')->get();

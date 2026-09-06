@@ -50,8 +50,17 @@ class Detail extends Component
         if (!empty($this->orderSearch)) {
             $s = strtolower(trim($this->orderSearch));
             $orders = $orders->filter(function ($ord) use ($s) {
-                return str_contains(strtolower((string)$ord->id_pemesanan), $s) ||
-                       str_contains(strtolower($ord->produk->nama_produk ?? ''), $s);
+                $rawId = (string) $ord->id_pemesanan;
+                $paddedId = str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT);
+                $formattedOrd = 'ord-' . $paddedId;
+                $hashOrd = '#ord-' . $paddedId;
+                $productName = strtolower($ord->produk->nama_produk ?? '');
+
+                return $rawId === $s ||
+                       $paddedId === $s ||
+                       str_contains($formattedOrd, $s) ||
+                       str_contains($hashOrd, $s) ||
+                       str_contains($productName, $s);
             });
         }
 

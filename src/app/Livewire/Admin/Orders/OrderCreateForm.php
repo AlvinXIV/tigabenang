@@ -5,7 +5,6 @@ namespace App\Livewire\Admin\Orders;
 use App\Models\Bahan;
 use App\Models\Pemesanan;
 use App\Models\Produk;
-use App\Models\Ukuran;
 use Livewire\Component;
 
 class OrderCreateForm extends Component
@@ -32,16 +31,43 @@ class OrderCreateForm extends Component
         'ukuran.*' => 'nullable|integer|min:0',
     ];
 
-    public function mount()
+    public function mount(): void
     {
-        $sizes = Ukuran::all();
-        foreach ($sizes as $s) {
-            $this->ukuran[$s->id_ukuran] = 0;
+        $this->ukuran = [];
+        if ($this->produk_id) {
+            $this->loadSizesForProduct($this->produk_id);
+        }
+    }
+
+    public function updatedProdukId($value): void
+    {
+        $this->loadSizesForProduct($value ? (int) $value : null);
+    }
+
+    protected function loadSizesForProduct(?int $productId): void
+    {
+        $this->ukuran = [];
+
+        if (!empty($productId)) {
+            $product = Produk::with(['kategori.ukuran' => fn ($q) => $q->orderBy('id_ukuran')])->find($productId);
+            if ($product && $product->kategori && $product->kategori->ukuran) {
+                foreach ($product->kategori->ukuran as $s) {
+                    $this->ukuran[$s->id_ukuran] = 0;
+                }
+            }
         }
     }
 
     public function save()
     {
+        if (is_array($this->ukuran)) {
+            foreach ($this->ukuran as $key => $val) {
+                if ($val === '' || $val === null) {
+                    $this->ukuran[$key] = 0;
+                }
+            }
+        }
+
         $this->validate();
 
         $pemesanan = Pemesanan::create([
@@ -58,10 +84,15 @@ class OrderCreateForm extends Component
         }
 
         if (!empty($this->ukuran)) {
+            $product = Produk::with('kategori.ukuran')->find($this->produk_id);
+            $validUkuranIds = ($product && $product->kategori && $product->kategori->ukuran)
+                ? $product->kategori->ukuran->pluck('id_ukuran')->all()
+                : [];
+
             $ukuranPivot = [];
             foreach ($this->ukuran as $ukuranId => $qty) {
-                if ((int)$qty > 0) {
-                    $ukuranPivot[$ukuranId] = ['kuantitas' => (int)$qty];
+                if (in_array((int)$ukuranId, $validUkuranIds, true) && (int)$qty > 0) {
+                    $ukuranPivot[(int)$ukuranId] = ['kuantitas' => (int)$qty];
                 }
             }
             if (!empty($ukuranPivot)) {
@@ -75,10 +106,17 @@ class OrderCreateForm extends Component
 
     public function render()
     {
-        $products = Produk::orderBy('nama_produk')->get();
+        $products = Produk::with('kategori')->orderBy('nama_produk')->get();
         $materials = Bahan::orderBy('nama_bahan')->get();
-        $sizes = Ukuran::with('kategori')->get();
 
-        return view('livewire.admin.orders.order-create-form', compact('products', 'materials', 'sizes'));
+        $selectedProduct = $this->produk_id
+            ? $products->firstWhere('id_produk', (int) $this->produk_id)
+            : null;
+
+        $sizes = ($selectedProduct && $selectedProduct->kategori)
+            ? $selectedProduct->kategori->ukuran()->orderBy('id_ukuran')->get()
+            : collect();
+
+        return view('livewire.admin.orders.order-create-form', compact('products', 'materials', 'sizes', 'selectedProduct'));
     }
 }

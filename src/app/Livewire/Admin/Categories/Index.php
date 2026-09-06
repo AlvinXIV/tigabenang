@@ -45,6 +45,12 @@ class Index extends Component
         $this->dispatch('tab-changed', $tab);
     }
 
+    public function resetFilters()
+    {
+        $this->searchKategori = '';
+        $this->searchMaterial = '';
+    }
+
     public function saveKategori()
     {
         $this->validate([
@@ -150,13 +156,13 @@ class Index extends Component
     {
         $catQuery = Kategori::withCount('produk')->latest('id_kategori');
         if (!empty($this->searchKategori)) {
-            $catQuery->where('nama_kategori', 'like', '%' . trim($this->searchKategori) . '%');
+            $catQuery->where('nama_kategori', 'ilike', '%' . trim($this->searchKategori) . '%');
         }
         $categories = $catQuery->get();
 
         $matQuery = Bahan::latest('id_bahan');
         if (!empty($this->searchMaterial)) {
-            $matQuery->where('nama_bahan', 'like', '%' . trim($this->searchMaterial) . '%');
+            $matQuery->where('nama_bahan', 'ilike', '%' . trim($this->searchMaterial) . '%');
         }
         $materials = $matQuery->get();
 

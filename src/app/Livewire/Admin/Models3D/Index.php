@@ -9,7 +9,14 @@ use Livewire\Component;
 class Index extends Component
 {
     public string $search = '';
+    public string $statusFilter = 'all'; // 'all', 'connected', 'missing'
     public ?string $feedbackMessage = null;
+
+    public function resetFilters()
+    {
+        $this->search = '';
+        $this->statusFilter = 'all';
+    }
 
     public function unlink3D(int $productId)
     {
@@ -34,21 +41,53 @@ class Index extends Component
 
     public function render()
     {
-        $query = Produk::with('kategori')
+        $s = trim($this->search);
+
+        // 1. Query for Connected 3D products
+        $modelsQuery = Produk::with('kategori')
             ->whereNotNull('file_model_3d')
             ->where('file_model_3d', '!=', '')
             ->latest('id_produk');
 
-        if (!empty($this->search)) {
-            $query->where('nama_produk', 'like', '%' . trim($this->search) . '%');
+        if (!empty($s)) {
+            $modelsQuery->where(function ($q) use ($s) {
+                $q->where('nama_produk', 'ilike', "%{$s}%")
+                  ->orWhereHas('kategori', function ($cq) use ($s) {
+                      $cq->where('nama_kategori', 'ilike', "%{$s}%");
+                  });
+            });
         }
 
-        $models = $query->get();
+        // 2. Query for Unconnected products
+        $availableQuery = Produk::with('kategori')
+            ->where(function ($q) {
+                $q->whereNull('file_model_3d')->orWhere('file_model_3d', '');
+            })
+            ->latest('id_produk');
 
-        $availableProducts = Produk::whereNull('file_model_3d')
-            ->orWhere('file_model_3d', '')
-            ->get();
+        if (!empty($s)) {
+            $availableQuery->where(function ($q) use ($s) {
+                $q->where('nama_produk', 'ilike', "%{$s}%")
+                  ->orWhereHas('kategori', function ($cq) use ($s) {
+                      $cq->where('nama_kategori', 'ilike', "%{$s}%");
+                  });
+            });
+        }
 
-        return view('livewire.admin.models3d.index', compact('models', 'availableProducts'));
+        // Apply Status 3D filter
+        if ($this->statusFilter === 'connected') {
+            $models = $modelsQuery->get();
+            $availableProducts = collect();
+        } elseif ($this->statusFilter === 'missing') {
+            $models = collect();
+            $availableProducts = $availableQuery->get();
+        } else { // 'all'
+            $models = $modelsQuery->get();
+            $availableProducts = $availableQuery->get();
+        }
+
+        $totalFiltered = $models->count() + $availableProducts->count();
+
+        return view('livewire.admin.models3d.index', compact('models', 'availableProducts', 'totalFiltered'));
     }
 }
