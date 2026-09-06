@@ -1,108 +1,204 @@
 # Tigabenang
 
-Vendor management portal dan storefront pakaian custom. Brand yang tampil di aplikasi: **Tigabenang**.
-
-Aplikasi ini membantu pelanggan memilih produk, bahan, dan ukuran, mencoba Virtual Fitting 3D, lalu mengirim permintaan pesanan. Admin meninjau pesanan, berkomunikasi lewat WhatsApp, dan memasukkan harga final yang disepakati.
-
-Laravel app berada di folder `src/`. Docker Compose, Dockerfile, dan file `.env` yang dipakai container ada di root repository ini.
+Tigabenang adalah aplikasi web vendor pakaian custom yang membantu pelanggan melihat katalog pakaian, memilih bahan, menentukan ukuran dan jumlah pesanan, serta melakukan simulasi ukuran melalui fitur virtual fitting 3D.
 
 ---
 
-## Penjelasan aplikasi
+## Daftar isi
 
-Tigabenang dibuat untuk alur konveksi yang sederhana dan realistis:
-
-1. Pelanggan mengisi formulir pesanan (tanpa menentukan harga final).
-2. Pesanan muncul di portal admin.
-3. Admin menghubungi pelanggan melalui tautan WhatsApp.
-4. Harga dinegosiasikan di luar aplikasi.
-5. Admin memasukkan harga yang disepakati.
-6. Admin dapat mencetak faktur setelah harga diisi.
-
-Tidak ada payment gateway, tidak ada integrasi supplier, dan tidak ada negosiasi harga otomatis. Stok bahan di database saat ini hanya menyimpan nama bahan; tidak ada pengurangan stok otomatis.
+1. [Penjelasan aplikasi](#1-penjelasan-aplikasi)
+2. [Fitur utama](#2-fitur-utama)
+3. [Teknologi yang digunakan](#3-teknologi-yang-digunakan)
+4. [Struktur folder](#4-struktur-folder)
+5. [Halaman dan route](#5-halaman-dan-route)
+6. [Virtual Fitting](#6-virtual-fitting)
+7. [Docker](#7-docker)
+8. [Cara instalasi](#8-cara-instalasi)
+9. [Cara penggunaan](#9-cara-penggunaan)
+10. [Pengujian](#10-pengujian)
+11. [Konfigurasi development](#11-konfigurasi-development)
 
 ---
 
-## Fitur utama
+## 1. Penjelasan aplikasi
+
+### Latar belakang
+
+Pemesanan pakaian custom biasanya melibatkan beberapa langkah yang terpisah: memilih model, menentukan bahan dan ukuran, mengirim desain, lalu menawar harga. Proses itu sering terjadi di chat, tanpa catatan yang rapi di sisi vendor.
+
+Tigabenang dibuat sebagai sistem mandiri untuk hackathon. Tujuannya meniru alur kerja nyata dari permintaan pelanggan sampai pemrosesan admin, tanpa bergantung pada partner bisnis atau API supplier eksternal.
+
+### Tujuan
+
+Aplikasi ini bertujuan:
+
+- memberi pelanggan halaman katalog, detail produk, dan Virtual Fitting;
+- menerima permintaan pesanan lengkap (data pemesan, produk, bahan, ukuran, desain, catatan);
+- memberi admin satu tempat untuk meninjau pesanan dan menetapkan harga final;
+- mendokumentasikan kesepakatan lewat tautan WhatsApp, PDF konsultasi, dan faktur.
+
+### Alur bisnis
+
+Alur yang berlaku di kode saat ini:
+
+1. Pelanggan mengisi formulir pesanan.
+2. Pelanggan **tidak** menetapkan harga final. Kolom `total_harga` disimpan `null`.
+3. Pesanan masuk ke portal admin.
+4. Admin menghubungi pelanggan melalui tautan WhatsApp.
+5. Harga dinegosiasikan di luar aplikasi (chat WhatsApp).
+6. Admin memasukkan harga yang sudah disepakati.
+7. Admin dapat membuka atau mencetak faktur setelah harga terisi.
+
+Yang **tidak** ada di implementasi sekarang:
+
+- payment gateway;
+- integrasi supplier;
+- negosiasi harga otomatis di dalam aplikasi;
+- pengurangan stok otomatis ketika pesanan dikonfirmasi.
+
+Tabel `bahan` saat ini menyimpan nama bahan. Tidak ada kolom stok, reorder level, atau transaksi inventory. Katalog `/materials` bersifat tampilan, bukan sistem gudang.
+
+---
+
+## 2. Fitur utama
+
+Navbar customer menampilkan: **Beranda**, **Koleksi**, **Virtual fitting**, dan **Tentang**.
 
 ### Storefront pelanggan
 
-- **Beranda** — pengantar brand, showcase kategori, portofolio produk, teaser Virtual Fitting, FAQ, dan testimoni.
-- **Koleksi** — daftar produk dengan filter kategori, lalu halaman detail produk (gambar, harga mulai, bahan, ukuran, pratinjau model 3D bila ada).
-- **Virtual Fitting** — studio 3D (Three.js): pilih produk yang punya model, atur ukuran tubuh, lihat rekomendasi size, dan pratinjau garment.
-- **Tentang** — profil brand dan kontak (WhatsApp + email `hello@tigabenang.id`).
-- **Request pesanan** (`/order/create`) — nama, alamat, telepon, produk, bahan, kuantitas per ukuran, unggah desain opsional, dan catatan. Total yang tampil adalah estimasi (`harga produk × kuantitas`), bukan harga final.
-- **Halaman sukses + PDF** — ringkasan pesanan, tautan WhatsApp berisi detail konsultasi, dan lembar PDF.
-- **Form pemesanan deal** (`/form-pemesanan`) — formulir mandiri dengan data inti yang sama; `total_harga` juga disimpan `null`.
-- **Katalog bahan** (`/materials`) — tampilan bahan bersifat baca saja. Halaman ini tidak ada di navbar utama.
+**Beranda (`/`)**  
+Halaman pembuka brand. Isinya hero, ajakan ke pesanan dan Virtual Fitting, cuplikan kategori, grid produk, layanan produksi, FAQ, dan testimoni.
 
-Navbar customer: Beranda, Koleksi, Virtual fitting, Tentang.
+**Koleksi (`/collection`)**  
+Daftar produk dengan filter kategori lewat query `?category=`. Setiap kartu menampilkan gambar, nama, kategori, dan harga mulai.
 
-### Portal admin (butuh login)
+**Detail produk (`/collection/{produk}`)**  
+Menampilkan gambar, harga, bahan yang terkait produk, size chart kategori, serta pratinjau model 3D jika `file_model_3d` terisi. Dari sini pelanggan dapat lanjut ke formulir pesanan atau Virtual Fitting.
 
-- Dashboard operasional (pesanan, menunggu harga, pesanan terbaru).
-- Analytics (omzet, jumlah pesanan, grafik, produk/bahan teratas) memakai Chart.js.
-- Produk, kategori, dan bahan (nama bahan dikelola bersama modul kategori).
-- Size chart (ukuran per kategori: lebar dada, panjang, lebar bahu, panjang lengan).
-- Unggah / pratinjau model 3D (`.glb` / `.gltf`).
-- Pesanan: daftar, buat manual, detail, tetapkan harga, faktur.
-- Pelanggan: dikelompokkan dari data pesanan (bukan CRM terpisah).
-- Pengaturan profil admin (nama, email di UI, password).
+**Bahan pada detail produk**  
+Bahan diambil dari relasi `produk_bahan`. Jika produk belum punya relasi bahan, formulir pesanan menampilkan seluruh bahan yang ada di katalog.
 
-Form **Register** (`/register`) menampilkan field pendaftaran, tetapi controller saat ini hanya mengarahkan kembali ke login tanpa menyimpan akun baru.
+**Virtual Fitting (`/virtual-fitting`)**  
+Studio 3D untuk produk yang sudah punya model. Pengguna memilih produk, mengatur ukuran tubuh, melihat rekomendasi size, dan memuat garment ke avatar. Penjelasan teknis ada di [bagian 6](#6-virtual-fitting).
+
+**Tentang (`/about`)**  
+Profil brand, proses kerja, dan kontak. Email yang tampil memakai konfigurasi kontak (default `hello@tigabenang.id`) plus tautan WhatsApp.
+
+**Request pesanan (`/order/create`)**  
+Formulir konsultasi. Data yang diisi:
+
+- nama, alamat, nomor telepon;
+- produk (dan kategori mengikuti produk);
+- bahan;
+- ukuran beserta jumlah per size;
+- unggah desain (opsional);
+- catatan (opsional).
+
+Total yang ditampilkan adalah **estimasi** (`harga produk × total kuantitas`). Harga final tidak diisi pelanggan. Submit menyimpan pesanan dengan `total_harga = null`, lalu mengarah ke halaman sukses.
+
+**Halaman sukses (`/order/success`)**  
+Ringkasan permintaan, estimasi, tautan WhatsApp berisi detail konsultasi, dan tautan PDF.
+
+**PDF pesanan (`/order/{id}/pdf`)**  
+Lembar konsultasi yang bisa dibuka atau dicetak. Bukan faktur pembayaran.
+
+**Form pemesanan deal (`/form-pemesanan`)**  
+Formulir mandiri dengan data inti yang sama. Setelah submit, `total_harga` juga `null`. Halaman suksesnya di `/form-pemesanan/sukses`.
+
+**Katalog bahan (`/materials`)**  
+Halaman baca saja yang menampilkan bahan. Route ini ada, tetapi **tidak** masuk navbar utama.
+
+### Portal admin
+
+Portal admin dipakai untuk operasional pesanan dan penetapan harga. Semua route di bawah `/admin` memakai middleware `auth`. `GET /admin` diarahkan ke dashboard.
+
+**Dashboard**  
+Ringkasan jumlah pesanan, pesanan menunggu harga, pesanan yang sudah ada harga, dan daftar yang perlu ditindaklanjuti.
+
+**Analytics**  
+Ringkasan historis: penjualan, jumlah pesanan, rata-rata nilai pesanan, grafik, serta produk dan bahan yang sering muncul. Grafik memakai Chart.js.
+
+**Produk**  
+CRUD produk: nama, kategori, harga, gambar, bahan, dan file model 3D.
+
+**Kategori**  
+CRUD kategori pakaian (contoh seeder: Jaket Varsity, Work Jacket, JaketWindbreaker, Jersey, Kaos).
+
+**Bahan**  
+Nama bahan dikelola di modul yang sama dengan kategori (`/admin/kategori`), bukan halaman admin terpisah. Tidak ada manajemen stok.
+
+**Size chart**  
+Ukuran per kategori: nama size, lebar dada, panjang, lebar bahu, dan panjang lengan.
+
+**Model 3D**  
+Unggah atau lepas file `.glb` / `.gltf` pada produk, plus halaman pratinjau (`<model-viewer>`).
+
+**Pesanan**  
+Daftar pesanan, pembuatan pesanan manual, detail, penetapan harga, dan faktur. Status “dikonfirmasi” di dashboard berarti `total_harga` sudah terisi. Tidak ada kolom status produksi terpisah.
+
+**Pelanggan**  
+Dikelompokkan dari data pesanan (nama/telepon). Bukan direktori CRM terpisah.
+
+**Settings / Profile**  
+Ubah nama, email di UI, dan password akun admin yang sedang login.
+
+**Login & register**  
+Login di `/login`. Field form bernama `email`, tetapi autentikasi mencoba kolom `username` (lalu `nama`) pada tabel `users`. Halaman `/register` ada, namun controller saat ini hanya mengarahkan ke login **tanpa menyimpan akun baru**.
 
 ---
 
-## Teknologi yang digunakan
+## 3. Teknologi yang digunakan
 
-| Lapisan | Teknologi | Sumber |
+| Lapisan | Teknologi | Keterangan |
 |---|---|---|
-| Backend | PHP 8.3 (image Docker), requirement `^8.2` | `Dockerfile`, `src/composer.json` |
-| Framework | Laravel `^13.8` | `src/composer.json` |
-| Admin UI | Livewire `^3.8` | `src/composer.json` |
-| Database | PostgreSQL (`DB_CONNECTION=pgsql`) | `src/.env.example`, `src/config/database.php` |
-| Session / cache / queue | driver `database` (contoh env) | `src/.env.example` |
-| Storage file | disk `local` / `public` / `supabase` (S3-compatible) | `src/config/filesystems.php` |
-| Frontend build | Vite `^8`, Tailwind CSS `^4` | `src/package.json` |
-| JS runtime UI | Alpine.js `^3.16` | `src/package.json` |
-| 3D | Three.js `^0.183`, `@google/model-viewer` `^4.3` | `src/package.json` |
-| Chart admin | Chart.js `^4.5` | `src/package.json` |
-| Tes | PHPUnit `^12.5` | `src/composer.json`, `src/phpunit.xml` |
-| Web server | Nginx Alpine + PHP-FPM | `docker-compose.yml` |
-| Node image | `node:22-alpine` | `docker-compose.yml` |
-| Postgres lokal (Docker) | `postgres:16-alpine` | `docker-compose.yml` |
-| pgAdmin (Docker) | `dpage/pgadmin4` | `docker-compose.yml` |
-
-Paket PHP lain yang terpasang: `laravel/tinker`, `league/flysystem-aws-s3-v3`.
+| Runtime PHP | PHP 8.3-FPM (Docker), requirement `^8.2` | Image `php:8.3-fpm` di `Dockerfile` |
+| Framework | Laravel 13 (`^13.8`) | Aplikasi di `src/` |
+| Templating | Laravel Blade | View customer dan admin |
+| Admin UI | Livewire 3 (`^3.8`) | Dashboard, produk, pesanan, analytics, dan modul admin lain |
+| Database | PostgreSQL | `DB_CONNECTION=pgsql` |
+| Session, cache, queue | Driver `database` (contoh env) | `src/.env.example` |
+| Storage | Flysystem, disk `local` / `public` / `supabase` | `supabase` memakai S3-compatible API |
+| Build frontend | Vite 8 | `src/vite.config.js` |
+| CSS | Tailwind CSS 4 | Plugin `@tailwindcss/vite` |
+| Interaksi UI | Alpine.js 3 | `resources/js/app.js` |
+| Virtual Fitting | Three.js 0.183 + GLTFLoader | `resources/js/three/` |
+| Pratinjau 3D di detail produk | `@google/model-viewer` 4.3 | Dimuat jika ada elemen `<model-viewer>` |
+| Grafik admin | Chart.js 4.5 | Dimuat saat ada elemen chart |
+| Tes | PHPUnit 12 | `src/phpunit.xml`, SQLite in-memory |
+| Orkestrasi | Docker Compose | `docker-compose.yml` |
+| HTTP | Nginx Alpine | Port host `8000` |
+| Frontend container | Node 22 Alpine | Profile Compose `vite`, port `5173` |
+| Postgres Docker | PostgreSQL 16 Alpine | Port host `5433` |
+| GUI DB (opsional) | pgAdmin 4 | Port host `8080` |
 
 ---
 
-## Struktur folder
+## 4. Struktur folder
 
 ```text
 tigabenang/
-├── docker-compose.yml
-├── Dockerfile
-├── .env                      # dipakai container (di-mount ke /var/www/.env)
+├── docker-compose.yml          
+├── Dockerfile                  
+├── .env                        
 ├── docker/
-│   ├── nginx/default.conf
-│   └── php/                  # zz-www-dev.conf, uploads.ini
-└── src/                      # Laravel app → /var/www
+│   ├── nginx/default.conf      
+│   └── php/                   
+└── src/                        
     ├── app/
-    │   ├── Http/Controllers/ # customer + admin + auth
-    │   ├── Livewire/Admin/   # dashboard, produk, pesanan, dll.
-    │   ├── Models/
-    │   └── Support/          # CustomerCatalog, CustomerMedia, ...
+    │   ├── Http/Controllers/   
+    │   ├── Livewire/Admin/     
+    │   ├── Models/             
+    │   └── Support/            
     ├── bootstrap/
-    ├── config/
-    ├── database/             # migrations, seeders
-    ├── public/               # index.php, images, build, models
+    ├── config/                 
+    ├── database/               
+    ├── public/                 
     ├── resources/
     │   ├── css/app.css
     │   ├── js/
     │   │   ├── app.js
-    │   │   ├── customer/     # order.js, virtual-fitting.js, fit-analysis.js
-    │   │   └── three/        # scene.js, avatar.js, garment.js
+    │   │   ├── customer/       
+    │   │   └── three/         
     │   └── views/
     ├── routes/web.php
     ├── tests/
@@ -112,9 +208,17 @@ tigabenang/
     └── vite.config.js
 ```
 
+Peran singkat:
+
+- **Root** — Docker dan environment yang dipakai saat `docker compose`.
+- **`src/app`** — logika aplikasi. Jangan menjalankan `npm` di container `app`.
+- **`src/resources/js/three`** — scene Virtual Fitting dan loader GLB.
+- **`src/public`** — aset yang dilayani Nginx.
+- **`src/config/fitvendor.php`** — konfigurasi WhatsApp dan kontak. Namanya identifier teknis, bukan nama brand di UI.
+
 ---
 
-## Halaman dan route
+## 5. Halaman dan route
 
 Health check Laravel: `GET /up`.
 
@@ -145,18 +249,14 @@ Health check Laravel: `GET /up`.
 | GET, POST | `/register` | `register` |
 | GET, POST | `/logout` | `logout` |
 
-Login memakai field `email` di form, lalu mencoba kolom `username` (dan fallback `nama`) pada tabel `users`.
-
-### Admin (`auth` middleware)
-
-`GET /admin` mengarah ke `/admin/dashboard`.
+### Admin (`auth`)
 
 | Path | Keterangan |
 |---|---|
 | `/admin/dashboard` | Dashboard |
 | `/admin/analytics` | Analytics |
 | `/admin/settings` | Pengaturan profil |
-| `/admin/kategori` | Kategori & bahan |
+| `/admin/kategori` | Kategori dan bahan |
 | `/admin/produk` | Produk |
 | `/admin/ukuran` | Size chart |
 | `/admin/model-3d` | Model 3D |
@@ -167,100 +267,100 @@ Login memakai field `email` di form, lalu mencoba kolom `username` (dan fallback
 
 ---
 
-## Virtual Fitting
+## 6. Virtual Fitting
 
-Halaman: `/virtual-fitting` (bisa `?product={id}`).
+Halaman `/virtual-fitting` dapat menerima `?product={id}`.
 
-Yang diimplementasikan sekarang:
+Cara kerja yang ada di kode:
 
-- Hanya produk dengan `file_model_3d` yang masuk katalog fitting.
-- Product picker (filter kategori + pencarian).
-- Slider tubuh: tinggi, dada, pinggang, pinggul, bahu, panjang lengan, panjang torso.
-- Rekomendasi size dari `resources/js/customer/fit-analysis.js`.
-- Scene Three.js: `scene.js`, `avatar.js`, `garment.js`.
-- Model garment dimuat dari URL `CustomerMedia::modelUrl()` (file publik, storage, atau URL Supabase untuk path `models3d/`).
-- Fallback prototipe di kode: `/models/t-shirt.glb`.
-- Profil tubuh disimpan di `localStorage`.
-- Product detail memakai `@google/model-viewer` jika ada model 3D.
+1. Controller hanya mengambil produk yang `file_model_3d`-nya terisi.
+2. Katalog (nama, gambar, URL model, size) dikirim ke halaman sebagai JSON.
+3. `virtual-fitting.js` membangun product picker (filter kategori dan pencarian).
+4. Slider tubuh mengatur tinggi, dada, pinggang, pinggul, bahu, panjang lengan, dan panjang torso.
+5. `fit-analysis.js` memberi rekomendasi size.
+6. Three.js merender avatar (`avatar.js`) dan memuat garment GLB lewat `GLTFLoader` (`garment.js`).
+7. URL model diselesaikan oleh `CustomerMedia::modelUrl()`: file di `public/`, storage, atau URL disk Supabase untuk path `models3d/`.
+8. Jika katalog kosong, kode memakai fallback `/models/t-shirt.glb`.
+9. Profil tubuh disimpan di `localStorage` (key teknis `clothiq-body-profile`).
 
-Entry Vite terkait: `resources/js/customer/virtual-fitting.js` (lihat `src/vite.config.js`).
+Di halaman detail produk, pratinjau 3D memakai `@google/model-viewer`, terpisah dari studio Three.js.
 
 ---
 
-## Docker dan port
+## 7. Docker
 
-Service di `docker-compose.yml`:
+Jalankan semua perintah Compose dari **root repository** (folder yang berisi `docker-compose.yml`).
 
-| Service | Container | Port host | Catatan |
+| Service | Container | Port host | Peran |
 |---|---|---|---|
-| `app` | `tigabenang_app` | — | PHP 8.3-FPM, `WORKDIR /var/www` |
-| `nginx` | `tigabenang_nginx` | **8000** → 80 | root ` /var/www/public` |
-| `postgres` | `tigabenang_postgres` | **5433** → 5432 | DB `tigabenang`, user `postgres` |
-| `pgadmin` | `tigabenang_pgadmin` | **8080** → 80 | email `admin@tigabenang.com` |
-| `node` | `tigabenang_node` | **5173** → 5173 | image Node 22; **profile `vite`** |
+| `app` | `tigabenang_app` | — | PHP-FPM, Composer, Artisan |
+| `nginx` | `tigabenang_nginx` | **8000** → 80 | HTTP, root `/var/www/public` |
+| `postgres` | `tigabenang_postgres` | **5433** → 5432 | PostgreSQL lokal (opsional) |
+| `pgadmin` | `tigabenang_pgadmin` | **8080** → 80 | UI database |
+| `node` | `tigabenang_node` | **5173** → 5173 | npm / Vite |
 
-`docker compose up -d` **tidak** menyalakan container `node`. Service itu memakai:
+Service `node` memakai profile `vite`:
 
 ```yaml
 profiles:
   - vite
 ```
 
-Aplikasi Laravel memakai variabel `DB_*` di `.env`. Contoh di `src/.env.example` menunjuk PostgreSQL remote (Supabase). Service Postgres Docker tersedia jika ingin database lokal di port `5433`.
+Akibatnya, `docker compose up -d` **tidak** menyalakan container `node`. Frontend tidak boleh diinstal di container `app`.
 
-Volume penting:
+Volume yang dipakai:
 
 - `./src` → `/var/www`
 - `./.env` → `/var/www/.env`
-- `vendor_data` untuk `vendor/`
-- `node_modules_data` untuk `node_modules/`
+- `vendor_data` → `/var/www/vendor`
+- `node_modules_data` → `/var/www/node_modules`
 
-Upload PHP/Nginx dibatasi **20MB** (`docker/php/uploads.ini`, `docker/nginx/default.conf`).
+Aplikasi memakai `DB_*` di `.env`. `src/.env.example` mencontohkan PostgreSQL remote. Service Postgres Docker tersedia jika ingin database lokal di port `5433`.
+
+Batas unggah PHP dan Nginx: **20MB**.
 
 ---
 
-## Cara instalasi
+## 8. Cara instalasi
 
-Prasyarat: Docker Desktop (atau Docker Engine + Compose).
+Prasyarat: Docker Desktop, atau Docker Engine + Compose.
 
-Jalankan command berikut dari **root repository** (folder yang berisi `docker-compose.yml`).
+### Langkah 1 — Environment
 
-### 1. Environment
+Compose membaca `.env` di **root**, bukan di `src/`.
 
-Salin contoh env Laravel, lalu letakkan sebagai `.env` di root (karena Compose me-mount `./.env`):
+Windows:
 
 ```bash
 copy src\.env.example .env
 ```
 
-Di Linux/macOS:
+Linux / macOS:
 
 ```bash
 cp src/.env.example .env
 ```
 
-Isi minimal yang relevan:
+Isi yang perlu dicek:
 
-- `APP_KEY` — generate setelah container `app` hidup
-- `APP_URL=http://localhost:8000` (sesuaikan jika perlu)
-- `DB_CONNECTION=pgsql` plus host, port, database, username, password, `DB_SSLMODE` jika remote
+- `APP_KEY` (dibuat setelah container `app` hidup)
+- `APP_URL` (lokal: `http://localhost:8000`)
+- `DB_CONNECTION=pgsql` beserta host, port, database, username, password, dan `DB_SSLMODE` jika remote
 - `WHATSAPP_NUMBER`, `WHATSAPP_MESSAGE`
-- `FITVENDOR_EMAIL` (default aplikasi: `hello@tigabenang.id`)
+- `FITVENDOR_EMAIL` — **nama key teknis**; nilai yang tampil ke pengguna default-nya `hello@tigabenang.id`
 - `FITVENDOR_LOCATION`
-- kunci Supabase Storage jika memakai disk `supabase`
+- kredensial Supabase Storage jika disk `supabase` dipakai
 
-Jangan menjalankan `npm install` di container `app`. Frontend hanya di container `node`.
-
-### 2. Nyalakan stack backend
+### Langkah 2 — Nyalakan backend
 
 ```bash
 docker compose up -d
 docker compose ps
 ```
 
-Service yang aktif: `app`, `nginx`, `postgres`, `pgadmin`.
+Yang aktif: `app`, `nginx`, `postgres`, `pgadmin`.
 
-### 3. Dependency PHP
+### Langkah 3 — Dependency PHP
 
 ```bash
 docker compose exec app composer install
@@ -268,140 +368,141 @@ docker compose exec app php artisan key:generate
 docker compose exec app php artisan config:clear
 ```
 
-Pastikan folder berikut dapat ditulis:
+Pastikan folder ini dapat ditulis:
 
 - `src/storage/framework/views`
 - `src/storage/framework/cache`
 - `src/storage/framework/sessions`
 - `src/bootstrap/cache`
 
-### 4. Dependency frontend (container `node`)
+### Langkah 4 — Dependency frontend
 
-Pasang paket dulu lewat one-off container (profile `vite`):
+Hanya di container `node`:
 
 ```bash
 docker compose --profile vite run --rm node npm install
 docker compose --profile vite run --rm node npm run build
 ```
 
-Asset hasil build ada di `src/public/build`. Setelah `npm run build`, situs di `http://localhost:8000` sudah bisa memakai aset production tanpa Vite.
+Hasil build ada di `src/public/build`. Setelah build, `http://localhost:8000` dapat berjalan tanpa Vite.
 
-### 5. Database
+### Langkah 5 — Database
 
-Jika database tujuan masih kosong, schema dan data awal tersedia lewat Artisan (hanya jalankan bila Anda memang ingin menerapkan schema/seeder ke database yang dikonfigurasi):
+Hanya jalankan jika database tujuan masih kosong dan Anda memang ingin menerapkan schema/seeder:
 
 ```bash
 docker compose exec app php artisan migrate
 docker compose exec app php artisan db:seed
 ```
 
-Seeder mengisi admin, 5 kategori, 6 bahan, size chart, 8 produk contoh, relasi bahan, dan beberapa pesanan contoh.
+Seeder mengisi akun admin, 5 kategori, 6 bahan, size chart, 8 produk contoh, relasi bahan, dan beberapa pesanan contoh.
 
 Akun seeder:
 
-- username: `admin`
-- password: `password123`
+| Field | Nilai |
+|---|---|
+| Username | `admin` |
+| Password | `password123` |
 
 ---
 
-## Cara penggunaan
+## 9. Cara penggunaan
 
 ### Menjalankan aplikasi
 
-1. Pastikan stack sudah `up`:
+```bash
+docker compose up -d
+```
 
-   ```bash
-   docker compose up -d
-   ```
+| Halaman | URL |
+|---|---|
+| Storefront | http://localhost:8000 |
+| Health check | http://localhost:8000/up |
+| Login admin | http://localhost:8000/login |
+| pgAdmin | http://localhost:8080 |
 
-2. Buka storefront: [http://localhost:8000](http://localhost:8000)
+### Vite (hot reload)
 
-3. Health check: [http://localhost:8000/up](http://localhost:8000/up)
-
-4. Login admin: [http://localhost:8000/login](http://localhost:8000/login)
-
-5. pgAdmin (opsional): [http://localhost:8080](http://localhost:8080)
-
-### Vite (hot reload) di development
-
-Nyalakan profile `vite` setelah `npm install`:
+Setelah `npm install`:
 
 ```bash
 docker compose --profile vite up -d
 docker compose ps
 ```
 
-Atau, jika container `node` sudah berjalan:
-
-```bash
-docker compose exec node npm run dev -- --host 0.0.0.0
-```
-
-`src/vite.config.js` sudah mengatur `host: 0.0.0.0`, port `5173`, dan CORS untuk `http://localhost:8000`. Variabel `VITE_USE_POLLING=1` di-set pada service `node`.
-
-Perintah frontend lain (hanya di `node`):
+Jika container `node` sudah berjalan:
 
 ```bash
 docker compose exec node npm install
 docker compose exec node npm run build
+docker compose exec node npm run dev -- --host 0.0.0.0
 ```
 
-### Alur yang didemonstrasikan
+`src/vite.config.js` memakai host `0.0.0.0`, port `5173`, dan CORS untuk `http://localhost:8000`. Service `node` meng-set `VITE_USE_POLLING=1`.
 
-**Pelanggan**
+### Alur pelanggan
 
 1. Buka koleksi atau Virtual Fitting.
-2. Buka detail produk, lalu Request / `/order/create`.
-3. Isi data, pilih bahan dan kuantitas per size, unggah desain jika perlu.
-4. Submit. Harga final **tidak** diisi pelanggan.
-5. Lanjut ke WhatsApp / unduh PDF konsultasi.
+2. Buka detail produk.
+3. Lanjut ke `/order/create`.
+4. Isi data pemesan, bahan, jumlah per ukuran, desain, dan catatan.
+5. Kirim formulir tanpa mengisi harga final.
+6. Lanjut ke WhatsApp atau unduh PDF konsultasi.
 
-**Admin**
+### Alur admin
 
 1. Masuk di `/login`.
-2. Tinjau pesanan di `/admin/pesanan`.
+2. Buka `/admin/pesanan`.
 3. Hubungi pelanggan lewat tautan WhatsApp.
-4. Isi harga yang disepakati di detail pesanan.
+4. Isi harga yang disepakati.
 5. Buka faktur di `/admin/pesanan/{id}/invoice`.
 
-### Tes
+---
+
+## 10. Pengujian
 
 ```bash
 docker compose exec app php artisan config:clear
 docker compose exec app php artisan test
 ```
 
-Suite yang ada:
+File tes:
 
-- `tests/Feature/CustomerFrontendTest.php`
-- `tests/Feature/AdminOrderCreateFormTest.php`
-- `tests/Feature/AdminProductUploadTest.php`
-- `tests/Feature/ExampleTest.php`
-- `tests/Unit/ExampleTest.php`
+- `src/tests/Feature/CustomerFrontendTest.php`
+- `src/tests/Feature/AdminOrderCreateFormTest.php`
+- `src/tests/Feature/AdminProductUploadTest.php`
+- `src/tests/Feature/ExampleTest.php`
+- `src/tests/Unit/ExampleTest.php`
 
-PHPUnit memakai SQLite in-memory (`src/phpunit.xml`). Tidak memakai database development.
+PHPUnit memakai SQLite in-memory (`src/phpunit.xml`). Tes tidak menulis ke database development.
 
 ---
 
-## Konfigurasi development
+## 11. Konfigurasi development
 
-| Item | Nilai yang berlaku sekarang |
+| Item | Nilai saat ini |
 |---|---|
-| Brand UI | Tigabenang |
+| Brand di UI | Tigabenang |
 | Email komersial default | `hello@tigabenang.id` |
-| App URL (lokal) | `http://localhost:8000` |
-| Vite | `http://localhost:5173` |
-| Env container | file `.env` di root repo |
+| URL aplikasi lokal | http://localhost:8000 |
+| Vite | http://localhost:5173 |
+| Env container | `.env` di root repository |
 | Contoh env | `src/.env.example` |
-| Disk default contoh | `FILESYSTEM_DISK=local` |
-| Session / cache / queue contoh | `database` |
 | Config kontak | `src/config/fitvendor.php` |
-| Responsive | media query di `app.css` dan Blade customer (termasuk menu mobile) |
+| Disk contoh | `FILESYSTEM_DISK=local` |
+| Session / cache / queue contoh | `database` |
+| Tampilan mobile | media query di `app.css` dan layout customer, termasuk menu mobile |
 
-Jangan mengubah identifier teknis seperti nama container (`tigabenang_app`), key env `FITVENDOR_EMAIL`, atau bucket Storage, kecuali Anda memang mengubah infrastruktur.
+Identifier teknis yang **bukan** nama brand UI, dan tidak perlu diubah hanya karena rebrand:
+
+- key env `FITVENDOR_EMAIL`, `FITVENDOR_LOCATION`
+- file `src/config/fitvendor.php` dan pemanggilan `config('fitvendor.*')`
+- nama container Docker (`tigabenang_app`, dan seterusnya)
+- bucket / URL storage jika masih memakai identifier lama
+- `window.FitVendorOrder` di JavaScript pesanan
 
 ---
 
 ## Lisensi
 
-Kode aplikasi berbasis skeleton Laravel yang berlisensi [MIT](https://opensource.org/licenses/MIT).
+Aplikasi ini berbasis skeleton Laravel yang berlisensi [MIT](https://opensource.org/licenses/MIT).
