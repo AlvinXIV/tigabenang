@@ -43,7 +43,9 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('images/tentang1.jpg', false)
             ->assertSee('images/fitvendor.png', false)
             ->assertSee('images/tentang4.jpg', false)
-            ->assertSee(config('fitvendor.contact.email'));
+            ->assertSee(config('fitvendor.contact.email'))
+            ->assertDontSee('Hubungi melalui WhatsApp')
+            ->assertDontSee('Mulai permintaan');
 
         $this->get('/order/create')
             ->assertOk()
