@@ -30,7 +30,7 @@ pnpm-debug.log*
 .npm
 
 # 4. Vite & Frontend Build Assets
-/src/public/build
+# /src/public/build (included for production deployment)
 /src/public/hot
 /src/public/storage
 /src/public/fonts-manifest.dev.json
