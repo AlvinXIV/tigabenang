@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'Tentang')
+@section('title', 'Tentang Kami')
 @section('description', 'Profil FitVendor. Vendor pakaian custom dengan virtual fitting dan produksi sesuai pesanan.')
 
 @section('content')

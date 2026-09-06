@@ -16,14 +16,14 @@
     ];
     
     $variants = [
-        'primary' => 'bg-[#102A43] hover:bg-[#193B5C] active:bg-[#0D2237] text-white focus:ring-[#102A43]/30 border border-transparent shadow-2xs',
-        'secondary' => 'bg-white hover:bg-[#F7F7F5] active:bg-[#EEEFEC] text-[#1C2430] focus:ring-slate-300 border border-[#E2E5E9] shadow-2xs',
+        'primary' => 'bg-[#102A43] hover:bg-[#193B5C] active:bg-[#0A1C2E] text-white focus:ring-[#102A43]/20 border border-transparent shadow-2xs',
+        'secondary' => 'bg-white hover:bg-[#F7F7F5] active:bg-[#EEEFEC] text-[#102A43] focus:ring-[#102A43]/20 border border-[#D0D5DD] shadow-2xs',
         'success' => 'bg-[#3F7A62] hover:bg-[#346551] active:bg-[#2A5242] text-white focus:ring-[#3F7A62]/30 border border-transparent shadow-2xs',
         'danger' => 'bg-white hover:bg-rose-50 active:bg-rose-100 text-rose-700 focus:ring-rose-200 border border-rose-200 shadow-2xs',
         'warning' => 'bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white focus:ring-amber-300 border border-transparent shadow-2xs',
-        'outline' => 'bg-transparent border border-[#E2E5E9] hover:bg-[#F7F7F5] text-[#1C2430] focus:ring-slate-300',
-        'ghost' => 'bg-transparent hover:bg-[#F7F7F5] text-[#667085] hover:text-[#1C2430]',
-        'dark' => 'bg-[#1C2430] hover:bg-[#151C26] text-white focus:ring-[#1C2430]/30 shadow-2xs',
+        'outline' => 'bg-transparent border border-[#D0D5DD] hover:bg-[#F7F7F5] text-[#102A43] focus:ring-[#102A43]/20',
+        'ghost' => 'bg-transparent hover:bg-[#F7F7F5] text-[#667085] hover:text-[#102A43]',
+        'dark' => 'bg-[#102A43] hover:bg-[#193B5C] active:bg-[#0A1C2E] text-white focus:ring-[#102A43]/20 shadow-2xs',
     ];
 
     $classes = $baseStyles . ' ' . ($sizes[$size] ?? $sizes['md']) . ' ' . ($variants[$variant] ?? $variants['primary']);

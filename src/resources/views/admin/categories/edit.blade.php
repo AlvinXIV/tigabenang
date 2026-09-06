@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'Ubah ' . ($kategori ? 'Kategori Produk' : 'Material Kain'))
+@section('title', 'Ubah ' . ($kategori ? 'Kategori' : 'Material'))
 
 @section('content')
 <div class="space-y-6 max-w-2xl mx-auto">
 
     <!-- TOP HEADER -->
     <div class="pb-5 border-b border-[#E2E5E9]">
-        <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#102A43] tracking-tight">
             Ubah {{ $kategori ? 'Kategori Produk' : 'Material Kain' }}
         </h1>
         <p class="text-xs sm:text-sm text-[#667085] mt-1">
@@ -29,7 +29,7 @@
         @if ($bahan)
             <input type="hidden" name="type" value="bahan" />
             <div>
-                <label for="nama_bahan" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                <label for="nama_bahan" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                     Nama Material Kain <span class="text-rose-500">*</span>
                 </label>
                 <input
@@ -38,7 +38,7 @@
                     name="nama_bahan"
                     value="{{ old('nama_bahan', $bahan->nama_bahan) }}"
                     required
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
                 @error('nama_bahan')
                     <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -46,7 +46,7 @@
             </div>
         @else
             <div>
-                <label for="nama_kategori" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                <label for="nama_kategori" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                     Nama Kategori Produk <span class="text-rose-500">*</span>
                 </label>
                 <input
@@ -55,7 +55,7 @@
                     name="nama_kategori"
                     value="{{ old('nama_kategori', $kategori->nama_kategori) }}"
                     required
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
                 @error('nama_kategori')
                     <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>

@@ -1,9 +1,9 @@
-<div class="space-y-5" x-data="{ model3dFilter: '' }">
+<div class="space-y-5">
 
     <!-- TOP HEADER & ACTION BUTTON -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Katalog Produk</h1>
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Katalog Produk</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
                 Kelola produk yang tersedia untuk pelanggan.
             </p>
@@ -56,14 +56,14 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari nama produk..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Category Filter -->
             <select
                 wire:model.live="categoryFilter"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="admin-select w-full sm:w-auto"
             >
                 <option value="">Semua Kategori</option>
                 @foreach ($categories as $cat)
@@ -75,8 +75,8 @@
 
             <!-- Model 3D Status Filter -->
             <select
-                x-model="model3dFilter"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                wire:model.live="status3dFilter"
+                class="admin-select w-full sm:w-auto"
             >
                 <option value="">Semua Status 3D</option>
                 <option value="connected">Terhubung</option>
@@ -84,11 +84,10 @@
             </select>
 
             <!-- Reset Filter Button (Ghost Action) -->
-            <template x-if="model3dFilter || '{{ $search }}' || '{{ $categoryFilter }}'">
+            @if (!empty($search) || !empty($categoryFilter) || !empty($status3dFilter))
                 <button
                     type="button"
-                    @click="model3dFilter = ''"
-                    wire:click="$set('search', ''); $set('categoryFilter', '')"
+                    wire:click="resetFilters"
                     class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,11 +95,11 @@
                     </svg>
                     <span>Reset Filter</span>
                 </button>
-            </template>
+            @endif
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
-            Total: <strong class="text-[#1C2430]">{{ $products->count() }}</strong> produk
+            Total: <strong class="text-[#102A43]">{{ $products->count() }}</strong> produk
         </div>
     </div>
 
@@ -119,10 +118,7 @@
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
                     @forelse ($products as $product)
-                        <tr
-                            class="admin-table-row"
-                            x-show="model3dFilter === '' || (model3dFilter === 'connected' && {{ $product->file_model_3d ? 'true' : 'false' }}) || (model3dFilter === 'missing' && {{ $product->file_model_3d ? 'false' : 'true' }})"
-                        >
+                        <tr class="admin-table-row">
                             <!-- Produk Thumbnail & Info -->
                             <td class="px-4 py-3.5">
                                 <div class="flex items-center gap-3">
@@ -140,7 +136,7 @@
                                         @endif
                                     </div>
                                     <div class="min-w-0">
-                                        <a href="{{ route('admin.produk.edit', $product->id_produk) }}" class="font-medium text-[#1C2430] hover:text-[#102A43] text-decoration-none block truncate">
+                                        <a href="{{ route('admin.produk.edit', $product->id_produk) }}" class="font-medium text-[#102A43] hover:text-[#102A43] text-decoration-none block truncate">
                                             {{ $product->nama_produk }}
                                         </a>
                                         <div class="flex items-center gap-1.5 mt-0.5">
@@ -154,13 +150,13 @@
 
                             <!-- Kategori -->
                             <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap">
-                                <span class="px-2.5 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs text-[#1C2430] font-medium">
+                                <span class="px-2.5 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs text-[#102A43] font-medium">
                                     {{ $product->kategori ? $product->kategori->nama_kategori : 'Tanpa Kategori' }}
                                 </span>
                             </td>
 
                             <!-- Harga Dasar -->
-                            <td class="px-4 py-3.5 whitespace-nowrap font-mono text-xs text-[#1C2430]">
+                            <td class="px-4 py-3.5 whitespace-nowrap font-mono text-xs text-[#102A43]">
                                 Rp {{ number_format($product->harga, 0, ',', '.') }}
                             </td>
 
@@ -206,11 +202,11 @@
                     @empty
                         <tr>
                             <td colspan="5" class="px-4 py-12 text-center text-[#667085] text-xs sm:text-sm">
-                                @if ($search || $categoryFilter)
-                                    <p class="font-medium text-[#1C2430]">Tidak ada produk yang sesuai dengan filter.</p>
-                                    <p class="mt-1">Coba sesuaikan kata kunci atau filter kategori Anda.</p>
+                                @if (!empty($search) || !empty($categoryFilter) || !empty($status3dFilter))
+                                    <p class="font-medium text-[#102A43]">Tidak ada produk yang sesuai dengan pencarian atau filter.</p>
+                                    <p class="mt-1">Coba sesuaikan kata kunci atau filter Anda.</p>
                                 @else
-                                    <p class="font-medium text-[#1C2430]">Belum ada produk di katalog.</p>
+                                    <p class="font-medium text-[#102A43]">Belum ada produk di katalog.</p>
                                     <p class="mt-1">Klik tombol "Tambah Produk" untuk mulai mendaftarkan produk.</p>
                                 @endif
                             </td>

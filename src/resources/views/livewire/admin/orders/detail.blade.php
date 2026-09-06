@@ -10,11 +10,11 @@
                 <span>Kembali ke Pesanan</span>
             </a>
             <div class="flex flex-wrap items-center gap-3">
-                <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">
+                <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">
                     #ORD-{{ str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) }}
                 </h1>
                 <span class="text-sm text-[#667085]">•</span>
-                <span class="text-sm font-medium text-[#1C2430]">{{ $order->nama }}</span>
+                <span class="text-sm font-medium text-[#102A43]">{{ $order->nama }}</span>
                 @if ($order->total_harga)
                     <x-badge variant="success">
                         Harga Disepakati
@@ -77,7 +77,7 @@
             <!-- Rincian Produk & Spesifikasi -->
             <div class="admin-card p-5 space-y-4">
                 <div class="border-b border-[#E2E5E9] pb-3 flex items-center justify-between">
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Rincian Pesanan</h2>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Rincian Pesanan</h2>
                     <span class="text-xs text-[#667085]">Spesifikasi Busana</span>
                 </div>
 
@@ -86,7 +86,7 @@
                     <div class="flex items-center justify-between pb-3.5 border-b border-[#E2E5E9]">
                         <div>
                             <span class="text-[#667085] text-xs block">Produk yang Dipesan:</span>
-                            <span class="font-semibold text-sm sm:text-base text-[#1C2430] mt-0.5 block">
+                            <span class="font-semibold text-sm sm:text-base text-[#102A43] mt-0.5 block">
                                 {{ $order->produk ? $order->produk->nama_produk : '-' }}
                             </span>
                         </div>
@@ -102,7 +102,7 @@
                         <span class="text-[#667085] text-xs block mb-1.5">Material Kain Terpilih:</span>
                         <div class="flex flex-wrap gap-2">
                             @forelse ($order->bahan as $b)
-                                <span class="px-2.5 py-1 bg-[#F7F7F5] border border-[#E2E5E9] text-xs rounded-md text-[#1C2430] font-medium inline-flex items-center gap-1.5">
+                                <span class="px-2.5 py-1 bg-[#F7F7F5] border border-[#E2E5E9] text-xs rounded-md text-[#102A43] font-medium inline-flex items-center gap-1.5">
                                     <span class="w-1.5 h-1.5 rounded-full bg-[#102A43]"></span>
                                     {{ $b->nama_bahan }}
                                 </span>
@@ -116,7 +116,7 @@
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-[#667085] text-xs font-medium">Kuantitas per Ukuran:</span>
-                            <span class="text-xs font-semibold text-[#1C2430]">
+                            <span class="text-xs font-semibold text-[#102A43]">
                                 Total: {{ $order->ukuran ? $order->ukuran->sum('pivot.kuantitas') : 0 }} pcs
                             </span>
                         </div>
@@ -131,8 +131,8 @@
                                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
                                     @forelse ($order->ukuran as $uk)
                                         <tr>
-                                            <td class="p-2.5 sm:p-3 font-semibold text-[#1C2430]">{{ $uk->nama_ukuran }}</td>
-                                            <td class="p-2.5 sm:p-3 text-right font-medium text-[#1C2430]">{{ $uk->pivot->kuantitas }} pcs</td>
+                                            <td class="p-2.5 sm:p-3 font-semibold text-[#102A43]">{{ $uk->nama_ukuran }}</td>
+                                            <td class="p-2.5 sm:p-3 text-right font-medium text-[#102A43]">{{ $uk->pivot->kuantitas }} pcs</td>
                                         </tr>
                                     @empty
                                         <tr><td colspan="2" class="p-3 text-center text-[#667085]">Tidak ada rincian ukuran.</td></tr>
@@ -145,7 +145,7 @@
                     @if ($order->notes)
                         <div class="pt-2">
                             <span class="text-[#667085] text-xs block mb-1">Catatan Pemesan:</span>
-                            <p class="p-3 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg text-xs leading-relaxed text-[#1C2430] italic">{{ $order->notes }}</p>
+                            <p class="p-3 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg text-xs leading-relaxed text-[#102A43] italic">{{ $order->notes }}</p>
                         </div>
                     @endif
                 </div>
@@ -154,7 +154,7 @@
             <!-- Upload Design Artwork Card -->
             <div class="admin-card p-5 space-y-3">
                 <div class="border-b border-[#E2E5E9] pb-3 flex items-center justify-between">
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Desain / Artwork Terlampir</h2>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Desain / Artwork Terlampir</h2>
                     <span class="text-xs text-[#667085]">Lampiran</span>
                 </div>
 
@@ -180,7 +180,7 @@
                             @endif
 
                             <div class="min-w-0">
-                                <p class="text-xs sm:text-sm font-semibold text-[#1C2430] truncate">
+                                <p class="text-xs sm:text-sm font-semibold text-[#102A43] truncate">
                                     {{ basename($order->upload_design) }}
                                 </p>
                                 <p class="text-[11px] text-[#667085] mt-0.5 uppercase font-medium">Format: {{ $fileExt ?: 'Berkas' }}</p>
@@ -226,7 +226,7 @@
             <!-- Customer Summary Card -->
             <div class="admin-card p-5 space-y-3.5">
                 <div class="border-b border-[#E2E5E9] pb-3 flex items-center justify-between">
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Informasi Pelanggan</h2>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Informasi Pelanggan</h2>
                     <div class="flex items-center gap-2">
                         <button
                             type="button"
@@ -251,17 +251,17 @@
                 <div class="space-y-3 text-xs sm:text-sm">
                     <div>
                         <span class="text-[#667085] text-xs block">Nama Pemesan:</span>
-                        <span class="font-semibold text-[#1C2430] mt-0.5 block">{{ $order->nama }}</span>
+                        <span class="font-semibold text-[#102A43] mt-0.5 block">{{ $order->nama }}</span>
                     </div>
 
                     <div>
                         <span class="text-[#667085] text-xs block">Nomor WhatsApp:</span>
-                        <span class="font-mono text-xs text-[#1C2430] mt-0.5 block">{{ $order->no_hp ?? '-' }}</span>
+                        <span class="font-mono text-xs text-[#102A43] mt-0.5 block">{{ $order->no_hp ?? '-' }}</span>
                     </div>
 
                     <div>
                         <span class="text-[#667085] text-xs block mb-1">Alamat Pengiriman:</span>
-                        <p class="p-3 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg text-[#1C2430] leading-relaxed text-xs">{{ $order->alamat ?? '-' }}</p>
+                        <p class="p-3 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg text-[#102A43] leading-relaxed text-xs">{{ $order->alamat ?? '-' }}</p>
                     </div>
                 </div>
             </div>
@@ -269,7 +269,7 @@
             <!-- Price Agreement Card -->
             <div class="admin-card p-5 space-y-4">
                 <div class="border-b border-[#E2E5E9] pb-3">
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Kesepakatan Harga</h2>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Kesepakatan Harga</h2>
                 </div>
 
                 @php
@@ -280,7 +280,7 @@
                 <div class="bg-[#F7F7F5] p-3.5 rounded-lg border border-[#E2E5E9] space-y-2">
                     <div class="flex justify-between items-center text-xs">
                         <span class="text-[#667085]">Estimasi Awal Customer:</span>
-                        <span class="font-semibold text-[#1C2430] font-mono">Rp {{ number_format($estimasiAwal, 0, ',', '.') }}</span>
+                        <span class="font-semibold text-[#102A43] font-mono">Rp {{ number_format($estimasiAwal, 0, ',', '.') }}</span>
                     </div>
                     <div class="flex justify-between items-center text-xs pt-2 border-t border-[#E2E5E9]">
                         <span class="text-[#667085]">{{ $order->total_harga ? 'Harga Disepakati (Final):' : 'Harga Disepakati:' }}</span>
@@ -295,7 +295,7 @@
 
                 <form wire:submit="updatePrice" class="space-y-3.5 pt-1">
                     <div>
-                        <label for="total_harga" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        <label for="total_harga" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                             Harga Disepakati (Rp) <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
@@ -308,7 +308,7 @@
                                 wire:model="total_harga"
                                 step="1000"
                                 placeholder="Contoh: 350000"
-                                class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm font-semibold text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm font-semibold text-[#102A43] rounded-lg focus:outline-none transition-colors"
                                 required
                             />
                         </div>
@@ -337,31 +337,31 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
             <div class="bg-white rounded-xl shadow-xl max-w-lg w-full p-5 space-y-4">
                 <div class="flex items-center justify-between border-b border-[#E2E5E9] pb-3">
-                    <h3 class="font-semibold text-sm sm:text-base text-[#1C2430]">Ubah Informasi Pelanggan</h3>
+                    <h3 class="font-semibold text-sm sm:text-base text-[#102A43]">Ubah Informasi Pelanggan</h3>
                     <button type="button" wire:click="$set('editCustomerOpen', false)" class="text-gray-400 hover:text-gray-600 text-sm font-bold">&times;</button>
                 </div>
 
                 <form wire:submit="saveCustomer" class="space-y-3">
                     <div>
-                        <label class="block text-xs font-semibold text-[#1C2430] mb-1">Nama Lengkap</label>
+                        <label class="block text-xs font-semibold text-[#102A43] mb-1">Nama Lengkap</label>
                         <input type="text" wire:model="edit_nama" required class="w-full px-3 py-2 text-xs border border-[#D0D5DD] rounded-lg" />
                         @error('edit_nama') <span class="text-xs text-rose-600">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-[#1C2430] mb-1">Nomor WhatsApp</label>
+                        <label class="block text-xs font-semibold text-[#102A43] mb-1">Nomor WhatsApp</label>
                         <input type="text" wire:model="edit_no_hp" required class="w-full px-3 py-2 text-xs border border-[#D0D5DD] rounded-lg font-mono" />
                         @error('edit_no_hp') <span class="text-xs text-rose-600">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-[#1C2430] mb-1">Alamat Pengiriman</label>
+                        <label class="block text-xs font-semibold text-[#102A43] mb-1">Alamat Pengiriman</label>
                         <textarea wire:model="edit_alamat" rows="2" required class="w-full px-3 py-2 text-xs border border-[#D0D5DD] rounded-lg"></textarea>
                         @error('edit_alamat') <span class="text-xs text-rose-600">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-[#1C2430] mb-1">Catatan</label>
+                        <label class="block text-xs font-semibold text-[#102A43] mb-1">Catatan</label>
                         <textarea wire:model="edit_notes" rows="2" class="w-full px-3 py-2 text-xs border border-[#D0D5DD] rounded-lg"></textarea>
                     </div>
 

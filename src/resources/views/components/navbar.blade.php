@@ -17,9 +17,9 @@
 
             <a href="{{ route('home') }}" class="group flex shrink-0 items-center gap-3 no-underline">
                 <span class="flex h-11 w-11 md:h-12 md:w-12 items-center justify-center overflow-hidden rounded-xl border border-[#E2E5E9] bg-white shadow-xs transition-transform duration-200 group-hover:scale-105">
-                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo FitVendor" width="38" height="38" class="h-[82%] w-[82%] object-contain">
+                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo Tigabenang" width="38" height="38" class="h-[82%] w-[82%] object-contain">
                 </span>
-                <span class="text-xl md:text-[1.25rem] font-bold tracking-tight text-[#102A43]">FitVendor</span>
+                <span class="text-xl md:text-[1.25rem] font-bold tracking-tight text-[#102A43]">Tigabenang</span>
             </a>
 
             <div class="hidden items-center gap-2 lg:flex">

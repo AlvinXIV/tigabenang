@@ -3,7 +3,7 @@
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Pesanan Masuk</h1>
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Pesanan Masuk</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
                 Kelola pesanan dan koordinasikan penetapan estimasi harga secara real-time.
             </p>
@@ -36,14 +36,14 @@
     @endif
 
     <!-- SEGMENTED STATUS TABS -->
-    <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm">
+    <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-px">
         <button
             type="button"
             wire:click="filterStatus('all')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'all' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'all' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Semua Pesanan</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'all' ? 'bg-[#EBF1F7] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'all' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $counts['all'] }}
             </span>
         </button>
@@ -51,10 +51,10 @@
         <button
             type="button"
             wire:click="filterStatus('waiting')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'waiting' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'waiting' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Menunggu Penetapan Harga</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'waiting' ? 'bg-amber-100 text-amber-800' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'waiting' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $counts['waiting'] }}
             </span>
         </button>
@@ -62,10 +62,10 @@
         <button
             type="button"
             wire:click="filterStatus('agreed')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'agreed' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'agreed' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Harga Disepakati</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'agreed' ? 'bg-emerald-100 text-emerald-800' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'agreed' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $counts['agreed'] }}
             </span>
         </button>
@@ -84,25 +84,25 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari ID pesanan, pelanggan, atau nomor HP..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
-            @if (!empty($search))
+            @if (!empty($search) || $statusFilter !== 'all')
                 <button
                     type="button"
-                    wire:click="$set('search', '')"
+                    wire:click="resetFilters"
                     class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
-                    <span>Reset</span>
+                    <span>Reset Filter</span>
                 </button>
             @endif
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end sm:self-center">
-            Total: <strong class="text-[#1C2430]">{{ $orders->count() }}</strong> pesanan
+            Total: <strong class="text-[#102A43]">{{ $orders->count() }}</strong> pesanan
         </div>
     </div>
 
@@ -132,10 +132,10 @@
                             <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap text-xs">
                                 {{ $ord->created_at ? $ord->created_at->format('d M Y') : '-' }}
                             </td>
-                            <td class="px-4 py-3.5 font-mono text-xs font-medium text-[#1C2430] whitespace-nowrap">
+                            <td class="px-4 py-3.5 font-mono text-xs font-medium text-[#102A43] whitespace-nowrap">
                                 #ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }}
                             </td>
-                            <td class="px-4 py-3.5 font-medium text-[#1C2430] whitespace-nowrap">
+                            <td class="px-4 py-3.5 font-medium text-[#102A43] whitespace-nowrap">
                                 {{ $ord->nama }}
                             </td>
                             <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap font-mono text-xs">
@@ -154,17 +154,17 @@
                                     <span class="text-[#98A2B3]">-</span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3.5 text-[#1C2430] whitespace-nowrap font-medium">
+                            <td class="px-4 py-3.5 text-[#102A43] whitespace-nowrap font-medium">
                                 {{ $ord->produk ? $ord->produk->nama_produk : '-' }}
                             </td>
                             <td class="px-4 py-3.5 text-center whitespace-nowrap">
-                                <span class="px-2 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs font-semibold text-[#1C2430]">
+                                <span class="px-2 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs font-semibold text-[#102A43]">
                                     {{ $totalQty }} pcs
                                 </span>
                             </td>
                             <td class="px-4 py-3.5 whitespace-nowrap font-mono text-xs">
                                 @if ($ord->total_harga)
-                                    <span class="font-medium text-[#1C2430]">
+                                    <span class="font-medium text-[#102A43]">
                                         Rp {{ number_format($ord->total_harga, 0, ',', '.') }}
                                     </span>
                                 @else
@@ -218,9 +218,9 @@
                         <tr>
                             <td colspan="9" class="px-4 py-12 text-center text-[#667085] text-xs sm:text-sm">
                                 @if (!empty($search))
-                                    <p class="font-medium text-[#1C2430]">Tidak ada pesanan yang sesuai dengan filter pencarian "{{ $search }}".</p>
+                                    <p class="font-medium text-[#102A43]">Tidak ada pesanan yang sesuai dengan filter pencarian "{{ $search }}".</p>
                                 @else
-                                    <p class="font-medium text-[#1C2430]">Belum ada data pesanan tercatat.</p>
+                                    <p class="font-medium text-[#102A43]">Belum ada data pesanan tercatat.</p>
                                     <p class="mt-1">Pesanan masuk dari pelanggan akan otomatis tampil di sini.</p>
                                 @endif
                             </td>
@@ -237,7 +237,7 @@
             <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-5 space-y-4">
                 <div class="flex items-center justify-between border-b border-[#E2E5E9] pb-3">
                     <div>
-                        <h3 class="font-semibold text-sm sm:text-base text-[#1C2430]">Tetapkan Harga Disepakati</h3>
+                        <h3 class="font-semibold text-sm sm:text-base text-[#102A43]">Tetapkan Harga Disepakati</h3>
                         <p class="text-xs text-[#667085]">{{ $quickOrderNumber }} &bull; {{ $quickCustomerName }}</p>
                     </div>
                     <button type="button" wire:click="cancelQuickPrice" class="text-gray-400 hover:text-gray-600 text-sm font-bold">&times;</button>
@@ -245,7 +245,7 @@
 
                 <form wire:submit="saveQuickPrice" class="space-y-4">
                     <div>
-                        <label for="quickPrice" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        <label for="quickPrice" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                             Harga Disepakati (Rp) <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
@@ -257,7 +257,7 @@
                                 required
                                 min="0"
                                 placeholder="Contoh: 1500000"
-                                class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                                class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] font-mono text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none"
                             />
                         </div>
                         @error('quickPrice')

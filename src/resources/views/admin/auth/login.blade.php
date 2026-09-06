@@ -1,13 +1,13 @@
 @extends('layouts.auth')
 
-@section('title', 'Masuk Portal')
+@section('title', 'Masuk Admin')
 
 @section('content')
 <div
     class="w-full flex flex-col items-center"
     x-data="{
-        email: 'admin',
-        password: 'password',
+        email: '{{ old('email', '') }}',
+        password: '',
         showPassword: false,
         isSubmitting: false,
         errors: {
@@ -24,7 +24,7 @@
         },
         validatePassword() {
             if (!this.password || !this.password.trim()) {
-                this.errors.password = 'Password tidak boleh kosong.';
+                this.errors.password = 'Kata sandi tidak boleh kosong.';
                 return false;
             }
             this.errors.password = '';
@@ -44,29 +44,35 @@
         }
     }"
 >
-    <!-- Brand Emblem -->
-    <div class="inline-flex flex-col items-center justify-center mb-6 select-none">
-        <div class="w-12 h-12 bg-[#102A43] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
-            TB
+    <!-- Brand Emblem & Identity (Official Customer Portal Asset) -->
+    <div class="flex flex-col items-center justify-center mb-5 select-none text-center">
+        <div class="w-12 h-12 rounded-[12px] border border-[#E2E5E9] bg-white flex items-center justify-center shadow-xs mb-2.5 overflow-hidden">
+            <img
+                src="{{ asset('images/clothiq-logo.png') }}?v=3"
+                alt="Logo Tigabenang"
+                width="36"
+                height="36"
+                class="h-[78%] w-[78%] object-contain select-none"
+            />
         </div>
-        <span class="text-sm font-bold tracking-tight text-[#1C2430]">Tigabenang</span>
-        <span class="text-[11px] text-[#667085] font-medium">Konveksi &amp; Atelier Digital</span>
+        <span class="text-base font-bold tracking-tight text-[#102A43]">Tigabenang</span>
+        <span class="text-[11px] text-[#667085] font-medium tracking-normal mt-0.5">Konveksi &amp; Atelier Digital</span>
     </div>
 
     <!-- Portal Title & Subtitle -->
-    <div class="text-center max-w-md mx-auto mb-6">
-        <h1 class="text-xl sm:text-2xl font-bold text-[#1C2430] tracking-tight">Tigabenang Vendor Portal</h1>
-        <p class="text-xs text-[#667085] mt-1 leading-relaxed">
-            Masuk untuk mengelola katalog produk, pesanan garmen, dan konfigurasi bengkel.
+    <div class="text-center max-w-sm mx-auto mb-5">
+        <h1 class="text-2xl sm:text-[26px] font-bold text-[#102A43] tracking-tight m-0">Admin Portal Tigabenang</h1>
+        <p class="text-sm text-[#667085] mt-1.5 leading-relaxed m-0">
+            Masuk untuk mengelola katalog produk, pesanan garmen, dan konfigurasi atelier.
         </p>
     </div>
 
-    <!-- Login Card Container -->
-    <div class="w-full max-w-md bg-white border border-[#E2E5E9] rounded-xl shadow-xs p-6 sm:p-8">
+    <!-- Login Card Container (Max-Width 420px, Natural Height, Centered) -->
+    <div class="auth-card">
         
-        <!-- Feedback messages if any -->
+        <!-- Feedback notifications -->
         @if (session('success'))
-            <div class="mb-5 p-3 bg-emerald-50 border border-emerald-200 text-xs font-medium text-emerald-800 rounded-lg flex items-center gap-2">
+            <div class="mb-4 p-3 bg-emerald-50 border border-emerald-200 text-xs font-medium text-emerald-800 rounded-lg flex items-center gap-2">
                 <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
@@ -74,16 +80,25 @@
             </div>
         @endif
 
-        <form action="{{ route('login') }}" method="POST" @submit="handleSubmit($event)" class="space-y-4">
+        @if (session('error'))
+            <div class="mb-4 p-3 bg-rose-50 border border-rose-200 text-xs font-medium text-rose-800 rounded-lg flex items-center gap-2">
+                <svg class="w-4 h-4 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                <span>{{ session('error') }}</span>
+            </div>
+        @endif
+
+        <form action="{{ route('login') }}" method="POST" @submit="handleSubmit($event)" class="space-y-4 m-0">
             @csrf
 
             <!-- Username Field -->
             <div>
-                <label for="email" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
-                    Username Akun <span class="text-rose-500">*</span>
+                <label for="email" class="block text-xs font-semibold text-[#102A43] mb-1.5">
+                    Username <span class="text-rose-500">*</span>
                 </label>
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#98A2B3]">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#98A2B3]">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
@@ -92,45 +107,53 @@
                         type="text"
                         id="email"
                         name="email"
+                        value="{{ old('email') }}"
                         x-model="email"
                         @blur="validateEmail()"
                         @input="if(errors.email) validateEmail()"
-                        placeholder="admin"
-                        class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        placeholder="Masukkan username"
+                        autocomplete="username"
+                        required
+                        class="auth-input pl-10 pr-3.5"
                     />
                 </div>
                 <template x-if="errors.email">
                     <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.email"></p>
                 </template>
+                @error('email')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Password Field -->
             <div>
-                <div class="flex items-center justify-between mb-1.5">
-                    <label for="password" class="block text-xs font-semibold text-[#1C2430]">
-                        Kata Sandi <span class="text-rose-500">*</span>
-                    </label>
-                </div>
+                <label for="password" class="block text-xs font-semibold text-[#102A43] mb-1.5">
+                    Kata Sandi <span class="text-rose-500">*</span>
+                </label>
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#98A2B3]">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#98A2B3]">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
                     </div>
                     <input
                         :type="showPassword ? 'text' : 'password'"
+                        type="password"
                         id="password"
                         name="password"
                         x-model="password"
                         @blur="validatePassword()"
                         @input="if(errors.password) validatePassword()"
-                        placeholder="••••••••"
-                        class="w-full pl-9 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        placeholder="Masukkan kata sandi"
+                        autocomplete="current-password"
+                        required
+                        class="auth-input pl-10 pr-11"
                     />
                     <button
                         type="button"
                         @click="showPassword = !showPassword"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#98A2B3] hover:text-[#1C2430] transition-colors focus:outline-none cursor-pointer bg-transparent border-0"
+                        :aria-label="showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'"
+                        class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#98A2B3] hover:text-[#102A43] transition-colors focus:outline-none cursor-pointer bg-transparent border-0"
                     >
                         <svg x-show="!showPassword" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -144,33 +167,28 @@
                 <template x-if="errors.password">
                     <p class="text-xs text-rose-600 mt-1 font-medium" x-text="errors.password"></p>
                 </template>
+                @error('password')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
             </div>
 
-            <!-- Submit Button -->
+            <!-- Submit Button (Always clearly visible, #102A43 with white text, server-rendered fallback) -->
             <div class="pt-2">
                 <button
                     type="submit"
                     :disabled="isSubmitting"
-                    class="w-full py-2.5 bg-[#102A43] hover:bg-[#193B5C] active:bg-[#8A4330] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
+                    class="auth-btn-primary"
                 >
                     <svg x-show="isSubmitting" class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24" style="display: none;">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span x-text="isSubmitting ? 'Memverifikasi...' : 'Masuk ke Portal Vendor'"></span>
+                    <span x-text="isSubmitting ? 'Memverifikasi...' : 'Masuk'">Masuk</span>
                 </button>
             </div>
         </form>
 
     </div>
 
-    <!-- Storefront Link -->
-    <div class="mt-6 text-center text-xs text-[#6E7575]">
-        <a href="{{ route('home') }}" class="text-[#1C2430] hover:text-[#102A43] font-medium transition-colors text-decoration-none">
-            &larr; Kembali ke Toko Tigabenang
-        </a>
-    </div>
-
 </div>
 @endsection
-

@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Form Konfirmasi Pemesanan') - Clothiq Atelier</title>
-    <meta name="description" content="@yield('description', 'Formulir resmi konfirmasi pemesanan pakaian custom Clothiq Atelier.')">
+    <title>@yield('title', 'Form Konfirmasi Pesanan') | Tigabenang</title>
+    <meta name="description" content="@yield('description', 'Formulir resmi konfirmasi pemesanan pakaian custom Tigabenang.')">
     <meta name="robots" content="noindex, nofollow">
 
+    <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
@@ -55,11 +56,11 @@
             {{-- Brand Wordmark & Monogram --}}
             <div class="flex items-center gap-3.5">
                 <span style="width:46px;height:46px;background:#FFFFFF;border:1.5px solid #D5CDC4;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(23,42,57,0.08);overflow:hidden;flex-shrink:0;">
-                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Clothiq Logo" width="36" height="36" style="width:84%;height:84%;object-fit:contain;">
+                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo Tigabenang" width="36" height="36" style="width:84%;height:84%;object-fit:contain;">
                 </span>
                 <div>
                     <span style="font-size:1.35rem;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:#172A39;display:block;line-height:1;">
-                        Clothiq
+                        Tigabenang
                     </span>
                     <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6E7575;">
                         Official Deal Order Portal
@@ -85,14 +86,14 @@
         <div class="mx-auto max-w-5xl px-5 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <div>
                 <p style="font-size:0.875rem;font-weight:800;letter-spacing:0.04em;color:#FFFFFF;margin:0;">
-                    Clothiq Custom Atelier &amp; Production
+                    Tigabenang Custom Atelier &amp; Production
                 </p>
                 <p style="font-size:0.75rem;color:rgba(234,226,216,0.65);margin-top:0.25rem;">
                     Formulir resmi kesepakatan produksi pakaian custom dengan garansi presisi &amp; mutu.
                 </p>
             </div>
             <p style="font-size:0.75rem;color:rgba(234,226,216,0.5);margin:0;">
-                &copy; {{ date('Y') }} Clothiq. All rights reserved.
+                &copy; {{ date('Y') }} Tigabenang. All rights reserved.
             </p>
         </div>
     </footer>

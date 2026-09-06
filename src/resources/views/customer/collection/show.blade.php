@@ -1,8 +1,5 @@
 @extends('layouts.customer')
 
-@section('title', $product->nama_produk)
-@section('description', \App\Support\CustomerCatalog::categoryLabel($product->kategori?->nama_kategori).' - pakaian custom FitVendor')
-
 @php
     use App\Support\CustomerCatalog;
     use App\Support\CustomerMedia;
@@ -16,6 +13,10 @@
         $product->id_produk
     );
 @endphp
+
+@section('title', $product->nama_produk)
+@section('description', CustomerCatalog::categoryLabel($product->kategori?->nama_kategori).' - pakaian custom Tigabenang')
+
 
 @section('content')
 

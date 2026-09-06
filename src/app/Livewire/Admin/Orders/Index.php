@@ -22,6 +22,12 @@ class Index extends Component
         $this->statusFilter = $status;
     }
 
+    public function resetFilters()
+    {
+        $this->search = '';
+        $this->statusFilter = 'all';
+    }
+
     public function openQuickPrice(int $id)
     {
         $order = Pemesanan::findOrFail($id);
@@ -80,12 +86,23 @@ class Index extends Component
         if (!empty($this->search)) {
             $s = trim($this->search);
             $query->where(function ($q) use ($s) {
-                $q->where('nama', 'like', "%{$s}%")
-                  ->orWhere('no_hp', 'like', "%{$s}%")
-                  ->orWhere('id_pemesanan', 'like', "%{$s}%")
+                $q->where('nama', 'ilike', "%{$s}%")
                   ->orWhereHas('produk', function ($pq) use ($s) {
-                      $pq->where('nama_produk', 'like', "%{$s}%");
+                      $pq->where('nama_produk', 'ilike', "%{$s}%");
                   });
+
+                // Support formatted Order IDs: #ORD-0001, ORD-0001, ord-0001, 0001, 1
+                if (preg_match('/^#?ord-?0*(\d+)$/i', $s, $matches)) {
+                    $q->orWhere('id_pemesanan', (int) $matches[1]);
+                } elseif (ctype_digit($s)) {
+                    $q->orWhere('id_pemesanan', (int) $s);
+                }
+
+                // Phone search: only check if input looks like a phone number (>=4 digits or starts with 08/+62/62)
+                $cleanDigits = preg_replace('/\D/', '', $s);
+                if (strlen($cleanDigits) >= 4 || str_starts_with($s, '08') || str_starts_with($s, '+62') || str_starts_with($s, '62')) {
+                    $q->orWhere('no_hp', 'like', "%{$cleanDigits}%");
+                }
             });
         }
 
