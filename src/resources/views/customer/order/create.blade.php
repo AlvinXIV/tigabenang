@@ -526,12 +526,12 @@
                             const lines = [
                                 'Halo Tigabenang, saya ingin konsultasi pemesanan pakaian custom:',
                                 '',
-                                '📋 *DATA PEMESAN*',
+                                '◆ *DATA PEMESAN*',
                                 '• Nama: ' + nama,
                                 '• No. HP: ' + noHp,
                                 '• Alamat: ' + alamat,
                                 '',
-                                '👕 *SPESIFIKASI PRODUK & BAHAN*',
+                                '◆ *SPESIFIKASI PRODUK & BAHAN*',
                                 '• Kategori: ' + categoryText,
                                 '• Produk: ' + productText,
                             ];
@@ -541,26 +541,26 @@
                             }
 
                             lines.push('');
-                            lines.push('📏 *RINCIAN UKURAN & JUMLAH*');
+                            lines.push('◆ *RINCIAN UKURAN & JUMLAH*');
                             lines.push(sizeBreakdown.join('\n'));
                             lines.push('*Total Kuantitas:* ' + totalQty + ' pcs');
                             lines.push('');
-                            lines.push('💰 *ESTIMASI TOTAL AWAL:* ' + totalLabel);
+                            lines.push('◆ *ESTIMASI TOTAL AWAL:* ' + totalLabel);
                             lines.push('*(Estimasi dasar, harga final & DP disepakati bersama)*');
 
                             if (notes) {
                                 lines.push('');
-                                lines.push('📝 *CATATAN TAMBAHAN:*');
+                                lines.push('◆ *CATATAN TAMBAHAN:*');
                                 lines.push(notes);
                             }
 
                             if (uploadedDesignUrl) {
                                 lines.push('');
-                                lines.push('📸 *LAMPIRAN DESAIN:*');
+                                lines.push('◆ *LAMPIRAN DESAIN:*');
                                 lines.push(uploadedDesignUrl);
                             } else if (designFile) {
                                 lines.push('');
-                                lines.push('📸 *LAMPIRAN DESAIN:*');
+                                lines.push('◆ *LAMPIRAN DESAIN:*');
                                 lines.push('File: ' + designFile.name + ' (akan saya kirimkan gambarnya langsung di chat ini)');
                             }
 

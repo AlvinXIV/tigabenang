@@ -148,39 +148,39 @@
                         $msgParts = [
                             'Halo Tigabenang, saya ingin konsultasi pemesanan pakaian custom dengan detail berikut:',
                             '',
-                            '📋 *DATA PEMESAN*',
+                            '◆ *DATA PEMESAN*',
                             '• No. Antrean: #TB-' . str_pad($pemesanan->id_pemesanan, 5, '0', STR_PAD_LEFT),
                             '• Nama: ' . $pemesanan->nama,
                             '• No. HP: ' . $pemesanan->no_hp,
                             '• Alamat: ' . $pemesanan->alamat,
                             '',
-                            '👕 *SPESIFIKASI PRODUK & BAHAN*',
+                            '◆ *SPESIFIKASI PRODUK & BAHAN*',
                             '• Kategori: ' . \App\Support\CustomerCatalog::categoryLabel($pemesanan->produk?->kategori?->nama_kategori),
                             '• Produk: ' . ($pemesanan->produk?->nama_produk ?: '-'),
                             '• Pilihan Bahan: ' . ($bahanList ?: 'Bahan Standar Atelier'),
                             '',
-                            '📏 *RINCIAN UKURAN & JUMLAH*',
+                            '◆ *RINCIAN UKURAN & JUMLAH*',
                             $sizeBreakdown ?: '• Belum ada rincian ukuran',
                             '*Total Kuantitas:* ' . $totalQty . ' pcs',
                         ];
 
                         if ($designUrl) {
                             $msgParts[] = '';
-                            $msgParts[] = '📸 *DESAIN / ARTWORK:*';
+                            $msgParts[] = '◆ *DESAIN / ARTWORK:*';
                             $msgParts[] = $designUrl;
                         }
 
                         if (!empty($pemesanan->notes)) {
                             $msgParts[] = '';
-                            $msgParts[] = '📝 *CATATAN TAMBAHAN:*';
+                            $msgParts[] = '◆ *CATATAN TAMBAHAN:*';
                             $msgParts[] = $pemesanan->notes;
                         }
 
                         $msgParts[] = '';
-                        $msgParts[] = '💰 *ESTIMASI TOTAL AWAL:* Rp ' . number_format($estimatedTotal, 0, ',', '.');
+                        $msgParts[] = '◆ *ESTIMASI TOTAL AWAL:* Rp ' . number_format($estimatedTotal, 0, ',', '.');
                         $msgParts[] = '*(Harga final & DP akan disepakati bersama)*';
                         $msgParts[] = '';
-                        $msgParts[] = '📄 *LEMBAR KONSULTASI LENGKAP (PDF):*';
+                        $msgParts[] = '◆ *LEMBAR KONSULTASI LENGKAP (PDF):*';
                         $msgParts[] = $pdfUrl;
                         $msgParts[] = '';
                         $msgParts[] = 'Mohon konfirmasi ketersediaan bahan, kalkulasi harga final, dan jadwal antrean produksi. Terima kasih!';
