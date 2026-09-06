@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Pemesanan::with(['produk', 'bahan', 'ukuran']);
+        $query = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran']);
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -83,7 +83,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Pemesanan::with(['produk', 'bahan', 'ukuran'])->findOrFail($id);
+        $order = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])->findOrFail($id);
 
         return view('admin.orders.show', compact('order'));
     }
@@ -107,7 +107,7 @@ class OrderController extends Controller
 
     public function invoice($id)
     {
-        $order = Pemesanan::with(['produk', 'bahan', 'ukuran'])->findOrFail($id);
+        $order = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])->findOrFail($id);
 
         return view('admin.orders.invoice', compact('order'));
     }

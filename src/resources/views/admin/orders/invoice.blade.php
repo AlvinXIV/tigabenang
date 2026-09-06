@@ -166,7 +166,7 @@
                 <tbody class="divide-y divide-[#E2E5E9]">
                     <tr>
                         <td class="p-4 align-top">
-                            <p class="font-semibold text-[#1C2430] text-sm">{{ $order->produk ? $order->produk->nama_produk : '-' }}</p>
+                            <p class="font-semibold text-[#1C2430] text-sm">{{ $order->categoryDisplayName() }}</p>
                             @if ($order->notes)
                                 <p class="text-[#667085] text-xs mt-1.5 italic">Catatan: {{ $order->notes }}</p>
                             @endif

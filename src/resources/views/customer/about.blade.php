@@ -267,6 +267,14 @@
             border-radius: 18px;
             background: #102A43;
             aspect-ratio: 21 / 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-width: 0;
+        }
+        .fv-about__hero picture {
+            position: absolute;
+            inset: 0;
         }
         .fv-about__hero img {
             display: block;
@@ -282,9 +290,12 @@
             background: linear-gradient(to top, rgba(13, 34, 55, 0.92) 0%, rgba(13, 34, 55, 0.55) 45%, rgba(13, 34, 55, 0.18) 100%);
         }
         .fv-about__hero-body {
-            position: absolute;
-            inset: auto 0 0 0;
+            position: relative;
             z-index: 1;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
             padding: 2rem;
         }
         @media (max-width: 767px) {
@@ -300,10 +311,29 @@
             .fv-about__steps h3 { margin-top: 0.55rem; }
             .fv-about__contact-grid { margin-top: 1.5rem; }
             .fv-about__contact-card { padding: 1rem; }
-            .fv-about__hero { min-height: 18rem; }
-            .fv-about__hero-body { padding: 1.5rem; }
-            .fv-about__hero-title { font-size: 1.45rem; }
-            .fv-about__hero-lead { margin-top: 0.75rem; font-size: 0.875rem; }
+            .fv-about__hero {
+                aspect-ratio: auto;
+                min-height: 26rem;
+                height: auto;
+            }
+            .fv-about__hero-body { padding: 1.15rem 1.15rem 1.35rem; }
+            .fv-about__hero-title {
+                max-width: 100%;
+                font-size: 1.25rem;
+                line-height: 1.3;
+                white-space: normal;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+                text-wrap: wrap;
+            }
+            .fv-about__hero-lead {
+                max-width: 100%;
+                margin-top: 0.7rem;
+                font-size: 0.875rem;
+                white-space: normal;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
             .fv-about__story,
             .fv-about__work,
             .fv-about__process { gap: 1.75rem; }
@@ -361,7 +391,8 @@
                             width="720"
                             height="900"
                         >
-                    </picture>                    <div class="fv-about__hero-body">
+                    </picture>
+                    <div class="fv-about__hero-body">
                         <span class="fv-about__hero-eyebrow">Tentang Tigabenang</span>
                         <h1 class="fv-about__hero-title">
                             Vendor pakaian yang mengutamakan ukuran yang pas

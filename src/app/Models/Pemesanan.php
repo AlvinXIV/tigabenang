@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\CustomerCatalog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -61,5 +62,16 @@ class Pemesanan extends Model
             'id_pemesanan',
             'id_ukuran'
         )->withPivot('kuantitas');
+    }
+
+    public function categoryDisplayName(): string
+    {
+        $kategori = $this->produk?->kategori?->nama_kategori;
+
+        if (filled($kategori)) {
+            return CustomerCatalog::categoryLabel($kategori);
+        }
+
+        return $this->produk?->nama_produk ?: '-';
     }
 }

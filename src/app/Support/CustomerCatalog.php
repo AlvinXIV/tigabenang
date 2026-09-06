@@ -117,6 +117,35 @@ class CustomerCatalog
         return $selected->take(3)->values();
     }
 
+    /**
+     * Materials shown for a category on the customer order form.
+     * Matches the collection product-detail preview for products in that category.
+     *
+     * @return Collection<int, Bahan>
+     */
+    public static function materialsForCategory(Kategori $kategori): Collection
+    {
+        $products = $kategori->relationLoaded('produk')
+            ? $kategori->produk
+            : $kategori->produk()->with('bahan')->orderBy('nama_produk')->get();
+
+        $produk = $products->first();
+
+        if (! $produk instanceof Produk) {
+            return collect();
+        }
+
+        if (! $produk->relationLoaded('bahan')) {
+            $produk->load('bahan');
+        }
+
+        return self::previewMaterials(
+            $produk->bahan,
+            $kategori->nama_kategori,
+            $produk->id_produk
+        );
+    }
+
     private static function previewMaterialTarget(int|string|null $productId): int
     {
         $id = (int) $productId;

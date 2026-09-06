@@ -155,7 +155,7 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3.5 text-[#102A43] whitespace-nowrap font-medium">
-                                {{ $ord->produk ? $ord->produk->nama_produk : '-' }}
+                                {{ $ord->categoryDisplayName() }}
                             </td>
                             <td class="px-4 py-3.5 text-center whitespace-nowrap">
                                 <span class="px-2 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs font-semibold text-[#102A43]">

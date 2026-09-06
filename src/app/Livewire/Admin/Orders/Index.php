@@ -75,7 +75,7 @@ class Index extends Component
 
     public function render()
     {
-        $query = Pemesanan::with(['produk', 'bahan', 'ukuran'])->latest('id_pemesanan');
+        $query = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])->latest('id_pemesanan');
 
         if ($this->statusFilter === 'waiting') {
             $query->whereNull('total_harga');

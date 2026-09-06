@@ -129,7 +129,7 @@
                                 {{ $order->nama }}
                             </td>
                             <td class="px-5 py-3.5 text-[#667085] whitespace-nowrap">
-                                {{ $order->produk ? $order->produk->nama_produk : '-' }}
+                                {{ $order->categoryDisplayName() }}
                             </td>
                             <td class="px-5 py-3.5 whitespace-nowrap font-mono text-xs text-[#667085]">
                                 Menunggu input
@@ -219,7 +219,7 @@
                                 {{ $order->nama }}
                             </td>
                             <td class="px-5 py-3.5 text-[#667085] whitespace-nowrap">
-                                {{ $order->produk ? $order->produk->nama_produk : '-' }}
+                                {{ $order->categoryDisplayName() }}
                             </td>
                             <td class="px-5 py-3.5 whitespace-nowrap font-mono text-xs text-[#102A43]">
                                 {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : '-' }}

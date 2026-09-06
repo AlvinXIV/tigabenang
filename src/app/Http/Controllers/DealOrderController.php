@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDealOrderRequest;
 use App\Models\Bahan;
+use App\Models\Kategori;
 use App\Models\Pemesanan;
 use App\Models\Produk;
 use App\Support\CustomerCatalog;
+use App\Support\CustomerMedia;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,71 +19,84 @@ class DealOrderController extends Controller
 {
     public function create(Request $request): View
     {
-        $products = Produk::query()
-            ->select(['id_produk', 'kategori_id', 'nama_produk', 'harga'])
-            ->with(['kategori.ukuran', 'bahan:id_bahan,nama_bahan'])
-            ->orderBy('nama_produk')
+        $categories = Kategori::query()
+            ->whereHas('produk')
+            ->with([
+                'ukuran' => fn ($query) => $query->orderBy('id_ukuran'),
+                'produk' => fn ($query) => $query
+                    ->select(['id_produk', 'kategori_id', 'nama_produk', 'harga'])
+                    ->orderBy('nama_produk')
+                    ->with(['bahan:id_bahan,nama_bahan']),
+            ])
+            ->orderBy('nama_kategori')
             ->get();
 
-        CustomerCatalog::attachKategoriAndSizes($products);
+        $requestedProductId = $request->query('product');
+        $requestedCategoryId = $request->query('category');
 
-        $allMaterials = Bahan::query()
-            ->select(['id_bahan', 'nama_bahan'])
-            ->orderBy('nama_bahan')
-            ->get();
+        $selected = $categories->first(function (Kategori $kategori) use ($requestedProductId, $requestedCategoryId) {
+            if (filled($requestedCategoryId) && (string) $kategori->id_kategori === (string) $requestedCategoryId) {
+                return true;
+            }
 
-        $selectedId = $request->query('product');
-        $selected = $products->firstWhere('id_produk', (int) $selectedId) ?? $products->first();
+            return filled($requestedProductId)
+                && $kategori->produk->contains('id_produk', (int) $requestedProductId);
+        }) ?? $categories->first();
 
-        $catalog = $products->map(function (Produk $produk) use ($allMaterials) {
-            $productMaterials = $produk->bahan->isNotEmpty()
-                ? $produk->bahan
-                : $allMaterials;
+        $catalog = $categories->map(function (Kategori $kategori) {
+            $materials = CustomerCatalog::materialsForCategory($kategori);
 
             return [
-                'id' => $produk->id_produk,
-                'name' => $produk->nama_produk,
-                'category' => $produk->kategori?->nama_kategori,
-                'price' => (float) $produk->harga,
-                'sizes' => $produk->kategori?->ukuran
-                    ?->map(fn ($ukuran) => [
+                'id' => $kategori->id_kategori,
+                'name' => $kategori->nama_kategori,
+                'label' => CustomerCatalog::categoryLabel($kategori->nama_kategori),
+                'product_id' => $kategori->produk->first()?->id_produk,
+                'sizes' => $kategori->ukuran
+                    ->map(fn ($ukuran) => [
                         'id' => $ukuran->id_ukuran,
                         'name' => $ukuran->nama_ukuran,
                         'chest' => $ukuran->lebar_dada,
                         'length' => $ukuran->panjang,
                         'shoulder' => $ukuran->lebar_bahu,
                         'sleeve' => $ukuran->panjang_lengan,
-                    ])->values() ?? [],
-                'materials' => $productMaterials->map(fn (Bahan $bahan) => [
+                    ])->values(),
+                'materials' => $materials->map(fn (Bahan $bahan) => [
                     'id' => $bahan->id_bahan,
                     'name' => $bahan->nama_bahan,
+                    'image' => CustomerMedia::materialImageUrl($bahan->nama_bahan),
                 ])->values(),
             ];
         })->values();
 
         return view('customer.deal-order.create', [
-            'products' => $products,
+            'categories' => $categories,
             'selected' => $selected,
             'catalog' => $catalog,
-            'allMaterials' => $allMaterials,
         ]);
     }
 
     public function store(StoreDealOrderRequest $request): RedirectResponse
     {
-        $produk = Produk::query()
-            ->with('kategori.ukuran')
-            ->findOrFail($request->validated('produk_id'));
+        $kategori = Kategori::query()
+            ->with(['produk', 'ukuran'])
+            ->findOrFail($request->validated('kategori_id'));
+
+        $produk = $kategori->produk->first();
+
+        if (! $produk instanceof Produk) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'kategori_id' => 'Kategori yang dipilih belum memiliki produk yang dapat dipesan.',
+                ]);
+        }
 
         $sizeRows = collect($request->validated('sizes'))
             ->filter(fn (array $row) => (int) ($row['kuantitas'] ?? 0) > 0)
             ->values();
 
-        $totalQuantity = $sizeRows->sum(fn (array $row) => (int) $row['kuantitas']);
-        $totalHarga = (float) $produk->harga * $totalQuantity;
-
         try {
-            $pemesanan = DB::transaction(function () use ($request, $produk, $sizeRows, $totalHarga) {
+            $pemesanan = DB::transaction(function () use ($request, $produk, $sizeRows) {
                 $designPath = null;
 
                 if ($request->hasFile('upload_design')) {
@@ -98,11 +113,9 @@ class DealOrderController extends Controller
                     'notes' => $request->validated('notes'),
                 ]);
 
-                // Attach selected materials to pemesanan_material table
                 $materialIds = array_unique((array) $request->validated('materials'));
                 $pemesanan->bahan()->attach($materialIds);
 
-                // Attach size breakdown to pemesanan_ukuran table
                 $ukuranAttach = [];
                 foreach ($sizeRows as $row) {
                     $ukuranAttach[$row['ukuran_id']] = [
@@ -129,7 +142,7 @@ class DealOrderController extends Controller
             ->with('order_id', $pemesanan->id_pemesanan);
     }
 
-    public function success(): View
+    public function success(): View|RedirectResponse
     {
         $orderId = session('order_id');
 
@@ -138,6 +151,10 @@ class DealOrderController extends Controller
                 ->with(['produk.kategori', 'bahan', 'ukuran'])
                 ->find($orderId)
             : null;
+
+        if (! $pemesanan) {
+            return redirect()->route('deal-order.create');
+        }
 
         return view('customer.deal-order.success', [
             'pemesanan' => $pemesanan,

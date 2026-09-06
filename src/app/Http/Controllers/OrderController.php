@@ -120,7 +120,7 @@ class OrderController extends Controller
             ->with('order_id', $pemesanan->id_pemesanan);
     }
 
-    public function success(): View
+    public function success(): View|RedirectResponse
     {
         $orderId = session('order_id');
 
@@ -129,6 +129,10 @@ class OrderController extends Controller
                 ->with(['produk.kategori', 'bahan', 'ukuran'])
                 ->find($orderId)
             : null;
+
+        if (! $pemesanan) {
+            return redirect()->route('order.create');
+        }
 
         return view('customer.order.success', [
             'pemesanan' => $pemesanan,

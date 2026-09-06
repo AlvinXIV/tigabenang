@@ -37,6 +37,8 @@ class CustomerFrontendTest extends TestCase
         $this->get('/about')
             ->assertOk()
             ->assertSee('Tentang Tigabenang')
+            ->assertSee('Vendor pakaian yang mengutamakan ukuran yang pas')
+            ->assertSee('Tigabenang membuat pakaian custom untuk tim, komunitas, dan individu.')
             ->assertSee('Cerita kami')
             ->assertSee('Siapa itu Tigabenang')
             ->assertSee('Hubungi Kami')
@@ -53,7 +55,17 @@ class CustomerFrontendTest extends TestCase
 
         $this->get('/form-pemesanan')
             ->assertOk()
-            ->assertDontSee('aria-label="Konsultasikan pesanan"', false);
+            ->assertDontSee('aria-label="Konsultasikan pesanan"', false)
+            ->assertDontSee('aria-label="Navigasi utama"', false)
+            ->assertDontSee('id="main-navbar"', false)
+            ->assertDontSee('Estimasi Total Pesanan')
+            ->assertDontSee('Model / Tipe Produk');
+
+        $this->get('/form-pemesanan/sukses')
+            ->assertRedirect(route('deal-order.create'));
+
+        $this->get('/order/success')
+            ->assertRedirect(route('order.create'));
     }
 
     public function test_collection_show_and_order_validation(): void
@@ -308,7 +320,7 @@ class CustomerFrontendTest extends TestCase
             'nama' => 'Dewi Sartika',
             'alamat' => 'Bandung',
             'no_hp' => '081233445566',
-            'produk_id' => $produk->id_produk,
+            'kategori_id' => $kategori->id_kategori,
             'materials' => [$bahan->id_bahan],
             'sizes' => [
                 ['ukuran_id' => $ukuran->id_ukuran, 'kuantitas' => 5],
@@ -326,6 +338,65 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Rp 1.000.000')
             ->assertSee('Tigabenang')
             ->assertSee('#TB-');
+    }
+
+    public function test_deal_order_form_uses_categories_and_reaches_admin(): void
+    {
+        $kategori = Kategori::query()->create(['nama_kategori' => 'Work Jacket']);
+        $produk = Produk::query()->create([
+            'kategori_id' => $kategori->id_kategori,
+            'nama_produk' => 'Utility Work Jacket',
+            'harga' => 275000,
+        ]);
+        $bahan = Bahan::query()->create(['nama_bahan' => 'Drill']);
+        $produk->bahan()->attach($bahan->id_bahan);
+        Bahan::query()->create(['nama_bahan' => 'Taslan']);
+        Bahan::query()->create(['nama_bahan' => 'Fleece']);
+        Bahan::query()->create(['nama_bahan' => 'Dry Fit']);
+        Bahan::query()->create(['nama_bahan' => 'Baby Terry']);
+        $ukuran = Ukuran::query()->create([
+            'kategori_id' => $kategori->id_kategori,
+            'nama_ukuran' => 'L',
+        ]);
+
+        $this->get('/form-pemesanan')
+            ->assertOk()
+            ->assertSee('Kategori pakaian')
+            ->assertSee('Work Jacket')
+            ->assertSee('Drill')
+            ->assertDontSee('Dry Fit')
+            ->assertDontSee('Baby Terry')
+            ->assertDontSee('Utility Work Jacket')
+            ->assertDontSee('Estimasi Total Pesanan')
+            ->assertDontSee('Model / Tipe Produk')
+            ->assertDontSee('Rp 275.000 / pcs');
+
+        $this->post('/form-pemesanan', [
+            'nama' => 'Dewi Sartika',
+            'alamat' => 'Bandung',
+            'no_hp' => '081233445566',
+            'kategori_id' => $kategori->id_kategori,
+            'materials' => [$bahan->id_bahan],
+            'sizes' => [
+                ['ukuran_id' => $ukuran->id_ukuran, 'kuantitas' => 5],
+            ],
+        ])->assertRedirect(route('deal-order.success'));
+
+        $this->assertDatabaseHas('pemesanan', [
+            'nama' => 'Dewi Sartika',
+            'produk_id' => $produk->id_produk,
+            'total_harga' => null,
+        ]);
+
+        $this->get(route('deal-order.success'))
+            ->assertOk()
+            ->assertSee('Work Jacket')
+            ->assertDontSee('Utility Work Jacket');
+
+        \Livewire\Livewire::test(\App\Livewire\Admin\Orders\Index::class)
+            ->assertSee('Dewi Sartika')
+            ->assertSee('Work Jacket')
+            ->assertDontSee('Utility Work Jacket');
     }
 
     public function test_customer_can_upload_design_for_consultation(): void

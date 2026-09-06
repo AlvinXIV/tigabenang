@@ -74,7 +74,9 @@
         Langsung ke isi
     </a>
 
-    <x-navbar />
+    @unless (request()->routeIs('deal-order.*'))
+        <x-navbar />
+    @endunless
 
     <main id="main-content">
         @yield('content')

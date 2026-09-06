@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Produk;
+use App\Models\Kategori;
+use App\Support\CustomerCatalog;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
@@ -19,7 +20,7 @@ class StoreDealOrderRequest extends FormRequest
             'nama' => ['required', 'string', 'max:255'],
             'alamat' => ['required', 'string', 'max:2000'],
             'no_hp' => ['required', 'string', 'max:30'],
-            'produk_id' => ['required', 'integer', 'exists:produk,id_produk'],
+            'kategori_id' => ['required', 'integer', 'exists:kategori,id_kategori'],
             'materials' => ['required', 'array', 'min:1'],
             'materials.*' => ['integer', 'exists:bahan,id_bahan'],
             'sizes' => ['required', 'array', 'min:1'],
@@ -36,7 +37,8 @@ class StoreDealOrderRequest extends FormRequest
             'nama.required' => 'Nama lengkap pemesan wajib diisi.',
             'alamat.required' => 'Alamat lengkap pengiriman wajib diisi.',
             'no_hp.required' => 'Nomor WhatsApp / HP wajib diisi untuk koordinasi produksi.',
-            'produk_id.required' => 'Pilih produk yang dipesan.',
+            'kategori_id.required' => 'Pilih kategori pakaian yang dipesan.',
+            'kategori_id.exists' => 'Kategori pakaian yang dipilih tidak tersedia.',
             'materials.required' => 'Pilih minimal satu jenis bahan kain yang disepakati.',
             'materials.min' => 'Pilih minimal satu jenis bahan kain yang disepakati.',
             'sizes.required' => 'Rincian ukuran wajib diisi.',
@@ -52,6 +54,28 @@ class StoreDealOrderRequest extends FormRequest
 
             if (! $hasQuantity) {
                 $validator->errors()->add('sizes', 'Mohon masukkan kuantitas (jumlah) minimal 1 pcs pada salah satu ukuran.');
+            }
+
+            $kategoriId = (int) $this->input('kategori_id');
+            $kategori = $kategoriId > 0
+                ? Kategori::query()->with(['produk.bahan'])->find($kategoriId)
+                : null;
+
+            if (! $kategori) {
+                return;
+            }
+
+            $allowedIds = CustomerCatalog::materialsForCategory($kategori)
+                ->pluck('id_bahan')
+                ->map(fn ($id) => (int) $id)
+                ->all();
+
+            $submitted = collect($this->input('materials', []))
+                ->map(fn ($id) => (int) $id)
+                ->filter();
+
+            if ($submitted->isNotEmpty() && $submitted->diff($allowedIds)->isNotEmpty()) {
+                $validator->errors()->add('materials', 'Pilih bahan yang tersedia untuk kategori pakaian ini.');
             }
         });
     }

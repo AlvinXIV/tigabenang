@@ -85,14 +85,14 @@
                     <!-- Produk & Kategori -->
                     <div class="flex items-center justify-between pb-3.5 border-b border-[#E2E5E9]">
                         <div>
-                            <span class="text-[#667085] text-xs block">Produk yang Dipesan:</span>
+                            <span class="text-[#667085] text-xs block">Kategori yang Dipesan:</span>
                             <span class="font-semibold text-sm sm:text-base text-[#102A43] mt-0.5 block">
-                                {{ $order->produk ? $order->produk->nama_produk : '-' }}
+                                {{ $order->categoryDisplayName() }}
                             </span>
                         </div>
                         @if ($order->produk && $order->produk->kategori)
                             <span class="text-xs bg-[#F7F7F5] border border-[#E2E5E9] px-2.5 py-1 rounded-md text-[#667085]">
-                                {{ $order->produk->kategori->nama_kategori }}
+                                {{ $order->categoryDisplayName() }}
                             </span>
                         @endif
                     </div>

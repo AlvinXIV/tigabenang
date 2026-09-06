@@ -36,7 +36,7 @@ class Dashboard extends Component
             ],
         ];
 
-        $ordersNeedingActionQuery = Pemesanan::with(['produk', 'bahan', 'ukuran'])
+        $ordersNeedingActionQuery = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])
             ->whereNull('total_harga');
 
         if (!empty($this->search)) {
@@ -52,7 +52,7 @@ class Dashboard extends Component
             ->latest('id_pemesanan')
             ->get();
 
-        $recentOrdersQuery = Pemesanan::with(['produk', 'bahan', 'ukuran']);
+        $recentOrdersQuery = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran']);
 
         if (!empty($this->search)) {
             $s = trim($this->search);

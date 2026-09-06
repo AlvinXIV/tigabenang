@@ -37,13 +37,13 @@ class DashboardController extends Controller
         ];
 
         // 2. Orders Needing Action (Waiting for admin to set agreed price)
-        $ordersNeedingAction = Pemesanan::with(['produk', 'bahan', 'ukuran'])
+        $ordersNeedingAction = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])
             ->whereNull('total_harga')
             ->latest('id_pemesanan')
             ->get();
 
         // 3. Recent Orders
-        $recentOrders = Pemesanan::with(['produk', 'bahan', 'ukuran'])
+        $recentOrders = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])
             ->latest('id_pemesanan')
             ->take(10)
             ->get();
