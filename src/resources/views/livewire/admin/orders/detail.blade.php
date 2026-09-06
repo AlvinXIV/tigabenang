@@ -42,7 +42,7 @@
 
             @if ($order->no_hp)
                 <a
-                    href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->no_hp) }}?text={{ rawurlencode('Halo ' . $order->nama . ', kami dari Tigabenang ingin mendiskusikan pesanan custom Anda #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT)) }}"
+                    href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->no_hp) }}?text={{ rawurlencode('Halo ' . $order->nama . ', kami dari FitVendor ingin mendiskusikan pesanan custom Anda #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT)) }}"
                     target="_blank"
                     class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-medium transition-colors text-decoration-none shadow-2xs"
                 >

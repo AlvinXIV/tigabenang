@@ -430,7 +430,7 @@
             </div>
         </section>
 
-        <section class="fv-about__section bg-white">
+        <section id="cara-pemesanan" class="fv-about__section bg-white">
             <div class="fv-about__shell">
                 <span class="about-eyebrow">Proses pemesanan</span>
                 <h2 class="fv-about__heading">Alur kerja</h2>
@@ -507,17 +507,6 @@
                             <p class="mt-2 text-sm font-semibold leading-relaxed text-[#1C2430]">{{ $vendorLocation }}</p>
                         </div>
                     @endif
-                </div>
-
-                <div class="mt-8 flex flex-wrap gap-3">
-                    @if ($whatsappHref)
-                        <a href="{{ $whatsappHref }}" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex">
-                            Hubungi melalui WhatsApp
-                        </a>
-                    @endif
-                    <a href="{{ route('order.create') }}" class="btn-outline inline-flex">
-                        Mulai permintaan
-                    </a>
                 </div>
             </div>
         </section>

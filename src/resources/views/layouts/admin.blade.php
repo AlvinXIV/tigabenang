@@ -20,7 +20,7 @@
     <script>
         (function() {
             try {
-                if (localStorage.getItem('tigabenang_admin_sidebar_collapsed') === 'true') {
+                if (localStorage.getItem('fitvendor_admin_sidebar_collapsed') === 'true') {
                     document.documentElement.classList.add('sidebar-collapsed');
                 }
             } catch(e) {}
@@ -385,7 +385,7 @@
         currentNav: '{{ $activeNav }}',
         sidebarCollapsed: (function() {
             try {
-                return localStorage.getItem('tigabenang_admin_sidebar_collapsed') === 'true';
+                return localStorage.getItem('fitvendor_admin_sidebar_collapsed') === 'true';
             } catch(e) {
                 return false;
             }
@@ -393,7 +393,7 @@
         toggleSidebar() {
             this.sidebarCollapsed = !this.sidebarCollapsed;
             try {
-                localStorage.setItem('tigabenang_admin_sidebar_collapsed', this.sidebarCollapsed ? 'true' : 'false');
+                localStorage.setItem('fitvendor_admin_sidebar_collapsed', this.sidebarCollapsed ? 'true' : 'false');
                 if (this.sidebarCollapsed) {
                     document.documentElement.classList.add('sidebar-collapsed');
                 } else {

@@ -1,7 +1,7 @@
 @extends('layouts.deal-order')
 
 @section('title', 'Form Konfirmasi Pesanan')
-@section('description', 'Formulir resmi permintaan pesanan pakaian custom Tigabenang Atelier.')
+@section('description', 'Formulir resmi permintaan pesanan pakaian custom FitVendor Atelier.')
 
 @section('content')
 
@@ -19,7 +19,7 @@
                 Formulir Pemesanan
             </h1>
             <p style="margin-top:0.875rem;font-size:0.9375rem;line-height:1.7;color:rgba(255,255,255,0.8);max-width:640px;">
-                Lengkapi rincian pesanan berikut untuk pengajuan pesanan dengan tim Tigabenang. Data ini akan menjadi acuan konfirmasi spesifikasi pakaian dan antrean produksi Anda.
+                Lengkapi rincian pesanan berikut untuk pengajuan pesanan dengan tim FitVendor. Data ini akan menjadi acuan konfirmasi spesifikasi pakaian dan antrean produksi Anda.
             </p>
         </div>
     </section>

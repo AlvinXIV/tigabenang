@@ -1,6 +1,6 @@
 @php
     $links = [
-        ['label' => 'Portofolio',       'route' => 'home',             'routeMatch' => 'home'],
+        ['label' => 'Beranda',          'route' => 'home',             'routeMatch' => 'home'],
         ['label' => 'Koleksi',          'route' => 'collection.index', 'routeMatch' => 'collection.*'],
         ['label' => 'Virtual fitting',  'route' => 'virtual-fitting',  'routeMatch' => 'virtual-fitting'],
         ['label' => 'Tentang',          'route' => 'about',            'routeMatch' => 'about'],
@@ -13,71 +13,55 @@
     style="background:#FFFFFF;position:sticky;top:0;z-index:100;width:100%;max-width:100%;overflow-x:clip;transition:transform 0.3s ease, box-shadow 0.2s ease;"
 >
     <nav class="mx-auto max-w-[1200px] px-5 lg:px-8" aria-label="Navigasi utama">
-        <div class="flex h-20 md:h-[88px] items-center justify-between gap-4">
+        <div class="flex h-20 md:h-[88px] items-center justify-between gap-6">
 
-            <a href="{{ route('home') }}" class="group flex shrink-0 items-center gap-2.5 no-underline">
-                <span class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[10px] border border-[#E2E5E9] bg-white">
-                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo Tigabenang" width="32" height="32" class="h-[78%] w-[78%] object-contain">
+            <a href="{{ route('home') }}" class="group flex shrink-0 items-center gap-3 no-underline">
+                <span class="flex h-11 w-11 md:h-12 md:w-12 items-center justify-center overflow-hidden rounded-xl border border-[#E2E5E9] bg-white shadow-xs transition-transform duration-200 group-hover:scale-105">
+                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo FitVendor" width="38" height="38" class="h-[82%] w-[82%] object-contain">
                 </span>
-                <span class="text-[1.05rem] font-semibold tracking-tight text-[#102A43]">Tigabenang</span>
+                <span class="text-xl md:text-[1.25rem] font-bold tracking-tight text-[#102A43]">FitVendor</span>
             </a>
 
-            <div class="hidden items-center gap-1 lg:flex">
+            <div class="hidden items-center gap-2 lg:flex">
                 @foreach ($links as $link)
                     @php $isActive = request()->routeIs($link['routeMatch'] ?? $link['route']); @endphp
                     <a
                         href="{{ route($link['route']) }}"
-                        class="border-b-2 px-3 py-2 text-sm no-underline transition-colors {{ $isActive ? 'border-[#102A43] font-semibold text-[#102A43]' : 'border-transparent font-medium text-[#667085] hover:text-[#102A43]' }}"
+                        class="border-b-2 px-4 py-2 text-[0.95rem] md:text-base no-underline transition-colors {{ $isActive ? 'border-[#102A43] font-semibold text-[#102A43]' : 'border-transparent font-medium text-[#667085] hover:text-[#102A43]' }}"
                     >
                         {{ $link['label'] }}
                     </a>
                 @endforeach
             </div>
 
-            <div class="hidden lg:block">
-                <a href="{{ route('order.create') }}" class="btn-primary text-sm">
-                    Pesan custom
-                </a>
-            </div>
-
             <div class="flex items-center gap-2 lg:hidden">
-                <a
-                    href="{{ route('order.create') }}"
-                    class="btn-primary px-3 py-2 text-sm"
-                    aria-label="Pesan custom"
-                >
-                    Pesan
-                </a>
                 <button
                     id="nav-toggle"
                     data-nav-toggle
                     type="button"
-                    class="flex h-10 w-10 items-center justify-center rounded-[10px] border border-[#E2E5E9] bg-white text-[#102A43]"
+                    class="flex h-11 w-11 items-center justify-center rounded-xl border border-[#E2E5E9] bg-white text-[#102A43]"
                     onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
                     aria-label="Buka menu"
                     aria-expanded="false"
                 >
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
             </div>
         </div>
 
-        <div id="mobile-menu" data-nav-panel class="hidden border-t border-[#E2E5E9] py-3 lg:hidden">
-            <div class="flex flex-col gap-1">
+        <div id="mobile-menu" data-nav-panel class="hidden border-t border-[#E2E5E9] py-3.5 lg:hidden">
+            <div class="flex flex-col gap-1.5">
                 @foreach ($links as $link)
                     @php $isActive = request()->routeIs($link['routeMatch'] ?? $link['route']); @endphp
                     <a
                         href="{{ route($link['route']) }}"
-                        class="rounded-[10px] px-3 py-3 text-sm no-underline {{ $isActive ? 'bg-[#102A43] font-semibold text-white' : 'font-medium text-[#667085]' }}"
+                        class="rounded-xl px-4 py-3 text-base no-underline {{ $isActive ? 'bg-[#102A43] font-semibold text-white' : 'font-medium text-[#667085]' }}"
                     >
                         {{ $link['label'] }}
                     </a>
                 @endforeach
-                <a href="{{ route('order.create') }}" class="btn-primary mt-2 w-full">
-                    Pesan custom
-                </a>
             </div>
         </div>
     </nav>

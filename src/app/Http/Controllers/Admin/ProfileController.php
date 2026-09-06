@@ -20,7 +20,7 @@ class ProfileController extends Controller
             'address' => 'Jl. Industri Kreatif No. 88, Cibaduyut, Bandung, Jawa Barat 40235',
             'phone' => '+62 22 7890 1234',
             'whatsapp' => '0812-3456-7890',
-            'email' => $user ? $user->email : 'admin@fitvendor.id',
+            'email' => $user ? $user->email : 'admin@fitvendor.com',
             'name' => $user ? $user->name : 'Admin FitVendor',
         ];
 

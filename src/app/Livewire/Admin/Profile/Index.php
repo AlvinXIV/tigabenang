@@ -26,12 +26,12 @@ class Index extends Component
             $this->user_id = (string) ($user->id_user ?? ($user->id ?? '1'));
             $this->username = (string) ($user->username ?? 'admin');
             $this->name = (string) ($user->nama ?? ($user->name ?? 'Admin FitVendor'));
-            $this->email = (string) ($user->email ?? 'admin@fitvendor.id');
+            $this->email = (string) ($user->email ?? 'admin@fitvendor.com');
         } else {
             $this->user_id = '1';
             $this->username = 'admin';
             $this->name = 'Admin FitVendor';
-            $this->email = 'admin@fitvendor.id';
+            $this->email = 'admin@fitvendor.com';
         }
     }
 

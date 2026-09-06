@@ -26,7 +26,8 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('images/profile1.jpg', false)
             ->assertSee('images/profile8.jpg', false)
             ->assertSee('images/virtual.jpg', false)
-            ->assertDontSee('virtual-fitting-teaser.jpg');
+            ->assertDontSee('virtual-fitting-teaser.jpg')
+            ->assertSee('aria-label="Konsultasikan pesanan"', false);
         $this->get('/collection')->assertOk();
         $this->get('/materials')->assertOk();
         $this->get('/virtual-fitting')
@@ -42,9 +43,17 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('images/tentang1.jpg', false)
             ->assertSee('images/fitvendor.png', false)
             ->assertSee('images/tentang4.jpg', false)
-            ->assertSee(config('fitvendor.contact.email'));
+            ->assertSee(config('fitvendor.contact.email'))
+            ->assertDontSee('Hubungi melalui WhatsApp')
+            ->assertDontSee('Mulai permintaan');
 
-        $this->get('/order/create')->assertOk();
+        $this->get('/order/create')
+            ->assertOk()
+            ->assertDontSee('aria-label="Konsultasikan pesanan"', false);
+
+        $this->get('/form-pemesanan')
+            ->assertOk()
+            ->assertDontSee('aria-label="Konsultasikan pesanan"', false);
     }
 
     public function test_collection_show_and_order_validation(): void
@@ -242,13 +251,26 @@ class CustomerFrontendTest extends TestCase
 
         $order = Pemesanan::query()->where('nama', 'Budi Santoso')->firstOrFail();
 
-        // Customer success page shows dynamic estimate: Rp 400.000, Tigabenang branding
+        // Customer success page shows dynamic estimate: Rp 400.000, FitVendor branding
         $this->get(route('order.success'))
             ->assertOk()
             ->assertSee('Estimasi total')
             ->assertSee('Rp 400.000')
             ->assertSee('Harga ini merupakan estimasi awal.')
-            ->assertSee('Halo%20Tigabenang');
+            ->assertSee('Halo%20FitVendor')
+            ->assertSee(route('order.pdf', $order->id_pemesanan), false)
+            ->assertSee('Lihat / Cetak Dokumen PDF');
+
+        // Customer PDF Order Brief renders successfully
+        $this->get(route('order.pdf', $order->id_pemesanan))
+            ->assertOk()
+            ->assertSee('Budi Santoso')
+            ->assertSee('Kemeja Oxford')
+            ->assertSee('Katun Oxford')
+            ->assertSee('Ukuran L')
+            ->assertSee('2 pcs')
+            ->assertSee('Rp 400.000')
+            ->assertSee('Tolong kancing putih');
 
         // Admin Pesanan Index shows "Menunggu Penetapan" badge
         $this->get(route('admin.pesanan.index'))
@@ -302,7 +324,32 @@ class CustomerFrontendTest extends TestCase
             ->assertOk()
             ->assertSee('Estimasi Total:')
             ->assertSee('Rp 1.000.000')
-            ->assertSee('Tigabenang')
+            ->assertSee('FitVendor')
             ->assertSee('#TB-');
+    }
+
+    public function test_customer_can_upload_design_for_consultation(): void
+    {
+        Storage::fake('public');
+        Storage::fake('supabase');
+
+        $file = UploadedFile::fake()->image('my_jersey_design.png', 800, 600);
+
+        $response = $this->postJson(route('order.upload-design'), [
+            'upload_design' => $file,
+        ]);
+
+        $response->assertOk()
+            ->assertJson([
+                'success' => true,
+                'filename' => 'my_jersey_design.png',
+            ]);
+
+        $this->assertNotEmpty($response->json('url'));
+
+        // Test validation failure with no file
+        $failResponse = $this->postJson(route('order.upload-design'), []);
+        $failResponse->assertStatus(422)
+            ->assertJsonValidationErrors(['upload_design']);
     }
 }

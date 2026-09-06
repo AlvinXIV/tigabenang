@@ -1,7 +1,7 @@
 @extends('layouts.deal-order')
 
 @section('title', 'Pesanan Berhasil')
-@section('description', 'Detail konfirmasi pemesanan pakaian custom Tigabenang Atelier.')
+@section('description', 'Detail konfirmasi pemesanan pakaian custom FitVendor Atelier.')
 
 @section('content')
     <section style="background:#FAF8F5;padding:4rem 0 6rem;">
@@ -25,7 +25,7 @@
                 </h1>
 
                 <p style="margin-top:0.75rem;font-size:0.9375rem;line-height:1.6;color:#555E68;">
-                    Terima kasih! Rincian pesanan Anda telah tersimpan ke sistem Tigabenang dan siap diproses ke tahap verifikasi bahan &amp; antrean produksi.
+                    Terima kasih! Rincian pesanan Anda telah tersimpan ke sistem FitVendor dan siap diproses ke tahap verifikasi bahan &amp; antrean produksi.
                 </p>
 
                 @if ($pemesanan)
@@ -87,6 +87,41 @@
                             </div>
                         </div>
 
+                        {{-- Uploaded Design Attachment if exists --}}
+                        @if ($pemesanan->upload_design)
+                            @php
+                                $fileExt = strtolower(pathinfo($pemesanan->upload_design, PATHINFO_EXTENSION));
+                                $isImage = in_array($fileExt, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
+                                $designUrl = \App\Support\CustomerMedia::imageUrl($pemesanan->upload_design) ?? asset('storage/' . $pemesanan->upload_design);
+                            @endphp
+                            <div style="padding:1rem;background:#FAF8F5;border:1px solid #DCD6D0;border-radius:0.75rem;">
+                                <p style="font-size:0.6875rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#6E7575;margin:0 0 0.5rem;">Desain / Artwork Terlampir</p>
+                                <div style="display:flex;align-items:center;gap:0.875rem;">
+                                    @if ($isImage && $designUrl)
+                                        <a href="{{ $designUrl }}" target="_blank" style="display:block;flex-shrink:0;">
+                                            <img src="{{ $designUrl }}" alt="Desain" style="width:3.75rem;height:3.75rem;object-fit:contain;background:#FFFFFF;border-radius:0.5rem;border:1px solid #DCD6D0;">
+                                        </a>
+                                    @endif
+                                    <div>
+                                        <p style="font-size:0.8125rem;font-weight:700;color:#172A39;margin:0;">{{ basename($pemesanan->upload_design) }}</p>
+                                        @if ($designUrl)
+                                            <a href="{{ $designUrl }}" target="_blank" style="font-size:0.75rem;font-weight:800;color:#172A39;text-decoration:underline;margin-top:0.25rem;display:inline-block;">
+                                                Buka Berkas Asli
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Notes if exists --}}
+                        @if ($pemesanan->notes)
+                            <div style="padding:0.875rem 1rem;background:#FAF8F5;border:1px solid #DCD6D0;border-radius:0.75rem;">
+                                <p style="font-size:0.6875rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#6E7575;margin:0 0 0.25rem;">Catatan Pemesan</p>
+                                <p style="font-size:0.8125rem;color:#172A39;font-style:italic;margin:0;line-height:1.5;">{{ $pemesanan->notes }}</p>
+                            </div>
+                        @endif
+
                         {{-- Total Price --}}
                         <div style="display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1.5px solid #EAE2D8;">
                             <span style="font-size:0.875rem;font-weight:800;color:#6E7575;">Estimasi Total:</span>
@@ -100,20 +135,61 @@
 
                     {{-- WhatsApp Follow Up Action --}}
                     @php
-                        $waNum = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number', '628123456789'));
-                        $bahanList = $pemesanan->bahan->pluck('nama_bahan')->join(', ');
-                        $waText = rawurlencode("Halo Tigabenang, saya telah mengirimkan permintaan pesanan dengan detail:\n"
-                            . "- No. Antrean: #TB-" . str_pad($pemesanan->id_pemesanan, 5, '0', STR_PAD_LEFT) . "\n"
-                            . "- Nama: {$pemesanan->nama}\n"
-                            . "- Produk: {$pemesanan->produk?->nama_produk}\n"
-                            . "- Bahan: {$bahanList}\n"
-                            . "- Total Qty: {$totalQty} pcs\n"
-                            . "- Estimasi Total: Rp " . number_format($estimatedTotal, 0, ',', '.') . "\n\n"
-                            . "Saya ingin membahas konfirmasi harga final dan produksi. Terima kasih!");
+                        $waNum = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number', '6281234567890'));
+                        $bahanList = $pemesanan->bahan->pluck('nama_bahan')->filter()->join(', ');
+                        $sizeBreakdown = $pemesanan->ukuran
+                            ->map(fn ($u) => '• Ukuran '.$u->nama_ukuran.': '.(int)($u->pivot->kuantitas ?? 0).' pcs')
+                            ->join("\n");
+                        $designUrl = $pemesanan->upload_design
+                            ? (\App\Support\CustomerMedia::imageUrl($pemesanan->upload_design) ?? asset('storage/' . $pemesanan->upload_design))
+                            : null;
+                        $pdfUrl = route('order.pdf', $pemesanan->id_pemesanan);
+
+                        $msgParts = [
+                            'Halo FitVendor, saya ingin konsultasi pemesanan pakaian custom dengan detail berikut:',
+                            '',
+                            '◆ *DATA PEMESAN*',
+                            '• No. Antrean: #TB-' . str_pad($pemesanan->id_pemesanan, 5, '0', STR_PAD_LEFT),
+                            '• Nama: ' . $pemesanan->nama,
+                            '• No. HP: ' . $pemesanan->no_hp,
+                            '• Alamat: ' . $pemesanan->alamat,
+                            '',
+                            '◆ *SPESIFIKASI PRODUK & BAHAN*',
+                            '• Kategori: ' . \App\Support\CustomerCatalog::categoryLabel($pemesanan->produk?->kategori?->nama_kategori),
+                            '• Produk: ' . ($pemesanan->produk?->nama_produk ?: '-'),
+                            '• Pilihan Bahan: ' . ($bahanList ?: 'Bahan Standar Atelier'),
+                            '',
+                            '◆ *RINCIAN UKURAN & JUMLAH*',
+                            $sizeBreakdown ?: '• Belum ada rincian ukuran',
+                            '*Total Kuantitas:* ' . $totalQty . ' pcs',
+                        ];
+
+                        if ($designUrl) {
+                            $msgParts[] = '';
+                            $msgParts[] = '◆ *DESAIN / ARTWORK:*';
+                            $msgParts[] = $designUrl;
+                        }
+
+                        if (!empty($pemesanan->notes)) {
+                            $msgParts[] = '';
+                            $msgParts[] = '◆ *CATATAN TAMBAHAN:*';
+                            $msgParts[] = $pemesanan->notes;
+                        }
+
+                        $msgParts[] = '';
+                        $msgParts[] = '◆ *ESTIMASI TOTAL AWAL:* Rp ' . number_format($estimatedTotal, 0, ',', '.');
+                        $msgParts[] = '*(Harga final & DP akan disepakati bersama)*';
+                        $msgParts[] = '';
+                        $msgParts[] = '◆ *LEMBAR KONSULTASI LENGKAP (PDF):*';
+                        $msgParts[] = $pdfUrl;
+                        $msgParts[] = '';
+                        $msgParts[] = 'Mohon konfirmasi ketersediaan bahan, kalkulasi harga final, dan jadwal antrean produksi. Terima kasih!';
+
+                        $waText = rawurlencode(implode("\n", $msgParts));
                         $waLink = "https://wa.me/{$waNum}?text={$waText}";
                     @endphp
 
-                    <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+                    <div style="margin-top:2rem;display:flex;flex-direction:column;gap:0.75rem;">
                         <a
                             href="{{ $waLink }}"
                             target="_blank"
@@ -128,8 +204,20 @@
                         </a>
 
                         <a
+                            href="{{ route('order.pdf', $pemesanan->id_pemesanan) }}"
+                            target="_blank"
+                            class="deal-btn-pill"
+                            style="display:flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3rem;padding:0.75rem 1.75rem;background:#FFFFFF;color:#172A39;border:1.5px solid #DCD6D0;font-size:0.875rem;font-weight:800;text-decoration:none;"
+                        >
+                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            Lihat / Cetak Dokumen PDF
+                        </a>
+
+                        <a
                             href="{{ route('deal-order.create') }}"
-                            style="font-size:0.8125rem;font-weight:700;color:#6E7575;text-decoration:underline;margin-top:0.5rem;"
+                            style="font-size:0.8125rem;font-weight:700;color:#6E7575;text-decoration:underline;margin-top:0.25rem;"
                         >
                             Isi formulir pesanan lainnya
                         </a>

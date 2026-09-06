@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faktur #INV-TB-{{ str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) }} | Tigabenang</title>
+    <title>Faktur #INV-TB-{{ str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) }} | FitVendor</title>
 
     <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=3">
     
@@ -102,16 +102,16 @@
             <div>
                 <div class="flex items-center gap-3.5 mb-2">
                     <div class="w-12 h-12 bg-[#102A43] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs">
-                        TB
+                        FV
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-[#1C2430] leading-tight">Tigabenang</h1>
+                        <h1 class="text-xl font-bold text-[#1C2430] leading-tight">FitVendor</h1>
                         <p class="text-xs text-[#667085] font-medium">Konveksi &amp; Atelier Digital</p>
                     </div>
                 </div>
                 <p class="text-xs text-[#667085] max-w-sm mt-3 leading-relaxed">
                     Pusat Konveksi &amp; Produksi Busana Berkualitas<br>
-                    WhatsApp Layanan: 0812-3456-7890 | Website: tigabenang.com
+                    WhatsApp Layanan: 0812-3456-7890 | Website: fitvendor.com
                 </p>
             </div>
 
@@ -195,7 +195,7 @@
                     <div class="space-y-1 text-[#1C2430]">
                         <p>Bank: <strong class="text-[#1C2430]">Bank Central Asia (BCA)</strong></p>
                         <p>No. Rekening: <strong class="text-[#1C2430] font-mono text-xs sm:text-sm">8420-9988-771</strong></p>
-                        <p>Atas Nama: <strong class="text-[#1C2430]">Tigabenang Konveksi Digital</strong></p>
+                        <p>Atas Nama: <strong class="text-[#1C2430]">FitVendor Konveksi Digital</strong></p>
                     </div>
                 </div>
             @else
@@ -219,7 +219,7 @@
 
         <!-- Footer -->
         <div class="mt-8 pt-5 border-t border-[#E2E5E9] flex items-center justify-between text-xs text-[#667085] print-avoid-break">
-            <p>&copy; {{ date('Y') }} Tigabenang. Hak cipta dilindungi undang-undang.</p>
+            <p>&copy; {{ date('Y') }} FitVendor. Hak cipta dilindungi undang-undang.</p>
             <p class="text-right font-medium text-[#1C2430]">Konveksi &amp; Atelier Digital</p>
         </div>
 

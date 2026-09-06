@@ -3,11 +3,6 @@ import { loadGarment, fitGarmentToAvatar, createDummyGarment } from '../three/ga
 import { createFittingScene } from '../three/scene';
 import { createAvatar, updateAvatar } from '../three/avatar';
 
-const stateColors = {
-    'Kekecilan': '#DC2626',
-    'Sangat Pas': '#10B981',
-    'Kebesaran': '#3B82F6',
-};
 
 const parseJsonScript = (root, selector) => {
     const node = root.querySelector(selector);
@@ -38,19 +33,24 @@ const PROTO_TSHIRT = {
     ],
 };
 
-const PROFILE_KEY = 'clothiq-body-profile';
-
-const loadSavedProfile = () => {
-    try {
-        return JSON.parse(localStorage.getItem(PROFILE_KEY));
-    } catch {
-        return null;
+const getProductSizes = (product) => {
+    if (Array.isArray(product?.sizes) && product.sizes.length > 0) {
+        return product.sizes;
     }
+    return [
+        { name: 'S', lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
+        { name: 'M', lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
+        { name: 'L', lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
+        { name: 'XL', lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
+        { name: '2XL', lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
+    ];
 };
 
-const saveProfile = (inputs) => {
+const PROFILE_KEY = 'clothiq-body-profile';
+
+const clearSavedProfile = () => {
     try {
-        localStorage.setItem(PROFILE_KEY, JSON.stringify(inputs));
+        localStorage.removeItem(PROFILE_KEY);
     } catch {}
 };
 
@@ -135,9 +135,17 @@ const initFitting = async () => {
     const categoryNode = root.querySelector('[data-fitting-category]');
     const sizeNode = root.querySelector('[data-fitting-size]');
     const matchNode = root.querySelector('[data-fitting-match]');
-    const heatmapNode = root.querySelector('[data-fitting-heatmap]');
     const statusNode = root.querySelector('[data-fitting-status]');
     const sizeButtonsContainer = root.querySelector('[data-fitting-size-buttons]');
+
+    // Elements for size recommendation card
+    const recommendedBadge = root.querySelector('[data-fitting-recommended-badge]');
+    const recommendedReason = root.querySelector('[data-fitting-recommended-reason]');
+    const activeSizeLabel = root.querySelector('[data-fitting-active-size-label]');
+    const activeNoteNode = root.querySelector('[data-fitting-active-note]');
+    const applyRecommendedBtn = root.querySelector('[data-fitting-apply-recommended]');
+
+    // Elements for live body panel banner (removed)
 
     // Body inputs
     const heightInput = root.querySelector('[data-fitting-height]');
@@ -156,22 +164,8 @@ const initFitting = async () => {
         return 'normal';
     };
 
-    // Restore saved measurements
-    const saved = loadSavedProfile();
-    if (saved) {
-        if (heightInput && saved.height != null) heightInput.value = saved.height;
-        if (chestInput && saved.chest != null) chestInput.value = saved.chest;
-        if (waistInput && saved.waist != null) waistInput.value = saved.waist;
-        if (hipInput && saved.hip != null) hipInput.value = saved.hip;
-        if (shoulderInput && saved.shoulder != null) shoulderInput.value = saved.shoulder;
-        if (armLengthInput && saved.armLength != null) armLengthInput.value = saved.armLength;
-        if (torsoLengthInput && saved.torsoLength != null) torsoLengthInput.value = saved.torsoLength;
-        if (saved.torsoType) {
-            for (const radio of torsoTypeRadios) {
-                radio.checked = radio.value === saved.torsoType;
-            }
-        }
-    }
+    // Pastikan session fitting mulai dengan variabel bersih / fresh tanpa residu input lama
+    clearSavedProfile();
 
     // Tabs
     const tabs = root.querySelectorAll('[data-fitting-tab]');
@@ -181,6 +175,7 @@ const initFitting = async () => {
     let avatar = null;
     let currentGarmentWrapper = null;
     let selectedSizeName = null;
+    let userManuallySelectedSize = false;
     let applyProduct = null;
 
     try {
@@ -205,49 +200,10 @@ const initFitting = async () => {
             statusNode.textContent = 'Manekin siap';
         }
 
-        const renderHeatmap = (heatmap) => {
-            if (!heatmapNode) return;
-            heatmapNode.innerHTML = heatmap.map((item) => `
-                <li class="flex items-center justify-between py-1.5 border-b border-[#E2E5E9]">
-                    <span class="text-xs font-semibold text-[#1C2430]">${item.area}</span>
-                    <span class="rounded-[8px] px-2 py-0.5 text-[11px] font-semibold"
-                          style="color:${stateColors[item.state] || '#1C2430'};background:${item.state === 'Kekecilan' ? '#FEE2E2' : (item.state === 'Kebesaran' ? '#DBEAFE' : '#E8F3EE')};">
-                        ${item.state}
-                    </span>
-                </li>
-            `).join('');
-        };
-
-        const updateFitBadge = (matchText) => {
-            if (!matchNode) return;
-            matchNode.textContent = matchText;
-            if (matchText === 'Kekecilan') {
-                matchNode.style.background = '#FEE2E2';
-                matchNode.style.color = '#991B1B';
-                matchNode.style.borderColor = '#FCA5A5';
-            } else if (matchText === 'Kebesaran') {
-                matchNode.style.background = '#DBEAFE';
-                matchNode.style.color = '#1E40AF';
-                matchNode.style.borderColor = '#93C5FD';
-            } else {
-                matchNode.style.background = '#E8F3EE';
-                matchNode.style.color = '#3F7A62';
-                matchNode.style.borderColor = '#C7DDD2';
-            }
-        };
-
         const renderSizeButtons = (product, recommendedSize) => {
             if (!sizeButtonsContainer) return;
 
-            const sizes = product?.sizes?.length > 0
-                ? product.sizes
-                : [
-                    { name: 'S', lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
-                    { name: 'M', lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
-                    { name: 'L', lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
-                    { name: 'XL', lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
-                    { name: '2XL', lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
-                ];
+            const sizes = getProductSizes(product);
 
             if (!selectedSizeName) {
                 selectedSizeName = recommendedSize || sizes[1]?.name || 'M';
@@ -255,20 +211,23 @@ const initFitting = async () => {
 
             sizeButtonsContainer.innerHTML = sizes.map((s) => {
                 const isActive = s.name === selectedSizeName;
+                const isRecommended = s.name === recommendedSize;
                 return `
                     <button type="button" data-size="${s.name}"
-                        class="size-pill-btn px-4 py-2 rounded-[8px] text-xs font-semibold border transition-all cursor-pointer ${
+                        class="size-pill-btn px-4 py-2 rounded-[8px] text-xs font-semibold border transition-all cursor-pointer inline-flex items-center gap-1.5 ${
                             isActive
-                                ? 'bg-[#1C2430] text-white border-[#1C2430]'
-                                : 'bg-white text-[#1C2430] border-[#E2E5E9] hover:bg-[#F7F7F5]'
+                                ? 'bg-[#102A43] text-white border-[#102A43] shadow-sm'
+                                : 'bg-white text-[#102A43] border-[#E2E5E9] hover:bg-[#F7F7F5]'
                         }">
-                        ${s.name}
+                        <span>${s.name}</span>
+                        ${isRecommended ? `<span class="text-[10px] font-medium px-1.5 py-0.5 rounded ${isActive ? 'bg-white/20 text-white' : 'bg-[#E8F3EE] text-[#3F7A62]'}">Saran</span>` : ''}
                     </button>
                 `;
             }).join('');
 
             sizeButtonsContainer.querySelectorAll('button[data-size]').forEach((btn) => {
                 btn.addEventListener('click', () => {
+                    userManuallySelectedSize = true;
                     selectedSizeName = btn.dataset.size;
                     renderSizeButtons(product, recommendedSize);
                     recalculateFit(product);
@@ -280,50 +239,77 @@ const initFitting = async () => {
             if (!product) return;
 
             const p = getBodyParams();
+            const productSizes = getProductSizes(product);
+
             const result = analyzeFit({
                 heightCm: p.height,
                 chestCm: p.chest,
                 waistCm: p.waist,
                 hipCm: p.hip,
                 shoulderCm: p.shoulder,
-                sizes: product?.sizes || [],
+                torsoLengthCm: p.torsoLength,
+                armLengthCm: p.armLength,
+                sizes: productSizes,
                 selectedSizeName: selectedSizeName,
             });
 
-            if (sizeNode) {
-                sizeNode.textContent = selectedSizeName || result.recommendedSize || 'M';
+            const recSize = result.recommendedSize || 'M';
+
+            if (!selectedSizeName) {
+                selectedSizeName = recSize;
             }
 
+            // Update header size label
+            if (sizeNode) {
+                sizeNode.textContent = selectedSizeName;
+            }
+
+            // Update top viewport recommended size badge
+            if (matchNode) {
+                matchNode.textContent = recSize;
+            }
+
+            // Update recommendation card in the panel
+            if (recommendedBadge) {
+                recommendedBadge.textContent = 'Ukuran ' + recSize;
+            }
+            if (recommendedReason) {
+                recommendedReason.innerHTML = result.reason || '';
+            }
+            if (activeSizeLabel) {
+                activeSizeLabel.textContent = selectedSizeName;
+            }
+            if (activeNoteNode) {
+                activeNoteNode.innerHTML = result.activeFitNote || '';
+            }
+            if (applyRecommendedBtn) {
+                if (selectedSizeName === recSize) {
+                    applyRecommendedBtn.style.display = 'none';
+                } else {
+                    applyRecommendedBtn.style.display = 'inline-block';
+                    applyRecommendedBtn.textContent = `Gunakan saran ini (Ukuran ${recSize})`;
+                    applyRecommendedBtn.onclick = () => {
+                        userManuallySelectedSize = false;
+                        selectedSizeName = recSize;
+                        renderSizeButtons(product, recSize);
+                        recalculateFit(product);
+                    };
+                }
+            }
+
+            // Update live recommendation banner in body panel (removed)
+
             // Find current active size spec
-            const activeSizeSpec = product?.sizes?.find((s) => s.name === selectedSizeName) || {
-                S: { lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
-                M: { lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
-                L: { lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
-                XL: { lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
-                '2XL': { lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
-            }[selectedSizeName || 'M'];
-
-            // Calculate fit classification for this specific size
-            const customerHalfChest = p.chest / 2;
-            const garmentHalfChest = activeSizeSpec?.lebar_dada || 50;
-            const ratio = customerHalfChest / garmentHalfChest;
-
-            let currentMatchText = 'Sangat Pas';
-            if (ratio > 1.05) currentMatchText = 'Kekecilan';
-            else if (ratio < 0.95) currentMatchText = 'Kebesaran';
-
-            updateFitBadge(currentMatchText);
-            renderHeatmap(result.heatmap || []);
+            const activeSizeSpec = productSizes.find((s) => s.name === selectedSizeName) || productSizes[1] || productSizes[0];
 
             // ── Dynamic 3D Garment Morphing & Fitting ──
             if (currentGarmentWrapper) {
-                // Gunakan size M atau index 1 sebagai base
-                const baseSizeSpec = product?.sizes?.find(s => s.name === 'M') 
-                    || product?.sizes?.[1] 
-                    || product?.sizes?.[0] 
+                const baseSizeSpec = productSizes.find(s => s.name === 'M') 
+                    || productSizes[1] 
+                    || productSizes[0] 
                     || { lebar_dada: 50, panjang: 70 };
 
-                fitGarmentToAvatar(currentGarmentWrapper, p, activeSizeSpec, currentMatchText, avatar, baseSizeSpec);
+                fitGarmentToAvatar(currentGarmentWrapper, p, activeSizeSpec, null, avatar, baseSizeSpec);
             }
         };
 
@@ -335,13 +321,29 @@ const initFitting = async () => {
             const newAvatar = updateAvatar(avatar, p);
             if (newAvatar) avatar = newAvatar;
 
-            saveProfile(p);
-
             const product = findProduct(selectedProductId) || catalog[0];
+            const productSizes = getProductSizes(product);
+
+            const fit = analyzeFit({
+                heightCm: p.height,
+                chestCm: p.chest,
+                waistCm: p.waist,
+                hipCm: p.hip,
+                shoulderCm: p.shoulder,
+                torsoLengthCm: p.torsoLength,
+                armLengthCm: p.armLength,
+                sizes: productSizes,
+                selectedSizeName: selectedSizeName,
+            });
+
+            // Tidak auto-ubah selectedSizeName saat mengubah slider tubuh
+            // Biarkan pengguna melihat ukuran baju yang aktif saat ini, sehingga bisa dibandingkan dengan tubuh.
+
+            renderSizeButtons(product, fit.recommendedSize);
             recalculateFit(product);
 
             if (statusNode) {
-                statusNode.textContent = 'Body profile updated';
+                statusNode.textContent = 'Ukuran tubuh diperbarui';
             }
         };
 
@@ -361,7 +363,20 @@ const initFitting = async () => {
                     : (product.category || 'Katalog');
             }
 
-            renderSizeButtons(product, selectedSizeName);
+            const p = getBodyParams();
+            const fit = analyzeFit({
+                heightCm: p.height,
+                chestCm: p.chest,
+                waistCm: p.waist,
+                hipCm: p.hip,
+                shoulderCm: p.shoulder,
+                torsoLengthCm: p.torsoLength,
+                armLengthCm: p.armLength,
+                sizes: product?.sizes || [],
+                selectedSizeName: selectedSizeName,
+            });
+
+            renderSizeButtons(product, fit.recommendedSize);
 
             if (statusNode) {
                 statusNode.textContent = 'Memuat model 3D ' + (product.name || '') + '...';
@@ -442,11 +457,33 @@ const initFitting = async () => {
             shoulderInput, armLengthInput, torsoLengthInput,
         ].forEach((input) => {
             input?.addEventListener('input', updateBody);
+            input?.addEventListener('change', updateBody);
         });
 
         torsoTypeRadios.forEach((radio) => {
             radio.addEventListener('change', updateBody);
         });
+
+        // ── Reset to Standard Baseline ──
+        const resetBtn = root.querySelector('[data-fitting-reset-btn]');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                if (heightInput) heightInput.value = 170;
+                if (chestInput) chestInput.value = 92;
+                if (waistInput) waistInput.value = 76;
+                if (hipInput) hipInput.value = 96;
+                if (shoulderInput) shoulderInput.value = 44;
+                if (armLengthInput) armLengthInput.value = 58;
+                if (torsoLengthInput) torsoLengthInput.value = 44;
+                for (const radio of torsoTypeRadios) {
+                    radio.checked = radio.value === 'normal';
+                }
+                clearSavedProfile();
+                userManuallySelectedSize = false;
+                updateBody();
+            });
+        }
+
 
         // ── Debug Listeners ──
         const debugScale = document.getElementById('debug-scale');
@@ -494,6 +531,9 @@ const initFitting = async () => {
                 panels.forEach((panel) => {
                     panel.classList.toggle('hidden', panel.dataset.fittingPanel !== selected);
                 });
+
+                const product = findProduct(selectedProductId) || catalog[0];
+                recalculateFit(product);
             });
         });
 

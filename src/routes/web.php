@@ -30,7 +30,9 @@ Route::get('/virtual-fitting', [VirtualFittingController::class, 'index'])->name
 Route::view('/about', 'customer.about')->name('about');
 Route::get('/order/create', [CustomerOrderController::class, 'create'])->name('order.create');
 Route::post('/order', [CustomerOrderController::class, 'store'])->name('order.store');
+Route::post('/order/upload-design', [CustomerOrderController::class, 'uploadDesign'])->name('order.upload-design');
 Route::get('/order/success', [CustomerOrderController::class, 'success'])->name('order.success');
+Route::get('/order/{id}/pdf', [CustomerOrderController::class, 'pdf'])->name('order.pdf');
 
 // Dedicated Standalone Deal Order Form (Direct Vendor-Customer Deal)
 Route::get('/form-pemesanan', [DealOrderController::class, 'create'])->name('deal-order.create');

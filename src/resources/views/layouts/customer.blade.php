@@ -6,12 +6,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
         $pageTitle = trim($__env->yieldContent('title'));
-        if (empty($pageTitle) || $pageTitle === 'Tigabenang' || $pageTitle === 'Tigabenang | Konveksi & Atelier Digital') {
-            $customerDocumentTitle = 'Tigabenang | Konveksi & Atelier Digital';
-        } elseif (str_ends_with($pageTitle, ' | Tigabenang')) {
+        if (empty($pageTitle) || $pageTitle === 'FitVendor' || $pageTitle === 'FitVendor | Konveksi & Atelier Digital') {
+            $customerDocumentTitle = 'FitVendor | Konveksi & Atelier Digital';
+        } elseif (str_ends_with($pageTitle, ' | FitVendor')) {
             $customerDocumentTitle = $pageTitle;
         } else {
-            $customerDocumentTitle = $pageTitle . ' | Tigabenang';
+            $customerDocumentTitle = $pageTitle . ' | FitVendor';
         }
     @endphp
     <title>{{ $customerDocumentTitle }}</title>
@@ -49,7 +49,8 @@
         .product-tile { display: flex; flex-direction: column; width: 100%; min-width: 0; }
         .product-tile-meta { margin-top: 0.875rem; }
         .image-frame { position: relative; display: block; width: 100%; max-width: 100%; aspect-ratio: 3 / 4; overflow: hidden; background-color: #EEEFEC; border-radius: 12px; border: 1px solid #E2E5E9; }
-        .image-frame > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center; }
+        .image-frame picture { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+        .image-frame img, .image-frame > img, .image-frame picture > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center; }
         .vf-stage { position: relative; width: 100%; min-height: 680px; height: 680px; }
         @media (min-width: 1024px) {
             .vf-stage { min-height: 700px; height: 700px; }
