@@ -297,8 +297,9 @@ Health check Laravel: `GET /up`.
 | `/admin/pesanan/{id}/invoice` | Faktur |
 | `/admin/pelanggan` | Pelanggan |
 
-Username : admin
-Password : password123
+- Username : Admin
+- Password : password123
+  
 ---
 
 ## 6. Virtual Fitting
