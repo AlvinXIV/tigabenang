@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'Virtual Fitting')
+@section('title', 'Virtual Fitting 3D')
 @section('description', 'Studio fitting 3D FitVendor. Sesuaikan ukuran tubuh dan lihat perkiraan pas pakaian secara digital.')
 
 @section('content')

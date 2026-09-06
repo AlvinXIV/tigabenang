@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Pratinjau Model 3D - ' . $product->nama_produk)
+@section('title', 'Pratinjau 3D: ' . $product->nama_produk)
 
 @push('scripts')
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>

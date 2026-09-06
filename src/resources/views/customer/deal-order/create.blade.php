@@ -1,6 +1,6 @@
 @extends('layouts.deal-order')
 
-@section('title', 'Formulir Konfirmasi Pemesanan')
+@section('title', 'Form Konfirmasi Pesanan')
 @section('description', 'Formulir resmi permintaan pesanan pakaian custom Tigabenang Atelier.')
 
 @section('content')

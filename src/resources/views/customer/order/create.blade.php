@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'Kirim permintaan')
+@section('title', 'Pesan Produk')
 @section('description', 'Kirim permintaan pakaian custom FitVendor. Tidak perlu akun.')
 
 @push('vite')

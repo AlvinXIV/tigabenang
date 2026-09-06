@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'FitVendor. Pakaian custom')
+@section('title', 'Tigabenang')
 @section('description', 'Pesan pakaian sesuai kebutuhan tim, komunitas, acara, atau brand Anda.')
 
 @section('content')

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Ubah File Model 3D')
+@section('title', 'Ubah Model 3D')
 
 @section('content')
 <div class="space-y-6 max-w-2xl mx-auto">

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Ikhtisar Dashboard')
+@section('title', 'Dashboard')
 
 @section('content')
     <livewire:admin.dashboard />

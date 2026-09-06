@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Ubah ' . ($kategori ? 'Kategori Produk' : 'Material Kain'))
+@section('title', 'Ubah ' . ($kategori ? 'Kategori' : 'Material'))
 
 @section('content')
 <div class="space-y-6 max-w-2xl mx-auto">

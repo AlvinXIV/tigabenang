@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'Koleksi')
+@section('title', 'Koleksi Produk')
 @section('description', 'Lihat semua pakaian custom FitVendor. Filter berdasarkan kategori, lalu buka produk untuk memesan.')
 
 @section('content')

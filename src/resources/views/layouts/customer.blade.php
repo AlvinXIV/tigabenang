@@ -4,7 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'FitVendor')</title>
+    @php
+        $pageTitle = trim($__env->yieldContent('title'));
+        if (empty($pageTitle) || $pageTitle === 'Tigabenang' || $pageTitle === 'Tigabenang | Konveksi & Atelier Digital') {
+            $customerDocumentTitle = 'Tigabenang | Konveksi & Atelier Digital';
+        } elseif (str_ends_with($pageTitle, ' | Tigabenang')) {
+            $customerDocumentTitle = $pageTitle;
+        } else {
+            $customerDocumentTitle = $pageTitle . ' | Tigabenang';
+        }
+    @endphp
+    <title>{{ $customerDocumentTitle }}</title>
     <meta name="description" content="@yield('description', 'Pesan pakaian custom untuk tim, komunitas, acara, atau brand Anda.')">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

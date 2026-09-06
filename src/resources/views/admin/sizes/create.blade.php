@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Ukuran Pola')
+@section('title', 'Tambah Ukuran')
 
 @section('content')
 <div class="space-y-6 max-w-2xl mx-auto">
