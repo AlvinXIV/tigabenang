@@ -28,10 +28,10 @@ class CustomerMedia
     private const DEMO_PRODUCT_IMAGES = [
         1 => 'images/varsity.jpg',
         2 => 'images/Varsity_Maison_Sixth_June.jpg',
-        3 => 'images/Work_jaket.jpg',
+        3 => 'images/workjacket.png',
         4 => 'images/windbreaker.jpg',
         5 => 'images/windbreaker_2.jpg',
-        6 => 'images/Jersey_Minimalist.jpg',
+        6 => 'images/jersey_atletico.png',
         7 => 'images/Kaos_Champions.jpg',
         8 => 'images/Kaos_Biru.jpg',
     ];
@@ -117,11 +117,7 @@ class CustomerMedia
         $mapped = self::DEMO_PRODUCT_IMAGES[$id] ?? null;
 
         if ($mapped) {
-            $url = self::webpUrl($mapped);
-
-            if ($url) {
-                return $url;
-            }
+            return self::webpUrl($mapped);
         }
 
         $stored = $gambar ?? (is_object($produk) ? ($produk->gambar ?? null) : null);

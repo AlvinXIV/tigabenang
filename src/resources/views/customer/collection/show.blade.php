@@ -15,10 +15,35 @@
 @endphp
 
 @section('title', $product->nama_produk)
-@section('description', CustomerCatalog::categoryLabel($product->kategori?->nama_kategori).' - pakaian custom FitVendor')
+@section('description', CustomerCatalog::categoryLabel($product->kategori?->nama_kategori).' - pakaian custom Tigabenang')
 
 
 @section('content')
+
+    <style>
+        @media (max-width: 767px) {
+            #main-content section .py-10,
+            #main-content section.py-12 {
+                padding-top: 2.25rem;
+                padding-bottom: 2.25rem;
+            }
+            #main-content section .gap-10 {
+                gap: 1.5rem;
+            }
+            #main-content h1 {
+                font-size: 1.5rem;
+            }
+            #main-content .text-2xl {
+                font-size: 1.35rem;
+            }
+            #main-content .p-6 {
+                padding: 1.15rem;
+            }
+            #main-content h2.text-xl {
+                font-size: 1.125rem;
+            }
+        }
+    </style>
 
     <section class="border-b border-[#E2E5E9] bg-white">
         <div class="mx-auto grid max-w-[1200px] items-start gap-10 px-5 py-10 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-14">

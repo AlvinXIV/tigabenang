@@ -101,15 +101,15 @@
         <div class="w-12 h-12 bg-[#102A43] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
             FV
         </div>
-        <span class="text-sm font-bold tracking-tight text-[#102A43]">FitVendor</span>
+        <span class="text-sm font-bold tracking-tight text-[#102A43]">Tigabenang</span>
         <span class="text-[11px] text-[#667085] font-medium">Konveksi &amp; Atelier Digital</span>
     </div>
 
     <!-- Portal Title & Subtitle -->
     <div class="text-center max-w-md mx-auto mb-6">
-        <h1 class="text-xl sm:text-2xl font-bold text-[#102A43] tracking-tight">Daftar Akun FitVendor</h1>
+        <h1 class="text-xl sm:text-2xl font-bold text-[#102A43] tracking-tight">Daftar Akun Tigabenang</h1>
         <p class="text-xs text-[#667085] mt-1 leading-relaxed">
-            Daftarkan akun administrator ke sistem manajemen FitVendor.
+            Daftarkan akun administrator ke sistem manajemen Tigabenang.
         </p>
     </div>
 
@@ -149,7 +149,7 @@
                         id="businessName"
                         name="business_name"
                         x-model="businessName"
-                        placeholder="Contoh: CV FitVendor Mandiri"
+                        placeholder="Contoh: CV Tigabenang Mandiri"
                         class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                 </div>
@@ -272,7 +272,7 @@
                         class="mt-0.5 w-4 h-4 rounded border-[#D0D5DD] text-[#102A43] focus:ring-[#102A43]"
                     />
                     <span class="text-xs text-[#667085] leading-snug">
-                        Saya menyetujui <a href="#" class="text-[#102A43] hover:underline font-medium">Syarat &amp; Ketentuan</a> serta <a href="#" class="text-[#102A43] hover:underline font-medium">Kebijakan Privasi</a> portal FitVendor.
+                        Saya menyetujui <a href="#" class="text-[#102A43] hover:underline font-medium">Syarat &amp; Ketentuan</a> serta <a href="#" class="text-[#102A43] hover:underline font-medium">Kebijakan Privasi</a> portal Tigabenang.
                     </span>
                 </label>
                 <template x-if="errors.terms">
@@ -291,7 +291,7 @@
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span x-text="isSubmitting ? 'Memproses Pendaftaran...' : 'Daftarkan Akun FitVendor'"></span>
+                    <span x-text="isSubmitting ? 'Memproses Pendaftaran...' : 'Daftarkan Akun Tigabenang'"></span>
                 </button>
             </div>
 

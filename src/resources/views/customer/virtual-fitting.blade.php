@@ -1,9 +1,64 @@
 @extends('layouts.customer')
 
 @section('title', 'Virtual Fitting 3D')
-@section('description', 'Studio fitting 3D FitVendor. Sesuaikan ukuran tubuh dan lihat perkiraan pas pakaian secara digital.')
+@section('description', 'Studio fitting 3D Tigabenang. Sesuaikan ukuran tubuh dan lihat perkiraan pas pakaian secara digital.')
 
 @section('content')
+
+    <style>
+        @media (max-width: 767px) {
+            .vf-stage,
+            .vf-stage[style] {
+                min-height: 520px !important;
+                height: 520px !important;
+            }
+            #fitting-viewport {
+                min-height: 520px;
+            }
+            [data-fitting-root] {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+            [data-fitting-root] .mx-auto.grid {
+                gap: 1.15rem;
+            }
+            [data-fitting-root] aside > div > .px-6.py-5 {
+                padding: 1rem 1.15rem;
+            }
+            [data-fitting-root] aside h2 {
+                font-size: 1.125rem;
+            }
+            [data-fitting-root] [data-fitting-panel] {
+                padding: 1.15rem;
+            }
+            [data-fitting-root] [role="tab"] {
+                padding-top: 0.7rem;
+                padding-bottom: 0.7rem;
+            }
+            .fv-page-hero .py-10 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            .vf-stage .absolute.left-4.top-4,
+            .vf-stage .absolute.right-4.top-4,
+            .vf-stage .absolute.bottom-4.left-4 {
+                left: 0.75rem;
+                right: auto;
+                top: 0.75rem;
+            }
+            .vf-stage .absolute.right-4.top-4 {
+                left: auto;
+                right: 0.75rem;
+            }
+            .vf-stage .absolute.bottom-4.left-4 {
+                top: auto;
+                bottom: 0.75rem;
+            }
+            .vf-stage .absolute .p-3 {
+                padding: 0.65rem;
+            }
+        }
+    </style>
 
     <section class="fv-page-hero">
         <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-12">

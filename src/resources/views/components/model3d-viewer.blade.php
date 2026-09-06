@@ -1,7 +1,7 @@
 @props([
     'src' => null,
     'poster' => null,
-    'alt' => 'Model Pakaian 3D FitVendor',
+    'alt' => 'Model Pakaian 3D Tigabenang',
     'height' => 'h-72',
     'autoRotate' => true,
 ])

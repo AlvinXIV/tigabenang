@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'FitVendor')
+@section('title', 'Tigabenang')
 @section('description', 'Pesan pakaian sesuai kebutuhan tim, komunitas, acara, atau brand Anda.')
 
 @section('content')
@@ -28,6 +28,16 @@
         .fv-home-hero__content {
             padding-bottom: 84px !important;
         }
+        @media (max-width: 767px) {
+            .fv-home-hero {
+                min-height: 0 !important;
+                height: clamp(520px, 148vw, 600px) !important;
+                max-height: 620px !important;
+            }
+            .fv-home-hero__content {
+                padding-bottom: 40px !important;
+            }
+        }
         @media (min-width: 1024px) {
             .fv-home-hero {
                 min-height: 800px !important;
@@ -40,14 +50,14 @@
     </style>
 
     <div class="bg-white pt-4 pb-12 sm:pb-16 lg:pb-24">
-        <section class="fv-home-hero-wrap" aria-label="Pengantar FitVendor">
+        <section class="fv-home-hero-wrap" aria-label="Pengantar Tigabenang">
             <div class="fv-home-hero">
                 @if ($heroImgUrl)
                     <picture>
                         <source srcset="{{ $heroWebpUrl }}" type="image/webp">
                         <img
                             src="{{ $heroImgUrl }}"
-                            alt="Koleksi FitVendor"
+                            alt="Koleksi Tigabenang"
                             class="fv-home-hero__image"
                             fetchpriority="high"
                             decoding="async"
@@ -127,7 +137,7 @@
                 </h2>
                 <div class="mt-5 space-y-3 text-sm leading-relaxed text-[#667085]">
                     <p>
-                        <strong class="font-semibold text-[#102A43]">FitVendor</strong> adalah konveksi garmen berbasis di Bandung dengan pengalaman lebih dari 7 tahun. Kami dipercaya ratusan komunitas, kampus, dan brand untuk memproduksi jaket, kemeja, jersey, hingga seragam kerja.
+                        <strong class="font-semibold text-[#102A43]">Tigabenang</strong> adalah konveksi garmen berbasis di Bandung dengan pengalaman lebih dari 7 tahun. Kami dipercaya ratusan komunitas, kampus, dan brand untuk memproduksi jaket, kemeja, jersey, hingga seragam kerja.
                     </p>
                     <p>
                         Dengan meja potong mandiri dan penjahit ahli, setiap pesanan dikerjakan dengan bahan pilihan, pola proporsional, dan proses produksi yang transparan.
@@ -159,7 +169,7 @@
                     <source srcset="{{ asset('images/about-production.webp') }}" type="image/webp">
                     <img
                         src="{{ asset('images/about-production.jpg') }}"
-                        alt="Proses jahit dan produksi pakaian custom FitVendor"
+                        alt="Proses jahit dan produksi pakaian custom Tigabenang"
                         class="h-full w-full object-cover"
                         loading="lazy"
                     >
@@ -303,7 +313,7 @@
                         <source srcset="{{ asset('images/virtual.webp') }}" type="image/webp">
                         <img
                             src="{{ asset('images/virtual.jpg') }}"
-                            alt="Studio virtual fitting FitVendor"
+                            alt="Studio virtual fitting Tigabenang"
                             class="h-full w-full object-cover object-center"
                             loading="lazy"
                         >
@@ -344,7 +354,7 @@
 
                     @php
                         $waNum = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number'));
-                        $waUrl = $waNum ? 'https://wa.me/'.$waNum.'?text='.rawurlencode('Halo FitVendor, saya ingin bertanya soal pesanan custom.') : 'https://wa.me/6281234567890';
+                        $waUrl = $waNum ? 'https://wa.me/'.$waNum.'?text='.rawurlencode('Halo Tigabenang, saya ingin bertanya soal pesanan custom.') : 'https://wa.me/6281234567890';
                     @endphp
 
                     <div class="mt-8 max-w-md rounded-[14px] border border-[#E2E5E9] bg-white p-5">
@@ -365,7 +375,7 @@
                     @php
                         $faqs = [
                             [
-                                'q' => 'Berapa minimal jumlah pesanan di FitVendor?',
+                                'q' => 'Berapa minimal jumlah pesanan di Tigabenang?',
                                 'a' => 'Kami menerima pesanan mulai 12 pcs sampai skala besar untuk komunitas, organisasi, kampus, atau clothing brand.',
                             ],
                             [
@@ -417,7 +427,7 @@
                         Dipakai tim yang butuh hasil rapi
                     </h2>
                     <p class="mt-3 text-sm leading-relaxed text-[#667085]">
-                        Cuplikan dari komunitas, brand, dan panitia yang memesan lewat FitVendor.
+                        Cuplikan dari komunitas, brand, dan panitia yang memesan lewat Tigabenang.
                     </p>
                 </div>
                 <div class="testimonial-header__nav">
@@ -588,6 +598,68 @@
             font-weight: 400;
             line-height: 1.35;
             color: #667085;
+        }
+        @media (max-width: 767px) {
+            #main-content section.py-16 {
+                padding-top: 3.25rem;
+                padding-bottom: 3.25rem;
+            }
+            #main-content .pb-24 {
+                padding-bottom: 4.5rem;
+            }
+            #main-content h2 {
+                font-size: 1.5rem;
+                line-height: 1.25;
+            }
+            .fv-icon-card h3 {
+                margin-top: 0.85rem;
+                font-size: 1rem;
+            }
+            .category-showcase-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                column-gap: 0.85rem;
+                row-gap: 1.25rem;
+            }
+            .category-showcase-grid > a {
+                min-width: 0;
+                max-width: 100%;
+            }
+            .category-showcase-grid .fv-media {
+                aspect-ratio: 3 / 4;
+            }
+            .category-showcase-grid .fv-media img {
+                object-fit: cover;
+                object-position: center;
+            }
+            .category-showcase-grid .fv-media > span.absolute {
+                right: 0.5rem;
+                bottom: 0.5rem;
+                gap: 0.25rem;
+                padding: 0.25rem 0.5rem;
+                font-size: 0.625rem;
+                border-radius: 0.5rem;
+            }
+            .category-showcase-grid .fv-media > span.absolute svg {
+                width: 0.75rem;
+                height: 0.75rem;
+            }
+            .category-showcase-grid > a > div.mt-3 {
+                margin-top: 0.7rem;
+            }
+            .category-showcase-grid h3 {
+                font-size: 0.875rem;
+            }
+            .faq-item {
+                padding: 0.9rem 1rem;
+            }
+            .testimonial-slide-card {
+                padding: 1.15rem;
+            }
+            .testimonial-header__nav button {
+                height: 2.5rem;
+                width: 2.5rem;
+            }
         }
     </style>
 

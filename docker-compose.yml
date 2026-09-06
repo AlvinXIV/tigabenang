@@ -8,6 +8,7 @@ services:
 
     volumes:
       - ./src:/var/www
+      - ./.env:/var/www/.env
       - vendor_data:/var/www/vendor
       - ./docker/php/zz-www-dev.conf:/usr/local/etc/php-fpm.d/zz-www-dev.conf
       - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini

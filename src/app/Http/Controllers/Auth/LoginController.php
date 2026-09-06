@@ -38,7 +38,7 @@ class LoginController extends Controller
         if ($attempt) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('admin.dashboard'))->with('success', 'Selamat datang kembali, Admin FitVendor!');
+            return redirect()->intended(route('admin.dashboard'))->with('success', 'Selamat datang kembali, Admin Tigabenang!');
         }
 
         return back()->withInput($request->only('email'))->with('error', 'Username atau kata sandi tidak sesuai.');

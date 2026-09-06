@@ -5,7 +5,7 @@
         <div>
             <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Pengaturan Akun</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
-                Kelola profil administrator dan keamanan akses akun FitVendor.
+                Kelola profil administrator dan keamanan akses akun Tigabenang.
             </p>
         </div>
 
@@ -167,14 +167,14 @@
         <!-- SECTION 3: INFORMASI BISNIS & KONVEKSI -->
         <div class="admin-card p-5 sm:p-6 space-y-4">
             <div class="border-b border-[#E2E5E9] pb-3">
-                <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Profil FitVendor</h2>
+                <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Profil Tigabenang</h2>
                 <p class="text-xs text-[#667085] mt-0.5">Identitas usaha dan informasi operasional konveksi & atelier digital.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div>
                     <span class="text-[#667085] block font-medium">Nama Brand / Usaha</span>
-                    <span class="text-sm font-semibold text-[#102A43] mt-0.5 block">FitVendor</span>
+                    <span class="text-sm font-semibold text-[#102A43] mt-0.5 block">Tigabenang</span>
                 </div>
                 <div>
                     <span class="text-[#667085] block font-medium">Layanan Utama</span>

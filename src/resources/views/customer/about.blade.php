@@ -1,7 +1,7 @@
 @extends('layouts.customer')
 
 @section('title', 'Tentang Kami')
-@section('description', 'Profil FitVendor. Vendor pakaian custom dengan virtual fitting dan produksi sesuai pesanan.')
+@section('description', 'Profil Tigabenang. Vendor pakaian custom dengan virtual fitting dan produksi sesuai pesanan.')
 
 @section('content')
 
@@ -287,6 +287,29 @@
             z-index: 1;
             padding: 2rem;
         }
+        @media (max-width: 767px) {
+            .fv-about__section { padding-block: 2.75rem; }
+            .fv-about__heading { font-size: 1.5rem; }
+            .fv-about__lead,
+            .fv-about__copy { margin-top: 0.85rem; font-size: 0.875rem; }
+            .fv-about__visi p { font-size: 1.125rem; }
+            .fv-about__misi { margin-top: 1.5rem; }
+            .fv-about__misi li { grid-template-columns: 2rem minmax(0, 1fr); gap: 0.75rem; padding: 1rem 0; }
+            .fv-about__services { gap: 1.35rem; margin-top: 1.35rem; }
+            .fv-about__steps { gap: 1.25rem; margin-top: 1.5rem; }
+            .fv-about__steps h3 { margin-top: 0.55rem; }
+            .fv-about__contact-grid { margin-top: 1.5rem; }
+            .fv-about__contact-card { padding: 1rem; }
+            .fv-about__hero { min-height: 18rem; }
+            .fv-about__hero-body { padding: 1.5rem; }
+            .fv-about__hero-title { font-size: 1.45rem; }
+            .fv-about__hero-lead { margin-top: 0.75rem; font-size: 0.875rem; }
+            .fv-about__story,
+            .fv-about__work,
+            .fv-about__process { gap: 1.75rem; }
+            .fv-about__photo--story,
+            .fv-about__photo--work { max-width: 280px; }
+        }
         @media (min-width: 768px) {
             .fv-about__hero-body { padding: 2.75rem; }
         }
@@ -334,17 +357,17 @@
                         <source srcset="{{ asset('images/tentang1.webp') }}" type="image/webp">
                         <img
                             src="{{ asset('images/tentang1.jpg') }}"
-                            alt="Studio produksi FitVendor"
+                            alt="Studio produksi Tigabenang"
                             width="720"
                             height="900"
                         >
                     </picture>                    <div class="fv-about__hero-body">
-                        <span class="fv-about__hero-eyebrow">Tentang FitVendor</span>
+                        <span class="fv-about__hero-eyebrow">Tentang Tigabenang</span>
                         <h1 class="fv-about__hero-title">
                             Vendor pakaian yang mengutamakan ukuran yang pas
                         </h1>
                         <p class="fv-about__hero-lead">
-                            FitVendor membuat pakaian custom untuk tim, komunitas, dan individu. Dari pilihan model sampai potongan jadi.
+                            Tigabenang membuat pakaian custom untuk tim, komunitas, dan individu. Dari pilihan model sampai potongan jadi.
                         </p>
                     </div>
                 </div>
@@ -355,16 +378,16 @@
             <div class="fv-about__shell fv-about__story">
                 <div class="fv-about__copy-col">
                     <span class="about-eyebrow">Cerita kami</span>
-                    <h2 class="fv-about__heading">Siapa itu FitVendor</h2>
+                    <h2 class="fv-about__heading">Siapa itu Tigabenang</h2>
                     <p class="fv-about__copy">
-                        FitVendor lahir dari kebutuhan sederhana: pakaian custom yang benar-benar pas, tanpa harus bolak-balik tukang jahit.
+                        Tigabenang lahir dari kebutuhan sederhana: pakaian custom yang benar-benar pas, tanpa harus bolak-balik tukang jahit.
                         Kami menggabungkan pengalaman produksi garmen dengan fitting digital, sehingga pelanggan bisa melihat proporsi pakaian sebelum memesan.
                     </p>
                     <p class="fv-about__copy">
                         Setiap pesanan dikerjakan per item. Bahan dipilih dari katalog yang memang tersedia, ukuran dirapikan lewat size chart, dan harga final dibahas terbuka bersama tim kami.
                     </p>
                     <p class="fv-about__copy">
-                        Berdiri sejak 2018, FitVendor kini telah memproduksi lebih dari 50.000 potong pakaian untuk tim, komunitas, dan brand di berbagai kota — dengan 5 jenis pakaian yang bisa dikustomisasi, dari varsity dan work jacket sampai jersey dan kaos.
+                        Berdiri sejak 2018, Tigabenang kini telah memproduksi lebih dari 50.000 potong pakaian untuk tim, komunitas, dan brand di berbagai kota — dengan 5 jenis pakaian yang bisa dikustomisasi, dari varsity dan work jacket sampai jersey dan kaos.
                     </p>
                 </div>
                 <div class="fv-about__photo fv-about__photo--story">
@@ -372,7 +395,7 @@
                         <source srcset="{{ asset('images/fitvendor.webp') }}" type="image/webp">
                         <img
                             src="{{ asset('images/fitvendor.png') }}"
-                            alt="Identitas FitVendor"
+                            alt="Identitas Tigabenang"
                             width="720"
                             height="900"
                         >
@@ -421,7 +444,7 @@
                         <source srcset="{{ asset('images/tentang4.webp') }}" type="image/webp">
                         <img
                             src="{{ asset('images/tentang4.jpg') }}"
-                            alt="Tim FitVendor membahas bahan dan desain"
+                            alt="Tim Tigabenang membahas bahan dan desain"
                             width="720"
                             height="900"
                         >

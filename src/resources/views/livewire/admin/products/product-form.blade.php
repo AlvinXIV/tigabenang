@@ -6,7 +6,7 @@
             {{ $productId ? 'Ubah Produk' : 'Tambah Produk Baru' }}
         </h1>
         <p class="text-xs sm:text-sm text-[#667085] mt-1">
-            {{ $productId ? 'Perbarui spesifikasi produk garmen custom.' : 'Daftarkan busana garmen custom baru ke dalam katalog FitVendor.' }}
+            {{ $productId ? 'Perbarui spesifikasi produk garmen custom.' : 'Daftarkan busana garmen custom baru ke dalam katalog Tigabenang.' }}
         </p>
     </div>
 

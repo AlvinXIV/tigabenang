@@ -36,9 +36,9 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Pilihan pakaian');
         $this->get('/about')
             ->assertOk()
-            ->assertSee('Tentang FitVendor')
+            ->assertSee('Tentang Tigabenang')
             ->assertSee('Cerita kami')
-            ->assertSee('Siapa itu FitVendor')
+            ->assertSee('Siapa itu Tigabenang')
             ->assertSee('Hubungi Kami')
             ->assertSee('images/tentang1.jpg', false)
             ->assertSee('images/fitvendor.png', false)
@@ -251,13 +251,13 @@ class CustomerFrontendTest extends TestCase
 
         $order = Pemesanan::query()->where('nama', 'Budi Santoso')->firstOrFail();
 
-        // Customer success page shows dynamic estimate: Rp 400.000, FitVendor branding
+        // Customer success page shows dynamic estimate: Rp 400.000, Tigabenang branding
         $this->get(route('order.success'))
             ->assertOk()
             ->assertSee('Estimasi total')
             ->assertSee('Rp 400.000')
             ->assertSee('Harga ini merupakan estimasi awal.')
-            ->assertSee('Halo%20FitVendor')
+            ->assertSee('Halo%20Tigabenang')
             ->assertSee(route('order.pdf', $order->id_pemesanan), false)
             ->assertSee('Lihat / Cetak Dokumen PDF');
 
@@ -324,7 +324,7 @@ class CustomerFrontendTest extends TestCase
             ->assertOk()
             ->assertSee('Estimasi Total:')
             ->assertSee('Rp 1.000.000')
-            ->assertSee('FitVendor')
+            ->assertSee('Tigabenang')
             ->assertSee('#TB-');
     }
 

@@ -6,12 +6,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
         $pageTitle = trim($__env->yieldContent('title'));
-        if (empty($pageTitle) || $pageTitle === 'FitVendor' || $pageTitle === 'FitVendor | Konveksi & Atelier Digital') {
-            $customerDocumentTitle = 'FitVendor | Konveksi & Atelier Digital';
-        } elseif (str_ends_with($pageTitle, ' | FitVendor')) {
+        if (empty($pageTitle) || $pageTitle === 'Tigabenang' || $pageTitle === 'Tigabenang | Konveksi & Atelier Digital') {
+            $customerDocumentTitle = 'Tigabenang | Konveksi & Atelier Digital';
+        } elseif (str_ends_with($pageTitle, ' | Tigabenang')) {
             $customerDocumentTitle = $pageTitle;
         } else {
-            $customerDocumentTitle = $pageTitle . ' | FitVendor';
+            $customerDocumentTitle = $pageTitle . ' | Tigabenang';
         }
     @endphp
     <title>{{ $customerDocumentTitle }}</title>
@@ -52,10 +52,17 @@
         .image-frame picture { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
         .image-frame img, .image-frame > img, .image-frame picture > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center; }
         .vf-stage { position: relative; width: 100%; min-height: 680px; height: 680px; }
+        #fitting-viewport { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 680px; }
+        @media (max-width: 767px) {
+            .vf-stage { min-height: 520px; height: 520px; }
+            #fitting-viewport { min-height: 520px; }
+            .catalog-grid--4, .catalog-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .catalog-grid { column-gap: 0.85rem; row-gap: 1.25rem; }
+            .product-tile-meta { margin-top: 0.7rem; }
+        }
         @media (min-width: 1024px) {
             .vf-stage { min-height: 700px; height: 700px; }
         }
-        #fitting-viewport { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 680px; }
         #fitting-viewport canvas { display: block; width: 100% !important; height: 100% !important; }
         .fv-icon-wrap svg { width: 28px !important; height: 28px !important; max-width: 28px !important; max-height: 28px !important; flex-shrink: 0 !important; }
         .fv-services__icon svg { width: 20px !important; height: 20px !important; max-width: 20px !important; max-height: 20px !important; flex-shrink: 0 !important; }

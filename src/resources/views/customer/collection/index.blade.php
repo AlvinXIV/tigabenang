@@ -1,9 +1,25 @@
 @extends('layouts.customer')
 
 @section('title', 'Koleksi Produk')
-@section('description', 'Lihat semua pakaian custom FitVendor. Filter berdasarkan kategori, lalu buka produk untuk memesan.')
+@section('description', 'Lihat semua pakaian custom Tigabenang. Filter berdasarkan kategori, lalu buka produk untuk memesan.')
 
 @section('content')
+
+    <style>
+        @media (max-width: 767px) {
+            .fv-page-hero .py-10 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            .fv-page-hero h1 {
+                font-size: 1.625rem;
+            }
+            #main-content section.px-5.py-10 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+        }
+    </style>
 
     <section class="fv-page-hero">
         <div class="mx-auto max-w-[1200px] px-5 py-10 lg:px-8 lg:py-12">

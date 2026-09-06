@@ -1,7 +1,7 @@
 @extends('layouts.customer')
 
 @section('title', 'Pesan Produk')
-@section('description', 'Kirim permintaan pakaian custom FitVendor. Tidak perlu akun.')
+@section('description', 'Kirim permintaan pakaian custom Tigabenang. Tidak perlu akun.')
 
 @push('vite')
     @vite(['resources/js/customer/order.js'])
@@ -38,6 +38,37 @@
         }
         .request-total-actions { width: 100%; }
         .request-total-actions button { width: 100%; }
+        @media (max-width: 767px) {
+            .fv-request-page .fv-request-shell { padding-inline: 16px; }
+            .fv-request-page .fv-page-hero .fv-request-shell { padding-top: 2rem; padding-bottom: 2rem; }
+            .fv-request-page .fv-page-hero h1 { font-size: 1.625rem; }
+            .fv-request-page section.py-10 { padding-top: 2rem; padding-bottom: 2rem; }
+            [data-order-sizes] > [data-ukuran-id] {
+                height: 58px !important;
+                min-height: 58px !important;
+                padding: 0 12px !important;
+            }
+            [data-order-sizes] input[type="number"] {
+                width: 84px !important;
+                height: 40px !important;
+                min-height: 40px !important;
+            }
+            .request-total-actions [data-order-total] { font-size: 1.625rem; }
+            .request-total-actions button.btn-primary { min-height: 2.75rem; font-size: 0.9375rem; }
+            #upload_design,
+            .request-upload-panel input[type="file"] {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+                left: 0;
+            }
+        }
     </style>
 
 <div class="fv-request-page">
@@ -48,7 +79,7 @@
             </span>
             <h1 class="max-w-xl text-3xl font-bold tracking-tight md:text-4xl text-white">Konsultasikan Pesanan Custom Anda</h1>
             <p class="mt-3 text-sm leading-relaxed text-white/80">
-                Pilih kategori pakaian, bahan, dan rincian ukuran. Saat tombol ditekan, seluruh detail konsultasi akan langsung diteruskan ke WhatsApp admin FitVendor.
+                Pilih kategori pakaian, bahan, dan rincian ukuran. Saat tombol ditekan, seluruh detail konsultasi akan langsung diteruskan ke WhatsApp admin Tigabenang.
             </p>
         </div>
     </section>
@@ -524,7 +555,7 @@
                             const waNumber = '{{ $waConsultationNumber }}';
 
                             const lines = [
-                                'Halo FitVendor, saya ingin konsultasi pemesanan pakaian custom:',
+                                'Halo Tigabenang, saya ingin konsultasi pemesanan pakaian custom:',
                                 '',
                                 '◆ *DATA PEMESAN*',
                                 '• Nama: ' + nama,

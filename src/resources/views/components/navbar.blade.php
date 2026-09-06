@@ -17,9 +17,9 @@
 
             <a href="{{ route('home') }}" class="group flex shrink-0 items-center gap-3 no-underline">
                 <span class="flex h-11 w-11 md:h-12 md:w-12 items-center justify-center overflow-hidden rounded-xl border border-[#E2E5E9] bg-white shadow-xs transition-transform duration-200 group-hover:scale-105">
-                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo FitVendor" width="38" height="38" class="h-[82%] w-[82%] object-contain">
+                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo Tigabenang" width="38" height="38" class="h-[82%] w-[82%] object-contain">
                 </span>
-                <span class="text-xl md:text-[1.25rem] font-bold tracking-tight text-[#102A43]">FitVendor</span>
+                <span class="text-xl md:text-[1.25rem] font-bold tracking-tight text-[#102A43]">Tigabenang</span>
             </a>
 
             <div class="hidden items-center gap-2 lg:flex">
@@ -74,6 +74,32 @@
     }
     .main-navbar.navbar--scrolled {
         box-shadow: 0 1px 0 #E2E5E9 !important;
+    }
+    @media (max-width: 767px) {
+        .main-navbar nav > div.flex {
+            height: 4.25rem;
+            gap: 1rem;
+        }
+        .main-navbar a.group span.flex.h-11 {
+            height: 2.5rem;
+            width: 2.5rem;
+        }
+        .main-navbar a.group > span.text-xl {
+            font-size: 1.125rem;
+        }
+        .main-navbar #nav-toggle {
+            height: 2.5rem;
+            width: 2.5rem;
+        }
+        .main-navbar #mobile-menu {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        .main-navbar #mobile-menu a {
+            padding-top: 0.625rem;
+            padding-bottom: 0.625rem;
+            font-size: 0.9375rem;
+        }
     }
 </style>
 

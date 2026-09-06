@@ -1,7 +1,7 @@
 @extends('layouts.customer')
 
 @section('title', 'Material Kain')
-@section('description', 'Katalog bahan FitVendor. Nama kain mengikuti catatan produksi.')
+@section('description', 'Katalog bahan Tigabenang. Nama kain mengikuti catatan produksi.')
 
 @section('content')
 

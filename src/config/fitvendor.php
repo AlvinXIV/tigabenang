@@ -4,11 +4,11 @@ return [
 
     'whatsapp' => [
         'number' => env('WHATSAPP_NUMBER', '6281234567890'),
-        'message' => env('WHATSAPP_MESSAGE', 'Halo FitVendor, saya ingin memesan pakaian custom.'),
+        'message' => env('WHATSAPP_MESSAGE', 'Halo Tigabenang, saya ingin memesan pakaian custom.'),
     ],
 
     'contact' => [
-        'email' => env('FITVENDOR_EMAIL', 'hello@fitvendor.id'),
+        'email' => env('FITVENDOR_EMAIL', 'hello@tigabenang.id'),
         'location' => env('FITVENDOR_LOCATION', 'Jl. Dipati Akar No. 45, Lebakgede, Kecamatan Coblong, Kota Bandung, Jawa Barat 40132'),
     ],
 

@@ -5,7 +5,7 @@
         <div>
             <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Direktori Pelanggan</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
-                Basis data kontak dan akumulasi pesanan pemesan custom garmen FitVendor.
+                Basis data kontak dan akumulasi pesanan pemesan custom garmen Tigabenang.
             </p>
         </div>
     </div>

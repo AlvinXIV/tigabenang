@@ -49,19 +49,19 @@
         <div class="w-12 h-12 rounded-[12px] border border-[#E2E5E9] bg-white flex items-center justify-center shadow-xs mb-2.5 overflow-hidden">
             <img
                 src="{{ asset('images/clothiq-logo.png') }}?v=3"
-                alt="Logo FitVendor"
+                alt="Logo Tigabenang"
                 width="36"
                 height="36"
                 class="h-[78%] w-[78%] object-contain select-none"
             />
         </div>
-        <span class="text-base font-bold tracking-tight text-[#102A43]">FitVendor</span>
+        <span class="text-base font-bold tracking-tight text-[#102A43]">Tigabenang</span>
         <span class="text-[11px] text-[#667085] font-medium tracking-normal mt-0.5">Konveksi &amp; Atelier Digital</span>
     </div>
 
     <!-- Portal Title & Subtitle -->
     <div class="text-center max-w-sm mx-auto mb-5">
-        <h1 class="text-2xl sm:text-[26px] font-bold text-[#102A43] tracking-tight m-0">Admin Portal FitVendor</h1>
+        <h1 class="text-2xl sm:text-[26px] font-bold text-[#102A43] tracking-tight m-0">Admin Portal Tigabenang</h1>
         <p class="text-sm text-[#667085] mt-1.5 leading-relaxed m-0">
             Masuk untuk mengelola katalog produk, pesanan garmen, dan konfigurasi atelier.
         </p>
