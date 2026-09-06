@@ -46,12 +46,13 @@
 <div class="fv-request-page">
     <section class="fv-page-hero">
         <div class="fv-request-shell py-10 lg:py-12">
-            <p class="mb-3 text-sm font-medium text-white/70">
-                Formulir pesanan
-            </p>
-            <h1 class="max-w-xl text-3xl font-bold tracking-tight md:text-4xl">Kirim detail pesanan Anda</h1>
-            <p class="mt-3 text-sm leading-relaxed">
-                Pilih kategori pakaian, lalu isi bahan dan rincian ukuran. Kami lanjutkan lewat WhatsApp untuk harga dan jadwal produksi.
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-xs font-semibold text-white mb-3">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Konsultasi Pemesanan
+            </span>
+            <h1 class="max-w-xl text-3xl font-bold tracking-tight md:text-4xl text-white">Konsultasikan Pesanan Custom Anda</h1>
+            <p class="mt-3 text-sm leading-relaxed text-white/80">
+                Pilih kategori pakaian, bahan, dan rincian ukuran. Saat tombol ditekan, seluruh detail konsultasi akan langsung diteruskan ke WhatsApp admin Tigabenang.
             </p>
         </div>
     </section>
@@ -149,6 +150,7 @@
                         $oldQtyBySize      = collect($orderOld['sizes'])->mapWithKeys(function ($row) {
                             return [(string) ($row['ukuran_id'] ?? '') => $row['kuantitas'] ?? 0];
                         });
+                        $waConsultationNumber = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number', '6281234567890'));
                     @endphp
                     <script type="application/json" data-order-catalog>@json($catalog)</script>
                     <script type="application/json" data-order-categories>@json($categoryPayload)</script>
@@ -303,8 +305,15 @@
                             </p>
                         </div>
                         <div class="flex flex-col justify-center rounded-[14px] bg-[#102A43] p-5">
-                            <button type="submit" class="btn-primary min-h-12" style="background:#FFFFFF;color:#102A43 !important;border-color:#FFFFFF;">
-                                Kirim permintaan
+                            <button
+                                type="submit"
+                                class="btn-primary min-h-12 flex items-center justify-center gap-2"
+                                style="background:#25D366;color:#FFFFFF !important;border:none;font-weight:700;font-size:15px;box-shadow:0 4px 16px rgba(37,211,102,0.35);cursor:pointer;"
+                            >
+                                <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10.1 10.1 0 0 0 4.65 1.12h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Zm5.76 14.16c-.24.67-1.18 1.23-1.93 1.4-.51.11-1.18.2-3.44-.74-2.89-1.2-4.75-4.13-4.89-4.32-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.44.03.64.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.39 1.46.3.14.48.12.66-.07.18-.19.77-.9.98-1.21.21-.3.42-.26.7-.15.28.1 1.78.84 2.08.99.3.15.5.22.57.35.07.13.07.75-.17 1.42Z"/>
+                                </svg>
+                                <span>Konsultasikan via WhatsApp</span>
                             </button>
                         </div>
                     </div>
@@ -363,6 +372,107 @@
                             const url = new URL(window.location.href);
                             url.searchParams.set('product', this.value);
                             window.location.href = url.pathname + url.search;
+                        });
+
+                        form.addEventListener('submit', function (e) {
+                            e.preventDefault();
+
+                            const nama = form.querySelector('#nama')?.value?.trim();
+                            const alamat = form.querySelector('#alamat')?.value?.trim();
+                            const noHp = form.querySelector('#no_hp')?.value?.trim();
+                            const productVal = productSelect?.value;
+                            const categoryText = categorySelect?.selectedOptions?.[0]?.text?.trim() || '';
+                            const productText = productSelect?.selectedOptions?.[0]?.text?.trim() || '';
+
+                            if (!nama) {
+                                alert('Mohon isi nama lengkap Anda.');
+                                form.querySelector('#nama')?.focus();
+                                return;
+                            }
+                            if (!alamat) {
+                                alert('Mohon isi alamat pengiriman Anda.');
+                                form.querySelector('#alamat')?.focus();
+                                return;
+                            }
+                            if (!noHp) {
+                                alert('Mohon isi nomor telepon / WhatsApp Anda.');
+                                form.querySelector('#no_hp')?.focus();
+                                return;
+                            }
+                            if (!productVal) {
+                                alert('Mohon pilih produk pakaian terlebih dahulu.');
+                                productSelect?.focus();
+                                return;
+                            }
+
+                            const activeProduct = catalog.find((item) => String(item.id) === String(productVal));
+
+                            const sizeBreakdown = [];
+                            let totalQty = 0;
+                            [...quantityInputs()].forEach((input) => {
+                                const qty = Math.max(0, Number(input.value) || 0);
+                                if (qty > 0) {
+                                    totalQty += qty;
+                                    const row = input.closest('[data-ukuran-id]');
+                                    const label = row?.querySelector('label')?.textContent?.trim() || 'Ukuran';
+                                    sizeBreakdown.push(`• Ukuran ${label}: ${qty} pcs`);
+                                }
+                            });
+
+                            if (totalQty <= 0) {
+                                alert('Mohon isi jumlah minimal 1 pcs pada salah satu ukuran.');
+                                return;
+                            }
+
+                            const materials = (activeProduct?.materials || []).map((m) => m.name).filter(Boolean);
+                            const notes = form.querySelector('#notes')?.value?.trim();
+                            const designFile = form.querySelector('#upload_design')?.files?.[0];
+                            const totalLabel = totalNode?.textContent?.trim() || 'Rp 0';
+
+                            const waNumber = '{{ $waConsultationNumber }}';
+
+                            const lines = [
+                                'Halo Tigabenang, saya ingin konsultasi pemesanan pakaian custom:',
+                                '',
+                                '📋 *DATA PEMESAN*',
+                                '• Nama: ' + nama,
+                                '• No. HP: ' + noHp,
+                                '• Alamat: ' + alamat,
+                                '',
+                                '👕 *SPESIFIKASI PRODUK & BAHAN*',
+                                '• Kategori: ' + categoryText,
+                                '• Produk: ' + productText,
+                            ];
+
+                            if (materials.length > 0) {
+                                lines.push('• Pilihan Bahan: ' + materials.join(', '));
+                            }
+
+                            lines.push('');
+                            lines.push('📏 *RINCIAN UKURAN & JUMLAH*');
+                            lines.push(sizeBreakdown.join('\n'));
+                            lines.push('*Total Kuantitas:* ' + totalQty + ' pcs');
+                            lines.push('');
+                            lines.push('💰 *ESTIMASI TOTAL AWAL:* ' + totalLabel);
+                            lines.push('*(Estimasi dasar, harga final & DP disepakati bersama)*');
+
+                            if (notes) {
+                                lines.push('');
+                                lines.push('📝 *CATATAN TAMBAHAN:*');
+                                lines.push(notes);
+                            }
+
+                            if (designFile) {
+                                lines.push('');
+                                lines.push('📸 *LAMPIRAN DESAIN:*');
+                                lines.push('File: ' + designFile.name + ' (akan saya kirimkan gambarnya langsung di chat ini)');
+                            }
+
+                            lines.push('');
+                            lines.push('Mohon informasi ketersediaan slot produksi dan kalkulasi harga finalnya. Terima kasih!');
+
+                            const waUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(lines.join('\n'));
+                            window.location.href = waUrl;
                         });
                     })();
                 </script>
