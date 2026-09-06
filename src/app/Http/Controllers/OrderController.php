@@ -7,9 +7,11 @@ use App\Models\Bahan;
 use App\Models\Pemesanan;
 use App\Models\Produk;
 use App\Support\CustomerCatalog;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Throwable;
 
@@ -141,6 +143,31 @@ class OrderController extends Controller
 
         return view('customer.order.pdf', [
             'order' => $order,
+        ]);
+    }
+
+    public function uploadDesign(Request $request): JsonResponse
+    {
+        $request->validate([
+            'upload_design' => ['required', 'file', 'mimes:jpg,jpeg,png,webp,pdf', 'max:5120'],
+        ]);
+
+        $file = $request->file('upload_design');
+
+        try {
+            $disk = config('filesystems.default', 'supabase');
+            $path = $file->store('designs', $disk);
+            $url = Storage::disk($disk)->url($path);
+        } catch (Throwable $e) {
+            report($e);
+            $path = $file->store('designs', 'public');
+            $url = asset('storage/'.$path);
+        }
+
+        return response()->json([
+            'success' => true,
+            'url' => $url,
+            'filename' => $file->getClientOriginalName(),
         ]);
     }
 }
