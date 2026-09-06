@@ -147,6 +147,45 @@ Login di `/login`. Field form bernama `email`, tetapi autentikasi mencoba kolom 
 
 ---
 
+## Sustainable Development Goals (SDGs)
+
+Tigabenang berkontribusi pada SDG secara tidak langsung: aplikasi memfasilitasi digitalisasi proses bisnis vendor pakaian custom. Kontribusi ini bersifat pendukung, bukan klaim bahwa aplikasi secara langsung mencapai target SDG.
+
+| SDG | Relevansi dengan Tigabenang |
+|---|---|
+| SDG 8 | Digitalisasi proses bisnis vendor pakaian custom dan dukungan terhadap aktivitas usaha |
+| SDG 9 | Pemanfaatan teknologi digital, Docker, dan Virtual Fitting 3D |
+
+### SDG 8 — Pekerjaan Layak dan Pertumbuhan Ekonomi
+
+Tigabenang mendukung SDG 8 melalui pemanfaatan teknologi digital untuk membantu proses bisnis vendor pakaian custom, khususnya dalam pengelolaan katalog, permintaan produksi, komunikasi dengan pelanggan, dan pengelolaan pesanan.
+
+Hubungan yang sesuai dengan implementasi saat ini:
+
+- Membantu digitalisasi proses bisnis vendor pakaian custom.
+- Membuat proses permintaan produksi lebih terstruktur lewat formulir pesanan, PDF konsultasi, dan portal admin.
+- Membantu vendor/UMKM menjalankan proses katalog dan pesanan melalui platform digital.
+- Mempermudah komunikasi antara pelanggan dan vendor melalui alur konsultasi WhatsApp.
+- Membantu pengelolaan pesanan dan faktur di sisi admin.
+- Membuka peluang pemanfaatan teknologi dalam aktivitas usaha pakaian custom.
+
+Aplikasi ini tidak diklaim menciptakan lapangan kerja secara langsung, menjamin pekerjaan layak, meningkatkan pendapatan secara terukur, menambah jumlah UMKM, atau meningkatkan ekonomi daerah.
+
+### SDG 9 — Industri, Inovasi dan Infrastruktur
+
+Tigabenang berkontribusi pada SDG 9 dari sisi industri, inovasi teknologi, dan digitalisasi proses — bukan pembangunan infrastruktur skala besar.
+
+Bentuk kontribusinya:
+
+- pengembangan platform digital untuk bisnis pakaian custom;
+- penggunaan Laravel dan PostgreSQL;
+- Docker sebagai lingkungan pengembangan;
+- Vite untuk frontend;
+- Three.js untuk visualisasi 3D;
+- Virtual Fitting sebagai pemanfaatan teknologi 3D agar pelanggan mendapat pratinjau pakaian.
+
+---
+
 ## 3. Teknologi yang digunakan
 
 | Lapisan | Teknologi | Keterangan |
