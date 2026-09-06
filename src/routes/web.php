@@ -44,12 +44,14 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::match(['get', 'post'], '/logout', [LoginController::class, 'logout'])->name('logout');
 
 // ==========================================
 // 3. ADMIN VENDOR DASHBOARD ROUTES
 // ==========================================
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::redirect('/admin', '/admin/dashboard');
+
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     // Overview Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
