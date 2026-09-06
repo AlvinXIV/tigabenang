@@ -240,20 +240,20 @@
     @endif
 
     <section
-        class="fv-services border-y border-[#E2E5E9]"
-        style="background-image: linear-gradient(180deg, rgba(247, 247, 245, 0.93) 0%, rgba(247, 247, 245, 0.88) 50%, rgba(247, 247, 245, 0.95) 100%), url('{{ asset('images/bgproduksi.jpg') }}'); background-size: cover; background-position: center;"
+        class="fv-services border-y border-[#E2E5E9] bg-[#F7F7F5] relative py-16 sm:py-20 text-[#102A43]"
+        style="background-image: linear-gradient(180deg, rgba(247, 247, 245, 0.94) 0%, rgba(247, 247, 245, 0.90) 50%, rgba(247, 247, 245, 0.96) 100%), url('{{ asset('images/bgproduksi.jpg') }}'); background-size: cover; background-position: center;"
     >
-        <div class="fv-services__inner">
-            <div class="fv-services__intro">
-                <span class="section-badge mb-3">Layanan produksi</span>
-                <h2 class="fv-services__title mt-1">
+        <div class="fv-services__inner max-w-[1120px] mx-auto px-5">
+            <div class="fv-services__intro text-center max-w-[36rem] mx-auto mb-10">
+                <span class="section-badge mb-3 inline-flex items-center text-xs font-semibold text-[#667085] tracking-wide">Layanan produksi</span>
+                <h2 class="fv-services__title mt-1 text-[clamp(1.875rem,3vw,2.25rem)] font-bold text-[#102A43] tracking-tight leading-tight">
                     Pesanan custom untuk berbagai kebutuhan
                 </h2>
-                <p class="fv-services__lead">
+                <p class="fv-services__lead mt-3 text-base font-normal text-[#667085] leading-relaxed">
                     Pilihan produksi pakaian berkualitas sesuai kebutuhan tim dan organisasi Anda.
                 </p>
             </div>
-            <div class="fv-services__grid">
+            <div class="fv-services__grid grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-x-16 md:gap-y-10 justify-items-center md:justify-center">
                 @php
                     $services = [
                         ['title' => 'Jaket dan outerwear angkatan', 'desc' => 'Varsity, windbreaker, work jacket, dan hoodie dengan bordir atau sablon sesuai identitas tim.', 'icon' => 'jacket'],
@@ -263,8 +263,8 @@
                     ];
                 @endphp
                 @foreach ($services as $s)
-                    <div class="fv-services__item">
-                        <div class="fv-services__icon" aria-hidden="true">
+                    <div class="fv-services__item flex items-center gap-4 w-full max-w-[480px]">
+                        <div class="fv-services__icon flex w-[46px] h-[46px] shrink-0 items-center justify-center rounded-[10px] border border-[#E2E5E9] bg-white text-[#102A43] shadow-xs" aria-hidden="true">
                             @if ($s['icon'] === 'jacket')
                                 <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 4 4 7v13h5v-6h6v6h5V7l-4-3-3 3-3-3Z"/>
@@ -285,9 +285,9 @@
                                 </svg>
                             @endif
                         </div>
-                        <div class="fv-services__copy">
-                            <h3>{{ $s['title'] }}</h3>
-                            <p>{{ $s['desc'] }}</p>
+                        <div class="fv-services__copy min-w-0 max-w-[360px] text-left">
+                            <h3 class="m-0 text-base font-semibold leading-snug text-[#102A43]">{{ $s['title'] }}</h3>
+                            <p class="mt-1.5 text-sm leading-relaxed text-[#667085]">{{ $s['desc'] }}</p>
                         </div>
                     </div>
                 @endforeach
