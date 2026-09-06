@@ -14,14 +14,14 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $profile = [
-            'company_name' => 'Tigabenang Apparel & Confection',
+            'company_name' => 'FitVendor Apparel & Confection',
             'tagline' => 'Solusi Vendor Pakaian Berkualitas dengan Teknologi Fitting 3D',
-            'description' => 'Tigabenang adalah vendor konveksi dan manufaktur garmen modern yang melayani produksi jaket, hoodie, kaos kustom, jersey, dan seragam kemeja untuk instansi, korporat, komunitas, serta brand lokal. Dilengkapi teknologi 3D Virtual Fitting untuk akurasi ukuran maksimal.',
+            'description' => 'FitVendor adalah vendor konveksi dan manufaktur garmen modern yang melayani produksi jaket, hoodie, kaos kustom, jersey, dan seragam kemeja untuk instansi, korporat, komunitas, serta brand lokal. Dilengkapi teknologi 3D Virtual Fitting untuk akurasi ukuran maksimal.',
             'address' => 'Jl. Industri Kreatif No. 88, Cibaduyut, Bandung, Jawa Barat 40235',
             'phone' => '+62 22 7890 1234',
             'whatsapp' => '0812-3456-7890',
-            'email' => $user ? $user->email : 'admin@tigabenang.com',
-            'name' => $user ? $user->name : 'Admin Tigabenang',
+            'email' => $user ? $user->email : 'admin@fitvendor.id',
+            'name' => $user ? $user->name : 'Admin FitVendor',
         ];
 
         return view('admin.profile.index', compact('profile', 'user'));
