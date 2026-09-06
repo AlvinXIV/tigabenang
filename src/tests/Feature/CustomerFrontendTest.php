@@ -26,7 +26,8 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('images/profile1.jpg', false)
             ->assertSee('images/profile8.jpg', false)
             ->assertSee('images/virtual.jpg', false)
-            ->assertDontSee('virtual-fitting-teaser.jpg');
+            ->assertDontSee('virtual-fitting-teaser.jpg')
+            ->assertSee('aria-label="Konsultasikan pesanan"', false);
         $this->get('/collection')->assertOk();
         $this->get('/materials')->assertOk();
         $this->get('/virtual-fitting')
@@ -44,7 +45,13 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('images/tentang4.jpg', false)
             ->assertSee(config('fitvendor.contact.email'));
 
-        $this->get('/order/create')->assertOk();
+        $this->get('/order/create')
+            ->assertOk()
+            ->assertDontSee('aria-label="Konsultasikan pesanan"', false);
+
+        $this->get('/form-pemesanan')
+            ->assertOk()
+            ->assertDontSee('aria-label="Konsultasikan pesanan"', false);
     }
 
     public function test_collection_show_and_order_validation(): void
