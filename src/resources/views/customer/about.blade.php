@@ -508,17 +508,6 @@
                         </div>
                     @endif
                 </div>
-
-                <div class="mt-8 flex flex-wrap gap-3">
-                    @if ($whatsappHref)
-                        <a href="{{ $whatsappHref }}" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex">
-                            Hubungi melalui WhatsApp
-                        </a>
-                    @endif
-                    <a href="{{ route('order.create') }}" class="btn-outline inline-flex">
-                        Mulai permintaan
-                    </a>
-                </div>
             </div>
         </section>
     </div>
