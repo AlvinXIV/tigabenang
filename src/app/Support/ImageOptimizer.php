@@ -32,20 +32,29 @@ class ImageOptimizer
         }
 
         $webpRelativePath = self::getWebpRelativePath($storageRelativePath);
-        $isCloud = false;
+        $isCloud = in_array($disk, ['supabase', 's3']) || in_array(config("filesystems.disks.{$disk}.driver"), ['s3', 'ftp', 'sftp']);
         $sourceFullPath = '';
         $targetFullPath = '';
 
-        try {
-            $sourceFullPath = $storage->path($storageRelativePath);
-            $targetFullPath = $storage->path($webpRelativePath);
+        if (! $isCloud) {
+            try {
+                $sourceFullPath = $storage->path($storageRelativePath);
+                $targetFullPath = $storage->path($webpRelativePath);
 
-            $targetDir = dirname($targetFullPath);
-            if (! is_dir($targetDir)) {
-                @mkdir($targetDir, 0755, true);
+                if (! file_exists($sourceFullPath)) {
+                    $isCloud = true;
+                } else {
+                    $targetDir = dirname($targetFullPath);
+                    if (! is_dir($targetDir)) {
+                        @mkdir($targetDir, 0755, true);
+                    }
+                }
+            } catch (\Throwable $e) {
+                $isCloud = true;
             }
-        } catch (\Throwable $e) {
-            $isCloud = true;
+        }
+
+        if ($isCloud) {
             $tempDir = sys_get_temp_dir();
             $sourceFullPath = $tempDir . '/' . uniqid('img_src_', true) . '.' . $extension;
             $targetFullPath = $tempDir . '/' . uniqid('img_dst_', true) . '.webp';
@@ -91,12 +100,28 @@ class ImageOptimizer
                     imagedestroy($image);
 
                     if ($saved && file_exists($targetFullPath) && filesize($targetFullPath) > 0) {
-                        @chmod($targetFullPath, 0644);
+                        if ($isCloud) {
+                            $storage->put($webpRelativePath, file_get_contents($targetFullPath));
+                            @unlink($sourceFullPath);
+                            @unlink($targetFullPath);
+                        } else {
+                            @chmod($targetFullPath, 0644);
+                        }
+
                         return $webpRelativePath;
                     }
                 }
             } catch (\Throwable $e) {
                 Log::warning("ImageOptimizer: GD fallback error: " . $e->getMessage());
+            }
+        }
+
+        if ($isCloud) {
+            if (file_exists($sourceFullPath)) {
+                @unlink($sourceFullPath);
+            }
+            if (file_exists($targetFullPath)) {
+                @unlink($targetFullPath);
             }
         }
 

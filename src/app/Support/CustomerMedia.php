@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use Illuminate\Support\Facades\Storage;
+
 class CustomerMedia
 {
     /**
@@ -18,6 +20,11 @@ class CustomerMedia
      * @var array<string, ?string>
      */
     private static array $imageUrlCache = [];
+
+    /**
+     * @var array<string, bool>
+     */
+    private static array $cloudFileExistsCache = [];
 
     /**
      * Local dummy images for the current 8-product development catalog.
@@ -108,7 +115,50 @@ class CustomerMedia
             return self::imageUrl($cleanPath);
         }
 
-        return self::imageUrl($webpCandidate);
+        $normalized = ltrim($webpCandidate, '/');
+
+        // Check local files first
+        if (self::fileExists(public_path($normalized))) {
+            return self::$imageUrlCache[$webpCandidate] = self::browserUrl($normalized);
+        }
+
+        if (self::fileExists(public_path('storage/'.$normalized))) {
+            return self::$imageUrlCache[$webpCandidate] = self::browserUrl('storage/'.$normalized);
+        }
+
+        if (self::fileExists(storage_path('app/public/'.$normalized))) {
+            return self::$imageUrlCache[$webpCandidate] = self::browserUrl('storage/'.$normalized);
+        }
+
+        // For cloud storage: only return WebP URL if the file actually exists in storage
+        $cloudUrl = config('filesystems.disks.supabase.url') ?: config('filesystems.disks.s3.url');
+        if ($cloudUrl && (str_starts_with($normalized, 'models3d/') || str_starts_with($normalized, 'produk/') || str_starts_with($normalized, 'designs/'))) {
+            $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+            if (self::cloudFileExists($normalized, $disk)) {
+                return self::$imageUrlCache[$webpCandidate] = rtrim($cloudUrl, '/').'/'.$normalized;
+            }
+
+            return null;
+        }
+
+        return null;
+    }
+
+    public static function cloudFileExists(string $relativePath, ?string $disk = null): bool
+    {
+        $normalized = ltrim($relativePath, '/');
+        $disk = $disk ?: (in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public');
+
+        $cacheKey = $disk . ':' . $normalized;
+        if (isset(self::$cloudFileExistsCache[$cacheKey])) {
+            return self::$cloudFileExistsCache[$cacheKey];
+        }
+
+        try {
+            return self::$cloudFileExistsCache[$cacheKey] = Storage::disk($disk)->exists($normalized);
+        } catch (\Throwable $e) {
+            return self::$cloudFileExistsCache[$cacheKey] = false;
+        }
     }
 
     public static function productWebpUrl(object|int $produk, ?string $gambar = null): ?string
