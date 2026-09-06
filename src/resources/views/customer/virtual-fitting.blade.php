@@ -73,12 +73,10 @@
                 </div>
 
                 <div class="absolute right-4 top-4">
-                    <span
-                        class="inline-flex items-center rounded-[8px] border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-semibold text-[#102A43] shadow-[0_1px_2px_rgba(28,36,48,0.04)]"
-                        data-fitting-match
-                    >
-                        Memeriksa ukuran
-                    </span>
+                    <div class="inline-flex items-center gap-1.5 rounded-[8px] border border-[#C7DDD2] bg-[#E8F3EE] px-3 py-1.5 text-xs font-semibold text-[#102A43] shadow-[0_1px_2px_rgba(28,36,48,0.04)]">
+                        <span class="text-[#667085]">Saran Ukuran:</span>
+                        <span class="font-bold text-[#3F7A62]" data-fitting-match>Memuat...</span>
+                    </div>
                 </div>
 
                 <p
@@ -194,7 +192,7 @@
                                     Uji ukuran pakaian
                                 </label>
                                 <span class="rounded-[8px] border border-[#E2E5E9] bg-[#F7F7F5] px-2.5 py-0.5 text-[11px] font-semibold text-[#102A43]" data-fitting-size-label>
-                                    Auto: <span data-fitting-size>M</span>
+                                    Ukuran: <span data-fitting-size class="font-bold text-[#102A43]">M</span>
                                 </span>
                             </div>
 
@@ -206,26 +204,31 @@
                                 <button type="button" data-size="XXL" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#102A43]">XXL</button>
                             </div>
                             <p class="mt-2 text-[11px] text-[#667085]">
-                                Pilih ukuran untuk melihat perubahan ketat, pas, atau longgar.
+                                Pilih ukuran untuk melihat tampilan baju secara langsung pada avatar.
                             </p>
                         </div>
 
-                        <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-4">
-                            <p class="mb-2 text-xs font-semibold text-[#667085]">Analisis tekanan tubuh</p>
-                            <ul class="space-y-1.5 text-xs" data-fitting-heatmap>
-                                <li class="flex items-center justify-between border-b border-[#E2E5E9] py-1">
-                                    <span class="font-semibold text-[#102A43]">Dada</span>
-                                    <span class="text-xs font-medium text-[#667085]">Memeriksa</span>
-                                </li>
-                                <li class="flex items-center justify-between border-b border-[#E2E5E9] py-1">
-                                    <span class="font-semibold text-[#102A43]">Bahu</span>
-                                    <span class="text-xs font-medium text-[#667085]">Memeriksa</span>
-                                </li>
-                                <li class="flex items-center justify-between py-1">
-                                    <span class="font-semibold text-[#102A43]">Pinggang</span>
-                                    <span class="text-xs font-medium text-[#667085]">Memeriksa</span>
-                                </li>
-                            </ul>
+                        <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-4" data-fitting-recommendation-card>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-[#102A43]">Saran Ukuran Pakaian</span>
+                                <span class="rounded-[8px] bg-[#102A43] px-2.5 py-1 text-xs font-bold text-white shadow-sm" data-fitting-recommended-badge>
+                                    Memuat...
+                                </span>
+                            </div>
+                            <p class="mt-2 text-xs leading-relaxed text-[#667085]" data-fitting-recommended-reason>
+                                Menyesuaikan rekomendasi ukuran terbaik berdasarkan postur tubuh Anda...
+                            </p>
+                            <div class="mt-3 rounded-[8px] bg-white p-2.5 border border-[#E2E5E9]" data-fitting-active-note-box>
+                                <p class="text-xs leading-relaxed text-[#102A43]" data-fitting-active-note>
+                                    Memeriksa ukuran aktif...
+                                </p>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between border-t border-[#E2E5E9] pt-3">
+                                <span class="text-[11px] text-[#667085]">Ukuran aktif: <strong class="text-[#102A43]" data-fitting-active-size-label>-</strong></span>
+                                <button type="button" data-fitting-apply-recommended class="cursor-pointer text-xs font-semibold text-[#3F7A62] hover:underline">
+                                    Gunakan saran ini
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -234,27 +237,55 @@
                         data-fitting-panel="body"
                         role="tabpanel"
                     >
-                        <p class="mb-4 text-xs font-semibold text-[#667085]">Ukuran tubuh</p>
+
+                        <div class="mb-3 flex items-center justify-between">
+                            <p class="text-xs font-semibold text-[#667085]">Ukuran tubuh</p>
+                            <button
+                                type="button"
+                                data-fitting-reset-btn
+                                class="inline-flex items-center gap-1 text-[11px] font-medium text-[#3F7A62] hover:text-[#2D5A47] hover:underline cursor-pointer transition-colors"
+                                title="Kembalikan semua variabel ke ukuran standar baseline"
+                            >
+                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                                Reset ke Standar
+                            </button>
+                        </div>
+
+
 
                         <div class="space-y-3.5">
 
                             @php
                                 $inputs = [
-                                    ['id' => 'fitting-height',       'label' => 'Tinggi badan',     'attr' => 'data-fitting-height',       'min' => 140, 'max' => 210, 'value' => 170],
-                                    ['id' => 'fitting-chest',        'label' => 'Lingkar dada',     'attr' => 'data-fitting-chest',        'min' => 70,  'max' => 150, 'value' => 92],
-                                    ['id' => 'fitting-waist',        'label' => 'Lingkar pinggang', 'attr' => 'data-fitting-waist',        'min' => 60,  'max' => 140, 'value' => 76],
-                                    ['id' => 'fitting-hip',          'label' => 'Lingkar pinggul',  'attr' => 'data-fitting-hip',          'min' => 70,  'max' => 150, 'value' => 96],
-                                    ['id' => 'fitting-shoulder',     'label' => 'Lebar bahu',       'attr' => 'data-fitting-shoulder',     'min' => 30,  'max' => 60,  'value' => 44],
-                                    ['id' => 'fitting-arm-length',   'label' => 'Panjang lengan',   'attr' => 'data-fitting-arm-length',   'min' => 40,  'max' => 80,  'value' => 58],
-                                    ['id' => 'fitting-torso-length', 'label' => 'Panjang torso',    'attr' => 'data-fitting-torso-length', 'min' => 30,  'max' => 60,  'value' => 44],
+                                    ['id' => 'fitting-height',       'label' => 'Tinggi badan',     'attr' => 'data-fitting-height',       'min' => 140, 'max' => 210, 'value' => 170, 'hasAuto' => true],
+                                    ['id' => 'fitting-chest',        'label' => 'Lingkar dada',     'attr' => 'data-fitting-chest',        'min' => 70,  'max' => 150, 'value' => 92,  'hasAuto' => false],
+                                    ['id' => 'fitting-waist',        'label' => 'Lingkar pinggang', 'attr' => 'data-fitting-waist',        'min' => 60,  'max' => 140, 'value' => 76,  'hasAuto' => false],
+                                    ['id' => 'fitting-hip',          'label' => 'Lingkar pinggul',  'attr' => 'data-fitting-hip',          'min' => 70,  'max' => 150, 'value' => 96,  'hasAuto' => false],
+                                    ['id' => 'fitting-shoulder',     'label' => 'Lebar bahu',       'attr' => 'data-fitting-shoulder',     'min' => 30,  'max' => 60,  'value' => 44,  'hasAuto' => false],
+                                    ['id' => 'fitting-arm-length',   'label' => 'Panjang lengan',   'attr' => 'data-fitting-arm-length',   'min' => 40,  'max' => 80,  'value' => 58,  'hasAuto' => false],
+                                    ['id' => 'fitting-torso-length', 'label' => 'Panjang torso',    'attr' => 'data-fitting-torso-length', 'min' => 30,  'max' => 60,  'value' => 44,  'hasAuto' => false],
                                 ];
                             @endphp
 
                             @foreach ($inputs as $inp)
                                 <div>
-                                    <label for="{{ $inp['id'] }}" class="mb-1 block text-xs font-semibold text-[#102A43]">
-                                        {{ $inp['label'] }}
-                                    </label>
+                                    <div class="mb-1 flex items-center justify-between">
+                                        <label for="{{ $inp['id'] }}" class="block text-xs font-semibold text-[#102A43]">
+                                            {{ $inp['label'] }}
+                                        </label>
+                                        @if (!empty($inp['hasAuto']))
+                                            <button
+                                                type="button"
+                                                data-fitting-auto-proportions
+                                                class="text-[10px] font-medium text-[#3F7A62] hover:text-[#2D5A47] hover:underline cursor-pointer"
+                                                title="Hitung proporsi dada, pinggang, dan bahu otomatis sesuai tinggi badan ini"
+                                            >
+                                                ✦ Proporsikan otomatis dari tinggi
+                                            </button>
+                                        @endif
+                                    </div>
                                     <div class="relative">
                                         <input
                                             id="{{ $inp['id'] }}"
