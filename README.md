@@ -351,90 +351,260 @@ Batas unggah PHP dan Nginx: **20MB**.
 
 ---
 
-## 8. Cara instalasi
+## 8. Cara Instalasi
 
-Prasyarat: Docker Desktop, atau Docker Engine + Compose.
+Pastikan perangkat sudah memiliki:
 
-### Langkah 1 — Environment
+- Git
+- Docker Desktop, atau Docker Engine + Docker Compose
 
-Compose membaca `.env` di **root**, bukan di `src/`.
+Node.js dan PHP tidak wajib dipasang langsung di komputer karena dependency dan runtime aplikasi dijalankan melalui Docker.
 
-Windows:
+### Langkah 1 — Clone Repository
+
+Clone repository terlebih dahulu:
 
 ```bash
+git clone <URL_REPOSITORY>
+cd tigabenang
+```
+
+Jalankan seluruh perintah berikut dari **root repository**, yaitu folder yang berisi `docker-compose.yml`.
+
+### Langkah 2 — Konfigurasi Environment
+
+Project menggunakan file `.env` yang berada di **root repository**.
+
+Buat `.env` dari file contoh.
+
+#### Windows
+
+```powershell
 copy src\.env.example .env
 ```
 
-Linux / macOS:
+#### Linux / macOS
 
 ```bash
 cp src/.env.example .env
 ```
 
-Isi yang perlu dicek:
+Kemudian sesuaikan konfigurasi yang diperlukan.
 
-- `APP_KEY` (dibuat setelah container `app` hidup)
-- `APP_URL` (lokal: `http://localhost:8000`)
-- `DB_CONNECTION=pgsql` beserta host, port, database, username, password, dan `DB_SSLMODE` jika remote
-- `WHATSAPP_NUMBER`, `WHATSAPP_MESSAGE`
-- `FITVENDOR_EMAIL` — **nama key teknis**; nilai yang tampil ke pengguna default-nya `hello@tigabenang.id`
+Beberapa variabel penting yang perlu diperiksa:
+
+- `APP_KEY`
+- `APP_URL=http://localhost:8000`
+- `DB_CONNECTION=pgsql`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `DB_SSLMODE` jika menggunakan database remote
+- `WHATSAPP_NUMBER`
+- `WHATSAPP_MESSAGE`
+- `FITVENDOR_EMAIL`
 - `FITVENDOR_LOCATION`
-- kredensial Supabase Storage jika disk `supabase` dipakai
+- konfigurasi Supabase Storage jika menggunakan disk `supabase`
 
-### Langkah 2 — Nyalakan backend
+> Jangan memasukkan password, API key, atau credential rahasia ke repository.
+
+Docker Compose me-mount `.env` dari root repository ke container Laravel sehingga aplikasi dapat membaca konfigurasi environment tersebut.
+
+### Langkah 3 — Menyalakan Container
+
+Jalankan Docker Compose:
 
 ```bash
 docker compose up -d
+```
+
+Periksa status service:
+
+```bash
 docker compose ps
 ```
 
-Yang aktif: `app`, `nginx`, `postgres`, `pgadmin`.
+Service utama yang digunakan:
 
-### Langkah 3 — Dependency PHP
+- `app` — Laravel dan PHP-FPM
+- `nginx` — web server
+- `postgres` — PostgreSQL lokal Docker
+- `pgadmin` — antarmuka administrasi database
+- `node` — environment frontend dengan profile `vite`
+
+Service `node` menggunakan Compose profile `vite`, sehingga tidak selalu aktif ketika hanya menjalankan `docker compose up -d`.
+
+### Langkah 4 — Install Dependency PHP
+
+Jalankan dependency Laravel melalui container `app`:
 
 ```bash
 docker compose exec app composer install
+```
+
+Buat application key apabila belum tersedia:
+
+```bash
 docker compose exec app php artisan key:generate
+```
+
+Kemudian bersihkan konfigurasi Laravel:
+
+```bash
 docker compose exec app php artisan config:clear
 ```
 
-Pastikan folder ini dapat ditulis:
+Pastikan direktori runtime Laravel berikut tersedia dan dapat ditulis:
 
-- `src/storage/framework/views`
-- `src/storage/framework/cache`
-- `src/storage/framework/sessions`
-- `src/bootstrap/cache`
+```text
+src/storage/framework/views
+src/storage/framework/cache
+src/storage/framework/sessions
+src/bootstrap/cache
+```
 
-### Langkah 4 — Dependency frontend
+### Langkah 5 — Install Dependency Frontend
 
-Hanya di container `node`:
+**Jangan menjalankan `npm install` di container `app`.**
+
+Dependency frontend dijalankan melalui container `node` dengan profile `vite`.
+
+Install package:
 
 ```bash
 docker compose --profile vite run --rm node npm install
+```
+
+Kemudian buat production build:
+
+```bash
 docker compose --profile vite run --rm node npm run build
 ```
 
-Hasil build ada di `src/public/build`. Setelah build, `http://localhost:8000` dapat berjalan tanpa Vite.
+Hasil build tersedia di:
 
-### Langkah 5 — Database
+```text
+src/public/build
+```
 
-Hanya jalankan jika database tujuan masih kosong dan Anda memang ingin menerapkan schema/seeder:
+Setelah proses build selesai, aplikasi dapat menggunakan asset production tanpa menjalankan Vite development server.
+
+Untuk menjalankan frontend dalam mode development dengan hot reload:
+
+```bash
+docker compose --profile vite up -d
+docker compose exec node npm run dev -- --host 0.0.0.0
+```
+
+### Langkah 6 — Konfigurasi Database
+
+Tigabenang menggunakan PostgreSQL.
+
+Database dapat menggunakan:
+
+- PostgreSQL lokal melalui service Docker `postgres`
+- PostgreSQL remote atau Supabase sesuai konfigurasi pada `.env`
+
+Pastikan nilai `DB_*` pada `.env` sesuai dengan database yang digunakan.
+
+Jika database tujuan masih kosong dan memang perlu dibuat dari schema project, migration dan seeder dapat dijalankan secara manual:
 
 ```bash
 docker compose exec app php artisan migrate
 docker compose exec app php artisan db:seed
 ```
 
-Seeder mengisi akun admin, 5 kategori, 6 bahan, size chart, 8 produk contoh, relasi bahan, dan beberapa pesanan contoh.
+Seeder menyediakan data awal seperti:
 
-Akun seeder:
+- akun admin
+- kategori pakaian
+- bahan
+- size chart
+- produk contoh
+- relasi bahan
+- data pesanan contoh
 
-| Field | Nilai |
-|---|---|
-| Username | `admin` |
-| Password | `password123` |
+> Jalankan migration dan seeder hanya pada database yang memang disiapkan untuk setup baru.
 
----
+> Jangan gunakan `php artisan migrate:fresh` pada database yang sudah digunakan karena command tersebut akan menghapus tabel dan data yang ada.
+
+### Langkah 7 — Menjalankan Aplikasi
+
+Setelah container dan dependency siap, buka:
+
+```text
+http://localhost:8000
+```
+
+Health check Laravel tersedia di:
+
+```text
+http://localhost:8000/up
+```
+
+Halaman login:
+
+```text
+http://localhost:8000/login
+```
+
+pgAdmin:
+
+```text
+http://localhost:8080
+```
+
+### Langkah 8 — Menjalankan Test
+
+Jalankan seluruh test Laravel:
+
+```bash
+docker compose exec app php artisan test
+```
+
+Jika diperlukan, bersihkan konfigurasi terlebih dahulu:
+
+```bash
+docker compose exec app php artisan config:clear
+```
+
+### Ringkasan Setup
+
+Urutan setup yang direkomendasikan:
+
+```text
+Clone repository
+      ↓
+Siapkan .env di root
+      ↓
+docker compose up -d
+      ↓
+composer install
+      ↓
+php artisan key:generate
+      ↓
+php artisan config:clear
+      ↓
+npm install melalui container node
+      ↓
+npm run build
+      ↓
+Pastikan database sesuai konfigurasi .env
+      ↓
+Buka http://localhost:8000
+```
+
+Untuk pengembangan frontend dengan hot reload:
+
+```text
+docker compose --profile vite up -d
+      ↓
+docker compose exec node npm run dev -- --host 0.0.0.0
+      ↓
+http://localhost:8000
+```
 
 ## 9. Cara penggunaan
 
