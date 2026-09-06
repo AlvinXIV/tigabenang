@@ -1,3 +1,4 @@
+@if (! request()->routeIs('order.*', 'deal-order.*') && ! request()->is('order*', 'form-pemesanan*'))
 <a
     href="{{ route('order.create') }}"
     class="fixed right-5 bottom-5 z-[90] inline-flex min-h-12 items-center gap-2.5 rounded-[10px] bg-[#102A43] px-4 py-2.5 text-sm font-semibold text-white no-underline shadow-[0_4px_16px_rgba(16,42,67,0.25)] transition-all duration-200 hover:bg-[#1C3D5A] hover:shadow-[0_8px_24px_rgba(16,42,67,0.35)] hover:-translate-y-0.5"
@@ -8,3 +9,5 @@
     </svg>
     <span>Konsultasikan pesanan</span>
 </a>
+@endif
+
