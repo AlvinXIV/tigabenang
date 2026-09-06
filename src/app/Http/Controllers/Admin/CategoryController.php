@@ -22,21 +22,27 @@ class CategoryController extends Controller
         return view('admin.categories.index', compact('categories', 'materials', 'summary'));
     }
 
+    public function create()
+    {
+        $type = request('type', 'kategori');
+        return view('admin.categories.create', compact('type'));
+    }
+
     public function store(Request $request)
     {
-        if ($request->has('type') && $request->type === 'bahan') {
+        if ($request->has('type') && ($request->type === 'bahan' || $request->type === 'material')) {
             $validated = $request->validate([
                 'nama_bahan' => 'required|string|max:255',
             ]);
-            Bahan::create(['nama_bahan' => $validated['nama_bahan']]);
-            return redirect()->route('admin.kategori.index')->with('success', 'Material kain baru berhasil ditambahkan!');
+            Bahan::create(['nama_bahan' => trim($validated['nama_bahan'])]);
+            return redirect()->route('admin.kategori.index', ['tab' => 'material'])->with('success', 'Material kain baru berhasil ditambahkan!');
         }
 
         $validated = $request->validate([
             'nama_kategori' => 'required|string|max:255',
         ]);
 
-        Kategori::create(['nama_kategori' => $validated['nama_kategori']]);
+        Kategori::create(['nama_kategori' => trim($validated['nama_kategori'])]);
 
         return redirect()->route('admin.kategori.index')->with('success', 'Kategori produk baru berhasil ditambahkan!');
     }

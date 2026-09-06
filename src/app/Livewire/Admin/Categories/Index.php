@@ -14,12 +14,6 @@ class Index extends Component
     public string $searchKategori = '';
     public string $searchMaterial = '';
 
-    // Add forms
-    public bool $addKategoriOpen = false;
-    public string $nama_kategori = '';
-
-    public bool $addMaterialOpen = false;
-    public string $nama_bahan = '';
 
     // Edit states
     public ?int $editingKategoriId = null;
@@ -51,20 +45,6 @@ class Index extends Component
         $this->searchMaterial = '';
     }
 
-    public function saveKategori()
-    {
-        $this->validate([
-            'nama_kategori' => 'required|string|max:255',
-        ]);
-
-        Kategori::create([
-            'nama_kategori' => trim($this->nama_kategori),
-        ]);
-
-        $this->nama_kategori = '';
-        $this->addKategoriOpen = false;
-        $this->feedbackMessage = 'Kategori produk baru berhasil ditambahkan!';
-    }
 
     public function startEditKategori(int $id, string $name)
     {
@@ -99,20 +79,6 @@ class Index extends Component
         $this->feedbackMessage = 'Kategori berhasil dihapus.';
     }
 
-    public function saveMaterial()
-    {
-        $this->validate([
-            'nama_bahan' => 'required|string|max:255',
-        ]);
-
-        Bahan::create([
-            'nama_bahan' => trim($this->nama_bahan),
-        ]);
-
-        $this->nama_bahan = '';
-        $this->addMaterialOpen = false;
-        $this->feedbackMessage = 'Material kain baru berhasil ditambahkan!';
-    }
 
     public function startEditBahan(int $id, string $name)
     {

@@ -1,0 +1,88 @@
+@extends('layouts.admin')
+
+@section('title', 'Tambah ' . ($type === 'bahan' ? 'Material' : 'Kategori'))
+
+@section('content')
+<div class="space-y-6 max-w-2xl mx-auto">
+
+    <!-- TOP HEADER -->
+    <div class="pb-5 border-b border-[#E2E5E9]">
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#102A43] tracking-tight">
+            Tambah {{ $type === 'bahan' ? 'Material Kain' : 'Kategori' }}
+        </h1>
+        <p class="text-xs sm:text-sm text-[#667085] mt-1">
+            {{ $type === 'bahan' ? 'Tambahkan jenis bahan kain baru untuk katalog kurasi atelier.' : 'Tambahkan klasifikasi baru untuk katalog busana atelier.' }}
+        </p>
+    </div>
+
+    <form
+        id="category-create-form"
+        action="{{ route('admin.kategori.store') }}"
+        method="POST"
+        class="admin-card p-6 sm:p-8 space-y-5"
+        x-data="{ isSubmitting: false }"
+        @submit="isSubmitting = true"
+    >
+        @csrf
+
+        @if ($type === 'bahan')
+            <input type="hidden" name="type" value="bahan" />
+            <div>
+                <label for="nama_bahan" class="block text-xs font-semibold text-[#102A43] mb-1.5">
+                    Nama Material Kain <span class="text-rose-500">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="nama_bahan"
+                    name="nama_bahan"
+                    value="{{ old('nama_bahan') }}"
+                    required
+                    autofocus
+                    placeholder="Contoh: Cotton Combed 30s, Fleece Taiwan"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
+                />
+                @error('nama_bahan')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
+            </div>
+        @else
+            <div>
+                <label for="nama_kategori" class="block text-xs font-semibold text-[#102A43] mb-1.5">
+                    Nama Kategori <span class="text-rose-500">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="nama_kategori"
+                    name="nama_kategori"
+                    value="{{ old('nama_kategori') }}"
+                    required
+                    autofocus
+                    placeholder="Contoh: Jaket Varsity, Kemeja PDH"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
+                />
+                @error('nama_kategori')
+                    <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                @enderror
+            </div>
+        @endif
+
+        <!-- ACTION BUTTONS AT BOTTOM -->
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#E2E5E9]">
+            <a
+                href="{{ $type === 'bahan' ? route('admin.kategori.index', ['tab' => 'material']) : route('admin.kategori.index') }}"
+                class="btn-secondary px-4 py-2 text-xs sm:text-sm"
+            >
+                Batal
+            </a>
+            <button
+                type="submit"
+                :disabled="isSubmitting"
+                class="btn-primary px-5 py-2 text-xs sm:text-sm font-medium cursor-pointer"
+            >
+                <span x-text="isSubmitting ? 'Menyimpan...' : 'Simpan'">Simpan</span>
+            </button>
+        </div>
+    </form>
+
+</div>
+@endsection
