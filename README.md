@@ -26,7 +26,7 @@ Tigabenang adalah aplikasi web vendor pakaian custom yang membantu pelanggan mel
 
 Pemesanan pakaian custom biasanya melibatkan beberapa langkah yang terpisah: memilih model, menentukan bahan dan ukuran, mengirim desain, lalu menawar harga. Proses itu sering terjadi di chat, tanpa catatan yang rapi di sisi vendor.
 
-Tigabenang dibuat sebagai sistem mandiri untuk hackathon. Tujuannya meniru alur kerja nyata dari permintaan pelanggan sampai pemrosesan admin, tanpa bergantung pada partner bisnis atau API supplier eksternal.
+Tujuannya meniru alur kerja nyata dari permintaan pelanggan sampai pemrosesan admin, tanpa bergantung pada partner bisnis atau API supplier eksternal.
 
 ### Tujuan
 
