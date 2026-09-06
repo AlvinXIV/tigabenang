@@ -46,8 +46,7 @@
 <div class="fv-request-page">
     <section class="fv-page-hero">
         <div class="fv-request-shell py-10 lg:py-12">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-xs font-semibold text-white mb-3">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/15 text-xs font-semibold text-white mb-3">
                 Konsultasi Pemesanan
             </span>
             <h1 class="max-w-xl text-3xl font-bold tracking-tight md:text-4xl text-white">Konsultasikan Pesanan Custom Anda</h1>
