@@ -101,15 +101,15 @@
         <div class="w-12 h-12 bg-[#102A43] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
             TB
         </div>
-        <span class="text-sm font-bold tracking-tight text-[#1C2430]">Tigabenang</span>
+        <span class="text-sm font-bold tracking-tight text-[#102A43]">Tigabenang</span>
         <span class="text-[11px] text-[#667085] font-medium">Konveksi &amp; Atelier Digital</span>
     </div>
 
     <!-- Portal Title & Subtitle -->
     <div class="text-center max-w-md mx-auto mb-6">
-        <h1 class="text-xl sm:text-2xl font-bold text-[#1C2430] tracking-tight">Daftar Akun Vendor</h1>
+        <h1 class="text-xl sm:text-2xl font-bold text-[#102A43] tracking-tight">Daftar Akun Tigabenang</h1>
         <p class="text-xs text-[#667085] mt-1 leading-relaxed">
-            Daftarkan workshop atau usaha konveksi Anda ke sistem manajemen Tigabenang.
+            Daftarkan akun administrator ke sistem manajemen Tigabenang.
         </p>
     </div>
 
@@ -285,13 +285,13 @@
                 <button
                     type="submit"
                     :disabled="isSubmitting"
-                    class="w-full py-2.5 bg-[#102A43] hover:bg-[#193B5C] active:bg-[#8A4330] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
+                    class="w-full py-2.5 bg-[#102A43] hover:bg-[#193B5C] active:bg-[#0A1C2E] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
                 >
                     <svg x-show="isSubmitting" class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24" style="display: none;">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span x-text="isSubmitting ? 'Memproses Pendaftaran...' : 'Daftarkan Akun Vendor'"></span>
+                    <span x-text="isSubmitting ? 'Memproses Pendaftaran...' : 'Daftarkan Akun Tigabenang'"></span>
                 </button>
             </div>
 

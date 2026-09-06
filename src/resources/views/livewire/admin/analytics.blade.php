@@ -6,7 +6,7 @@
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Analisis Bisnis</h1>
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Analisis Bisnis</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
                 Pantau tren pesanan, produk, material, dan nilai transaksi disepakati.
             </p>
@@ -43,8 +43,8 @@
                 <button
                     type="button"
                     @click="setPeriod('all', 'Semua Waktu')"
-                    class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === 'all' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
+                    class="w-full text-left px-3.5 py-2 text-[#102A43] hover:bg-[#F7F7F5] flex items-center justify-between"
+                    :class="period === 'all' ? 'font-semibold text-[#102A43] bg-[#EBF1F8]' : ''"
                 >
                     <span>Semua Waktu</span>
                     <span x-show="period === 'all'" class="text-[#102A43]">&check;</span>
@@ -52,8 +52,8 @@
                 <button
                     type="button"
                     @click="setPeriod('7d', '7 Hari Terakhir')"
-                    class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === '7d' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
+                    class="w-full text-left px-3.5 py-2 text-[#102A43] hover:bg-[#F7F7F5] flex items-center justify-between"
+                    :class="period === '7d' ? 'font-semibold text-[#102A43] bg-[#EBF1F8]' : ''"
                 >
                     <span>7 Hari Terakhir</span>
                     <span x-show="period === '7d'" class="text-[#102A43]">&check;</span>
@@ -61,8 +61,8 @@
                 <button
                     type="button"
                     @click="setPeriod('30d', '30 Hari Terakhir')"
-                    class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === '30d' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
+                    class="w-full text-left px-3.5 py-2 text-[#102A43] hover:bg-[#F7F7F5] flex items-center justify-between"
+                    :class="period === '30d' ? 'font-semibold text-[#102A43] bg-[#EBF1F8]' : ''"
                 >
                     <span>30 Hari Terakhir</span>
                     <span x-show="period === '30d'" class="text-[#102A43]">&check;</span>
@@ -70,8 +70,8 @@
                 <button
                     type="button"
                     @click="setPeriod('90d', '3 Bulan Terakhir')"
-                    class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === '90d' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
+                    class="w-full text-left px-3.5 py-2 text-[#102A43] hover:bg-[#F7F7F5] flex items-center justify-between"
+                    :class="period === '90d' ? 'font-semibold text-[#102A43] bg-[#EBF1F8]' : ''"
                 >
                     <span>3 Bulan Terakhir</span>
                     <span x-show="period === '90d'" class="text-[#102A43]">&check;</span>
@@ -79,8 +79,8 @@
                 <button
                     type="button"
                     @click="setPeriod('year', 'Tahun Ini')"
-                    class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === 'year' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
+                    class="w-full text-left px-3.5 py-2 text-[#102A43] hover:bg-[#F7F7F5] flex items-center justify-between"
+                    :class="period === 'year' ? 'font-semibold text-[#102A43] bg-[#EBF1F8]' : ''"
                 >
                     <span>Tahun Ini</span>
                     <span x-show="period === 'year'" class="text-[#102A43]">&check;</span>
@@ -102,7 +102,7 @@
                 </span>
             </div>
             <div class="mt-2.5 flex items-baseline justify-between">
-                <span class="text-2xl sm:text-[28px] font-semibold text-[#1C2430] tracking-tight" x-text="kpiTotalOrders">
+                <span class="text-2xl sm:text-[28px] font-semibold text-[#102A43] tracking-tight" x-text="kpiTotalOrders">
                     {{ $kpis['total_orders'] ?? 0 }}
                 </span>
             </div>
@@ -113,14 +113,14 @@
         <div class="admin-card p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-medium text-[#667085]">Total Transaksi Disepakati</span>
-                <span class="p-1.5 bg-[#FDF8F6] rounded-md text-[#102A43]">
+                <span class="p-1.5 bg-[#EBF1F8] rounded-md text-[#102A43]">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </span>
             </div>
             <div class="mt-2.5 flex items-baseline justify-between">
-                <span class="text-xl sm:text-2xl font-semibold text-[#1C2430] tracking-tight" x-text="formatRupiah(kpiTotalRevenue)">
+                <span class="text-xl sm:text-2xl font-semibold text-[#102A43] tracking-tight" x-text="formatRupiah(kpiTotalRevenue)">
                     {{ $kpis['total_revenue'] ?? 'Rp 0' }}
                 </span>
             </div>
@@ -138,7 +138,7 @@
                 </span>
             </div>
             <div class="mt-2.5 flex items-baseline justify-between">
-                <span class="text-xl sm:text-2xl font-semibold text-[#1C2430] tracking-tight" x-text="formatRupiah(kpiAvgOrderValue)">
+                <span class="text-xl sm:text-2xl font-semibold text-[#102A43] tracking-tight" x-text="formatRupiah(kpiAvgOrderValue)">
                     {{ $kpis['avg_order_value'] ?? 'Rp 0' }}
                 </span>
             </div>
@@ -156,7 +156,7 @@
                 </span>
             </div>
             <div class="mt-2.5 flex items-baseline justify-between">
-                <span class="text-2xl sm:text-[28px] font-semibold text-[#1C2430] tracking-tight" x-text="totalProductsCatalog">
+                <span class="text-2xl sm:text-[28px] font-semibold text-[#102A43] tracking-tight" x-text="totalProductsCatalog">
                     {{ $kpis['active_products'] ?? 0 }}
                 </span>
             </div>
@@ -167,19 +167,19 @@
     <!-- SUB-METRIC: ANALISIS HARGA PESANAN -->
     <div class="admin-card p-4 bg-[#FAF9F7] border-[#E2E5E9] flex flex-wrap items-center justify-between gap-4 text-xs">
         <div class="flex items-center gap-2">
-            <span class="font-semibold text-[#1C2430]">Spesifikasi Harga Periode:</span>
+            <span class="font-semibold text-[#102A43]">Spesifikasi Harga Periode:</span>
         </div>
         <div class="flex flex-wrap items-center gap-6 text-[#667085]">
             <div>
-                Harga Tertinggi: <span class="font-semibold text-[#1C2430]" x-text="kpiHighestOrder > 0 ? formatRupiah(kpiHighestOrder) : '-'">-</span>
+                Harga Tertinggi: <span class="font-semibold text-[#102A43]" x-text="kpiHighestOrder > 0 ? formatRupiah(kpiHighestOrder) : '-'">-</span>
             </div>
             <div>
-                Harga Terendah: <span class="font-semibold text-[#1C2430]" x-text="kpiLowestOrder > 0 ? formatRupiah(kpiLowestOrder) : '-'">-</span>
+                Harga Terendah: <span class="font-semibold text-[#102A43]" x-text="kpiLowestOrder > 0 ? formatRupiah(kpiLowestOrder) : '-'">-</span>
             </div>
             <div>
                 Menunggu Penetapan Harga: 
                 <span
-                    class="font-semibold px-2 py-0.5 rounded-full"
+                    class="font-semibold px-2 py-0.5 rounded-md"
                     :class="kpiOrdersWithoutPrice > 0 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'"
                     x-text="kpiOrdersWithoutPrice + ' pesanan'"
                 >
@@ -196,7 +196,7 @@
         <div class="admin-card p-5 space-y-3">
             <div class="flex items-center justify-between border-b border-[#E2E5E9] pb-3">
                 <div>
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Tren Pesanan</h2>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Tren Pesanan</h2>
                     <p class="text-xs text-[#667085] mt-0.5">Jumlah transaksi pesanan masuk berdasarkan tanggal.</p>
                 </div>
                 <span class="text-[11px] font-medium text-[#667085] bg-[#F7F7F5] px-2.5 py-1 rounded border border-[#E2E5E9]" x-text="periodLabel">
@@ -214,7 +214,7 @@
 
                 <!-- Empty State -->
                 <div x-show="!isLoading && kpiTotalOrders === 0" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 space-y-1 bg-white" style="display: none;">
-                    <p class="text-xs font-semibold text-[#1C2430]">Belum ada cukup data untuk melihat tren.</p>
+                    <p class="text-xs font-semibold text-[#102A43]">Belum ada cukup data untuk melihat tren.</p>
                     <p class="text-[11px] text-[#667085]">Tidak ada transaksi pesanan yang tercatat pada rentang waktu ini.</p>
                 </div>
 
@@ -227,7 +227,7 @@
         <div class="admin-card p-5 space-y-3">
             <div class="flex items-center justify-between border-b border-[#E2E5E9] pb-3">
                 <div>
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Tren Nilai Transaksi Disepakati</h2>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Tren Nilai Transaksi Disepakati</h2>
                     <p class="text-xs text-[#667085] mt-0.5">Akumulasi nilai transaksi garmen yang disepakati berdasarkan tanggal transaksi.</p>
                 </div>
                 <span class="text-[11px] font-medium text-[#667085] bg-[#F7F7F5] px-2.5 py-1 rounded border border-[#E2E5E9]" x-text="periodLabel">
@@ -239,13 +239,13 @@
             <div class="relative w-full" style="height: 300px; min-height: 300px;">
                 <!-- Loading State -->
                 <div x-show="isLoading" class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-xs text-[#667085] bg-white/80 z-10">
-                    <div class="w-5 h-5 border-2 border-[#1C2430] border-t-transparent rounded-full animate-spin"></div>
+                    <div class="w-5 h-5 border-2 border-[#102A43] border-t-transparent rounded-full animate-spin"></div>
                     <span>Memuat visualisasi tren...</span>
                 </div>
 
                 <!-- Empty State -->
                 <div x-show="!isLoading && kpiTotalOrders === 0" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 space-y-1 bg-white" style="display: none;">
-                    <p class="text-xs font-semibold text-[#1C2430]">Belum ada cukup data untuk melihat tren.</p>
+                    <p class="text-xs font-semibold text-[#102A43]">Belum ada cukup data untuk melihat tren.</p>
                     <p class="text-[11px] text-[#667085]">Tidak ada nilai pesanan yang tercatat pada rentang waktu ini.</p>
                 </div>
 
@@ -263,7 +263,7 @@
         <div class="admin-card overflow-hidden">
             <div class="px-5 py-3.5 border-b border-[#E2E5E9] bg-white flex items-center justify-between">
                 <div>
-                    <h2 class="text-sm font-semibold text-[#1C2430]">Produk Paling Sering Dipesan</h2>
+                    <h2 class="text-sm font-semibold text-[#102A43]">Produk Paling Sering Dipesan</h2>
                     <p class="text-[11px] text-[#667085] mt-0.5">Peringkat produk berdasarkan frekuensi pesanan aktual.</p>
                 </div>
                 <a href="{{ route('admin.produk.index') }}" class="text-xs text-[#102A43] hover:underline font-medium text-decoration-none">Katalog &rarr;</a>
@@ -279,12 +279,12 @@
                                 x-text="idx + 1"
                             ></span>
                             <div class="min-w-0">
-                                <h3 class="text-xs sm:text-sm font-semibold text-[#1C2430] truncate" x-text="prod.name"></h3>
+                                <h3 class="text-xs sm:text-sm font-semibold text-[#102A43] truncate" x-text="prod.name"></h3>
                                 <span class="text-[11px] text-[#667085]" x-text="prod.category"></span>
                             </div>
                         </div>
                         <div class="text-right shrink-0">
-                            <span class="text-xs sm:text-sm font-semibold text-[#1C2430]" x-text="prod.count + ' pesanan'"></span>
+                            <span class="text-xs sm:text-sm font-semibold text-[#102A43]" x-text="prod.count + ' pesanan'"></span>
                             <div class="w-24 h-1.5 bg-[#F7F7F5] rounded-full overflow-hidden mt-1.5 border border-[#E2E5E9]">
                                 <div
                                     class="h-full bg-[#102A43] rounded-full transition-all duration-300"
@@ -305,7 +305,7 @@
         <div class="admin-card overflow-hidden">
             <div class="px-5 py-3.5 border-b border-[#E2E5E9] bg-white flex items-center justify-between">
                 <div>
-                    <h2 class="text-sm font-semibold text-[#1C2430]">Material Paling Banyak Dipilih</h2>
+                    <h2 class="text-sm font-semibold text-[#102A43]">Material Paling Banyak Dipilih</h2>
                     <p class="text-[11px] text-[#667085] mt-0.5">Preferensi kain garmen yang dipilih pemesan.</p>
                 </div>
                 <a href="{{ route('admin.kategori.index') }}?tab=material#material" class="text-xs text-[#102A43] hover:underline font-medium text-decoration-none">Material &rarr;</a>
@@ -317,19 +317,19 @@
                         <div class="flex items-center gap-3 min-w-0">
                             <span
                                 class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0"
-                                :class="idx === 0 ? 'bg-[#1C2430] text-white' : 'bg-[#F7F7F5] text-[#667085] border border-[#E2E5E9]'"
+                                :class="idx === 0 ? 'bg-[#102A43] text-white' : 'bg-[#F7F7F5] text-[#667085] border border-[#E2E5E9]'"
                                 x-text="idx + 1"
                             ></span>
                             <div class="min-w-0">
-                                <h3 class="text-xs sm:text-sm font-semibold text-[#1C2430] truncate" x-text="mat.name"></h3>
+                                <h3 class="text-xs sm:text-sm font-semibold text-[#102A43] truncate" x-text="mat.name"></h3>
                                 <span class="text-[11px] text-[#667085]">Material Tekstil</span>
                             </div>
                         </div>
                         <div class="text-right shrink-0">
-                            <span class="text-xs sm:text-sm font-semibold text-[#1C2430]" x-text="mat.count + ' kali'"></span>
+                            <span class="text-xs sm:text-sm font-semibold text-[#102A43]" x-text="mat.count + ' kali'"></span>
                             <div class="w-24 h-1.5 bg-[#F7F7F5] rounded-full overflow-hidden mt-1.5 border border-[#E2E5E9]">
                                 <div
-                                    class="h-full bg-[#1C2430] rounded-full transition-all duration-300"
+                                    class="h-full bg-[#102A43] rounded-full transition-all duration-300"
                                     :style="'width: ' + (kpiTotalOrders > 0 ? (mat.count / kpiTotalOrders * 100) : 0) + '%'"
                                 ></div>
                             </div>
@@ -349,7 +349,7 @@
     <div class="admin-card p-5 space-y-4">
         <div class="flex items-center justify-between border-b border-[#E2E5E9] pb-3">
             <div>
-                <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Performa Kategori Produk</h2>
+                <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Performa Kategori Produk</h2>
                 <p class="text-xs text-[#667085] mt-0.5">Distribusi pesanan garmen di seluruh klasifikasi busana terdaftar.</p>
             </div>
             <a href="{{ route('admin.kategori.index') }}" class="text-xs text-[#102A43] hover:underline font-medium text-decoration-none">Kelola Kategori &rarr;</a>
@@ -359,8 +359,8 @@
             <template x-for="cat in categoryPerformance" :key="cat.name">
                 <div class="space-y-1.5">
                     <div class="flex items-center justify-between text-xs">
-                        <span class="font-medium text-[#1C2430]" x-text="cat.name"></span>
-                        <span class="font-semibold text-[#1C2430]" x-text="cat.ordersCount + ' pesanan'"></span>
+                        <span class="font-medium text-[#102A43]" x-text="cat.name"></span>
+                        <span class="font-semibold text-[#102A43]" x-text="cat.ordersCount + ' pesanan'"></span>
                     </div>
                     <div class="w-full h-2.5 bg-[#F7F7F5] rounded-full overflow-hidden border border-[#E2E5E9]">
                         <div
@@ -384,13 +384,13 @@
         <!-- CARD 1: INSIGHT BISNIS -->
         <div class="admin-card p-5 space-y-3.5">
             <div class="flex items-center gap-2.5 border-b border-[#E2E5E9] pb-3">
-                <div class="w-7 h-7 rounded-lg bg-[#FDF8F6] text-[#102A43] flex items-center justify-center shrink-0">
+                <div class="w-7 h-7 rounded-lg bg-[#EBF1F8] text-[#102A43] flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-sm font-semibold text-[#1C2430]">Insight Bisnis Otomatis</h2>
+                    <h2 class="text-sm font-semibold text-[#102A43]">Insight Bisnis Otomatis</h2>
                     <p class="text-[11px] text-[#667085]">Ringkasan kondisi bisnis berbasis komputasi transaksi aktual.</p>
                 </div>
             </div>
@@ -399,7 +399,7 @@
                 <template x-for="(text, idx) in insights" :key="idx">
                     <div class="p-3 bg-[#FAF9F7] rounded-lg border border-[#E2E5E9] flex items-start gap-2.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#102A43] mt-1.5 shrink-0"></span>
-                        <p class="text-xs text-[#1C2430] leading-relaxed" x-text="text"></p>
+                        <p class="text-xs text-[#102A43] leading-relaxed" x-text="text"></p>
                     </div>
                 </template>
             </div>
@@ -414,7 +414,7 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-sm font-semibold text-[#1C2430]">Perlu Perhatian</h2>
+                    <h2 class="text-sm font-semibold text-[#102A43]">Perlu Perhatian</h2>
                     <p class="text-[11px] text-[#667085]">Indikator operasional yang membutuhkan tindak lanjut admin.</p>
                 </div>
             </div>
@@ -424,9 +424,9 @@
                 <div class="p-3.5 rounded-lg border flex items-center justify-between gap-3" :class="kpiOrdersWithoutPrice > 0 ? 'bg-amber-50/60 border-amber-200' : 'bg-[#FAF9F7] border-[#E2E5E9]'">
                     <div class="space-y-0.5">
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-semibold text-[#1C2430]">Pesanan Tanpa Estimasi Harga</span>
+                            <span class="text-xs font-semibold text-[#102A43]">Pesanan Tanpa Estimasi Harga</span>
                             <span
-                                class="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                                class="text-[10px] font-semibold px-2 py-0.5 rounded-md"
                                 :class="kpiOrdersWithoutPrice > 0 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'"
                                 x-text="kpiOrdersWithoutPrice"
                             ></span>
@@ -448,8 +448,8 @@
                 <div class="p-3.5 rounded-lg border flex items-center justify-between gap-3" :class="productsWithout3D > 0 ? 'bg-blue-50/50 border-blue-200' : 'bg-[#FAF9F7] border-[#E2E5E9]'">
                     <div class="space-y-0.5">
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-semibold text-[#1C2430]">Koleksi Belum Memiliki Model 3D</span>
-                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800" x-text="productsWithout3D"></span>
+                            <span class="text-xs font-semibold text-[#102A43]">Koleksi Belum Memiliki Model 3D</span>
+                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-blue-100 text-blue-800" x-text="productsWithout3D"></span>
                         </div>
                         <p class="text-[11px] text-[#667085]">Produk katalog belum dihubungkan dengan file .glb/.gltf.</p>
                     </div>
@@ -465,9 +465,9 @@
                 <div class="p-3.5 rounded-lg border flex items-center justify-between gap-3" :class="categoriesWithoutProducts > 0 ? 'bg-rose-50/50 border-rose-200' : 'bg-[#FAF9F7] border-[#E2E5E9]'">
                     <div class="space-y-0.5">
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-semibold text-[#1C2430]">Kategori Tanpa Produk</span>
+                            <span class="text-xs font-semibold text-[#102A43]">Kategori Tanpa Produk</span>
                             <span
-                                class="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                                class="text-[10px] font-semibold px-2 py-0.5 rounded-md"
                                 :class="categoriesWithoutProducts > 0 ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'"
                                 x-text="categoriesWithoutProducts"
                             ></span>
@@ -799,7 +799,7 @@
                                     label: 'Jumlah Pesanan',
                                     data: ordersCounts,
                                     borderColor: '#102A43',
-                                    backgroundColor: 'rgba(184, 102, 74, 0.08)',
+                                    backgroundColor: 'rgba(16, 42, 67, 0.08)',
                                     fill: true,
                                     tension: 0.3,
                                     borderWidth: 2,
@@ -816,7 +816,7 @@
                                 plugins: {
                                     legend: { display: false },
                                     tooltip: {
-                                        backgroundColor: '#1C2430',
+                                        backgroundColor: '#102A43',
                                         titleFont: { size: 12, weight: '600' },
                                         bodyFont: { size: 12 },
                                         padding: 10,
@@ -869,12 +869,12 @@
                                 datasets: [{
                                     label: 'Nilai Transaksi Disepakati',
                                     data: revenues,
-                                    borderColor: '#1C2430',
-                                    backgroundColor: 'rgba(28, 36, 48, 0.05)',
+                                    borderColor: '#102A43',
+                                    backgroundColor: 'rgba(16, 42, 67, 0.05)',
                                     fill: true,
                                     tension: 0.3,
                                     borderWidth: 2,
-                                    pointBackgroundColor: '#1C2430',
+                                    pointBackgroundColor: '#102A43',
                                     pointBorderColor: '#FFFFFF',
                                     pointBorderWidth: 2,
                                     pointRadius: 5,
@@ -887,7 +887,7 @@
                                 plugins: {
                                     legend: { display: false },
                                     tooltip: {
-                                        backgroundColor: '#1C2430',
+                                        backgroundColor: '#102A43',
                                         titleFont: { size: 12, weight: '600' },
                                         bodyFont: { size: 12 },
                                         padding: 10,

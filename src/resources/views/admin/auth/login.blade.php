@@ -49,15 +49,15 @@
         <div class="w-12 h-12 bg-[#102A43] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
             TB
         </div>
-        <span class="text-sm font-bold tracking-tight text-[#1C2430]">Tigabenang</span>
+        <span class="text-sm font-bold tracking-tight text-[#102A43]">Tigabenang</span>
         <span class="text-[11px] text-[#667085] font-medium">Konveksi &amp; Atelier Digital</span>
     </div>
 
     <!-- Portal Title & Subtitle -->
     <div class="text-center max-w-md mx-auto mb-6">
-        <h1 class="text-xl sm:text-2xl font-bold text-[#1C2430] tracking-tight">Tigabenang Vendor Portal</h1>
+        <h1 class="text-xl sm:text-2xl font-bold text-[#102A43] tracking-tight">Admin Portal Tigabenang</h1>
         <p class="text-xs text-[#667085] mt-1 leading-relaxed">
-            Masuk untuk mengelola katalog produk, pesanan garmen, dan konfigurasi bengkel.
+            Masuk untuk mengelola katalog produk, pesanan garmen, dan konfigurasi atelier.
         </p>
     </div>
 
@@ -79,7 +79,7 @@
 
             <!-- Username Field -->
             <div>
-                <label for="email" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                <label for="email" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                     Username Akun <span class="text-rose-500">*</span>
                 </label>
                 <div class="relative">
@@ -96,7 +96,7 @@
                         @blur="validateEmail()"
                         @input="if(errors.email) validateEmail()"
                         placeholder="admin"
-                        class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                     />
                 </div>
                 <template x-if="errors.email">
@@ -107,7 +107,7 @@
             <!-- Password Field -->
             <div>
                 <div class="flex items-center justify-between mb-1.5">
-                    <label for="password" class="block text-xs font-semibold text-[#1C2430]">
+                    <label for="password" class="block text-xs font-semibold text-[#102A43]">
                         Kata Sandi <span class="text-rose-500">*</span>
                     </label>
                 </div>
@@ -125,12 +125,12 @@
                         @blur="validatePassword()"
                         @input="if(errors.password) validatePassword()"
                         placeholder="••••••••"
-                        class="w-full pl-9 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full pl-9 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                     />
                     <button
                         type="button"
                         @click="showPassword = !showPassword"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#98A2B3] hover:text-[#1C2430] transition-colors focus:outline-none cursor-pointer bg-transparent border-0"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#98A2B3] hover:text-[#102A43] transition-colors focus:outline-none cursor-pointer bg-transparent border-0"
                     >
                         <svg x-show="!showPassword" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -151,13 +151,13 @@
                 <button
                     type="submit"
                     :disabled="isSubmitting"
-                    class="w-full py-2.5 bg-[#102A43] hover:bg-[#193B5C] active:bg-[#8A4330] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
+                    class="w-full py-2.5 bg-[#102A43] hover:bg-[#193B5C] active:bg-[#0A1C2E] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
                 >
                     <svg x-show="isSubmitting" class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24" style="display: none;">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span x-text="isSubmitting ? 'Memverifikasi...' : 'Masuk ke Portal Vendor'"></span>
+                    <span x-text="isSubmitting ? 'Memverifikasi...' : 'Masuk ke Admin Portal'"></span>
                 </button>
             </div>
         </form>
@@ -166,7 +166,7 @@
 
     <!-- Storefront Link -->
     <div class="mt-6 text-center text-xs text-[#6E7575]">
-        <a href="{{ route('home') }}" class="text-[#1C2430] hover:text-[#102A43] font-medium transition-colors text-decoration-none">
+        <a href="{{ route('home') }}" class="text-[#102A43] hover:text-[#193B5C] font-medium transition-colors text-decoration-none">
             &larr; Kembali ke Toko Tigabenang
         </a>
     </div>

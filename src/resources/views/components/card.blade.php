@@ -7,12 +7,12 @@
     'class' => '',
 ])
 
-<div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-[#E2E5E9] shadow-2xs overflow-hidden ' . $class]) }}>
+<div {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-[#E2E5E9] shadow-[0_1px_2px_rgba(16,42,67,0.04)] overflow-hidden ' . $class]) }}>
     @if ($title || $subtitle || $action)
         <div class="px-5 sm:px-6 py-4 border-b border-[#E2E5E9] flex flex-wrap items-center justify-between gap-3 bg-white">
             <div>
                 @if ($title)
-                    <h3 class="text-sm sm:text-base font-semibold text-[#1C2430] leading-snug">{{ $title }}</h3>
+                    <h3 class="text-sm sm:text-base font-semibold text-[#102A43] leading-snug">{{ $title }}</h3>
                 @endif
                 @if ($subtitle)
                     <p class="text-xs text-[#667085] mt-0.5">{{ $subtitle }}</p>

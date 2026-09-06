@@ -10,7 +10,7 @@
                 <span>Kembali ke Direktori Pelanggan</span>
             </a>
             <div class="flex flex-wrap items-center gap-3">
-                <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">{{ $customer['name'] }}</h1>
+                <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">{{ $customer['name'] }}</h1>
                 @if ($customer['phone'])
                     <span class="text-sm text-[#667085]">•</span>
                     <span class="text-sm font-mono text-[#667085]">{{ $customer['phone'] }}</span>
@@ -41,20 +41,20 @@
         <!-- LEFT (2/3): PROFIL PEMESAN -->
         <div class="lg:col-span-2 admin-card p-5 space-y-4">
             <div class="border-b border-[#E2E5E9] pb-3">
-                <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Profil Pemesan</h2>
+                <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Profil Pemesan</h2>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
                 <div>
                     <span class="text-[#667085] block text-xs">Nama Pelanggan:</span>
-                    <p class="font-semibold text-[#1C2430] mt-0.5">{{ $customer['name'] }}</p>
+                    <p class="font-semibold text-[#102A43] mt-0.5">{{ $customer['name'] }}</p>
                 </div>
                 <div>
                     <span class="text-[#667085] block text-xs">Nomor WhatsApp:</span>
-                    <p class="font-mono text-xs text-[#1C2430] mt-0.5">{{ $customer['phone'] ?? '-' }}</p>
+                    <p class="font-mono text-xs text-[#102A43] mt-0.5">{{ $customer['phone'] ?? '-' }}</p>
                 </div>
                 <div class="sm:col-span-2">
                     <span class="text-[#667085] block text-xs mb-1">Alamat Pengiriman:</span>
-                    <p class="p-3 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg leading-relaxed text-xs text-[#1C2430]">
+                    <p class="p-3 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg leading-relaxed text-xs text-[#102A43]">
                         {{ $customer['address'] ?? 'Alamat pengiriman belum dicantumkan.' }}
                     </p>
                 </div>
@@ -64,18 +64,18 @@
         <!-- RIGHT (1/3): SUMMARY TRANSAKSI -->
         <div class="admin-card p-5 space-y-4">
             <div class="border-b border-[#E2E5E9] pb-3">
-                <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Ringkasan Pelanggan</h2>
+                <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Ringkasan Pelanggan</h2>
             </div>
 
             <div class="space-y-3">
                 <div class="p-3.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg flex items-center justify-between">
                     <span class="text-xs text-[#667085]">Total Pesanan</span>
-                    <span class="text-lg font-semibold text-[#1C2430]">{{ $customer['total_orders'] }}</span>
+                    <span class="text-lg font-semibold text-[#102A43]">{{ $customer['total_orders'] }}</span>
                 </div>
 
                 <div class="p-3.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg flex items-center justify-between">
                     <span class="text-xs text-[#667085]">Total Transaksi Disepakati</span>
-                    <span class="text-lg font-semibold text-[#1C2430] font-mono">
+                    <span class="text-lg font-semibold text-[#102A43] font-mono">
                         {{ $customer['total_spent'] ? 'Rp ' . number_format($customer['total_spent'], 0, ',', '.') : 'Rp 0' }}
                     </span>
                 </div>
@@ -88,7 +88,7 @@
     <div class="admin-card overflow-hidden">
         <div class="px-5 py-3.5 border-b border-[#E2E5E9] bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-                <h3 class="text-sm sm:text-base font-semibold text-[#1C2430]">Riwayat Pesanan Pelanggan</h3>
+                <h3 class="text-sm sm:text-base font-semibold text-[#102A43]">Riwayat Pesanan Pelanggan</h3>
                 <span class="text-xs text-[#667085]">{{ count($customer['orders']) }} pesanan tercatat</span>
             </div>
 
@@ -97,7 +97,7 @@
                     type="text"
                     wire:model.live.debounce.250ms="orderSearch"
                     placeholder="Filter ID pesanan / produk..."
-                    class="w-full px-3 py-1.5 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#102A43] text-xs text-[#1C2430] rounded-lg focus:outline-none"
+                    class="w-full px-3 py-1.5 bg-[#F7F7F5] border border-[#D0D5DD] focus:border-[#102A43] text-xs text-[#102A43] rounded-lg focus:outline-none"
                 />
             </div>
         </div>
@@ -121,23 +121,23 @@
                             $totalQty = $ord->ukuran ? $ord->ukuran->sum('pivot.kuantitas') : 0;
                         @endphp
                         <tr class="admin-table-row">
-                            <td class="px-4 py-3.5 font-mono text-xs font-semibold text-[#1C2430] whitespace-nowrap">
+                            <td class="px-4 py-3.5 font-mono text-xs font-semibold text-[#102A43] whitespace-nowrap">
                                 #ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }}
                             </td>
                             <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap text-xs">
                                 {{ $ord->created_at ? $ord->created_at->format('d M Y') : '-' }}
                             </td>
-                            <td class="px-4 py-3.5 font-medium text-[#1C2430] whitespace-nowrap">
+                            <td class="px-4 py-3.5 font-medium text-[#102A43] whitespace-nowrap">
                                 {{ $ord->produk ? $ord->produk->nama_produk : '-' }}
                             </td>
-                            <td class="px-4 py-3.5 text-center whitespace-nowrap font-medium text-[#1C2430]">
+                            <td class="px-4 py-3.5 text-center whitespace-nowrap font-medium text-[#102A43]">
                                 <span class="px-2 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs font-semibold">
                                     {{ $totalQty }} pcs
                                 </span>
                             </td>
                             <td class="px-4 py-3.5 font-mono text-xs whitespace-nowrap">
                                 @if ($ord->total_harga)
-                                    <span class="font-medium text-[#1C2430]">Rp {{ number_format($ord->total_harga, 0, ',', '.') }}</span>
+                                    <span class="font-medium text-[#102A43]">Rp {{ number_format($ord->total_harga, 0, ',', '.') }}</span>
                                 @else
                                     <span class="text-[#667085] italic">Menunggu Penetapan Harga</span>
                                 @endif

@@ -22,7 +22,7 @@
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E5E9]">
         <div>
-            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">
                 {{ $activeTab === 'kategori' ? 'Kategori Produk' : 'Material Kain' }}
             </h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
@@ -76,10 +76,10 @@
             href="{{ route('admin.kategori.index') }}"
             wire:click.prevent="switchTab('kategori')"
             @click="window.location.hash = ''"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'kategori' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'kategori' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Kategori Produk</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'kategori' ? 'bg-[#EBF1F7] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'kategori' ? 'bg-[#EBF1F8] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
                 {{ $summary['total_categories'] }}
             </span>
         </a>
@@ -88,10 +88,10 @@
             href="{{ route('admin.kategori.index', ['tab' => 'material']) }}#material"
             wire:click.prevent="switchTab('material')"
             @click="window.location.hash = 'material'"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'material' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'material' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Material Kain</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'material' ? 'bg-[#EBF1F7] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'material' ? 'bg-[#EBF1F8] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
                 {{ $summary['total_materials'] }}
             </span>
         </a>
@@ -106,7 +106,7 @@
             <!-- Collapsible Add Category Panel -->
             @if ($addKategoriOpen)
                 <div class="admin-card p-4 bg-white border-[#102A43]/30">
-                    <h3 class="text-sm font-semibold text-[#1C2430] mb-2">Tambah Kategori Baru</h3>
+                    <h3 class="text-sm font-semibold text-[#102A43] mb-2">Tambah Kategori Baru</h3>
                     <form wire:submit="saveKategori" class="flex flex-col sm:flex-row gap-2.5 max-w-xl">
                         <div class="flex-1">
                             <input
@@ -114,7 +114,7 @@
                                 wire:model="nama_kategori"
                                 required
                                 placeholder="Nama kategori, contoh: Jaket Varsity, Kemeja PDH"
-                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                             />
                             @error('nama_kategori')
                                 <span class="text-xs text-rose-500 mt-1 block">{{ $message }}</span>
@@ -145,7 +145,7 @@
                             type="text"
                             wire:model.live.debounce.300ms="searchKategori"
                             placeholder="Cari nama kategori..."
-                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                         />
                     </div>
                     @if (!empty($searchKategori))
@@ -162,7 +162,7 @@
                     @endif
                 </div>
                 <div class="text-xs text-[#667085] shrink-0 self-end sm:self-center">
-                    Total: <strong class="text-[#1C2430]">{{ $categories->count() }}</strong> kategori
+                    Total: <strong class="text-[#102A43]">{{ $categories->count() }}</strong> kategori
                 </div>
             </div>
 
@@ -184,14 +184,14 @@
                                     <td class="px-4 py-3.5 font-mono text-xs text-[#667085] whitespace-nowrap">
                                         #{{ $cat->id_kategori }}
                                     </td>
-                                    <td class="px-4 py-3.5 font-medium text-[#1C2430]">
+                                    <td class="px-4 py-3.5 font-medium text-[#102A43]">
                                         @if ($editingKategoriId === $cat->id_kategori)
                                             <div class="flex items-center gap-2 max-w-sm">
                                                 <input
                                                     type="text"
                                                     wire:model="editingKategoriName"
                                                     wire:keydown.enter="updateKategori"
-                                                    class="px-2 py-1 border border-[#102A43] rounded text-xs text-[#1C2430] w-full"
+                                                    class="px-2 py-1 border border-[#102A43] rounded text-xs text-[#102A43] w-full"
                                                 />
                                                 <button wire:click="updateKategori" class="text-xs bg-[#102A43] text-white px-2 py-1 rounded">Simpan</button>
                                                 <button wire:click="cancelEditKategori" class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Batal</button>
@@ -204,7 +204,7 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap">
-                                        <span class="px-2.5 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs text-[#1C2430] font-medium">
+                                        <span class="px-2.5 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs text-[#102A43] font-medium">
                                             {{ $cat->produk_count }} produk
                                         </span>
                                     </td>
@@ -254,7 +254,7 @@
             <!-- Collapsible Add Material Panel -->
             @if ($addMaterialOpen)
                 <div class="admin-card p-4 bg-white border-[#102A43]/30">
-                    <h3 class="text-sm font-semibold text-[#1C2430] mb-2">Tambah Material Kain Baru</h3>
+                    <h3 class="text-sm font-semibold text-[#102A43] mb-2">Tambah Material Kain Baru</h3>
                     <form wire:submit="saveMaterial" class="flex flex-col sm:flex-row gap-2.5 max-w-xl">
                         <div class="flex-1">
                             <input
@@ -262,7 +262,7 @@
                                 wire:model="nama_bahan"
                                 required
                                 placeholder="Nama material kain, contoh: Cotton Combed 30s, Fleece Taiwan"
-                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                             />
                             @error('nama_bahan')
                                 <span class="text-xs text-rose-500 mt-1 block">{{ $message }}</span>
@@ -293,7 +293,7 @@
                             type="text"
                             wire:model.live.debounce.300ms="searchMaterial"
                             placeholder="Cari material kain..."
-                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                         />
                     </div>
                     @if (!empty($searchMaterial))
@@ -310,7 +310,7 @@
                     @endif
                 </div>
                 <div class="text-xs text-[#667085] shrink-0 self-end sm:self-center">
-                    Total: <strong class="text-[#1C2430]">{{ $materials->count() }}</strong> material kain
+                    Total: <strong class="text-[#102A43]">{{ $materials->count() }}</strong> material kain
                 </div>
             </div>
 
@@ -331,14 +331,14 @@
                                     <td class="px-4 py-3.5 font-mono text-xs text-[#667085] whitespace-nowrap">
                                         #{{ $mat->id_bahan }}
                                     </td>
-                                    <td class="px-4 py-3.5 font-medium text-[#1C2430]">
+                                    <td class="px-4 py-3.5 font-medium text-[#102A43]">
                                         @if ($editingBahanId === $mat->id_bahan)
                                             <div class="flex items-center gap-2 max-w-sm">
                                                 <input
                                                     type="text"
                                                     wire:model="editingBahanName"
                                                     wire:keydown.enter="updateBahan"
-                                                    class="px-2 py-1 border border-[#102A43] rounded text-xs text-[#1C2430] w-full"
+                                                    class="px-2 py-1 border border-[#102A43] rounded text-xs text-[#102A43] w-full"
                                                 />
                                                 <button wire:click="updateBahan" class="text-xs bg-[#102A43] text-white px-2 py-1 rounded">Simpan</button>
                                                 <button wire:click="cancelEditBahan" class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Batal</button>

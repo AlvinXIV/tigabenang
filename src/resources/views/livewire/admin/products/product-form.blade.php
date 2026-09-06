@@ -2,7 +2,7 @@
 
     <!-- TOP HEADER -->
     <div class="pb-5 border-b border-[#E2E5E9]">
-        <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#102A43] tracking-tight">
             {{ $productId ? 'Ubah Produk' : 'Tambah Produk Baru' }}
         </h1>
         <p class="text-xs sm:text-sm text-[#667085] mt-1">
@@ -20,14 +20,14 @@
                 <!-- CARD 1: Informasi Produk -->
                 <div class="admin-card p-5 sm:p-6 space-y-4">
                     <div class="border-b border-[#E2E5E9] pb-3">
-                        <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Informasi Produk</h2>
+                        <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Informasi Produk</h2>
                         <p class="text-xs text-[#667085] mt-0.5">Nama produk, kategori, dan penetapan harga dasar.</p>
                     </div>
 
                     <div class="space-y-4 pt-1">
                         <!-- Product Name -->
                         <div>
-                            <label for="nama_produk" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                            <label for="nama_produk" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                                 Nama Produk <span class="text-rose-500">*</span>
                             </label>
                             <input
@@ -36,7 +36,7 @@
                                 wire:model="nama_produk"
                                 required
                                 placeholder="Contoh: Varsity Jacket Polman, Kemeja Workwear Oxford"
-                                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                             />
                             @error('nama_produk')
                                 <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -46,14 +46,14 @@
                         <!-- Category & Price in Grid -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label for="kategori_id" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                                <label for="kategori_id" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                                     Kategori Produk <span class="text-rose-500">*</span>
                                 </label>
                                 <select
                                     id="kategori_id"
                                     wire:model="kategori_id"
                                     required
-                                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                                 >
                                     <option value="">Pilih Kategori...</option>
                                     @foreach ($categories as $cat)
@@ -68,7 +68,7 @@
                             </div>
 
                             <div>
-                                <label for="harga" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                                <label for="harga" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                                     Harga Dasar Acuan <span class="text-rose-500">*</span>
                                 </label>
                                 <div class="relative">
@@ -80,7 +80,7 @@
                                         required
                                         min="0"
                                         placeholder="150000"
-                                        class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                        class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                                     />
                                 </div>
                                 @error('harga')
@@ -95,7 +95,7 @@
                 <div class="admin-card p-5 sm:p-6 space-y-4">
                     <div class="border-b border-[#E2E5E9] pb-3 flex items-center justify-between">
                         <div>
-                            <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Material Kain yang Didukung</h2>
+                            <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Material Kain yang Didukung</h2>
                             <p class="text-xs text-[#667085] mt-0.5">Pilih material kain garmen yang dapat dipilih pemesan.</p>
                         </div>
                         <a href="{{ route('admin.kategori.index', ['tab' => 'material']) }}" target="_blank" class="text-xs text-[#102A43] hover:text-[#193B5C] font-medium text-decoration-none">
@@ -118,7 +118,7 @@
                                             value="{{ $material->id_bahan }}"
                                             class="w-4 h-4 rounded text-[#102A43] focus:ring-[#102A43] border-[#D0D5DD]"
                                         />
-                                        <span class="text-xs text-[#1C2430] font-medium select-none truncate">
+                                        <span class="text-xs text-[#102A43] font-medium select-none truncate">
                                             {{ $material->nama_bahan }}
                                         </span>
                                     </label>
@@ -139,7 +139,7 @@
                 <!-- CARD 3: Gambar / Foto Produk -->
                 <div class="admin-card p-5 space-y-4">
                     <div class="border-b border-[#E2E5E9] pb-3">
-                        <h2 class="text-sm font-semibold text-[#1C2430]">Foto Katalog Produk</h2>
+                        <h2 class="text-sm font-semibold text-[#102A43]">Foto Katalog Produk</h2>
                         <p class="text-xs text-[#667085] mt-0.5">JPG, PNG, atau WEBP (Maks 4MB).</p>
                     </div>
 
@@ -169,7 +169,7 @@
                             type="file"
                             wire:model="gambar"
                             accept="image/jpeg,image/png,image/jpg,image/webp"
-                            class="w-full text-xs text-[#667085] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-[#F7F7F5] file:text-[#1C2430] hover:file:bg-[#E2E5E9] cursor-pointer"
+                            class="w-full text-xs text-[#667085] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-[#F7F7F5] file:text-[#102A43] hover:file:bg-[#E2E5E9] cursor-pointer"
                         />
                         @error('gambar')
                             <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -180,7 +180,7 @@
                 <!-- CARD 4: File Model 3D -->
                 <div class="admin-card p-5 space-y-4">
                     <div class="border-b border-[#E2E5E9] pb-3">
-                        <h2 class="text-sm font-semibold text-[#1C2430]">Model Virtual Fitting 3D</h2>
+                        <h2 class="text-sm font-semibold text-[#102A43]">Model Virtual Fitting 3D</h2>
                         <p class="text-xs text-[#667085] mt-0.5">Format .glb atau .gltf (Maks 20MB).</p>
                     </div>
 
@@ -201,7 +201,7 @@
                             type="file"
                             wire:model="file_model_3d"
                             accept=".glb,.gltf"
-                            class="w-full text-xs text-[#667085] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-[#F7F7F5] file:text-[#1C2430] hover:file:bg-[#E2E5E9] cursor-pointer"
+                            class="w-full text-xs text-[#667085] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-[#F7F7F5] file:text-[#102A43] hover:file:bg-[#E2E5E9] cursor-pointer"
                         />
                         <div wire:loading wire:target="file_model_3d" class="text-xs text-[#102A43] font-medium">
                             Mengunggah berkas 3D...

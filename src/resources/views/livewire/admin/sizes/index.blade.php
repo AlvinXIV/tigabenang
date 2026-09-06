@@ -39,7 +39,7 @@
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Dimensi Ukuran</h1>
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Dimensi Ukuran</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
                 Matriks spesifikasi dimensi pola pakaian per kategori.
             </p>
@@ -77,10 +77,10 @@
         <div class="admin-card p-5 bg-white border-[#102A43]/30 space-y-4">
             <div class="border-b border-[#E2E5E9] pb-3 flex items-center justify-between">
                 <div>
-                    <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Tambah Spesifikasi Ukuran Baru</h2>
+                    <h2 class="text-sm sm:text-base font-semibold text-[#102A43]">Tambah Spesifikasi Ukuran Baru</h2>
                     <p class="text-xs text-[#667085] mt-0.5">Dimensi ukuran menggunakan satuan centimeter (cm).</p>
                 </div>
-                <button type="button" wire:click="$set('addFormOpen', false)" class="text-[#667085] hover:text-[#1C2430] text-xs cursor-pointer">
+                <button type="button" wire:click="$set('addFormOpen', false)" class="text-[#667085] hover:text-[#102A43] text-xs cursor-pointer">
                     Tutup
                 </button>
             </div>
@@ -89,14 +89,14 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3.5">
                     <!-- Kategori Produk -->
                     <div class="lg:col-span-2">
-                        <label for="kategori_id" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        <label for="kategori_id" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                             Kategori Produk <span class="text-rose-500">*</span>
                         </label>
                         <select
                             id="kategori_id"
                             wire:model="kategori_id"
                             required
-                            class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                         >
                             <option value="">Pilih Kategori...</option>
                             @foreach ($categories as $cat)
@@ -112,7 +112,7 @@
 
                     <!-- Label Ukuran -->
                     <div class="lg:col-span-1">
-                        <label for="nama_ukuran" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        <label for="nama_ukuran" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                             Ukuran <span class="text-rose-500">*</span>
                         </label>
                         <input
@@ -121,7 +121,7 @@
                             id="nama_ukuran"
                             required
                             placeholder="S, M, L..."
-                            class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                         />
                         @error('nama_ukuran')
                             <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -130,7 +130,7 @@
 
                     <!-- Lebar Dada -->
                     <div class="lg:col-span-1">
-                        <label for="lebar_dada" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        <label for="lebar_dada" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                             Lebar Dada <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
@@ -141,7 +141,7 @@
                                 id="lebar_dada"
                                 required
                                 placeholder="50"
-                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                             />
                             <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-[#98A2B3] pointer-events-none">cm</span>
                         </div>
@@ -152,7 +152,7 @@
 
                     <!-- Panjang -->
                     <div class="lg:col-span-1">
-                        <label for="panjang" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        <label for="panjang" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                             Panjang <span class="text-rose-500">*</span>
                         </label>
                         <div class="relative">
@@ -163,7 +163,7 @@
                                 id="panjang"
                                 required
                                 placeholder="70"
-                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                             />
                             <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-[#98A2B3] pointer-events-none">cm</span>
                         </div>
@@ -174,7 +174,7 @@
 
                     <!-- Lebar Bahu -->
                     <div class="lg:col-span-1">
-                        <label for="lebar_bahu" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+                        <label for="lebar_bahu" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                             Lebar Bahu
                         </label>
                         <div class="relative">
@@ -184,7 +184,7 @@
                                 wire:model="lebar_bahu"
                                 id="lebar_bahu"
                                 placeholder="44"
-                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full pl-3 pr-8 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                             />
                             <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-[#98A2B3] pointer-events-none">cm</span>
                         </div>
@@ -217,14 +217,14 @@
                     type="text"
                     x-model="searchQuery"
                     placeholder="Cari ukuran atau kategori..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Category Filter -->
             <select
                 x-model="selectedCategory"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="h-10 px-3 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
             >
                 <option value="">Semua Kategori</option>
                 @foreach ($categories as $cat)
@@ -248,7 +248,7 @@
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
-            Total: <strong class="text-[#1C2430]" x-text="visibleCount">{{ $sizes->count() }}</strong> spesifikasi
+            Total: <strong class="text-[#102A43]" x-text="visibleCount">{{ $sizes->count() }}</strong> spesifikasi
         </div>
     </div>
 
@@ -314,15 +314,15 @@
                                 <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap">
                                     {{ $s->kategori ? $s->kategori->nama_kategori : '-' }}
                                 </td>
-                                <td class="px-4 py-3.5 font-semibold text-[#1C2430] whitespace-nowrap">
-                                    <span class="px-2 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs font-bold text-[#1C2430]">
+                                <td class="px-4 py-3.5 font-semibold text-[#102A43] whitespace-nowrap">
+                                    <span class="px-2 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs font-bold text-[#102A43]">
                                         {{ $s->nama_ukuran }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3.5 font-mono text-xs text-[#1C2430] whitespace-nowrap">
+                                <td class="px-4 py-3.5 font-mono text-xs text-[#102A43] whitespace-nowrap">
                                     {{ $s->lebar_dada ? $s->lebar_dada . ' cm' : '-' }}
                                 </td>
-                                <td class="px-4 py-3.5 font-mono text-xs text-[#1C2430] whitespace-nowrap">
+                                <td class="px-4 py-3.5 font-mono text-xs text-[#102A43] whitespace-nowrap">
                                     {{ $s->panjang ? $s->panjang . ' cm' : '-' }}
                                 </td>
                                 <td class="px-4 py-3.5 font-mono text-xs text-[#667085] whitespace-nowrap">

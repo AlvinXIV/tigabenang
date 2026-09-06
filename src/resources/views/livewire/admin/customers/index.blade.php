@@ -3,7 +3,7 @@
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#1C2430] tracking-tight">Direktori Pelanggan</h1>
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Direktori Pelanggan</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
                 Basis data kontak dan akumulasi pesanan pemesan custom garmen Tigabenang.
             </p>
@@ -24,14 +24,14 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari nama pelanggan atau nomor WhatsApp..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Sort Select -->
             <select
                 wire:model.live="sortBy"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="h-10 px-3 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
             >
                 <option value="orders">Urut: Pesanan Terbanyak</option>
                 <option value="spent">Urut: Total Belanja Tertinggi</option>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
-            Total: <strong class="text-[#1C2430]">{{ $customers->count() }}</strong> dari {{ $totalCustomers }} pelanggan
+            Total: <strong class="text-[#102A43]">{{ $customers->count() }}</strong> dari {{ $totalCustomers }} pelanggan
         </div>
     </div>
 
@@ -75,13 +75,13 @@
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
                     @forelse ($customers as $c)
                         <tr class="admin-table-row">
-                            <td class="px-4 py-3.5 font-medium text-[#1C2430] whitespace-nowrap">
-                                <a href="{{ route('admin.customers.show', $c['id']) }}" class="hover:text-[#102A43] text-[#1C2430] text-decoration-none font-medium">
+                            <td class="px-4 py-3.5 font-medium text-[#102A43] whitespace-nowrap">
+                                <a href="{{ route('admin.customers.show', $c['id']) }}" class="hover:text-[#102A43] text-[#102A43] text-decoration-none font-medium">
                                     {{ $c['name'] }}
                                 </a>
                             </td>
 
-                            <td class="px-4 py-3.5 text-[#1C2430] font-mono text-xs whitespace-nowrap">
+                            <td class="px-4 py-3.5 text-[#102A43] font-mono text-xs whitespace-nowrap">
                                 @if ($c['phone'])
                                     <a
                                         href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $c['phone']) }}"
@@ -102,13 +102,13 @@
                                 {{ $c['address'] ?: 'Belum ada alamat' }}
                             </td>
 
-                            <td class="px-4 py-3.5 text-center whitespace-nowrap font-medium text-[#1C2430]">
+                            <td class="px-4 py-3.5 text-center whitespace-nowrap font-medium text-[#102A43]">
                                 <span class="px-2.5 py-0.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded text-xs font-semibold">
                                     {{ $c['total_orders'] ?? count($c['orders'] ?? []) }} pesanan
                                 </span>
                             </td>
 
-                            <td class="px-4 py-3.5 font-mono text-xs text-[#1C2430] whitespace-nowrap font-medium">
+                            <td class="px-4 py-3.5 font-mono text-xs text-[#102A43] whitespace-nowrap font-medium">
                                 {{ $c['total_spent'] ? 'Rp ' . number_format($c['total_spent'], 0, ',', '.') : 'Rp 0' }}
                             </td>
 
@@ -133,9 +133,9 @@
                         <tr>
                             <td colspan="6" class="px-4 py-12 text-center text-[#667085] text-xs sm:text-sm">
                                 @if (!empty($search))
-                                    <p class="font-medium text-[#1C2430]">Tidak ada pelanggan yang sesuai dengan pencarian "{{ $search }}".</p>
+                                    <p class="font-medium text-[#102A43]">Tidak ada pelanggan yang sesuai dengan pencarian "{{ $search }}".</p>
                                 @else
-                                    <p class="font-medium text-[#1C2430]">Belum ada data pelanggan tercatat.</p>
+                                    <p class="font-medium text-[#102A43]">Belum ada data pelanggan tercatat.</p>
                                 @endif
                             </td>
                         </tr>

@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') - Tigabenang Vendor Portal</title>
+    <title>@yield('title', 'Dashboard') - Tigabenang</title>
     
-    <!-- Optimized Google Fonts: Inter & JetBrains Mono (Non-blocking with display=swap) -->
+    <!-- Optimized Google Fonts: Plus Jakarta Sans & JetBrains Mono (Non-blocking with display=swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" media="print" onload="this.media='all'">
     <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
     </noscript>
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,7 +21,7 @@
 
     <style>
         :root {
-            --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+            --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
             --color-bg: #F7F7F5;
             --color-surface: #FFFFFF;
@@ -54,6 +54,9 @@
         .btn-primary:hover {
             background-color: #193B5C;
         }
+        .btn-primary:active {
+            background-color: #0A1C2E;
+        }
         .btn-primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -62,7 +65,7 @@
         .btn-secondary {
             background-color: #FFFFFF;
             color: #102A43;
-            border: 1px solid #E2E5E9;
+            border: 1px solid #D0D5DD;
             border-radius: 8px;
             font-weight: 500;
             transition: all 0.15s ease;
@@ -93,7 +96,7 @@
             border-color: #FCA5A5;
         }
 
-        /* ── Sidebar Link Styling ── */
+        /* ── Light Atelier Sidebar Link Styling ── */
         .sidebar-nav-link {
             display: flex;
             align-items: center;
@@ -102,23 +105,23 @@
             border-radius: 8px;
             font-size: 0.8125rem;
             font-weight: 500;
-            color: #D0D5DD;
+            color: #102A43;
             text-decoration: none;
             transition: all 0.15s ease;
         }
         .sidebar-nav-link svg {
-            color: #98A2B3;
+            color: #667085;
             transition: color 0.15s ease;
         }
         .sidebar-nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #FFFFFF;
+            background-color: #F7F7F5;
+            color: #102A43;
         }
         .sidebar-nav-link:hover svg {
-            color: #FFFFFF;
+            color: #102A43;
         }
         .sidebar-nav-link.active {
-            background-color: #193B5C;
+            background-color: #102A43;
             color: #FFFFFF;
             font-weight: 600;
         }
@@ -131,7 +134,7 @@
             background-color: #FFFFFF;
             border: 1px solid #E2E5E9;
             border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 1px 2px rgba(16, 42, 67, 0.04);
         }
 
         /* ── Table Row Hover ── */
@@ -157,7 +160,7 @@
             x-transition:leave="transition-opacity ease-linear duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 z-40 bg-[#0D2237]/60 backdrop-blur-xs lg:hidden"
+            class="fixed inset-0 z-40 bg-[#102A43]/40 backdrop-blur-xs lg:hidden"
             @click="sidebarOpen = false"
             style="display: none;"
         ></div>
@@ -192,24 +195,24 @@
                 currentNav: '{{ $activeNav }}'
             }"
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-            class="fixed inset-y-0 left-0 z-50 w-64 h-full flex flex-col justify-between transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 shrink-0 select-none bg-[#0D2237] border-r border-white/10"
+            class="fixed inset-y-0 left-0 z-50 w-64 h-full flex flex-col justify-between transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 shrink-0 select-none bg-white border-r border-[#E2E5E9]"
         >
             <div class="flex-1 flex flex-col min-h-0">
                 
                 <!-- Brand Header -->
-                <div class="shrink-0 p-5 flex items-center justify-between border-b border-white/10">
+                <div class="shrink-0 p-5 flex items-center justify-between border-b border-[#E2E5E9]">
                     <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 text-decoration-none">
-                        <div class="w-9 h-9 bg-white rounded-lg flex items-center justify-center shrink-0 border border-white/20 shadow-xs overflow-hidden">
-                            <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo FitVendor" width="28" height="28" class="h-[75%] w-[75%] object-contain">
+                        <div class="w-9 h-9 bg-[#102A43] text-white rounded-lg flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+                            TB
                         </div>
                         <div>
-                            <div class="text-white text-sm font-bold tracking-tight">Tigabenang</div>
-                            <div class="text-[#98A2B3] text-[11px] font-medium leading-none mt-1">Vendor Portal</div>
+                            <div class="text-[#102A43] text-sm font-bold tracking-tight">Tigabenang</div>
+                            <div class="text-[#667085] text-[11px] font-medium leading-none mt-1">Konveksi &amp; Atelier Digital</div>
                         </div>
                     </a>
 
                     <!-- Mobile Close -->
-                    <button @click="sidebarOpen = false" class="lg:hidden text-[#98A2B3] hover:text-white p-1 cursor-pointer">
+                    <button @click="sidebarOpen = false" class="lg:hidden text-[#667085] hover:text-[#102A43] p-1 cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -256,7 +259,7 @@
                                     </svg>
                                     <span>Pesanan Masuk</span>
                                 </div>
-                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full {{ $activeNav === 'orders' ? 'bg-white text-[#102A43]' : 'bg-white/10 text-white' }}" :class="currentNav === 'orders' ? 'bg-white text-[#102A43]' : 'bg-white/10 text-white'">
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full {{ $activeNav === 'orders' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}" :class="currentNav === 'orders' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]'">
                                     {{ \App\Models\Pemesanan::count() }}
                                 </span>
                             </a>
@@ -368,19 +371,19 @@
             </div>
 
             <!-- Bottom Sidebar: User Profile & Session -->
-            <div class="shrink-0 p-3.5 border-t border-white/10 bg-[#0A1B2C]">
+            <div class="shrink-0 p-3.5 border-t border-[#E2E5E9] bg-[#F7F7F5]">
                 <div class="flex items-center justify-between">
                     <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-2.5 group text-decoration-none min-w-0">
-                        <div class="w-8 h-8 rounded-lg bg-[#193B5C] text-white flex items-center justify-center text-xs font-semibold shrink-0">
+                        <div class="w-8 h-8 rounded-lg bg-[#102A43] text-white flex items-center justify-center text-xs font-semibold shrink-0">
                             TB
                         </div>
                         <div class="text-left truncate">
-                            <p class="text-white font-medium text-xs truncate group-hover:text-white transition-colors">Admin Tigabenang</p>
-                            <p class="text-[#98A2B3] text-[11px] font-normal leading-none mt-0.5">Administrator</p>
+                            <p class="text-[#102A43] font-medium text-xs truncate group-hover:text-[#193B5C] transition-colors">Admin Tigabenang</p>
+                            <p class="text-[#667085] text-[11px] font-normal leading-none mt-0.5">Administrator</p>
                         </div>
                     </a>
 
-                    <a href="{{ route('logout') }}" title="Keluar" class="text-[#98A2B3] hover:text-rose-400 p-1.5 rounded-md hover:bg-white/5 transition-colors" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a href="{{ route('logout') }}" title="Keluar" class="text-[#667085] hover:text-rose-600 p-1.5 rounded-md hover:bg-white transition-colors" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
@@ -397,17 +400,17 @@
         <div class="flex-1 flex flex-col h-full overflow-y-auto min-w-0 bg-[#F7F7F5]">
             
             <!-- Mobile Header Topbar -->
-            <div class="lg:hidden shrink-0 h-14 border-b border-[#E2E5E9] px-4 flex items-center justify-between bg-[#0D2237]">
-                <button @click="sidebarOpen = true" class="p-1.5 text-white hover:text-white/80 cursor-pointer">
+            <div class="lg:hidden shrink-0 h-14 border-b border-[#E2E5E9] px-4 flex items-center justify-between bg-white">
+                <button @click="sidebarOpen = true" class="p-1.5 text-[#102A43] hover:text-[#193B5C] cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
                 <div class="flex items-center gap-2">
-                    <div class="w-6 h-6 bg-[#193B5C] text-white rounded flex items-center justify-center font-bold text-[10px]">TB</div>
-                    <span class="text-xs font-bold tracking-wide text-white">TIGABENANG</span>
+                    <div class="w-6 h-6 bg-[#102A43] text-white rounded flex items-center justify-center font-bold text-[10px]">TB</div>
+                    <span class="text-xs font-bold tracking-wide text-[#102A43]">TIGABENANG</span>
                 </div>
-                <a href="{{ route('admin.profile.edit') }}" class="w-7 h-7 rounded-full bg-[#193B5C] text-white flex items-center justify-center text-xs font-bold">TB</a>
+                <a href="{{ route('admin.profile.edit') }}" class="w-7 h-7 rounded-full bg-[#102A43] text-white flex items-center justify-center text-xs font-bold">TB</a>
             </div>
 
             <!-- Main Body Content (Expanded for dense business software layout) -->

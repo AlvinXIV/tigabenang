@@ -7,7 +7,7 @@
 
     <!-- TOP HEADER -->
     <div class="pb-5 border-b border-[#E2E5E9]">
-        <h1 class="text-2xl sm:text-3xl font-bold text-[#1C2430] tracking-tight">Perbarui Aset 3D</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold text-[#102A43] tracking-tight">Perbarui Aset 3D</h1>
         <p class="text-xs sm:text-sm text-[#667085] mt-1">
             Perbarui atau ganti file 3D (.glb) yang terhubung ke produk {{ $product->nama_produk }}.
         </p>
@@ -27,14 +27,14 @@
         @method('PUT')
 
         <div>
-            <label class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+            <label class="block text-xs font-semibold text-[#102A43] mb-1.5">
                 Produk Katalog Terhubung
             </label>
             <input
                 type="text"
                 disabled
                 value="{{ $product->nama_produk }} ({{ $product->kategori ? $product->kategori->nama_kategori : 'Katalog' }})"
-                class="w-full px-3.5 py-2.5 bg-[#F7F7F5] border border-[#E2E5E9] text-xs sm:text-sm text-[#1C2430] rounded-lg cursor-not-allowed font-semibold"
+                class="w-full px-3.5 py-2.5 bg-[#F7F7F5] border border-[#E2E5E9] text-xs sm:text-sm text-[#102A43] rounded-lg cursor-not-allowed font-semibold"
             />
         </div>
 
@@ -42,7 +42,7 @@
             <div class="p-3.5 bg-[#F7F7F5] border border-[#E2E5E9] rounded-lg flex items-center justify-between">
                 <div>
                     <span class="text-[11px] font-semibold text-[#667085] block">File 3D Aktif Saat Ini:</span>
-                    <p class="text-xs font-mono font-semibold text-[#1C2430] mt-0.5">📁 {{ basename($product->file_model_3d) }}</p>
+                    <p class="text-xs font-mono font-semibold text-[#102A43] mt-0.5">📁 {{ basename($product->file_model_3d) }}</p>
                 </div>
                 <a
                     href="{{ route('admin.model-3d.preview', $product->id_produk) }}"
@@ -54,7 +54,7 @@
         @endif
 
         <div>
-            <label for="file_model_3d" class="block text-xs font-semibold text-[#1C2430] mb-1.5">
+            <label for="file_model_3d" class="block text-xs font-semibold text-[#102A43] mb-1.5">
                 Ganti File Model 3D (.glb / .gltf)
             </label>
             <input
