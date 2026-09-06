@@ -202,9 +202,9 @@
                     @empty
                         <tr>
                             <td colspan="5" class="px-4 py-12 text-center text-[#667085] text-xs sm:text-sm">
-                                @if ($search || $categoryFilter)
-                                    <p class="font-medium text-[#102A43]">Tidak ada produk yang sesuai dengan filter.</p>
-                                    <p class="mt-1">Coba sesuaikan kata kunci atau filter kategori Anda.</p>
+                                @if (!empty($search) || !empty($categoryFilter) || !empty($status3dFilter))
+                                    <p class="font-medium text-[#102A43]">Tidak ada produk yang sesuai dengan pencarian atau filter.</p>
+                                    <p class="mt-1">Coba sesuaikan kata kunci atau filter Anda.</p>
                                 @else
                                     <p class="font-medium text-[#102A43]">Belum ada produk di katalog.</p>
                                     <p class="mt-1">Klik tombol "Tambah Produk" untuk mulai mendaftarkan produk.</p>

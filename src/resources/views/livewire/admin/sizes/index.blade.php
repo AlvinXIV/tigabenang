@@ -318,17 +318,14 @@
                     @empty
                         <tr>
                             <td colspan="8" class="px-4 py-8 text-center text-xs text-[#667085]">
-                                Belum ada spesifikasi ukuran tersimpan.
+                                @if (!empty($search) || !empty($categoryFilter))
+                                    Tidak ada spesifikasi ukuran yang sesuai dengan pencarian atau filter.
+                                @else
+                                    Belum ada spesifikasi ukuran tersimpan.
+                                @endif
                             </td>
                         </tr>
                     @endforelse
-
-                    <!-- Empty state row when search/filter returns 0 items -->
-                    <tr x-show="visibleCount === 0" style="display: none;">
-                        <td colspan="8" class="px-4 py-8 text-center text-xs text-[#667085]">
-                            Tidak ada spesifikasi ukuran yang cocok dengan filter pencarian.
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>

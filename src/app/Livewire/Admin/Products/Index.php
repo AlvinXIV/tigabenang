@@ -64,7 +64,7 @@ class Index extends Component
         }
 
         if (!empty($this->search)) {
-            $query->where('nama_produk', 'like', '%' . trim($this->search) . '%');
+            $query->where('nama_produk', 'ilike', '%' . trim($this->search) . '%');
         }
 
         $products = $query->get();

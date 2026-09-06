@@ -51,9 +51,9 @@ class Index extends Component
 
         if (!empty($s)) {
             $modelsQuery->where(function ($q) use ($s) {
-                $q->where('nama_produk', 'like', "%{$s}%")
+                $q->where('nama_produk', 'ilike', "%{$s}%")
                   ->orWhereHas('kategori', function ($cq) use ($s) {
-                      $cq->where('nama_kategori', 'like', "%{$s}%");
+                      $cq->where('nama_kategori', 'ilike', "%{$s}%");
                   });
             });
         }
@@ -67,9 +67,9 @@ class Index extends Component
 
         if (!empty($s)) {
             $availableQuery->where(function ($q) use ($s) {
-                $q->where('nama_produk', 'like', "%{$s}%")
+                $q->where('nama_produk', 'ilike', "%{$s}%")
                   ->orWhereHas('kategori', function ($cq) use ($s) {
-                      $cq->where('nama_kategori', 'like', "%{$s}%");
+                      $cq->where('nama_kategori', 'ilike', "%{$s}%");
                   });
             });
         }
