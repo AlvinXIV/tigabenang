@@ -36,11 +36,8 @@
             color: #102A43 !important;
             text-align: center !important;
         }
-        .request-total-actions { display:grid; grid-template-columns:1fr; gap:1rem; }
-        @media (min-width: 640px) {
-            .request-total-actions { grid-template-columns: 1fr 1fr; }
-        }
-        .request-total-actions button { width:100%; }
+        .request-total-actions { width: 100%; }
+        .request-total-actions button { width: 100%; }
     </style>
 
 <div class="fv-request-page">
@@ -305,26 +302,28 @@
                     </div>
 
                     <div class="request-total-actions">
-                        <div class="rounded-[14px] border border-[#E2E5E9] bg-white p-5">
+                        <div class="rounded-[14px] border border-[#E2E5E9] bg-white p-5 sm:p-6">
                             <p class="text-sm font-semibold text-[#667085]">Estimasi total</p>
                             <p class="mt-1 text-3xl font-bold tracking-tight text-[#102A43]" data-order-total>Rp 0</p>
                             <p class="mt-2 text-xs leading-relaxed text-[#667085]">
                                 Harga produk dikali jumlah. Harga final dikonfirmasi tim kami.
                             </p>
-                        </div>
-                        <div class="flex flex-col justify-center rounded-[14px] border border-[#E2E5E9] bg-white p-5">
-                            <button
-                                type="submit"
-                                class="btn-primary min-h-12 w-full flex items-center justify-center gap-2 font-bold text-base cursor-pointer"
-                            >
-                                <span>Submit</span>
-                            </button>
-                            <p class="mt-2.5 text-center text-xs text-[#667085] flex items-center justify-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-[#25D366] shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10.1 10.1 0 0 0 4.65 1.12h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Zm5.76 14.16c-.24.67-1.18 1.23-1.93 1.4-.51.11-1.18.2-3.44-.74-2.89-1.2-4.75-4.13-4.89-4.32-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.44.03.64.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.39 1.46.3.14.48.12.66-.07.18-.19.77-.9.98-1.21.21-.3.42-.26.7-.15.28.1 1.78.84 2.08.99.3.15.5.22.57.35.07.13.07.75-.17 1.42Z"/>
-                                </svg>
-                                <span>Akan diarahkan langsung ke WhatsApp</span>
-                            </p>
+
+                            <div class="mt-5">
+                                <button
+                                    type="submit"
+                                    class="btn-primary min-h-12 w-full flex items-center justify-center gap-2 font-bold text-base cursor-pointer"
+                                    style="border: none !important; box-shadow: none;"
+                                >
+                                    <span>Submit</span>
+                                </button>
+                                <p class="mt-2.5 text-center text-xs text-[#667085] flex items-center justify-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 text-[#25D366] shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10.1 10.1 0 0 0 4.65 1.12h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Zm5.76 14.16c-.24.67-1.18 1.23-1.93 1.4-.51.11-1.18.2-3.44-.74-2.89-1.2-4.75-4.13-4.89-4.32-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.44.03.64.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.39 1.46.3.14.48.12.66-.07.18-.19.77-.9.98-1.21.21-.3.42-.26.7-.15.28.1 1.78.84 2.08.99.3.15.5.22.57.35.07.13.07.75-.17 1.42Z"/>
+                                    </svg>
+                                    <span>Akan diarahkan langsung ke WhatsApp</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </form>
