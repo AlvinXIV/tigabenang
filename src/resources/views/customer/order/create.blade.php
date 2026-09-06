@@ -72,82 +72,176 @@
             @if ($products->isEmpty())
                 <x-empty-state title="Belum ada produk yang bisa dipesan" message="Produk perlu ditambahkan dulu sebelum permintaan bisa dikirim." />
             @else
-                <form
-                    action="{{ route('order.store') }}"
-                    method="POST"
-                    enctype="multipart/form-data"
-                    class="space-y-6"
-                    data-order-form
-                    novalidate
-                >
-                    @csrf
-                    @php
-                        $orderOld = [
-                            'materials' => old('materials', []),
-                            'sizes'     => old('sizes', []),
-                        ];
-                        $catalogRows = collect($catalog);
-                        $sizesForProduct = fn ($produkId) => collect(
-                            $catalogRows->firstWhere('id', (int) $produkId)['sizes'] ?? []
-                        );
+                @php
+                    $orderOld = [
+                        'materials' => old('materials', []),
+                        'sizes'     => old('sizes', []),
+                    ];
+                    $catalogRows = collect($catalog);
+                    $sizesForProduct = fn ($produkId) => collect(
+                        $catalogRows->firstWhere('id', (int) $produkId)['sizes'] ?? []
+                    );
 
-                        $categoryList = $products
-                            ->filter(fn ($produk) => filled($produk->kategori?->nama_kategori))
-                            ->groupBy('kategori_id')
-                            ->map(fn ($items) => [
-                                'id' => (string) $items->first()->kategori_id,
-                                'name' => $items->first()->kategori->nama_kategori,
-                                'products' => $items->values(),
-                            ])
-                            ->sortBy('name')
-                            ->values();
+                    $categoryList = $products
+                        ->filter(fn ($produk) => filled($produk->kategori?->nama_kategori))
+                        ->groupBy('kategori_id')
+                        ->map(fn ($items) => [
+                            'id' => (string) $items->first()->kategori_id,
+                            'name' => $items->first()->kategori->nama_kategori,
+                            'products' => $items->values(),
+                        ])
+                        ->sortBy('name')
+                        ->values();
 
-                        // Only treat a product as chosen when the customer actually asked for it,
-                        // so a category with several prices never resolves one on its own.
-                        $explicitProductId = old('produk_id', request()->query('product'));
-                        $explicitProduct = filled($explicitProductId)
-                            ? $products->firstWhere('id_produk', (int) $explicitProductId)
-                            : null;
+                    // Only treat a product as chosen when the customer actually asked for it,
+                    // so a category with several prices never resolves one on its own.
+                    $explicitProductId = old('produk_id', request()->query('product'));
+                    $explicitProduct = filled($explicitProductId)
+                        ? $products->firstWhere('id_produk', (int) $explicitProductId)
+                        : null;
 
-                        $activeCategoryId = (string) (
-                            $explicitProduct?->kategori_id
-                            ?? request()->query('category')
-                            ?? $selected?->kategori_id
-                            ?? ''
-                        );
-                        $activeCategory = $categoryList->firstWhere('id', $activeCategoryId)
-                            ?? $categoryList->first();
-                        $categoryProducts = collect($activeCategory['products'] ?? []);
+                    $activeCategoryId = (string) (
+                        $explicitProduct?->kategori_id
+                        ?? request()->query('category')
+                        ?? $selected?->kategori_id
+                        ?? ''
+                    );
+                    $activeCategory = $categoryList->firstWhere('id', $activeCategoryId)
+                        ?? $categoryList->first();
+                    $categoryProducts = collect($activeCategory['products'] ?? []);
 
-                        // Sizes belong to the category, so any product in it resolves the same list.
-                        // Price and materials belong to the product, so they need one resolved product.
-                        $categoryNeedsProduct = $categoryProducts->count() > 1;
-                        $resolvedProduct = $explicitProduct
-                            ?? ($categoryNeedsProduct ? null : $categoryProducts->first());
+                    // Sizes belong to the category, so any product in it resolves the same list.
+                    // Price and materials belong to the product, so they need one resolved product.
+                    $categoryNeedsProduct = $categoryProducts->count() > 1;
+                    $resolvedProduct = $explicitProduct
+                        ?? ($categoryNeedsProduct ? null : $categoryProducts->first());
 
-                        $selectedCatalog   = $resolvedProduct
-                            ? $catalogRows->firstWhere('id', (int) $resolvedProduct->id_produk)
-                            : null;
-                        $selectedMaterials = collect($selectedCatalog['materials'] ?? []);
-                        $selectedSizes     = $sizesForProduct($categoryProducts->first()?->id_produk);
+                    $selectedCatalog   = $resolvedProduct
+                        ? $catalogRows->firstWhere('id', (int) $resolvedProduct->id_produk)
+                        : null;
+                    $selectedMaterials = collect($selectedCatalog['materials'] ?? []);
+                    $selectedSizes     = $sizesForProduct($categoryProducts->first()?->id_produk);
 
-                        $categoryPayload = $categoryList->map(fn ($category) => [
-                            'id' => $category['id'],
-                            'name' => $category['name'],
-                            'products' => collect($category['products'])
-                                ->map(fn ($produk) => [
-                                    'id' => $produk->id_produk,
-                                    'name' => $produk->nama_produk,
-                                ])->values(),
-                            'sizes' => $sizesForProduct(collect($category['products'])->first()?->id_produk),
-                        ])->values();
+                    $categoryPayload = $categoryList->map(fn ($category) => [
+                        'id' => $category['id'],
+                        'name' => $category['name'],
+                        'products' => collect($category['products'])
+                            ->map(fn ($produk) => [
+                                'id' => $produk->id_produk,
+                                'name' => $produk->nama_produk,
+                            ])->values(),
+                        'sizes' => $sizesForProduct(collect($category['products'])->first()?->id_produk),
+                    ])->values();
 
-                        $oldMaterialIds    = collect($orderOld['materials'])->map(fn ($id) => (string) $id);
-                        $oldQtyBySize      = collect($orderOld['sizes'])->mapWithKeys(function ($row) {
-                            return [(string) ($row['ukuran_id'] ?? '') => $row['kuantitas'] ?? 0];
-                        });
-                        $waConsultationNumber = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number', '6281234567890'));
-                    @endphp
+                    $oldMaterialIds    = collect($orderOld['materials'])->map(fn ($id) => (string) $id);
+                    $oldQtyBySize      = collect($orderOld['sizes'])->mapWithKeys(function ($row) {
+                        return [(string) ($row['ukuran_id'] ?? '') => $row['kuantitas'] ?? 0];
+                    });
+                    $waConsultationNumber = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number', '6281234567890'));
+
+                    $requestedProductId = request()->query('product');
+                    $consultProduct = filled($requestedProductId)
+                        ? $products->firstWhere('id_produk', (int) $requestedProductId)
+                        : null;
+
+                    if ($consultProduct) {
+                        $waDirectMessage = 'Halo FitVendor, saya ingin konsultasi mengenai produk ' . $consultProduct->nama_produk . '. Mohon info ketersediaan bahan dan minimal pemesanannya.';
+                    } else {
+                        $waDirectMessage = 'Halo FitVendor, saya ingin bertanya dan konsultasi seputar pembuatan pakaian custom.';
+                    }
+                    $waDirectUrl = 'https://wa.me/' . $waConsultationNumber . '?text=' . rawurlencode($waDirectMessage);
+                @endphp
+
+                <!-- Choice Selector Section: Bagaimana Anda ingin melanjutkan? -->
+                <section class="mb-10" aria-label="Pilihan Alur Pemesanan">
+                    <div class="text-center mb-6">
+                        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[#102A43]">
+                            Bagaimana Anda ingin melanjutkan?
+                        </h2>
+                        <p class="mt-1.5 text-sm text-[#667085]">
+                            Pilih cara yang paling sesuai dengan kebutuhan Anda saat ini.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                        <!-- 1. PESAN SEKARANG -->
+                        <div class="rounded-[16px] border-2 border-[#102A43]/15 bg-white p-6 shadow-sm flex flex-col justify-between transition-all duration-200 hover:border-[#102A43]/40 hover:shadow-md relative group">
+                            <div>
+                                <div class="flex items-center gap-3.5 mb-3">
+                                    <div class="w-11 h-11 rounded-xl bg-[#102A43]/10 text-[#102A43] flex items-center justify-center shrink-0">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <span class="inline-block text-[11px] font-bold tracking-wide uppercase text-[#102A43]/70 mb-0.5">Pilihan 1</span>
+                                        <h3 class="text-lg font-bold text-[#102A43] leading-tight">Pesan Sekarang</h3>
+                                    </div>
+                                </div>
+                                <p class="text-sm leading-relaxed text-[#667085]">
+                                    Isi detail pesanan dan dapatkan estimasi harga.
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-2">
+                                <a
+                                    href="#order-form-container"
+                                    id="btn-lanjutkan-pesanan"
+                                    class="btn-primary min-h-[44px] w-full flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer shadow-sm hover:shadow"
+                                >
+                                    <span>Lanjutkan Pesanan</span>
+                                    <svg class="w-4 h-4 shrink-0 transition-transform duration-200 group-hover:translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 2. TANYA VIA WHATSAPP -->
+                        <div class="rounded-[16px] border border-[#E2E5E9] bg-white p-6 shadow-sm flex flex-col justify-between transition-all duration-200 hover:border-[#25D366]/60 hover:shadow-md relative group">
+                            <div>
+                                <div class="flex items-center gap-3.5 mb-3">
+                                    <div class="w-11 h-11 rounded-xl bg-[#25D366]/10 text-[#25D366] flex items-center justify-center shrink-0">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10.1 10.1 0 0 0 4.65 1.12h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Zm5.76 14.16c-.24.67-1.18 1.23-1.93 1.4-.51.11-1.18.2-3.44-.74-2.89-1.2-4.75-4.13-4.89-4.32-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.44.03.64.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.39 1.46.3.14.48.12.66-.07.18-.19.77-.9.98-1.21.21-.3.42-.26.7-.15.28.1 1.78.84 2.08.99.3.15.5.22.57.35.07.13.07.75-.17 1.42Z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <span class="inline-block text-[11px] font-bold tracking-wide uppercase text-[#25D366] mb-0.5">Konsultasi</span>
+                                        <h3 class="text-lg font-bold text-[#102A43] leading-tight">Tanya via WhatsApp</h3>
+                                    </div>
+                                </div>
+                                <p class="text-sm leading-relaxed text-[#667085]">
+                                    Masih bingung atau ingin konsultasi terlebih dahulu?
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-2">
+                                <a
+                                    href="{{ $waDirectUrl }}"
+                                    id="wa-direct-consult-btn"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="btn-outline min-h-[44px] w-full flex items-center justify-center gap-2 text-sm font-semibold border-[#D0D5DD] text-[#102A43] hover:border-[#25D366] hover:bg-[#25D366]/10 hover:text-[#075E54] transition-all"
+                                >
+                                    <svg class="h-4 w-4 shrink-0 fill-current text-[#25D366]" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10.1 10.1 0 0 0 4.65 1.12h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Zm5.76 14.16c-.24.67-1.18 1.23-1.93 1.4-.51.11-1.18.2-3.44-.74-2.89-1.2-4.75-4.13-4.89-4.32-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.44.03.64.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.39 1.46.3.14.48.12.66-.07.18-.19.77-.9.98-1.21.21-.3.42-.26.7-.15.28.1 1.78.84 2.08.99.3.15.5.22.57.35.07.13.07.75-.17 1.42Z"/>
+                                    </svg>
+                                    <span>Chat WhatsApp</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div id="order-form-container" class="scroll-mt-6">
+                    <form
+                        action="{{ route('order.store') }}"
+                        method="POST"
+                        enctype="multipart/form-data"
+                        class="space-y-6"
+                        data-order-form
+                        novalidate
+                    >
+                        @csrf
                     <script type="application/json" data-order-catalog>@json($catalog)</script>
                     <script type="application/json" data-order-categories>@json($categoryPayload)</script>
                     <script type="application/json" data-order-old>@json($orderOld)</script>
@@ -327,11 +421,26 @@
                         </div>
                     </div>
                 </form>
+                </div>
 
                 <script>
                     (function () {
                         const form = document.querySelector('[data-order-form]');
                         if (!form) { return; }
+
+                        const btnLanjutPesanan = document.getElementById('btn-lanjutkan-pesanan');
+                        const orderFormContainer = document.getElementById('order-form-container');
+
+                        btnLanjutPesanan?.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            if (orderFormContainer) {
+                                orderFormContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                setTimeout(() => {
+                                    const firstInput = form.querySelector('#nama') || form.querySelector('input:not([type="hidden"]), select');
+                                    firstInput?.focus();
+                                }, 350);
+                            }
+                        });
 
                         const formatRupiah = (value) =>
                             `Rp ${Math.round(Math.max(0, Number(value) || 0)).toLocaleString('id-ID')}`;
@@ -340,6 +449,24 @@
                         const productSelect = form.querySelector('[data-order-product]');
                         const totalNode     = form.querySelector('[data-order-total]');
                         const catalogNode   = form.querySelector('[data-order-catalog]');
+
+                        const waDirectBtn = document.getElementById('wa-direct-consult-btn');
+                        const baseWaNumber = '{{ $waConsultationNumber }}';
+
+                        const updateDirectWaLink = () => {
+                            if (!waDirectBtn) return;
+                            const selectedProdText = productSelect?.selectedOptions?.[0]?.text?.trim();
+                            const prodVal = productSelect?.value;
+
+                            let msg = 'Halo FitVendor, saya ingin bertanya dan konsultasi seputar pembuatan pakaian custom.';
+                            if (prodVal && selectedProdText && !selectedProdText.toLowerCase().includes('pilih salah satu')) {
+                                msg = `Halo FitVendor, saya ingin konsultasi mengenai produk ${selectedProdText}. Mohon info ketersediaan bahan dan minimal pemesanannya.`;
+                            }
+
+                            waDirectBtn.href = `https://wa.me/${baseWaNumber}?text=${encodeURIComponent(msg)}`;
+                        };
+
+                        productSelect?.addEventListener('change', updateDirectWaLink);
 
                         let catalog = [];
                         try { catalog = JSON.parse(catalogNode?.textContent || '[]') || []; } catch { catalog = []; }
