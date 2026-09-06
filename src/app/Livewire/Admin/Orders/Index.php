@@ -22,6 +22,12 @@ class Index extends Component
         $this->statusFilter = $status;
     }
 
+    public function resetFilters()
+    {
+        $this->search = '';
+        $this->statusFilter = 'all';
+    }
+
     public function openQuickPrice(int $id)
     {
         $order = Pemesanan::findOrFail($id);

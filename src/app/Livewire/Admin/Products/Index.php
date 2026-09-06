@@ -12,7 +12,15 @@ class Index extends Component
 {
     public string $search = '';
     public string $categoryFilter = '';
+    public string $status3dFilter = '';
     public ?string $feedbackMessage = null;
+
+    public function resetFilters()
+    {
+        $this->search = '';
+        $this->categoryFilter = '';
+        $this->status3dFilter = '';
+    }
 
     public function delete(int $id)
     {
@@ -45,6 +53,14 @@ class Index extends Component
 
         if (!empty($this->categoryFilter)) {
             $query->where('kategori_id', $this->categoryFilter);
+        }
+
+        if ($this->status3dFilter === 'connected') {
+            $query->whereNotNull('file_model_3d')->where('file_model_3d', '!=', '');
+        } elseif ($this->status3dFilter === 'missing') {
+            $query->where(function ($q) {
+                $q->whereNull('file_model_3d')->orWhere('file_model_3d', '');
+            });
         }
 
         if (!empty($this->search)) {

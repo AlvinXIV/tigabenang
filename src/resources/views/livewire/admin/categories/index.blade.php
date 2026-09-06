@@ -71,7 +71,7 @@
     @endif
 
     <!-- TAB SEGMENTED NAVIGATION -->
-    <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm">
+    <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-px">
         <a
             href="{{ route('admin.kategori.index') }}"
             wire:click.prevent="switchTab('kategori')"
@@ -79,7 +79,7 @@
             class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'kategori' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Kategori Produk</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'kategori' ? 'bg-[#EBF1F8] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $activeTab === 'kategori' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $summary['total_categories'] }}
             </span>
         </a>
@@ -91,7 +91,7 @@
             class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'material' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Material Kain</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'material' ? 'bg-[#EBF1F8] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $activeTab === 'material' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $summary['total_materials'] }}
             </span>
         </a>
@@ -145,19 +145,19 @@
                             type="text"
                             wire:model.live.debounce.300ms="searchKategori"
                             placeholder="Cari nama kategori..."
-                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
+                            class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                         />
                     </div>
                     @if (!empty($searchKategori))
                         <button
                             type="button"
-                            wire:click="$set('searchKategori', '')"
+                            wire:click="resetFilters"
                             class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                         >
                             <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                            <span>Reset</span>
+                            <span>Reset Filter</span>
                         </button>
                     @endif
                 </div>
@@ -293,19 +293,19 @@
                             type="text"
                             wire:model.live.debounce.300ms="searchMaterial"
                             placeholder="Cari material kain..."
-                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
+                            class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                         />
                     </div>
                     @if (!empty($searchMaterial))
                         <button
                             type="button"
-                            wire:click="$set('searchMaterial', '')"
+                            wire:click="resetFilters"
                             class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                         >
                             <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                            <span>Reset</span>
+                            <span>Reset Filter</span>
                         </button>
                     @endif
                 </div>

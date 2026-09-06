@@ -45,6 +45,12 @@ class Index extends Component
         $this->dispatch('tab-changed', $tab);
     }
 
+    public function resetFilters()
+    {
+        $this->searchKategori = '';
+        $this->searchMaterial = '';
+    }
+
     public function saveKategori()
     {
         $this->validate([

@@ -36,14 +36,14 @@
     @endif
 
     <!-- SEGMENTED STATUS TABS -->
-    <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm">
+    <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-px">
         <button
             type="button"
             wire:click="filterStatus('all')"
             class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'all' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Semua Pesanan</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'all' ? 'bg-[#EBF1F8] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'all' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $counts['all'] }}
             </span>
         </button>
@@ -54,7 +54,7 @@
             class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'waiting' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Menunggu Penetapan Harga</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'waiting' ? 'bg-amber-100 text-amber-800' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'waiting' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $counts['waiting'] }}
             </span>
         </button>
@@ -65,7 +65,7 @@
             class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'agreed' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Harga Disepakati</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $statusFilter === 'agreed' ? 'bg-emerald-100 text-emerald-800' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'agreed' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $counts['agreed'] }}
             </span>
         </button>
@@ -87,16 +87,16 @@
                     class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
-            @if (!empty($search))
+            @if (!empty($search) || $statusFilter !== 'all')
                 <button
                     type="button"
-                    wire:click="$set('search', '')"
+                    wire:click="resetFilters"
                     class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
-                    <span>Reset</span>
+                    <span>Reset Filter</span>
                 </button>
             @endif
         </div>

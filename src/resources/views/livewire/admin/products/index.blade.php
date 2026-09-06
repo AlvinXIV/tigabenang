@@ -1,4 +1,4 @@
-<div class="space-y-5" x-data="{ model3dFilter: '' }">
+<div class="space-y-5">
 
     <!-- TOP HEADER & ACTION BUTTON -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
@@ -63,7 +63,7 @@
             <!-- Category Filter -->
             <select
                 wire:model.live="categoryFilter"
-                class="h-10 px-3 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="admin-select w-full sm:w-auto"
             >
                 <option value="">Semua Kategori</option>
                 @foreach ($categories as $cat)
@@ -75,8 +75,8 @@
 
             <!-- Model 3D Status Filter -->
             <select
-                x-model="model3dFilter"
-                class="h-10 px-3 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                wire:model.live="status3dFilter"
+                class="admin-select w-full sm:w-auto"
             >
                 <option value="">Semua Status 3D</option>
                 <option value="connected">Terhubung</option>
@@ -84,11 +84,10 @@
             </select>
 
             <!-- Reset Filter Button (Ghost Action) -->
-            <template x-if="model3dFilter || '{{ $search }}' || '{{ $categoryFilter }}'">
+            @if (!empty($search) || !empty($categoryFilter) || !empty($status3dFilter))
                 <button
                     type="button"
-                    @click="model3dFilter = ''"
-                    wire:click="$set('search', ''); $set('categoryFilter', '')"
+                    wire:click="resetFilters"
                     class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +95,7 @@
                     </svg>
                     <span>Reset Filter</span>
                 </button>
-            </template>
+            @endif
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
@@ -119,10 +118,7 @@
                 </thead>
                 <tbody class="divide-y divide-[#E2E5E9] bg-white">
                     @forelse ($products as $product)
-                        <tr
-                            class="admin-table-row"
-                            x-show="model3dFilter === '' || (model3dFilter === 'connected' && {{ $product->file_model_3d ? 'true' : 'false' }}) || (model3dFilter === 'missing' && {{ $product->file_model_3d ? 'false' : 'true' }})"
-                        >
+                        <tr class="admin-table-row">
                             <!-- Produk Thumbnail & Info -->
                             <td class="px-4 py-3.5">
                                 <div class="flex items-center gap-3">

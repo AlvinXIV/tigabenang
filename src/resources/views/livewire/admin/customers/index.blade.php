@@ -31,18 +31,18 @@
             <!-- Sort Select -->
             <select
                 wire:model.live="sortBy"
-                class="h-10 px-3 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                class="admin-select w-full sm:w-auto"
             >
-                <option value="orders">Urut: Pesanan Terbanyak</option>
-                <option value="spent">Urut: Total Belanja Tertinggi</option>
-                <option value="recent">Urut: Pesanan Terakhir</option>
+                <option value="orders">Pesanan Terbanyak</option>
+                <option value="spent">Total Belanja Tertinggi</option>
+                <option value="recent">Pesanan Terakhir</option>
             </select>
 
             <!-- Reset Button (Ghost Action) -->
             @if (!empty($search) || $sortBy !== 'orders')
                 <button
                     type="button"
-                    wire:click="$set('search', ''); $set('sortBy', 'orders')"
+                    wire:click="resetFilters"
                     class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,7 +54,7 @@
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
-            Total: <strong class="text-[#102A43]">{{ $customers->count() }}</strong> dari {{ $totalCustomers }} pelanggan
+            Total: <strong class="text-[#102A43]">{{ $customers->count() }}</strong> pelanggan
         </div>
     </div>
 

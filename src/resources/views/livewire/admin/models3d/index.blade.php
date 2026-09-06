@@ -1,4 +1,4 @@
-<div class="space-y-5" x-data="{ statusFilter: 'all' }">
+<div class="space-y-5">
 
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
@@ -49,26 +49,25 @@
                     type="text"
                     wire:model.live.debounce.300ms="search"
                     placeholder="Cari nama produk..."
-                    class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
+                    class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
             <!-- Status 3D Filter -->
             <select
-                x-model="statusFilter"
-                class="h-10 px-3 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                wire:model.live="statusFilter"
+                class="admin-select w-full sm:w-auto"
             >
                 <option value="all">Semua Status 3D</option>
-                <option value="connected">Terhubung ({{ $models->count() }})</option>
-                <option value="missing">Belum tersedia ({{ $availableProducts->count() }})</option>
+                <option value="connected">Terhubung</option>
+                <option value="missing">Belum tersedia</option>
             </select>
 
             <!-- Reset Filter Button (Ghost Action) -->
-            <template x-if="statusFilter !== 'all' || '{{ $search }}'">
+            @if ($search !== '' || $statusFilter !== 'all')
                 <button
                     type="button"
-                    @click="statusFilter = 'all'"
-                    wire:click="$set('search', '')"
+                    wire:click="resetFilters"
                     class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                 >
                     <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,11 +75,11 @@
                     </svg>
                     <span>Reset Filter</span>
                 </button>
-            </template>
+            @endif
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
-            Total: <strong class="text-[#102A43]">{{ $models->count() }}</strong> terhubung &bull; {{ $availableProducts->count() }} belum terhubung
+            Total: <strong class="text-[#102A43]">{{ $totalFiltered }}</strong> produk
         </div>
     </div>
 
@@ -89,7 +88,6 @@
         <!-- 1. Connected Models -->
         @foreach ($models as $prod)
             <div
-                x-show="statusFilter === 'all' || statusFilter === 'connected'"
                 class="admin-card p-4 space-y-3 flex flex-col justify-between hover:border-[#102A43]/40 transition-colors"
             >
                 <div class="space-y-2.5">
@@ -142,7 +140,6 @@
         <!-- 2. Unlinked Products (Belum tersedia) -->
         @foreach ($availableProducts as $prod)
             <div
-                x-show="(statusFilter === 'all' || statusFilter === 'missing') && ('{{ addslashes(strtolower($prod->nama_produk)) }}'.includes('{{ addslashes(strtolower($search)) }}'))"
                 class="admin-card p-4 space-y-3 flex flex-col justify-between hover:border-[#102A43]/40 transition-colors bg-white/70"
             >
                 <div class="space-y-2.5">
@@ -176,14 +173,22 @@
 
         @if ($models->isEmpty() && $availableProducts->isEmpty())
             <div class="col-span-full">
-                <x-empty-state title="Belum Ada Produk" message="Belum ada produk yang terdaftar di katalog.">
-                    <a href="{{ route('admin.produk.create') }}" class="btn-primary text-xs px-4 py-2 mt-3 inline-flex items-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                        </svg>
-                        <span>Tambah Produk Baru</span>
-                    </a>
-                </x-empty-state>
+                @if ($search !== '' || $statusFilter !== 'all')
+                    <x-empty-state title="Model 3D Tidak Ditemukan" message="Tidak ada produk atau model 3D yang sesuai dengan kriteria pencarian atau filter.">
+                        <button wire:click="resetFilters" class="btn-primary text-xs px-4 py-2 mt-3 inline-flex items-center gap-1.5">
+                            <span>Reset Filter</span>
+                        </button>
+                    </x-empty-state>
+                @else
+                    <x-empty-state title="Belum Ada Produk" message="Belum ada produk yang terdaftar di katalog.">
+                        <a href="{{ route('admin.produk.create') }}" class="btn-primary text-xs px-4 py-2 mt-3 inline-flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span>Tambah Produk Baru</span>
+                        </a>
+                    </x-empty-state>
+                @endif
             </div>
         @endif
     </div>

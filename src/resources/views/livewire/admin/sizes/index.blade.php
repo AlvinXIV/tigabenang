@@ -1,40 +1,4 @@
-<div
-    class="space-y-5"
-    x-data="{
-        searchQuery: '',
-        selectedCategory: '',
-        items: [
-            @foreach ($sizes as $itemSize)
-            { id: {{ $itemSize->id_ukuran }}, catId: '{{ $itemSize->kategori_id }}', nama: '{{ addslashes(strtolower($itemSize->nama_ukuran)) }}', kategori: '{{ addslashes(strtolower($itemSize->kategori ? $itemSize->kategori->nama_kategori : '')) }}' },
-            @endforeach
-        ],
-        matches(catId, nama, kategori) {
-            const q = this.searchQuery.trim().toLowerCase();
-            const cat = this.selectedCategory;
-            const matchCat = !cat || String(catId) === String(cat);
-            if (!matchCat) return false;
-            if (!q) return true;
-            return nama.includes(q) || kategori.includes(q);
-        },
-        get visibleCount() {
-            const q = this.searchQuery.trim().toLowerCase();
-            const cat = this.selectedCategory;
-            return this.items.filter(item => {
-                const matchCat = !cat || item.catId === String(cat);
-                if (!matchCat) return false;
-                if (!q) return true;
-                return item.nama.includes(q) || item.kategori.includes(q);
-            }).length;
-        },
-        get hasFilter() {
-            return this.searchQuery.trim() !== '' || this.selectedCategory !== '';
-        },
-        resetFilter() {
-            this.searchQuery = '';
-            this.selectedCategory = '';
-        }
-    }"
->
+<div class="space-y-5">
 
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
@@ -215,7 +179,7 @@
                 </div>
                 <input
                     type="text"
-                    x-model="searchQuery"
+                    wire:model.live.debounce.300ms="search"
                     placeholder="Cari ukuran atau kategori..."
                     class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
@@ -223,8 +187,8 @@
 
             <!-- Category Filter -->
             <select
-                x-model="selectedCategory"
-                class="h-10 px-3 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors cursor-pointer w-full sm:w-auto"
+                wire:model.live="categoryFilter"
+                class="admin-select w-full sm:w-auto"
             >
                 <option value="">Semua Kategori</option>
                 @foreach ($categories as $cat)
@@ -233,22 +197,22 @@
             </select>
 
             <!-- Reset Filter Button (Ghost Action) -->
-            <button
-                type="button"
-                x-show="hasFilter"
-                @click="resetFilter()"
-                class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
-                style="display: none;"
-            >
-                <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-                <span>Reset Filter</span>
-            </button>
+            @if (!empty($search) || !empty($categoryFilter))
+                <button
+                    type="button"
+                    wire:click="resetFilters"
+                    class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                >
+                    <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    <span>Reset Filter</span>
+                </button>
+            @endif
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end md:self-center">
-            Total: <strong class="text-[#102A43]" x-text="visibleCount">{{ $sizes->count() }}</strong> spesifikasi
+            Total: <strong class="text-[#102A43]">{{ $sizes->count() }}</strong> spesifikasi
         </div>
     </div>
 
@@ -304,10 +268,7 @@
                                 </td>
                             </tr>
                         @else
-                            <tr
-                                class="admin-table-row"
-                                x-show="matches('{{ $s->kategori_id }}', '{{ addslashes(strtolower($s->nama_ukuran)) }}', '{{ addslashes(strtolower($s->kategori ? $s->kategori->nama_kategori : '')) }}')"
-                            >
+                            <tr class="admin-table-row">
                                 <td class="px-4 py-3.5 font-mono text-xs text-[#667085] whitespace-nowrap">
                                     #{{ $s->id_ukuran }}
                                 </td>

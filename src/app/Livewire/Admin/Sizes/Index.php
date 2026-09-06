@@ -12,6 +12,12 @@ class Index extends Component
     public string $categoryFilter = '';
     public bool $addFormOpen = false;
 
+    public function resetFilters()
+    {
+        $this->search = '';
+        $this->categoryFilter = '';
+    }
+
     // Create form fields
     public ?int $kategori_id = null;
     public string $nama_ukuran = '';
