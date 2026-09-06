@@ -47,6 +47,89 @@
                 padding-bottom: 110px !important;
             }
         }
+
+        /* --- Entrance & Vertical Motion Animations --- */
+        @keyframes fvFadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(32px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fvHeroZoomIn {
+            0% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .fv-hero-zoom {
+            animation: fvHeroZoomIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            will-change: transform;
+        }
+
+        .fv-hero-animate-1 {
+            opacity: 0;
+            animation: fvFadeSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+            will-change: opacity, transform;
+        }
+
+        .fv-hero-animate-2 {
+            opacity: 0;
+            animation: fvFadeSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            will-change: opacity, transform;
+        }
+
+        .fv-hero-animate-3 {
+            opacity: 0;
+            animation: fvFadeSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+            will-change: opacity, transform;
+        }
+
+        /* Scroll reveal styles for components entering from bottom */
+        .fv-reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .fv-reveal.is-revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fv-reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+        .fv-reveal-delay-2 {
+            transition-delay: 0.22s;
+        }
+        .fv-reveal-delay-3 {
+            transition-delay: 0.34s;
+        }
+        .fv-reveal-delay-4 {
+            transition-delay: 0.46s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fv-hero-zoom,
+            .fv-hero-animate-1,
+            .fv-hero-animate-2,
+            .fv-hero-animate-3,
+            .fv-reveal {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+        }
     </style>
 
     <div class="bg-white pt-4 pb-12 sm:pb-16 lg:pb-24">
@@ -58,7 +141,7 @@
                         <img
                             src="{{ $heroImgUrl }}"
                             alt="Koleksi Tigabenang"
-                            class="fv-home-hero__image"
+                            class="fv-home-hero__image fv-hero-zoom"
                             fetchpriority="high"
                             decoding="async"
                         >
@@ -68,14 +151,14 @@
 
                 <div class="fv-home-hero__content">
                     <div class="fv-home-hero__copy">
-                        <h1>
+                        <h1 class="fv-hero-animate-1">
                             <span>Pesan pakaian custom</span>
                             <span>untuk kebutuhan Anda</span>
                         </h1>
-                        <p>
+                        <p class="fv-hero-animate-2">
                             Pesan pakaian untuk tim, komunitas, acara, atau kebutuhan brand dengan pilihan bahan dan ukuran yang dapat disesuaikan, bersama Tigabenang.
                         </p>
-                        <div class="fv-home-hero__actions">
+                        <div class="fv-home-hero__actions fv-hero-animate-3">
                             <a href="{{ route('order.create') }}" class="fv-home-hero__cta">Pesan custom</a>
                             <a href="{{ route('virtual-fitting') }}" class="fv-home-hero__cta-secondary">Coba virtual fitting</a>
                         </div>
@@ -88,7 +171,7 @@
     <section class="bg-white pt-6 pb-24 sm:pt-8 sm:pb-28 lg:pt-12 lg:pb-36">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
             <div class="grid gap-4 md:grid-cols-3 md:gap-6">
-                <article class="fv-icon-card text-center">
+                <article class="fv-icon-card text-center fv-reveal fv-reveal-delay-1">
                     <div class="fv-icon-wrap mx-auto" aria-hidden="true">
                         <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h10M4 17h7M19 10v8m0 0-2.5-2.5M19 18l2.5-2.5"/>
@@ -100,7 +183,7 @@
                     </p>
                 </article>
 
-                <article class="fv-icon-card text-center">
+                <article class="fv-icon-card text-center fv-reveal fv-reveal-delay-2">
                     <div class="fv-icon-wrap mx-auto" aria-hidden="true">
                         <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5 14 10m0 0 2.5-2.5a3.5 3.5 0 1 0-5-5L9 5m5 5-5-5m-3.5 8.5 1.5 1.5M7 19l-3 1 1-3"/>
@@ -112,7 +195,7 @@
                     </p>
                 </article>
 
-                <article class="fv-icon-card text-center">
+                <article class="fv-icon-card text-center fv-reveal fv-reveal-delay-3">
                     <div class="fv-icon-wrap mx-auto" aria-hidden="true">
                         <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5h6a2 2 0 0 1 2 2v12l-5-2-5 2V7a2 2 0 0 1 2-2Z"/>
@@ -130,7 +213,7 @@
 
     <section class="bg-[#F7F7F5] py-16 sm:py-20 lg:py-24">
         <div class="mx-auto grid max-w-[1200px] items-center gap-10 px-5 lg:grid-cols-2 lg:px-8">
-            <div>
+            <div class="fv-reveal">
                 <span class="section-badge mb-3">Tentang kami</span>
                 <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold leading-tight text-[#102A43]">
                     7+ tahun memproduksi pakaian custom berkualitas
@@ -164,7 +247,7 @@
                     <a href="{{ route('order.create') }}" class="btn-outline">Konsultasi pesanan</a>
                 </div>
             </div>
-            <div class="fv-media aspect-[4/3] shadow-sm">
+            <div class="fv-media aspect-[4/3] shadow-sm fv-reveal fv-reveal-delay-2">
                 <picture>
                     <source srcset="{{ asset('images/about-production.webp') }}" type="image/webp">
                     <img
@@ -185,7 +268,7 @@
     @if ($showcaseItems->isNotEmpty())
         <section class="border-y border-[#E2E5E9] bg-white py-16 sm:py-20 lg:py-24">
             <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
-                <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+                <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end fv-reveal">
                     <div>
                         <span class="section-badge mb-3">Karya kami</span>
                         <h2 class="mt-1 text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-[#102A43]">
@@ -208,7 +291,7 @@
                             $imgUrl = $prod ? CustomerMedia::productImageUrl($prod) : null;
                             $webpUrl = $prod ? CustomerMedia::productWebpUrl($prod) : null;
                         @endphp
-                        <a href="{{ $catUrl }}" class="group block no-underline">
+                        <a href="{{ $catUrl }}" class="group block no-underline fv-reveal fv-reveal-delay-{{ ($loop->index % 3) + 1 }}">
                             <div class="fv-media relative aspect-[4/5]">
                                 @if ($imgUrl)
                                     <picture>
@@ -254,7 +337,7 @@
         style="background-image: linear-gradient(180deg, rgba(247, 247, 245, 0.94) 0%, rgba(247, 247, 245, 0.90) 50%, rgba(247, 247, 245, 0.96) 100%), url('{{ asset('images/bgproduksi.jpg') }}'); background-size: cover; background-position: center;"
     >
         <div class="fv-services__inner max-w-[1120px] mx-auto px-5">
-            <div class="fv-services__intro text-center max-w-[36rem] mx-auto mb-10">
+            <div class="fv-services__intro text-center max-w-[36rem] mx-auto mb-10 fv-reveal">
                 <span class="section-badge mb-3 inline-flex items-center text-xs font-semibold text-[#667085] tracking-wide">Layanan produksi</span>
                 <h2 class="fv-services__title mt-1 text-[clamp(1.875rem,3vw,2.25rem)] font-bold text-[#102A43] tracking-tight leading-tight">
                     Pesanan custom untuk berbagai kebutuhan
@@ -273,7 +356,7 @@
                     ];
                 @endphp
                 @foreach ($services as $s)
-                    <div class="fv-services__item flex items-center gap-4 w-full max-w-[480px]">
+                    <div class="fv-services__item flex items-center gap-4 w-full max-w-[480px] fv-reveal fv-reveal-delay-{{ ($loop->index % 2) + 1 }}">
                         <div class="fv-services__icon flex w-[46px] h-[46px] shrink-0 items-center justify-center rounded-[10px] border border-[#E2E5E9] bg-white text-[#102A43] shadow-xs" aria-hidden="true">
                             @if ($s['icon'] === 'jacket')
                                 <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
@@ -307,7 +390,7 @@
 
     <section class="border-y border-[#E2E5E9] bg-white py-16 sm:py-20 lg:py-24">
         <div class="mx-auto grid max-w-[1200px] items-center gap-10 lg:gap-16 px-5 lg:grid-cols-2 lg:px-8">
-            <div class="fv-fitting-promo-media">
+            <div class="fv-fitting-promo-media fv-reveal">
                 <div class="fv-media aspect-[4/3]">
                     <picture>
                         <source srcset="{{ asset('images/virtual.webp') }}" type="image/webp">
@@ -320,7 +403,7 @@
                     </picture>
                 </div>
             </div>
-            <div class="lg:pl-8 xl:pl-12">
+            <div class="lg:pl-8 xl:pl-12 fv-reveal fv-reveal-delay-2">
                 <p class="text-sm font-medium text-[#667085]">Studio interaktif</p>
                 <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
                     Coba virtual fitting sebelum pesan
@@ -343,7 +426,7 @@
     <section id="faq" class="bg-[#F7F7F5] py-16 sm:py-20 lg:py-24">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
             <div class="grid gap-10 lg:grid-cols-12">
-                <div class="lg:col-span-5">
+                <div class="lg:col-span-5 fv-reveal">
                     <span class="section-badge mb-3">Pertanyaan umum</span>
                     <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
                         Hal yang sering ditanyakan
@@ -371,7 +454,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-7">
+                <div class="lg:col-span-7 fv-reveal fv-reveal-delay-2">
                     @php
                         $faqs = [
                             [
@@ -420,7 +503,7 @@
 
     <section class="border-t border-[#E2E5E9] bg-white py-16 sm:py-20 lg:py-24">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
-            <div class="testimonial-header mb-8">
+            <div class="testimonial-header mb-8 fv-reveal">
                 <div class="testimonial-header__copy">
                     <span class="section-badge mb-3">Cerita pelanggan</span>
                     <h2 class="mt-1 text-[clamp(1.75rem,3vw,2.25rem)] font-bold text-[#102A43]">
@@ -440,7 +523,7 @@
                 </div>
             </div>
 
-            <div id="testimonial-carousel-track" class="flex cursor-grab gap-4 overflow-x-auto pb-2" style="scroll-snap-type:x mandatory;scrollbar-width:none;">
+            <div id="testimonial-carousel-track" class="flex cursor-grab gap-4 overflow-x-auto pb-2 fv-reveal fv-reveal-delay-1" style="scroll-snap-type:x mandatory;scrollbar-width:none;">
                 @php
                     $testimonials = [
                         ['name' => 'Bagus Pratama', 'role' => 'Kepala kreatif, Studio Karsa', 'tag' => 'Jaket kerja', 'photo' => 'images/profile1.jpg', 'quote' => 'Jahitannya rapi. Virtual fitting membantu tim kami memilih ukuran tanpa bolak-balik sampel fisik.'],
@@ -483,6 +566,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // 1. Scroll-reveal animation observer
+            const revealItems = document.querySelectorAll('.fv-reveal');
+            if (revealItems.length) {
+                if (!('IntersectionObserver' in window)) {
+                    revealItems.forEach(function (el) { el.classList.add('is-revealed'); });
+                } else {
+                    const observer = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (entry) {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('is-revealed');
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, {
+                        rootMargin: '0px 0px -40px 0px',
+                        threshold: 0.08
+                    });
+
+                    revealItems.forEach(function (el) {
+                        observer.observe(el);
+                    });
+                }
+            }
+
+            // 2. Testimonial carousel
             const track = document.getElementById('testimonial-carousel-track');
             const prevBtn = document.getElementById('testimonial-prev-btn');
             const nextBtn = document.getElementById('testimonial-next-btn');
