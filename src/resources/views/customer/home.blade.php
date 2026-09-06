@@ -73,7 +73,7 @@
                             <span>untuk kebutuhan Anda</span>
                         </h1>
                         <p>
-                            Pesan pakaian untuk tim, komunitas, acara, atau kebutuhan brand dengan pilihan bahan dan ukuran yang dapat disesuaikan.
+                            Pesan pakaian untuk tim, komunitas, acara, atau kebutuhan brand dengan pilihan bahan dan ukuran yang dapat disesuaikan, bersama Tigabenang.
                         </p>
                         <div class="fv-home-hero__actions">
                             <a href="{{ route('order.create') }}" class="fv-home-hero__cta">Pesan custom</a>
