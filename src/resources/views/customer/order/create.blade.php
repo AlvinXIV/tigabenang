@@ -277,11 +277,20 @@
                                 id="upload_design" name="upload_design" type="file"
                                 accept=".jpg,.jpeg,.png,.webp,.pdf"
                                 class="sr-only"
-                                onchange="document.getElementById('design-file-name').textContent = this.files.length ? this.files[0].name : 'Belum ada file dipilih';"
                             >
-                            <label for="upload_design" class="btn-primary cursor-pointer">Pilih file desain</label>
+                            <label for="upload_design" class="btn-primary cursor-pointer inline-flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                                <span>Pilih file desain</span>
+                            </label>
                             <p id="design-file-name" class="mt-3 text-sm font-medium text-[#102A43]">Belum ada file dipilih</p>
-                            <p class="mt-1 text-xs text-[#667085]">JPG, PNG, WEBP, atau PDF. Maksimum 5 MB.</p>
+                            <p class="mt-1 text-xs text-[#667085]">JPG, PNG, WEBP, atau PDF. Maksimum 5 MB. Desain akan otomatis terlampir saat konsultasi WhatsApp dibuka.</p>
+
+                            <div id="design-preview-container" class="mt-4 hidden">
+                                <div class="inline-block relative rounded-xl border border-[#E2E5E9] bg-white p-2 shadow-sm">
+                                    <img id="design-preview-img" src="" alt="Pratinjau Desain" class="max-h-48 max-w-full rounded-lg object-contain mx-auto">
+                                    <button type="button" id="btn-remove-design" class="mt-2 block mx-auto text-xs font-semibold text-red-600 hover:text-red-700">Hapus gambar</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -374,7 +383,40 @@
                             window.location.href = url.pathname + url.search;
                         });
 
-                        form.addEventListener('submit', function (e) {
+                        const uploadInput = form.querySelector('#upload_design');
+                        const fileNameNode = document.getElementById('design-file-name');
+                        const previewContainer = document.getElementById('design-preview-container');
+                        const previewImg = document.getElementById('design-preview-img');
+                        const btnRemoveDesign = document.getElementById('btn-remove-design');
+
+                        uploadInput?.addEventListener('change', function () {
+                            const file = this.files?.[0];
+                            if (file) {
+                                if (fileNameNode) { fileNameNode.textContent = file.name; }
+                                if (file.type.startsWith('image/')) {
+                                    const reader = new FileReader();
+                                    reader.onload = (e) => {
+                                        if (previewImg) { previewImg.src = e.target.result; }
+                                        previewContainer?.classList.remove('hidden');
+                                    };
+                                    reader.readAsDataURL(file);
+                                } else {
+                                    previewContainer?.classList.add('hidden');
+                                }
+                            } else {
+                                if (fileNameNode) { fileNameNode.textContent = 'Belum ada file dipilih'; }
+                                previewContainer?.classList.add('hidden');
+                            }
+                        });
+
+                        btnRemoveDesign?.addEventListener('click', function () {
+                            if (uploadInput) { uploadInput.value = ''; }
+                            if (fileNameNode) { fileNameNode.textContent = 'Belum ada file dipilih'; }
+                            if (previewImg) { previewImg.src = ''; }
+                            previewContainer?.classList.add('hidden');
+                        });
+
+                        form.addEventListener('submit', async function (e) {
                             e.preventDefault();
 
                             const nama = form.querySelector('#nama')?.value?.trim();
@@ -424,9 +466,59 @@
                                 return;
                             }
 
+                            const submitBtn = form.querySelector('button[type="submit"]');
+                            const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+                            const designFile = uploadInput?.files?.[0];
+                            let uploadedDesignUrl = null;
+
+                            if (designFile) {
+                                if (submitBtn) {
+                                    submitBtn.disabled = true;
+                                    submitBtn.style.opacity = '0.75';
+                                    submitBtn.innerHTML = `
+                                        <svg class="w-5 h-5 animate-spin shrink-0 text-white" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                        </svg>
+                                        <span>Mengunggah gambar desain...</span>
+                                    `;
+                                }
+
+                                try {
+                                    const uploadData = new FormData();
+                                    uploadData.append('upload_design', designFile);
+
+                                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+                                        || form.querySelector('input[name="_token"]')?.value || '';
+
+                                    const uploadResponse = await fetch('{{ route('order.upload-design') }}', {
+                                        method: 'POST',
+                                        body: uploadData,
+                                        headers: {
+                                            'X-CSRF-TOKEN': csrfToken,
+                                            'Accept': 'application/json',
+                                        },
+                                    });
+
+                                    if (uploadResponse.ok) {
+                                        const resData = await uploadResponse.json();
+                                        if (resData && resData.url) {
+                                            uploadedDesignUrl = resData.url;
+                                        }
+                                    }
+                                } catch (uploadErr) {
+                                    console.error('Gagal mengunggah desain:', uploadErr);
+                                } finally {
+                                    if (submitBtn) {
+                                        submitBtn.disabled = false;
+                                        submitBtn.style.opacity = '1';
+                                        submitBtn.innerHTML = originalBtnHtml;
+                                    }
+                                }
+                            }
+
                             const materials = (activeProduct?.materials || []).map((m) => m.name).filter(Boolean);
                             const notes = form.querySelector('#notes')?.value?.trim();
-                            const designFile = form.querySelector('#upload_design')?.files?.[0];
                             const totalLabel = totalNode?.textContent?.trim() || 'Rp 0';
 
                             const waNumber = '{{ $waConsultationNumber }}';
@@ -462,7 +554,11 @@
                                 lines.push(notes);
                             }
 
-                            if (designFile) {
+                            if (uploadedDesignUrl) {
+                                lines.push('');
+                                lines.push('📸 *LAMPIRAN DESAIN:*');
+                                lines.push(uploadedDesignUrl);
+                            } else if (designFile) {
                                 lines.push('');
                                 lines.push('📸 *LAMPIRAN DESAIN:*');
                                 lines.push('File: ' + designFile.name + ' (akan saya kirimkan gambarnya langsung di chat ini)');

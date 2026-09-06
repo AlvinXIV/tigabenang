@@ -318,4 +318,29 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Tigabenang')
             ->assertSee('#TB-');
     }
+
+    public function test_customer_can_upload_design_for_consultation(): void
+    {
+        Storage::fake('public');
+        Storage::fake('supabase');
+
+        $file = UploadedFile::fake()->image('my_jersey_design.png', 800, 600);
+
+        $response = $this->postJson(route('order.upload-design'), [
+            'upload_design' => $file,
+        ]);
+
+        $response->assertOk()
+            ->assertJson([
+                'success' => true,
+                'filename' => 'my_jersey_design.png',
+            ]);
+
+        $this->assertNotEmpty($response->json('url'));
+
+        // Test validation failure with no file
+        $failResponse = $this->postJson(route('order.upload-design'), []);
+        $failResponse->assertStatus(422)
+            ->assertJsonValidationErrors(['upload_design']);
+    }
 }
