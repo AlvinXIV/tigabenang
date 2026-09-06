@@ -17,9 +17,9 @@
             <div>
                 <a href="{{ route('home') }}" class="mb-4 inline-flex items-center gap-2.5 no-underline">
                     <span class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[10px] bg-white">
-                        <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo Tigabenang" width="32" height="32" class="h-[78%] w-[78%] object-contain">
+                        <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Logo FitVendor" width="32" height="32" class="h-[78%] w-[78%] object-contain">
                     </span>
-                    <span class="text-lg font-semibold tracking-tight text-white">Tigabenang</span>
+                    <span class="text-lg font-semibold tracking-tight text-white">FitVendor</span>
                 </a>
                 <p class="max-w-xs text-sm leading-relaxed text-white/70">
                     Vendor pakaian custom untuk tim, komunitas, acara, dan brand. Atur ukuran, pilih bahan, lalu kirim detail pesanan.
@@ -87,7 +87,7 @@
 
     <div class="border-t border-white/10">
         <div class="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-3 px-5 py-4 lg:px-8">
-            <p class="text-xs text-white/50">© {{ date('Y') }} Tigabenang. Hak cipta dilindungi.</p>
+            <p class="text-xs text-white/50">© {{ date('Y') }} FitVendor. Hak cipta dilindungi.</p>
             <p class="text-xs text-white/50">Vendor pakaian custom</p>
         </div>
     </div>

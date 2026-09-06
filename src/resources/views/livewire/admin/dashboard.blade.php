@@ -156,7 +156,7 @@
                                                 $cleanWa = '62' . substr($cleanWa, 1);
                                             }
                                         @endphp
-                                        <x-action-menu.item href="https://wa.me/{{ $cleanWa }}?text=Halo%20{{ urlencode($order->nama) }}%2C%20terkait%20pesanan%20Tigabenang%20%23ORD-{{ str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) }}" target="_blank">
+                                        <x-action-menu.item href="https://wa.me/{{ $cleanWa }}?text=Halo%20{{ urlencode($order->nama) }}%2C%20terkait%20pesanan%20FitVendor%20%23ORD-{{ str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) }}" target="_blank">
                                             Hubungi WhatsApp
                                         </x-action-menu.item>
                                     @endif

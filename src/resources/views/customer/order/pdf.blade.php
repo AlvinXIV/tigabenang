@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lembar Konsultasi Pesanan #TB-{{ str_pad($order->id_pemesanan, 5, '0', STR_PAD_LEFT) }} | Tigabenang</title>
+    <title>Lembar Konsultasi Pesanan #TB-{{ str_pad($order->id_pemesanan, 5, '0', STR_PAD_LEFT) }} | FitVendor</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,7 +92,7 @@
             : null;
             
         $waNum = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number', '6281234567890'));
-        $waText = rawurlencode("Halo Tigabenang, saya ingin konsultasi terkait pesanan #TB-" . str_pad($order->id_pemesanan, 5, '0', STR_PAD_LEFT));
+        $waText = rawurlencode("Halo FitVendor, saya ingin konsultasi terkait pesanan #TB-" . str_pad($order->id_pemesanan, 5, '0', STR_PAD_LEFT));
         $waHref = $waNum ? "https://wa.me/{$waNum}?text={$waText}" : null;
     @endphp
 
@@ -143,16 +143,16 @@
             <div>
                 <div class="flex items-center gap-3 mb-2">
                     <div class="w-11 h-11 bg-[#172A39] text-[#FAF8F5] rounded-xl flex items-center justify-center font-extrabold text-base tracking-wider shadow-xs">
-                        TB
+                        FV
                     </div>
                     <div>
-                        <h1 class="text-xl font-extrabold text-[#172A39] tracking-tight leading-none">TIGABENANG</h1>
+                        <h1 class="text-xl font-extrabold text-[#172A39] tracking-tight leading-none">FITVENDOR</h1>
                         <p class="text-[11px] font-semibold tracking-wider text-[#64748B] uppercase mt-1">Konveksi &amp; Atelier Digital</p>
                     </div>
                 </div>
                 <p class="text-xs text-[#64748B] max-w-sm mt-3 leading-relaxed">
                     Spesialis Pakaian Custom, Seragam &amp; Busana Komunitas Berkualitas<br>
-                    WhatsApp: {{ config('fitvendor.whatsapp.number', '0812-3456-7890') }} &bull; Web: tigabenang.com
+                    WhatsApp: {{ config('fitvendor.whatsapp.number', '0812-3456-7890') }} &bull; Web: fitvendor.com
                 </p>
             </div>
 
@@ -335,7 +335,7 @@
             @else
                 <div class="p-4 bg-[#F8FAFC] border border-dashed border-[#CBD5E1] rounded-xl text-xs text-[#64748B]">
                     <p class="m-0 font-medium">
-                        Tidak ada file desain yang diunggah saat pengisian formulir. Konsep desain dan artwork dapat didiskusikan langsung bersama tim atelier Tigabenang melalui WhatsApp.
+                        Tidak ada file desain yang diunggah saat pengisian formulir. Konsep desain dan artwork dapat didiskusikan langsung bersama tim atelier FitVendor melalui WhatsApp.
                     </p>
                 </div>
             @endif
@@ -363,14 +363,14 @@
                     </span>
                 </div>
                 <p class="text-[11px] leading-relaxed text-[#64748B] m-0 border-t border-[#E2E8F0] pt-2">
-                    *<strong>Catatan Penting:</strong> Nominal di atas merupakan estimasi harga dasar berdasarkan kuantitas yang diajukan. Harga final, biaya tambahan penyesuaian bordir/sablon khusus, serta jadwal antrean produksi akan dikonfirmasi dan disepakati bersama pihak vendor Tigabenang melalui WhatsApp sebelum proses produksi dimulai.
+                    *<strong>Catatan Penting:</strong> Nominal di atas merupakan estimasi harga dasar berdasarkan kuantitas yang diajukan. Harga final, biaya tambahan penyesuaian bordir/sablon khusus, serta jadwal antrean produksi akan dikonfirmasi dan disepakati bersama pihak vendor FitVendor melalui WhatsApp sebelum proses produksi dimulai.
                 </p>
             </div>
         </section>
 
         {{-- Document Footer --}}
         <footer class="mt-8 pt-4 border-t border-[#E2E8F0] flex items-center justify-between text-[11px] text-[#94A3B8] print-avoid-break">
-            <p class="m-0">&copy; {{ date('Y') }} Tigabenang Atelier. Hak cipta dilindungi undang-undang.</p>
+            <p class="m-0">&copy; {{ date('Y') }} FitVendor Atelier. Hak cipta dilindungi undang-undang.</p>
             <p class="m-0 font-medium text-[#475569]">Dokumen Ringkasan Konsultasi Resmi</p>
         </footer>
 

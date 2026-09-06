@@ -48,7 +48,7 @@
             </span>
             <h1 class="max-w-xl text-3xl font-bold tracking-tight md:text-4xl text-white">Konsultasikan Pesanan Custom Anda</h1>
             <p class="mt-3 text-sm leading-relaxed text-white/80">
-                Pilih kategori pakaian, bahan, dan rincian ukuran. Saat tombol ditekan, seluruh detail konsultasi akan langsung diteruskan ke WhatsApp admin Tigabenang.
+                Pilih kategori pakaian, bahan, dan rincian ukuran. Saat tombol ditekan, seluruh detail konsultasi akan langsung diteruskan ke WhatsApp admin FitVendor.
             </p>
         </div>
     </section>
@@ -524,7 +524,7 @@
                             const waNumber = '{{ $waConsultationNumber }}';
 
                             const lines = [
-                                'Halo Tigabenang, saya ingin konsultasi pemesanan pakaian custom:',
+                                'Halo FitVendor, saya ingin konsultasi pemesanan pakaian custom:',
                                 '',
                                 '◆ *DATA PEMESAN*',
                                 '• Nama: ' + nama,

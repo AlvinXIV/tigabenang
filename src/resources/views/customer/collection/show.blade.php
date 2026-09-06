@@ -15,7 +15,7 @@
 @endphp
 
 @section('title', $product->nama_produk)
-@section('description', CustomerCatalog::categoryLabel($product->kategori?->nama_kategori).' - pakaian custom Tigabenang')
+@section('description', CustomerCatalog::categoryLabel($product->kategori?->nama_kategori).' - pakaian custom FitVendor')
 
 
 @section('content')

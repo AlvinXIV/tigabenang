@@ -126,19 +126,13 @@ export function fitGarmentToAvatar(garmentWrapper, body = {}, sizeSpec = null, m
     const scaleY = sizeSpec.panjang / (baseSizeSpec.panjang || 70);
 
     // Hardcode nilai kalibrasi dasar (sebelumnya dari slider)
-    const debugScale = 1.02; 
-    const debugY = -0.30;
+    const debugScale = 1.07; 
+    const debugY = 0.03; // Posisi Y dinaikkan sedikit agar kerah dan bahu pas
     const debugZ = 0.12;
 
     // Kalkulasi final: base x rasio_size x kalibrasi
     let finalScaleX = scaleX * debugScale;
     const finalScaleY = scaleY * debugScale;
-
-    // Perkirakan besaran tubuh avatar di sumbu X (berdasarkan chest)
-    // Asumsi avatar standar M memiliki half-chest sekitar 48cm (lebar dada baju M dikurangi kelonggaran 2cm)
-    const avatarBaseHalfChest = (baseSizeSpec.lebar_dada || 50) - 2;
-    const customerHalfChest = (body && body.chest) ? (body.chest / 2) : avatarBaseHalfChest;
-    const avatarScaleX = customerHalfChest / avatarBaseHalfChest;
 
     // A-Pose & Fat Tolerance: ekstra kelonggaran untuk baju besar
     if (scaleX > 1.0) {
@@ -146,20 +140,23 @@ export function fitGarmentToAvatar(garmentWrapper, body = {}, sizeSpec = null, m
         finalScaleX += extraFit;
     }
 
-    // CEGAH TEMBUS (CLIPPING) UNTUK BAJU KEKECILAN:
-    // Jika baju lebih kecil dari tubuh (misal dada 110 pakai baju S), 
-    // baju tidak boleh menyusut tembus daging. Baju akan ditahan di ukuran badan (nge-press).
-    // Baju akan terlihat kecil (cingkrang) karena scaleY (panjang) tetap menyusut.
-    const minScaleX = avatarScaleX * 1.03; // Minimal 3% lebih besar dari daging agar ketat
-    finalScaleX = Math.max(finalScaleX, minScaleX);
-
     let finalScaleZ = finalScaleX; 
     // Untuk baju kebesaran (scaleX > 1.0), ketebalan depan juga ditambah sedikit
     if (scaleX > 1.0) {
         finalScaleZ += (scaleX - 1.0) * 0.2; 
-    } else {
-        // Baju kekecilan/ketat. Pastikan Z cukup tebal agar dada/punggung tidak nembus
-        finalScaleZ = Math.max(finalScaleZ, avatarScaleX * 1.06); 
+    }
+
+    // CEGAH TEMBUS (CLIPPING) HANYA JIKA BAJU MEMANG SEHARUSNYA MUAT
+    // Jika ukuran baju secara fisik lebih besar dari tubuh (ease >= 0), baju harusnya pas
+    const avatarBaseHalfChest = (baseSizeSpec.lebar_dada || 50) - 2;
+    const customerHalfChest = (body && body.chest) ? (body.chest / 2) : avatarBaseHalfChest;
+    const ease = sizeSpec.lebar_dada - customerHalfChest;
+
+    if (ease >= 0) {
+        const avatarScaleX = customerHalfChest / avatarBaseHalfChest;
+        const minScaleX = avatarScaleX * 1.06; // Buat batas bawah 6% lebih besar dari badan
+        finalScaleX = Math.max(finalScaleX, minScaleX);
+        finalScaleZ = Math.max(finalScaleZ, avatarScaleX * 1.10); // Z dipertebal sedikit agar dada/punggung tidak nembus
     }
 
     garmentWrapper.scale.set(finalScaleX, finalScaleY, finalScaleZ);
@@ -179,7 +176,7 @@ export function fitGarmentToAvatar(garmentWrapper, body = {}, sizeSpec = null, m
     const pivotCompensationY = - (cache.collarYLocal * (finalScaleY - 1)) * dropFactor;
 
     // Offset nilai default
-    const uiYOffset = debugY - (-0.30) - 0.01; 
+    const uiYOffset = debugY; // Langsung gunakan debugY (baju naik +0.03)
 
     // Kompensasi Tinggi Badan (Height)
     // Avatar base height adalah 170cm. yShoulder = h * 0.843
