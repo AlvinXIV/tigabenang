@@ -259,13 +259,13 @@
 
                             @php
                                 $inputs = [
-                                    ['id' => 'fitting-height',       'label' => 'Tinggi badan',     'attr' => 'data-fitting-height',       'min' => 140, 'max' => 210, 'value' => 170, 'hasAuto' => true],
-                                    ['id' => 'fitting-chest',        'label' => 'Lingkar dada',     'attr' => 'data-fitting-chest',        'min' => 70,  'max' => 150, 'value' => 92,  'hasAuto' => false],
-                                    ['id' => 'fitting-waist',        'label' => 'Lingkar pinggang', 'attr' => 'data-fitting-waist',        'min' => 60,  'max' => 140, 'value' => 76,  'hasAuto' => false],
-                                    ['id' => 'fitting-hip',          'label' => 'Lingkar pinggul',  'attr' => 'data-fitting-hip',          'min' => 70,  'max' => 150, 'value' => 96,  'hasAuto' => false],
-                                    ['id' => 'fitting-shoulder',     'label' => 'Lebar bahu',       'attr' => 'data-fitting-shoulder',     'min' => 30,  'max' => 60,  'value' => 44,  'hasAuto' => false],
-                                    ['id' => 'fitting-arm-length',   'label' => 'Panjang lengan',   'attr' => 'data-fitting-arm-length',   'min' => 40,  'max' => 80,  'value' => 58,  'hasAuto' => false],
-                                    ['id' => 'fitting-torso-length', 'label' => 'Panjang torso',    'attr' => 'data-fitting-torso-length', 'min' => 30,  'max' => 60,  'value' => 44,  'hasAuto' => false],
+                                    ['id' => 'fitting-height',       'label' => 'Tinggi badan',     'attr' => 'data-fitting-height',       'min' => 140, 'max' => 210, 'value' => 170],
+                                    ['id' => 'fitting-chest',        'label' => 'Lingkar dada',     'attr' => 'data-fitting-chest',        'min' => 70,  'max' => 150, 'value' => 92],
+                                    ['id' => 'fitting-waist',        'label' => 'Lingkar pinggang', 'attr' => 'data-fitting-waist',        'min' => 60,  'max' => 140, 'value' => 76],
+                                    ['id' => 'fitting-hip',          'label' => 'Lingkar pinggul',  'attr' => 'data-fitting-hip',          'min' => 70,  'max' => 150, 'value' => 96],
+                                    ['id' => 'fitting-shoulder',     'label' => 'Lebar bahu',       'attr' => 'data-fitting-shoulder',     'min' => 30,  'max' => 60,  'value' => 44],
+                                    ['id' => 'fitting-arm-length',   'label' => 'Panjang lengan',   'attr' => 'data-fitting-arm-length',   'min' => 40,  'max' => 80,  'value' => 58],
+                                    ['id' => 'fitting-torso-length', 'label' => 'Panjang torso',    'attr' => 'data-fitting-torso-length', 'min' => 30,  'max' => 60,  'value' => 44],
                                 ];
                             @endphp
 
@@ -275,16 +275,6 @@
                                         <label for="{{ $inp['id'] }}" class="block text-xs font-semibold text-[#102A43]">
                                             {{ $inp['label'] }}
                                         </label>
-                                        @if (!empty($inp['hasAuto']))
-                                            <button
-                                                type="button"
-                                                data-fitting-auto-proportions
-                                                class="text-[10px] font-medium text-[#3F7A62] hover:text-[#2D5A47] hover:underline cursor-pointer"
-                                                title="Hitung proporsi dada, pinggang, dan bahu otomatis sesuai tinggi badan ini"
-                                            >
-                                                ✦ Proporsikan otomatis dari tinggi
-                                            </button>
-                                        @endif
                                     </div>
                                     <div class="relative">
                                         <input
@@ -341,10 +331,11 @@
                             ['Lebar bahu',      'Ukur dari ujung bahu kiri ke ujung bahu kanan secara horizontal.'],
                             ['Panjang lengan',  'Ukur dari ujung bahu ke pergelangan tangan dengan siku sedikit ditekuk.'],
                             ['Panjang torso',   'Ukur dari titik bahu (dekat leher) ke garis pinggang alami.'],
+                            ['Proporsi tubuh',  'Menentukan letak pinggul/selangkangan avatar.<br>"Pendek" = pinggul lebih tinggi (kaki panjang).<br>"Panjang" = pinggul lebih rendah.'],
                         ] as [$term, $desc])
                             <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-3.5">
                                 <p class="text-xs font-semibold text-[#102A43]">{{ $term }}</p>
-                                <p class="mt-0.5 text-xs leading-relaxed text-[#667085]">{{ $desc }}</p>
+                                <p class="mt-0.5 text-xs leading-relaxed text-[#667085]">{!! $desc !!}</p>
                             </div>
                         @endforeach
                     </div>

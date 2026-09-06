@@ -484,22 +484,6 @@ const initFitting = async () => {
             });
         }
 
-        // ── Proporsi Otomatis dari Tinggi Badan ──
-        const autoProportionsBtn = root.querySelector('[data-fitting-auto-proportions]');
-        if (autoProportionsBtn) {
-            autoProportionsBtn.addEventListener('click', () => {
-                const h = numberValue(heightInput, 170);
-                if (chestInput) chestInput.value = Math.round(h * 0.54);
-                if (waistInput) waistInput.value = Math.round(h * 0.44);
-                if (hipInput) hipInput.value = Math.round(h * 0.56);
-                if (shoulderInput) shoulderInput.value = Math.round(h * 0.26);
-                if (armLengthInput) armLengthInput.value = Math.round(h * 0.34);
-                if (torsoLengthInput) torsoLengthInput.value = Math.round(h * 0.26);
-
-                userManuallySelectedSize = false;
-                updateBody();
-            });
-        }
 
         // ── Debug Listeners ──
         const debugScale = document.getElementById('debug-scale');

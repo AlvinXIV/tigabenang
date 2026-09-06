@@ -101,7 +101,8 @@ export function analyzeFit({
         // 4. Evaluasi lebar bahu
         const shDiff = gShoulder - shoulder;
         if (shDiff < 0) {
-            penalty += Math.abs(shDiff) * 8; // Bahu sempit
+            // Bahu sempit (fisik menembus). Penalti harus sangat besar agar sistem memaksa upsize
+            penalty += 150 + Math.abs(shDiff) * 30; 
         } else if (shDiff > 4) {
             penalty += (shDiff - 4) * 3; // Bahu terlalu turun
         }
@@ -121,7 +122,9 @@ export function analyzeFit({
     let reason = '';
     const recName = recommended.name ?? 'M';
 
-    if (height >= 185) {
+    if (shoulder >= 52) {
+        reason = `Ukuran <strong>${recName}</strong> direkomendasikan karena Anda memiliki bahu yang bidang (<strong>${shoulder} cm</strong>), sehingga membutuhkan ukuran yang lebih besar agar bagian bahu tidak sempit atau menembus.`;
+    } else if (height >= 185) {
         reason = `Ukuran <strong>${recName}</strong> direkomendasikan berdasarkan tinggi badan (<strong>${height} cm</strong>) dan lingkar dada (<strong>${chest} cm</strong>) agar panjang baju proporsional menutup pinggul dan tidak cingkrang, sekaligus tetap nyaman di bahu dan dada.`;
     } else if (chest >= 105 || waist >= 95) {
         reason = `Ukuran <strong>${recName}</strong> direkomendasikan berdasarkan lingkar dada (<strong>${chest} cm</strong>) dan lingkar pinggang (<strong>${waist} cm</strong>) untuk memberikan ruang gerak leluasa dan nyaman tanpa terasa sesak.`;
