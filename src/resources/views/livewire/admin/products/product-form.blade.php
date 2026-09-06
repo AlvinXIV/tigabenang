@@ -181,7 +181,7 @@
                 <div class="admin-card p-5 space-y-4">
                     <div class="border-b border-[#E2E5E9] pb-3">
                         <h2 class="text-sm font-semibold text-[#102A43]">Model Virtual Fitting 3D</h2>
-                        <p class="text-xs text-[#667085] mt-0.5">Format .glb atau .gltf (Maks 20MB).</p>
+                        <p class="text-xs text-[#667085] mt-0.5">Format .GLB / .GLTF • Maksimal 20 MB. Opsional.</p>
                     </div>
 
                     <div class="space-y-3">
