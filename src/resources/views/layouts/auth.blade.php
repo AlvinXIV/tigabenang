@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Masuk Admin') | Tigabenang</title>
+    <title>@yield('title', 'Masuk Admin') | FitVendor</title>
     
     <!-- Favicon matching Customer Portal -->
     <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=3">
@@ -114,7 +114,7 @@
     <!-- Persistent Minimal Footer (Proporsional, tidak terlalu jauh) -->
     <footer class="w-full text-center pb-8 pt-2">
         <p class="text-[12px] sm:text-[13px] text-[#667085] m-0">
-            &copy; {{ date('Y') }} Tigabenang. Konveksi &amp; Atelier Digital.
+            &copy; {{ date('Y') }} FitVendor. Konveksi &amp; Atelier Digital.
         </p>
     </footer>
 

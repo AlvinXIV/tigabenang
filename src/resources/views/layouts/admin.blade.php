@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') | Tigabenang</title>
+    <title>@yield('title', 'Dashboard') | FitVendor</title>
 
     <link rel="icon" type="image/png" href="{{ asset('images/clothiq-logo.png') }}?v=3">
     
@@ -20,7 +20,7 @@
     <script>
         (function() {
             try {
-                if (localStorage.getItem('tigabenang_admin_sidebar_collapsed') === 'true') {
+                if (localStorage.getItem('fitvendor_admin_sidebar_collapsed') === 'true') {
                     document.documentElement.classList.add('sidebar-collapsed');
                 }
             } catch(e) {}
@@ -385,7 +385,7 @@
         currentNav: '{{ $activeNav }}',
         sidebarCollapsed: (function() {
             try {
-                return localStorage.getItem('tigabenang_admin_sidebar_collapsed') === 'true';
+                return localStorage.getItem('fitvendor_admin_sidebar_collapsed') === 'true';
             } catch(e) {
                 return false;
             }
@@ -393,7 +393,7 @@
         toggleSidebar() {
             this.sidebarCollapsed = !this.sidebarCollapsed;
             try {
-                localStorage.setItem('tigabenang_admin_sidebar_collapsed', this.sidebarCollapsed ? 'true' : 'false');
+                localStorage.setItem('fitvendor_admin_sidebar_collapsed', this.sidebarCollapsed ? 'true' : 'false');
                 if (this.sidebarCollapsed) {
                     document.documentElement.classList.add('sidebar-collapsed');
                 } else {
@@ -437,12 +437,12 @@
                 <!-- Brand Header -->
                 <div class="sidebar-brand-header shrink-0 p-4 border-b border-[#E2E5E9]">
                     <div class="flex items-center justify-between">
-                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 text-decoration-none min-w-0" aria-label="Dashboard Tigabenang">
+                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 text-decoration-none min-w-0" aria-label="Dashboard FitVendor">
                             <!-- Official Logo Emblem: Customer Portal monogram container design -->
                             <div class="sidebar-logo-emblem w-10 h-10 rounded-[10px] border border-[#E2E5E9] bg-white flex items-center justify-center shadow-[0_1px_2px_rgba(16,42,67,0.04)] shrink-0 select-none overflow-hidden">
                                 <img
                                     src="{{ asset('images/clothiq-logo.png') }}?v=3"
-                                    alt="Logo Tigabenang"
+                                    alt="Logo FitVendor"
                                     width="32"
                                     height="32"
                                     class="h-[78%] w-[78%] object-contain select-none"
@@ -450,7 +450,7 @@
                             </div>
                             <!-- Brand Text (Hidden when collapsed) -->
                             <div class="sidebar-hide-collapsed min-w-0 overflow-hidden">
-                                <div class="text-[#102A43] text-sm font-bold tracking-tight truncate">Tigabenang</div>
+                                <div class="text-[#102A43] text-sm font-bold tracking-tight truncate">FitVendor</div>
                                 <div class="text-[#667085] text-[11px] font-medium leading-none mt-1 truncate">Konveksi &amp; Atelier Digital</div>
                             </div>
                         </a>
@@ -683,7 +683,7 @@
                 <!-- Expanded view: Direct text identity without placeholder avatar -->
                 <div class="sidebar-hide-collapsed flex items-center justify-between">
                     <a href="{{ route('admin.profile.edit') }}" class="group text-decoration-none min-w-0 flex-1 pr-2" aria-label="Pengaturan Profil Admin">
-                        <p class="text-[#102A43] font-semibold text-xs truncate group-hover:text-[#193B5C] transition-colors leading-snug">Admin Tigabenang</p>
+                        <p class="text-[#102A43] font-semibold text-xs truncate group-hover:text-[#193B5C] transition-colors leading-snug">Admin FitVendor</p>
                         <p class="text-[#667085] text-[11px] font-normal leading-none mt-0.5 truncate">Administrator</p>
                     </a>
 
@@ -724,15 +724,15 @@
                     <div class="w-7 h-7 rounded-[7px] border border-[#E2E5E9] bg-white flex items-center justify-center shadow-2xs overflow-hidden select-none">
                         <img
                             src="{{ asset('images/clothiq-logo.png') }}?v=3"
-                            alt="Logo Tigabenang"
+                            alt="Logo FitVendor"
                             width="22"
                             height="22"
                             class="h-[78%] w-[78%] object-contain select-none"
                         />
                     </div>
-                    <span class="text-xs font-bold tracking-wide text-[#102A43]">TIGABENANG</span>
+                    <span class="text-xs font-bold tracking-wide text-[#102A43]">FITVENDOR</span>
                 </div>
-                <a href="{{ route('admin.profile.edit') }}" class="w-7 h-7 rounded-full bg-[#102A43] text-white flex items-center justify-center text-xs font-bold" aria-label="Profil Admin">TB</a>
+                <a href="{{ route('admin.profile.edit') }}" class="w-7 h-7 rounded-full bg-[#102A43] text-white flex items-center justify-center text-xs font-bold" aria-label="Profil Admin">FV</a>
             </div>
 
             <!-- Main Body Content (Expanded for dense business software layout) -->
@@ -744,7 +744,7 @@
 
             <!-- Bottom Minimal Footer -->
             <footer class="shrink-0 px-4 py-4 sm:px-6 lg:px-8 border-t border-[#E2E5E9] text-xs text-[#667085] flex flex-col sm:flex-row items-center justify-between gap-3 w-full max-w-[1440px] mx-auto">
-                <p>&copy; {{ date('Y') }} Tigabenang. Hak cipta dilindungi.</p>
+                <p>&copy; {{ date('Y') }} FitVendor. Hak cipta dilindungi.</p>
                 <div class="flex items-center gap-5 text-xs text-[#667085]">
                     <a href="{{ route('home') }}" target="_blank" class="hover:text-[#102A43] transition-colors font-medium text-decoration-none">Lihat Toko Pelanggan &rarr;</a>
                     <a href="{{ route('admin.profile.edit') }}" class="hover:text-[#102A43] transition-colors font-medium text-decoration-none">Pengaturan Akun</a>

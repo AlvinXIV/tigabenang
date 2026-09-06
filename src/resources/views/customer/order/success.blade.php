@@ -29,7 +29,7 @@
 
     if ($pemesanan) {
         $msgParts = [
-            'Halo Tigabenang, saya ingin konsultasi pemesanan pakaian custom dengan detail berikut:',
+            'Halo FitVendor, saya ingin konsultasi pemesanan pakaian custom dengan detail berikut:',
             '',
             '◆ *DATA PEMESAN*',
             '• No. Antrean: #TB-' . str_pad($pemesanan->id_pemesanan, 5, '0', STR_PAD_LEFT),
@@ -213,7 +213,7 @@
                     @if ($vendorEmail !== '' || $vendorLocation !== '')
                         <div class="mt-5 rounded-xl border border-[#E2E5E9] bg-[#F7F7F5] p-4">
                             <p class="mb-1 text-sm font-semibold text-[#667085]">Kontak vendor</p>
-                            <p class="font-bold text-[#1C2430]">Tigabenang</p>
+                            <p class="font-bold text-[#1C2430]">FitVendor</p>
                             @if ($vendorLocation !== '')
                                 <p class="mt-1 text-sm text-[#667085]">{{ $vendorLocation }}</p>
                             @endif

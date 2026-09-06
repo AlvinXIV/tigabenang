@@ -6,12 +6,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
         $pageTitle = trim($__env->yieldContent('title'));
-        if (empty($pageTitle) || $pageTitle === 'Tigabenang' || $pageTitle === 'Tigabenang | Konveksi & Atelier Digital') {
-            $customerDocumentTitle = 'Tigabenang | Konveksi & Atelier Digital';
-        } elseif (str_ends_with($pageTitle, ' | Tigabenang')) {
+        if (empty($pageTitle) || $pageTitle === 'FitVendor' || $pageTitle === 'FitVendor | Konveksi & Atelier Digital') {
+            $customerDocumentTitle = 'FitVendor | Konveksi & Atelier Digital';
+        } elseif (str_ends_with($pageTitle, ' | FitVendor')) {
             $customerDocumentTitle = $pageTitle;
         } else {
-            $customerDocumentTitle = $pageTitle . ' | Tigabenang';
+            $customerDocumentTitle = $pageTitle . ' | FitVendor';
         }
     @endphp
     <title>{{ $customerDocumentTitle }}</title>

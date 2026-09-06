@@ -1,7 +1,7 @@
 @extends('layouts.deal-order')
 
 @section('title', 'Pesanan Berhasil')
-@section('description', 'Detail konfirmasi pemesanan pakaian custom Tigabenang Atelier.')
+@section('description', 'Detail konfirmasi pemesanan pakaian custom FitVendor Atelier.')
 
 @section('content')
     <section style="background:#FAF8F5;padding:4rem 0 6rem;">
@@ -25,7 +25,7 @@
                 </h1>
 
                 <p style="margin-top:0.75rem;font-size:0.9375rem;line-height:1.6;color:#555E68;">
-                    Terima kasih! Rincian pesanan Anda telah tersimpan ke sistem Tigabenang dan siap diproses ke tahap verifikasi bahan &amp; antrean produksi.
+                    Terima kasih! Rincian pesanan Anda telah tersimpan ke sistem FitVendor dan siap diproses ke tahap verifikasi bahan &amp; antrean produksi.
                 </p>
 
                 @if ($pemesanan)
@@ -146,7 +146,7 @@
                         $pdfUrl = route('order.pdf', $pemesanan->id_pemesanan);
 
                         $msgParts = [
-                            'Halo Tigabenang, saya ingin konsultasi pemesanan pakaian custom dengan detail berikut:',
+                            'Halo FitVendor, saya ingin konsultasi pemesanan pakaian custom dengan detail berikut:',
                             '',
                             '◆ *DATA PEMESAN*',
                             '• No. Antrean: #TB-' . str_pad($pemesanan->id_pemesanan, 5, '0', STR_PAD_LEFT),

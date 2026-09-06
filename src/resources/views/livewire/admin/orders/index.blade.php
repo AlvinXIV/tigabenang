@@ -141,7 +141,7 @@
                             <td class="px-4 py-3.5 text-[#667085] whitespace-nowrap font-mono text-xs">
                                 @if ($ord->no_hp)
                                     <a
-                                        href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $ord->no_hp) }}?text={{ rawurlencode('Halo ' . $ord->nama . ', kami dari Tigabenang mengonfirmasi pesanan #ORD-' . str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT)) }}"
+                                        href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $ord->no_hp) }}?text={{ rawurlencode('Halo ' . $ord->nama . ', kami dari FitVendor mengonfirmasi pesanan #ORD-' . str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT)) }}"
                                         target="_blank"
                                         class="text-emerald-700 hover:underline inline-flex items-center gap-1 text-decoration-none"
                                     >
