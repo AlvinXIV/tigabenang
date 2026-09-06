@@ -330,7 +330,7 @@
         </div>
     </section>
 
-    <section class="bg-[#F7F7F5] py-16 sm:py-20 lg:py-24">
+    <section id="faq" class="bg-[#F7F7F5] py-16 sm:py-20 lg:py-24">
         <div class="mx-auto max-w-[1200px] px-5 lg:px-8">
             <div class="grid gap-10 lg:grid-cols-12">
                 <div class="lg:col-span-5">

@@ -430,7 +430,7 @@
             </div>
         </section>
 
-        <section class="fv-about__section bg-white">
+        <section id="cara-pemesanan" class="fv-about__section bg-white">
             <div class="fv-about__shell">
                 <span class="about-eyebrow">Proses pemesanan</span>
                 <h2 class="fv-about__heading">Alur kerja</h2>
