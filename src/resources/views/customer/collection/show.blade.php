@@ -24,7 +24,7 @@
             <div class="lg:col-span-5">
                 <div class="fv-media relative aspect-[3/4]">
                     @if ($imageUrl)
-                        <picture>
+                        <picture class="absolute inset-0 block h-full w-full">
                             @if ($productWebpUrl)
                                 <source srcset="{{ $productWebpUrl }}" type="image/webp">
                             @endif
@@ -33,7 +33,7 @@
                                 alt="{{ $product->nama_produk }}"
                                 width="600" height="800"
                                 fetchpriority="high" decoding="async"
-                                class="h-full w-full object-cover"
+                                class="absolute inset-0 h-full w-full object-cover object-center"
                             >
                         </picture>
                     @else
