@@ -248,7 +248,20 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Estimasi total')
             ->assertSee('Rp 400.000')
             ->assertSee('Harga ini merupakan estimasi awal.')
-            ->assertSee('Halo%20Tigabenang');
+            ->assertSee('Halo%20Tigabenang')
+            ->assertSee(route('order.pdf', $order->id_pemesanan), false)
+            ->assertSee('Lihat / Cetak Dokumen PDF');
+
+        // Customer PDF Order Brief renders successfully
+        $this->get(route('order.pdf', $order->id_pemesanan))
+            ->assertOk()
+            ->assertSee('Budi Santoso')
+            ->assertSee('Kemeja Oxford')
+            ->assertSee('Katun Oxford')
+            ->assertSee('Ukuran L')
+            ->assertSee('2 pcs')
+            ->assertSee('Rp 400.000')
+            ->assertSee('Tolong kancing putih');
 
         // Admin Pesanan Index shows "Menunggu Penetapan" badge
         $this->get(route('admin.pesanan.index'))

@@ -132,4 +132,15 @@ class OrderController extends Controller
             'pemesanan' => $pemesanan,
         ]);
     }
+
+    public function pdf($id): View
+    {
+        $order = Pemesanan::query()
+            ->with(['produk.kategori', 'bahan', 'ukuran'])
+            ->findOrFail($id);
+
+        return view('customer.order.pdf', [
+            'order' => $order,
+        ]);
+    }
 }
