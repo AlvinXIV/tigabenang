@@ -514,10 +514,10 @@
                     </p>
                 </div>
                 <div class="testimonial-header__nav">
-                    <button type="button" id="testimonial-prev-btn" aria-label="Testimoni sebelumnya" class="flex h-11 w-11 items-center justify-center rounded-[8px] border border-[#E2E5E9] bg-white text-[#102A43]">
+                    <button type="button" id="testimonial-prev-btn" aria-label="Testimoni sebelumnya" class="testimonial-nav-btn">
                         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <button type="button" id="testimonial-next-btn" aria-label="Testimoni berikutnya" class="flex h-11 w-11 items-center justify-center rounded-[8px] bg-[#102A43] text-white">
+                    <button type="button" id="testimonial-next-btn" aria-label="Testimoni berikutnya" class="testimonial-nav-btn">
                         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
@@ -657,8 +657,37 @@
             flex-shrink: 0;
             gap: 0.5rem;
         }
-        .testimonial-header__nav button {
+        .testimonial-nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 8px;
+            border: 1px solid #E2E5E9;
+            background-color: #FFFFFF !important;
+            color: #102A43 !important;
+            cursor: pointer;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             flex-shrink: 0;
+        }
+        .testimonial-nav-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: #102A43 !important;
+            transition: stroke 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .testimonial-nav-btn:hover {
+            background-color: #102A43 !important;
+            border-color: #102A43 !important;
+            color: #FFFFFF !important;
+        }
+        .testimonial-nav-btn:hover svg {
+            stroke: #FFFFFF !important;
+        }
+        .testimonial-nav-btn:active {
+            transform: scale(0.94);
         }
         #testimonial-carousel-track {
             align-items: stretch;
