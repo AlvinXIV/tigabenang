@@ -4,12 +4,10 @@
     $whatsappHref   = $whatsappNumber !== '' ? "https://wa.me/{$whatsappNumber}?text={$whatsappMessage}" : null;
     $email          = trim((string) config('fitvendor.contact.email'));
     $location       = trim((string) config('fitvendor.contact.location'));
-    $navLinks = [
-        ['Portofolio',       'home'],
-        ['Koleksi',          'collection.index'],
-        ['Virtual fitting',  'virtual-fitting'],
-        ['Tentang',          'about'],
-        ['Pesan custom',     'order.create'],
+    $bantuanLinks = [
+        ['Tentang Kami',   route('about')],
+        ['Cara Pemesanan', route('about') . '#cara-pemesanan'],
+        ['FAQ',            route('home') . '#faq'],
     ];
 @endphp
 
@@ -29,11 +27,11 @@
             </div>
 
             <div>
-                <p class="mb-4 text-sm font-semibold text-white">Navigasi</p>
+                <p class="mb-4 text-sm font-semibold text-white">Bantuan</p>
                 <ul class="m-0 flex list-none flex-col gap-2.5 p-0">
-                    @foreach ($navLinks as [$label, $route])
+                    @foreach ($bantuanLinks as [$label, $href])
                         <li>
-                            <a href="{{ route($route) }}" class="text-sm text-white/70 no-underline hover:text-white">
+                            <a href="{{ $href }}" class="text-sm text-white/70 no-underline hover:text-white transition-colors">
                                 {{ $label }}
                             </a>
                         </li>
