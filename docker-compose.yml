@@ -23,7 +23,13 @@ services:
 
     container_name: tigabenang_node
 
+    profiles:
+      - vite
+
     working_dir: /var/www
+
+    environment:
+      - VITE_USE_POLLING=1
 
     volumes:
       - ./src:/var/www

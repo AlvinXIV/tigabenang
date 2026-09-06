@@ -44,46 +44,46 @@
                     type="button"
                     @click="setPeriod('all', 'Semua Waktu')"
                     class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === 'all' ? 'font-semibold text-[#B8664A] bg-[#FDF8F6]' : ''"
+                    :class="period === 'all' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
                 >
                     <span>Semua Waktu</span>
-                    <span x-show="period === 'all'" class="text-[#B8664A]">&check;</span>
+                    <span x-show="period === 'all'" class="text-[#102A43]">&check;</span>
                 </button>
                 <button
                     type="button"
                     @click="setPeriod('7d', '7 Hari Terakhir')"
                     class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === '7d' ? 'font-semibold text-[#B8664A] bg-[#FDF8F6]' : ''"
+                    :class="period === '7d' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
                 >
                     <span>7 Hari Terakhir</span>
-                    <span x-show="period === '7d'" class="text-[#B8664A]">&check;</span>
+                    <span x-show="period === '7d'" class="text-[#102A43]">&check;</span>
                 </button>
                 <button
                     type="button"
                     @click="setPeriod('30d', '30 Hari Terakhir')"
                     class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === '30d' ? 'font-semibold text-[#B8664A] bg-[#FDF8F6]' : ''"
+                    :class="period === '30d' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
                 >
                     <span>30 Hari Terakhir</span>
-                    <span x-show="period === '30d'" class="text-[#B8664A]">&check;</span>
+                    <span x-show="period === '30d'" class="text-[#102A43]">&check;</span>
                 </button>
                 <button
                     type="button"
                     @click="setPeriod('90d', '3 Bulan Terakhir')"
                     class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === '90d' ? 'font-semibold text-[#B8664A] bg-[#FDF8F6]' : ''"
+                    :class="period === '90d' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
                 >
                     <span>3 Bulan Terakhir</span>
-                    <span x-show="period === '90d'" class="text-[#B8664A]">&check;</span>
+                    <span x-show="period === '90d'" class="text-[#102A43]">&check;</span>
                 </button>
                 <button
                     type="button"
                     @click="setPeriod('year', 'Tahun Ini')"
                     class="w-full text-left px-3.5 py-2 text-[#1C2430] hover:bg-[#F7F7F5] flex items-center justify-between"
-                    :class="period === 'year' ? 'font-semibold text-[#B8664A] bg-[#FDF8F6]' : ''"
+                    :class="period === 'year' ? 'font-semibold text-[#102A43] bg-[#FDF8F6]' : ''"
                 >
                     <span>Tahun Ini</span>
-                    <span x-show="period === 'year'" class="text-[#B8664A]">&check;</span>
+                    <span x-show="period === 'year'" class="text-[#102A43]">&check;</span>
                 </button>
             </div>
         </div>
@@ -113,7 +113,7 @@
         <div class="admin-card p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-medium text-[#667085]">Total Transaksi Disepakati</span>
-                <span class="p-1.5 bg-[#FDF8F6] rounded-md text-[#B8664A]">
+                <span class="p-1.5 bg-[#FDF8F6] rounded-md text-[#102A43]">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
@@ -208,7 +208,7 @@
             <div class="relative w-full" style="height: 300px; min-height: 300px;">
                 <!-- Loading State -->
                 <div x-show="isLoading" class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-xs text-[#667085] bg-white/80 z-10">
-                    <div class="w-5 h-5 border-2 border-[#B8664A] border-t-transparent rounded-full animate-spin"></div>
+                    <div class="w-5 h-5 border-2 border-[#102A43] border-t-transparent rounded-full animate-spin"></div>
                     <span>Memuat visualisasi tren...</span>
                 </div>
 
@@ -266,7 +266,7 @@
                     <h2 class="text-sm font-semibold text-[#1C2430]">Produk Paling Sering Dipesan</h2>
                     <p class="text-[11px] text-[#667085] mt-0.5">Peringkat produk berdasarkan frekuensi pesanan aktual.</p>
                 </div>
-                <a href="{{ route('admin.produk.index') }}" class="text-xs text-[#B8664A] hover:underline font-medium text-decoration-none">Katalog &rarr;</a>
+                <a href="{{ route('admin.produk.index') }}" class="text-xs text-[#102A43] hover:underline font-medium text-decoration-none">Katalog &rarr;</a>
             </div>
 
             <div class="divide-y divide-[#E2E5E9] bg-white">
@@ -275,7 +275,7 @@
                         <div class="flex items-center gap-3 min-w-0">
                             <span
                                 class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0"
-                                :class="idx === 0 ? 'bg-[#B8664A] text-white' : 'bg-[#F7F7F5] text-[#667085] border border-[#E2E5E9]'"
+                                :class="idx === 0 ? 'bg-[#102A43] text-white' : 'bg-[#F7F7F5] text-[#667085] border border-[#E2E5E9]'"
                                 x-text="idx + 1"
                             ></span>
                             <div class="min-w-0">
@@ -287,7 +287,7 @@
                             <span class="text-xs sm:text-sm font-semibold text-[#1C2430]" x-text="prod.count + ' pesanan'"></span>
                             <div class="w-24 h-1.5 bg-[#F7F7F5] rounded-full overflow-hidden mt-1.5 border border-[#E2E5E9]">
                                 <div
-                                    class="h-full bg-[#B8664A] rounded-full transition-all duration-300"
+                                    class="h-full bg-[#102A43] rounded-full transition-all duration-300"
                                     :style="'width: ' + (kpiTotalOrders > 0 ? (prod.count / kpiTotalOrders * 100) : 0) + '%'"
                                 ></div>
                             </div>
@@ -308,7 +308,7 @@
                     <h2 class="text-sm font-semibold text-[#1C2430]">Material Paling Banyak Dipilih</h2>
                     <p class="text-[11px] text-[#667085] mt-0.5">Preferensi kain garmen yang dipilih pemesan.</p>
                 </div>
-                <a href="{{ route('admin.kategori.index') }}?tab=material#material" class="text-xs text-[#B8664A] hover:underline font-medium text-decoration-none">Material &rarr;</a>
+                <a href="{{ route('admin.kategori.index') }}?tab=material#material" class="text-xs text-[#102A43] hover:underline font-medium text-decoration-none">Material &rarr;</a>
             </div>
 
             <div class="divide-y divide-[#E2E5E9] bg-white">
@@ -352,7 +352,7 @@
                 <h2 class="text-sm sm:text-base font-semibold text-[#1C2430]">Performa Kategori Produk</h2>
                 <p class="text-xs text-[#667085] mt-0.5">Distribusi pesanan garmen di seluruh klasifikasi busana terdaftar.</p>
             </div>
-            <a href="{{ route('admin.kategori.index') }}" class="text-xs text-[#B8664A] hover:underline font-medium text-decoration-none">Kelola Kategori &rarr;</a>
+            <a href="{{ route('admin.kategori.index') }}" class="text-xs text-[#102A43] hover:underline font-medium text-decoration-none">Kelola Kategori &rarr;</a>
         </div>
 
         <div class="space-y-3.5 pt-1">
@@ -365,7 +365,7 @@
                     <div class="w-full h-2.5 bg-[#F7F7F5] rounded-full overflow-hidden border border-[#E2E5E9]">
                         <div
                             class="h-full rounded-full transition-all duration-300"
-                            :class="cat.ordersCount > 0 ? 'bg-[#B8664A]' : 'bg-transparent'"
+                            :class="cat.ordersCount > 0 ? 'bg-[#102A43]' : 'bg-transparent'"
                             :style="'width: ' + (kpiTotalOrders > 0 ? Math.max(5, (cat.ordersCount / kpiTotalOrders * 100)) : 0) + '%'"
                         ></div>
                     </div>
@@ -384,7 +384,7 @@
         <!-- CARD 1: INSIGHT BISNIS -->
         <div class="admin-card p-5 space-y-3.5">
             <div class="flex items-center gap-2.5 border-b border-[#E2E5E9] pb-3">
-                <div class="w-7 h-7 rounded-lg bg-[#FDF8F6] text-[#B8664A] flex items-center justify-center shrink-0">
+                <div class="w-7 h-7 rounded-lg bg-[#FDF8F6] text-[#102A43] flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
@@ -398,7 +398,7 @@
             <div class="space-y-2.5 pt-1">
                 <template x-for="(text, idx) in insights" :key="idx">
                     <div class="p-3 bg-[#FAF9F7] rounded-lg border border-[#E2E5E9] flex items-start gap-2.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#B8664A] mt-1.5 shrink-0"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#102A43] mt-1.5 shrink-0"></span>
                         <p class="text-xs text-[#1C2430] leading-relaxed" x-text="text"></p>
                     </div>
                 </template>
@@ -438,7 +438,7 @@
                     </div>
                     <a
                         href="{{ route('admin.pesanan.index') }}"
-                        class="text-xs font-medium text-[#B8664A] hover:underline whitespace-nowrap shrink-0 text-decoration-none"
+                        class="text-xs font-medium text-[#102A43] hover:underline whitespace-nowrap shrink-0 text-decoration-none"
                     >
                         Tinjau &rarr;
                     </a>
@@ -455,7 +455,7 @@
                     </div>
                     <a
                         href="{{ route('admin.model-3d.create') }}"
-                        class="text-xs font-medium text-[#B8664A] hover:underline whitespace-nowrap shrink-0 text-decoration-none"
+                        class="text-xs font-medium text-[#102A43] hover:underline whitespace-nowrap shrink-0 text-decoration-none"
                     >
                         Hubungkan &rarr;
                     </a>
@@ -479,7 +479,7 @@
                     </div>
                     <a
                         href="{{ route('admin.kategori.index') }}"
-                        class="text-xs font-medium text-[#B8664A] hover:underline whitespace-nowrap shrink-0 text-decoration-none"
+                        class="text-xs font-medium text-[#102A43] hover:underline whitespace-nowrap shrink-0 text-decoration-none"
                     >
                         Kelola &rarr;
                     </a>
@@ -798,12 +798,12 @@
                                 datasets: [{
                                     label: 'Jumlah Pesanan',
                                     data: ordersCounts,
-                                    borderColor: '#B8664A',
+                                    borderColor: '#102A43',
                                     backgroundColor: 'rgba(184, 102, 74, 0.08)',
                                     fill: true,
                                     tension: 0.3,
                                     borderWidth: 2,
-                                    pointBackgroundColor: '#B8664A',
+                                    pointBackgroundColor: '#102A43',
                                     pointBorderColor: '#FFFFFF',
                                     pointBorderWidth: 2,
                                     pointRadius: 5,

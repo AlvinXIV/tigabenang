@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libpq-dev \
+    webp \
     && docker-php-ext-install \
     pdo_pgsql \
     mbstring \

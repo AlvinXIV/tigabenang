@@ -41,7 +41,7 @@
         aria-haspopup="true"
         aria-label="{{ $label }}"
         title="{{ $label }}"
-        class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-[#667085] hover:text-[#1C2430] hover:bg-[#F0F2F5] active:bg-[#E2E5E9] focus:outline-none focus:ring-2 focus:ring-[#B8664A]/30 transition-colors cursor-pointer border-0 bg-transparent"
+        class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-[#667085] hover:text-[#1C2430] hover:bg-[#F0F2F5] active:bg-[#E2E5E9] focus:outline-none focus:ring-2 focus:ring-[#102A43]/30 transition-colors cursor-pointer border-0 bg-transparent"
     >
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
             <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />

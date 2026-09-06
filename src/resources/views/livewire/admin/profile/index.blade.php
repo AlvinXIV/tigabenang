@@ -71,7 +71,7 @@
                         wire:model="name"
                         id="name"
                         required
-                        class="w-full px-3.5 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full px-3.5 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                     @error('name')
                         <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -88,7 +88,7 @@
                         wire:model="email"
                         id="email"
                         required
-                        class="w-full px-3.5 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full px-3.5 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                     @error('email')
                         <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -107,7 +107,7 @@
                 <button
                     type="button"
                     wire:click="$toggle('changePassword')"
-                    class="text-xs text-[#B8664A] hover:underline font-medium cursor-pointer"
+                    class="text-xs text-[#102A43] hover:underline font-medium cursor-pointer"
                 >
                     {{ $changePassword ? 'Batal Ganti Kata Sandi' : 'Ganti Kata Sandi' }}
                 </button>
@@ -125,7 +125,7 @@
                             id="password"
                             required
                             placeholder="Minimal 8 karakter"
-                            class="w-full px-3.5 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                            class="w-full px-3.5 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                         />
                         @error('password')
                             <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -142,7 +142,7 @@
                             id="password_confirmation"
                             required
                             placeholder="Ulangi kata sandi baru"
-                            class="w-full px-3.5 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
+                            class="w-full px-3.5 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none"
                         />
                     </div>
                 </div>

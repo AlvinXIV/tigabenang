@@ -21,6 +21,113 @@ class CustomerCatalog
 
     public const HAS_3D_KEY = 'customer.catalog.has_3d';
 
+    /**
+     * Customer-facing category labels. Database values stay unchanged.
+     *
+     * @var array<string, string>
+     */
+    private const CATEGORY_LABELS = [
+        'JaketWindbreaker' => 'Jaket Windbreaker',
+    ];
+
+    /**
+     * Display-only material padding from existing catalog names.
+     * Odd product IDs stop at 2; even product IDs use the third name when it exists.
+     *
+     * @var array<string, array<int, string>>
+     */
+    private const CATEGORY_PREVIEW_MATERIALS = [
+        'Jaket Varsity' => ['Fleece', 'Cotton Combed', 'Baby Terry'],
+        'Work Jacket' => ['Drill', 'Taslan', 'Fleece'],
+        'JaketWindbreaker' => ['Taslan', 'Fleece', 'Drill'],
+        'Jersey' => ['Dry Fit', 'Cotton Combed', 'Baby Terry'],
+        'Kaos' => ['Cotton Combed', 'Baby Terry', 'Fleece'],
+    ];
+
+    public static function categoryLabel(?string $name): string
+    {
+        if ($name === null || $name === '') {
+            return '';
+        }
+
+        return self::CATEGORY_LABELS[$name] ?? $name;
+    }
+
+    /**
+     * Product Detail shows a mix of 2 and 3 materials without writing produk_bahan.
+     * Related bahan come first. Even product IDs may add a third catalog material
+     * from the established category mapping when that name already exists.
+     *
+     * @param  iterable<int, Bahan>|null  $related
+     * @return Collection<int, Bahan>
+     */
+    public static function previewMaterials(
+        iterable $related = [],
+        ?string $categoryName = null,
+        int|string|null $productId = null,
+    ): Collection {
+        $selected = collect($related)
+            ->filter(fn ($bahan) => $bahan instanceof Bahan)
+            ->unique(fn (Bahan $bahan) => $bahan->id_bahan)
+            ->values();
+
+        if ($selected->count() >= 3) {
+            return $selected->take(3)->values();
+        }
+
+        $target = self::previewMaterialTarget($productId);
+
+        if ($selected->count() >= $target) {
+            return $selected->take($target)->values();
+        }
+
+        $catalog = self::materials();
+        $seen = $selected
+            ->map(fn (Bahan $bahan) => mb_strtolower(trim($bahan->nama_bahan)))
+            ->all();
+
+        $fallbackNames = array_merge(
+            self::CATEGORY_PREVIEW_MATERIALS[$categoryName] ?? [],
+            $catalog->pluck('nama_bahan')->all(),
+        );
+
+        foreach ($fallbackNames as $name) {
+            if ($selected->count() >= $target) {
+                break;
+            }
+
+            $match = $catalog->first(
+                fn (Bahan $bahan) => mb_strtolower(trim($bahan->nama_bahan)) === mb_strtolower(trim((string) $name))
+            );
+
+            if (! $match) {
+                continue;
+            }
+
+            $key = mb_strtolower(trim($match->nama_bahan));
+
+            if (in_array($key, $seen, true)) {
+                continue;
+            }
+
+            $selected->push($match);
+            $seen[] = $key;
+        }
+
+        return $selected->take(3)->values();
+    }
+
+    private static function previewMaterialTarget(int|string|null $productId): int
+    {
+        $id = (int) $productId;
+
+        if ($id > 0 && $id % 2 === 0) {
+            return 3;
+        }
+
+        return 2;
+    }
+
     public static function categories(): Collection
     {
         return once(function () {

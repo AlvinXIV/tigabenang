@@ -46,7 +46,7 @@
 >
     <!-- Brand Emblem -->
     <div class="inline-flex flex-col items-center justify-center mb-6 select-none">
-        <div class="w-12 h-12 bg-[#B8664A] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
+        <div class="w-12 h-12 bg-[#102A43] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs mb-2.5">
             TB
         </div>
         <span class="text-sm font-bold tracking-tight text-[#1C2430]">Tigabenang</span>
@@ -96,7 +96,7 @@
                         @blur="validateEmail()"
                         @input="if(errors.email) validateEmail()"
                         placeholder="admin"
-                        class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full pl-9 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                 </div>
                 <template x-if="errors.email">
@@ -125,7 +125,7 @@
                         @blur="validatePassword()"
                         @input="if(errors.password) validatePassword()"
                         placeholder="••••••••"
-                        class="w-full pl-9 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                        class="w-full pl-9 pr-10 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                     />
                     <button
                         type="button"
@@ -151,7 +151,7 @@
                 <button
                     type="submit"
                     :disabled="isSubmitting"
-                    class="w-full py-2.5 bg-[#B8664A] hover:bg-[#9A4E3A] active:bg-[#8A4330] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
+                    class="w-full py-2.5 bg-[#102A43] hover:bg-[#193B5C] active:bg-[#8A4330] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer border-0 shadow-2xs"
                 >
                     <svg x-show="isSubmitting" class="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24" style="display: none;">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -166,7 +166,7 @@
 
     <!-- Storefront Link -->
     <div class="mt-6 text-center text-xs text-[#6E7575]">
-        <a href="{{ route('home') }}" class="text-[#1C2430] hover:text-[#B8664A] font-medium transition-colors text-decoration-none">
+        <a href="{{ route('home') }}" class="text-[#1C2430] hover:text-[#102A43] font-medium transition-colors text-decoration-none">
             &larr; Kembali ke Toko Tigabenang
         </a>
     </div>

@@ -7,6 +7,10 @@ import tailwindcss from '@tailwindcss/vite';
 
 const browserOrigin = 'http://localhost:5173';
 
+// Polling hanya dibutuhkan kalau Vite jalan di dalam Docker (bind mount Windows).
+// Di host Windows, watcher native jauh lebih cepat untuk hot reload.
+const isDocker = Boolean(process.env.VITE_USE_POLLING);
+
 function laravelHotFileBrowserOrigin() {
     return {
         name: 'laravel-hot-file-browser-origin',
@@ -112,15 +116,17 @@ export default defineConfig({
             ],
         },
 
-        // Watch settings for Docker on Windows
+        // Watch settings: native watcher di host, polling hanya di Docker
         watch: {
-            usePolling: true,
-            interval: 500,
+            usePolling: isDocker,
+            ...(isDocker ? { interval: 500 } : {}),
             ignored: [
                 '**/storage/**',
                 '**/vendor/**',
                 '**/node_modules/**',
                 '**/.git/**',
+                '**/public/images/**',
+                '**/public/build/**',
             ],
         },
     },

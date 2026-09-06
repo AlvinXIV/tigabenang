@@ -55,7 +55,7 @@
             {{-- Brand Wordmark & Monogram --}}
             <div class="flex items-center gap-3.5">
                 <span style="width:46px;height:46px;background:#FFFFFF;border:1.5px solid #D5CDC4;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(23,42,57,0.08);overflow:hidden;flex-shrink:0;">
-                    <img src="{{ asset('images/clothiq-logo.png') }}?v=2" alt="Clothiq Logo" width="36" height="36" style="width:84%;height:84%;object-fit:contain;">
+                    <img src="{{ asset('images/clothiq-logo.png') }}?v=3" alt="Clothiq Logo" width="36" height="36" style="width:84%;height:84%;object-fit:contain;">
                 </span>
                 <div>
                     <span style="font-size:1.35rem;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;color:#172A39;display:block;line-height:1;">

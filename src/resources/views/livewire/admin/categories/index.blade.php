@@ -76,10 +76,10 @@
             href="{{ route('admin.kategori.index') }}"
             wire:click.prevent="switchTab('kategori')"
             @click="window.location.hash = ''"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'kategori' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'kategori' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
         >
             <span>Kategori Produk</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'kategori' ? 'bg-[#F4E9E4] text-[#B8664A]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'kategori' ? 'bg-[#EBF1F7] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
                 {{ $summary['total_categories'] }}
             </span>
         </a>
@@ -88,10 +88,10 @@
             href="{{ route('admin.kategori.index', ['tab' => 'material']) }}#material"
             wire:click.prevent="switchTab('material')"
             @click="window.location.hash = 'material'"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'material' ? 'border-[#B8664A] text-[#B8664A] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'material' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#1C2430]' }}"
         >
             <span>Material Kain</span>
-            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'material' ? 'bg-[#F4E9E4] text-[#B8664A]' : 'bg-[#F7F7F5] text-[#667085]' }}">
+            <span class="px-2 py-0.5 rounded-full text-xs {{ $activeTab === 'material' ? 'bg-[#EBF1F7] text-[#102A43]' : 'bg-[#F7F7F5] text-[#667085]' }}">
                 {{ $summary['total_materials'] }}
             </span>
         </a>
@@ -105,7 +105,7 @@
             
             <!-- Collapsible Add Category Panel -->
             @if ($addKategoriOpen)
-                <div class="admin-card p-4 bg-white border-[#B8664A]/30">
+                <div class="admin-card p-4 bg-white border-[#102A43]/30">
                     <h3 class="text-sm font-semibold text-[#1C2430] mb-2">Tambah Kategori Baru</h3>
                     <form wire:submit="saveKategori" class="flex flex-col sm:flex-row gap-2.5 max-w-xl">
                         <div class="flex-1">
@@ -114,7 +114,7 @@
                                 wire:model="nama_kategori"
                                 required
                                 placeholder="Nama kategori, contoh: Jaket Varsity, Kemeja PDH"
-                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                             />
                             @error('nama_kategori')
                                 <span class="text-xs text-rose-500 mt-1 block">{{ $message }}</span>
@@ -145,14 +145,14 @@
                             type="text"
                             wire:model.live.debounce.300ms="searchKategori"
                             placeholder="Cari nama kategori..."
-                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                         />
                     </div>
                     @if (!empty($searchKategori))
                         <button
                             type="button"
                             wire:click="$set('searchKategori', '')"
-                            class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                            class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                         >
                             <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -191,9 +191,9 @@
                                                     type="text"
                                                     wire:model="editingKategoriName"
                                                     wire:keydown.enter="updateKategori"
-                                                    class="px-2 py-1 border border-[#B8664A] rounded text-xs text-[#1C2430] w-full"
+                                                    class="px-2 py-1 border border-[#102A43] rounded text-xs text-[#1C2430] w-full"
                                                 />
-                                                <button wire:click="updateKategori" class="text-xs bg-[#B8664A] text-white px-2 py-1 rounded">Simpan</button>
+                                                <button wire:click="updateKategori" class="text-xs bg-[#102A43] text-white px-2 py-1 rounded">Simpan</button>
                                                 <button wire:click="cancelEditKategori" class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Batal</button>
                                             </div>
                                             @error('editingKategoriName')
@@ -253,7 +253,7 @@
             
             <!-- Collapsible Add Material Panel -->
             @if ($addMaterialOpen)
-                <div class="admin-card p-4 bg-white border-[#B8664A]/30">
+                <div class="admin-card p-4 bg-white border-[#102A43]/30">
                     <h3 class="text-sm font-semibold text-[#1C2430] mb-2">Tambah Material Kain Baru</h3>
                     <form wire:submit="saveMaterial" class="flex flex-col sm:flex-row gap-2.5 max-w-xl">
                         <div class="flex-1">
@@ -262,7 +262,7 @@
                                 wire:model="nama_bahan"
                                 required
                                 placeholder="Nama material kain, contoh: Cotton Combed 30s, Fleece Taiwan"
-                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#B8664A] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                             />
                             @error('nama_bahan')
                                 <span class="text-xs text-rose-500 mt-1 block">{{ $message }}</span>
@@ -293,14 +293,14 @@
                             type="text"
                             wire:model.live.debounce.300ms="searchMaterial"
                             placeholder="Cari material kain..."
-                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#B8664A] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                            class="w-full h-10 pl-9 pr-3.5 bg-[#F7F7F5] border border-[#E2E5E9] focus:border-[#102A43] focus:bg-white text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                         />
                     </div>
                     @if (!empty($searchMaterial))
                         <button
                             type="button"
                             wire:click="$set('searchMaterial', '')"
-                            class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#B8664A] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
+                            class="h-10 px-3 inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#102A43] hover:bg-[#F7F7F5] border border-transparent hover:border-[#E2E5E9] rounded-lg transition-colors font-medium cursor-pointer shrink-0 whitespace-nowrap"
                         >
                             <svg class="w-3.5 h-3.5 text-[#98A2B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -338,9 +338,9 @@
                                                     type="text"
                                                     wire:model="editingBahanName"
                                                     wire:keydown.enter="updateBahan"
-                                                    class="px-2 py-1 border border-[#B8664A] rounded text-xs text-[#1C2430] w-full"
+                                                    class="px-2 py-1 border border-[#102A43] rounded text-xs text-[#1C2430] w-full"
                                                 />
-                                                <button wire:click="updateBahan" class="text-xs bg-[#B8664A] text-white px-2 py-1 rounded">Simpan</button>
+                                                <button wire:click="updateBahan" class="text-xs bg-[#102A43] text-white px-2 py-1 rounded">Simpan</button>
                                                 <button wire:click="cancelEditBahan" class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Batal</button>
                                             </div>
                                             @error('editingBahanName')

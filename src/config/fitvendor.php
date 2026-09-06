@@ -9,7 +9,7 @@ return [
 
     'contact' => [
         'email' => env('FITVENDOR_EMAIL', 'hello@fitvendor.id'),
-        'location' => env('FITVENDOR_LOCATION', 'Bandung, Indonesia'),
+        'location' => env('FITVENDOR_LOCATION', 'Jl. Dipati Akar No. 45, Lebakgede, Kecamatan Coblong, Kota Bandung, Jawa Barat 40132'),
     ],
 
 ];

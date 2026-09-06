@@ -38,7 +38,7 @@
                     name="nama_bahan"
                     value="{{ old('nama_bahan', $bahan->nama_bahan) }}"
                     required
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
                 @error('nama_bahan')
                     <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -55,7 +55,7 @@
                     name="nama_kategori"
                     value="{{ old('nama_kategori', $kategori->nama_kategori) }}"
                     required
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
                 @error('nama_kategori')
                     <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>

@@ -18,7 +18,15 @@ class CustomerFrontendTest extends TestCase
 
     public function test_customer_pages_render(): void
     {
-        $this->get('/')->assertOk();
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Bagus Pratama')
+            ->assertSee('Nadia Putri')
+            ->assertSee('Yoga Prasetyo')
+            ->assertSee('images/profile1.jpg', false)
+            ->assertSee('images/profile8.jpg', false)
+            ->assertSee('images/virtual.jpg', false)
+            ->assertDontSee('virtual-fitting-teaser.jpg');
         $this->get('/collection')->assertOk();
         $this->get('/materials')->assertOk();
         $this->get('/virtual-fitting')
@@ -27,9 +35,13 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Pilihan pakaian');
         $this->get('/about')
             ->assertOk()
-            ->assertSee('Visi')
-            ->assertSee('Misi')
+            ->assertSee('Tentang FitVendor')
+            ->assertSee('Cerita kami')
+            ->assertSee('Siapa itu FitVendor')
             ->assertSee('Hubungi Kami')
+            ->assertSee('images/tentang1.jpg', false)
+            ->assertSee('images/fitvendor.png', false)
+            ->assertSee('images/tentang4.jpg', false)
             ->assertSee(config('fitvendor.contact.email'));
 
         $this->get('/order/create')->assertOk();
@@ -47,6 +59,7 @@ class CustomerFrontendTest extends TestCase
             'panjang_lengan' => 21,
         ]);
         $bahan = Bahan::query()->create(['nama_bahan' => 'Cotton Combed']);
+        Bahan::query()->create(['nama_bahan' => 'Baby Terry']);
         $produk = Produk::query()->create([
             'kategori_id' => $kategori->id_kategori,
             'nama_produk' => 'Kaos Studio',
@@ -77,7 +90,15 @@ class CustomerFrontendTest extends TestCase
         $this->get('/collection/'.$produk->id_produk)
             ->assertOk()
             ->assertSee('Kaos Studio')
-            ->assertSee('Pesan produk ini');
+            ->assertSee('Pesan produk ini')
+            ->assertSee('Bahan tersedia')
+            ->assertSee('Bahan yang terhubung dengan produk ini.')
+            ->assertSee('Cotton Combed')
+            ->assertSee('Baby Terry')
+            ->assertSee('images/materials/cotton_combed.jpg', false)
+            ->assertSee('images/materials/baby_terry.jpg', false)
+            ->assertDontSee('Ukuran tersedia')
+            ->assertDontSee('Mengikuti size chart kategori produk.');
 
         $this->get('/collection/99999')->assertNotFound();
 
@@ -167,7 +188,9 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Karya kami')
             ->assertSee('Lihat koleksi')
             ->assertSee('Atelier Piece 7')
-            ->assertDontSee('Atelier Piece 1');
+            ->assertDontSee('Atelier Piece 1')
+            ->assertDontSee('Bahan produksi')
+            ->assertDontSee('Lihat semua bahan');
 
         $collection = $this->get('/collection');
         $collection->assertOk()

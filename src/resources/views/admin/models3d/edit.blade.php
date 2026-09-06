@@ -62,7 +62,7 @@
                 id="file_model_3d"
                 name="file_model_3d"
                 accept=".glb,.gltf"
-                class="w-full text-xs text-[#667085] file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-[#B8664A] file:text-white hover:file:bg-[#9A4E3A] cursor-pointer"
+                class="w-full text-xs text-[#667085] file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-[#102A43] file:text-white hover:file:bg-[#193B5C] cursor-pointer"
             />
             <p class="text-[11px] text-[#667085] mt-2">Kosongkan jika tidak ingin mengganti file model 3D (Maksimal 20MB).</p>
             @error('file_model_3d')

@@ -1,176 +1,475 @@
 @extends('layouts.customer')
 
 @section('title', 'Tentang')
-@section('description', 'Profil FitVendor. Vendor pakaian custom dengan fitting virtual dan produksi sesuai pesanan.')
+@section('description', 'Profil FitVendor. Vendor pakaian custom dengan virtual fitting dan produksi sesuai pesanan.')
 
 @section('content')
 
-    <section class="fv-page-hero">
-        <div class="mx-auto max-w-[1200px] px-5 py-12 lg:px-8 lg:py-14">
-            <span class="section-badge mb-3">Tentang FitVendor</span>
-            <h1 class="mt-2 max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-                Vendor pakaian yang mengutamakan ukuran yang pas
-            </h1>
-            <p class="mt-4 max-w-2xl text-sm leading-relaxed">
-                FitVendor membuat pakaian custom untuk tim, komunitas, dan individu. Dari pilihan model sampai potongan jadi.
-            </p>
-        </div>
-    </section>
+    <style>
+        .fv-about {
+            background: #F7F7F5;
+            color: #1C2430;
+        }
+        .fv-about__shell {
+            width: 100%;
+            max-width: 1200px;
+            margin-inline: auto;
+            padding-inline: 1.25rem;
+        }
+        @media (min-width: 1024px) {
+            .fv-about__shell { padding-inline: 2rem; }
+        }
+        .fv-about__section {
+            padding-block: 3.5rem;
+        }
+        @media (min-width: 768px) {
+            .fv-about__section { padding-block: 5rem; }
+        }
+        @media (min-width: 1024px) {
+            .fv-about__section { padding-block: 6rem; }
+        }
+        .fv-about__photo {
+            display: block;
+            overflow: hidden;
+            border: 1px solid #E2E5E9;
+            border-radius: 18px;
+            background: #EEEFEC;
+        }
+        .fv-about__photo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+        .fv-about__photo:hover img {
+            transform: scale(1.02);
+        }
+        .fv-about__photo--hero { aspect-ratio: 4 / 5; }
+        .fv-about__photo--story {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 4 / 5;
+            margin-inline: auto;
+        }
+        @media (min-width: 768px) {
+            .fv-about__photo--story { max-width: 360px; }
+        }
+        .fv-about__photo--process {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 5;
+        }
+        .fv-about__photo--process img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            transform: none;
+        }
+        .fv-about__photo--process:hover img {
+            transform: none;
+        }
+        .fv-about__process {
+            display: grid;
+            gap: 2.25rem;
+        }
+        @media (min-width: 768px) {
+            .fv-about__process {
+                grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+                gap: 3.5rem;
+                align-items: center;
+            }
+        }
+        .fv-about__photo--work {
+            width: 100%;
+            max-width: 340px;
+            aspect-ratio: 4 / 5;
+            margin-inline: auto;
+        }
+        @media (min-width: 768px) {
+            .fv-about__photo--work { max-width: 380px; }
+        }
+        .fv-about__story,
+        .fv-about__work {
+            display: grid;
+            gap: 2.25rem;
+        }
+        @media (min-width: 1024px) {
+            .fv-about__story,
+            .fv-about__work {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                gap: 4rem;
+                align-items: center;
+            }
+        }
+        .about-eyebrow {
+            display: block;
+            margin: 0 0 10px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            line-height: 1.4;
+            letter-spacing: 0.03em;
+            color: #667085;
+            text-transform: none;
+        }
+        .fv-about__heading {
+            margin: 0;
+            font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #1C2430;
+        }
+        .fv-about__lead,
+        .fv-about__copy {
+            margin: 1rem 0 0;
+            max-width: 36rem;
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: #667085;
+        }
+        .fv-about__rule {
+            width: 3rem;
+            height: 1px;
+            margin: 1.5rem 0 0;
+            background: #E2E5E9;
+            border: 0;
+        }
+        .fv-about__visi {
+            max-width: 46rem;
+        }
+        .fv-about__visi p {
+            margin: 1.25rem 0 0;
+            font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+            font-weight: 500;
+            line-height: 1.45;
+            letter-spacing: -0.015em;
+            color: #1C2430;
+        }
+        .fv-about__misi {
+            margin: 2rem 0 0;
+            padding: 0;
+            list-style: none;
+        }
+        .fv-about__misi li {
+            display: grid;
+            grid-template-columns: 2.5rem minmax(0, 1fr);
+            gap: 1rem;
+            padding: 1.25rem 0;
+            border-top: 1px solid #E2E5E9;
+        }
+        .fv-about__misi li:last-child { border-bottom: 1px solid #E2E5E9; }
+        .fv-about__misi-num {
+            font-size: 0.875rem;
+            font-weight: 600;
+            line-height: 1.6;
+            color: #1C2430;
+        }
+        .fv-about__misi-text {
+            margin: 0;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: #667085;
+        }
+        .fv-about__services {
+            display: grid;
+            gap: 1.75rem;
+            margin: 1.75rem 0 0;
+        }
+        .fv-about__service h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1C2430;
+        }
+        .fv-about__service p {
+            margin: 0.4rem 0 0;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: #667085;
+        }
+        .fv-about__steps {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0 0;
+            padding: 0;
+            list-style: none;
+        }
+        @media (min-width: 768px) {
+            .fv-about__steps {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 2rem;
+            }
+        }
+        .fv-about__steps li {
+            padding: 0;
+            border: 0;
+        }
+        @media (min-width: 768px) {
+            .fv-about__steps li {
+                padding: 0;
+                border: 0;
+            }
+            .fv-about__steps li:last-child {
+                padding: 0;
+                border: 0;
+            }
+        }
+        .fv-about__steps-num {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1C2430;
+        }
+        .fv-about__steps h3 {
+            margin: 0.75rem 0 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1C2430;
+        }
+        .fv-about__steps p {
+            margin: 0.5rem 0 0;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: #667085;
+        }
+        .fv-about__contact-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        @media (min-width: 640px) {
+            .fv-about__contact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        .fv-about__contact-card {
+            padding: 1.25rem;
+            border: 1px solid #E2E5E9;
+            border-radius: 12px;
+            background: #FFFFFF;
+        }
+        @media (max-width: 767px) {
+            .fv-about__process .fv-about__photo { order: 2; }
+            .fv-about__process .fv-about__copy-col { order: 1; }
+        }
+        @media (max-width: 1023px) {
+            .fv-about__work .fv-about__photo { order: 2; }
+            .fv-about__work .fv-about__copy-col { order: 1; }
+        }
+        @media (min-width: 1024px) {
+            .fv-about__work .fv-about__photo { order: 1; justify-self: start; margin-inline: 0; }
+            .fv-about__work .fv-about__copy-col { order: 2; }
+        }
+        .fv-about__hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            background: #102A43;
+            aspect-ratio: 21 / 10;
+        }
+        .fv-about__hero img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .fv-about__hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13, 34, 55, 0.92) 0%, rgba(13, 34, 55, 0.55) 45%, rgba(13, 34, 55, 0.18) 100%);
+        }
+        .fv-about__hero-body {
+            position: absolute;
+            inset: auto 0 0 0;
+            z-index: 1;
+            padding: 2rem;
+        }
+        @media (min-width: 768px) {
+            .fv-about__hero-body { padding: 2.75rem; }
+        }
+        @media (min-width: 1024px) {
+            .fv-about__hero-body { padding: 3.25rem; }
+        }
+        .fv-about__hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 0 0.75rem;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #FFFFFF;
+        }
+        .fv-about__hero-eyebrow::before {
+            content: none;
+        }
+        .fv-about__hero-title {
+            margin: 0;
+            max-width: 24ch;
+            font-size: clamp(1.625rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: #FFFFFF;
+            text-wrap: balance;
+        }
+        .fv-about__hero-lead {
+            margin: 1rem 0 0;
+            max-width: 44ch;
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+    </style>
 
-    <section class="border-b border-[#E2E5E9] bg-white px-5 py-14 lg:px-8">
-        <div class="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-12">
-            <div class="lg:col-span-3">
-                <span class="section-badge">Cerita</span>
-            </div>
-            <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">
-                    Antara meja potong dan layar fitting
-                </h2>
-                <p class="mt-5 text-sm leading-relaxed text-[#667085] md:text-base">
-                    Kami mulai sebagai vendor yang tidak mau menyerahkan ukuran pada tebakan. FitVendor tetap memotong dan menjahit per pesanan, plus studio fitting digital supaya model bisa dilihat sebelum produksi.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="border-b border-[#E2E5E9] bg-[#F7F7F5] px-5 py-14 lg:px-8">
-        <div class="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-12">
-            <div class="lg:col-span-3">
-                <span class="section-badge">Visi</span>
-            </div>
-            <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">Visi</h2>
-                <p class="mt-5 text-sm leading-relaxed text-[#667085] md:text-base">
-                    Menjadi vendor pakaian yang terpercaya untuk kebutuhan tim, komunitas, acara, dan brand melalui kualitas produksi yang konsisten dan pelayanan yang jelas.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="border-b border-[#E2E5E9] bg-white px-5 py-14 lg:px-8">
-        <div class="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-12">
-            <div class="lg:col-span-3">
-                <span class="section-badge">Misi</span>
-            </div>
-            <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">Misi</h2>
-                <ul class="mt-5 space-y-3 p-0 text-sm leading-relaxed text-[#667085] md:text-base">
-                    <li class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
-                        <span>Menjaga kualitas bahan dan hasil produksi.</span>
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
-                        <span>Memberikan proses pemesanan yang jelas dan mudah dipahami.</span>
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
-                        <span>Membantu pelanggan menentukan pilihan pakaian sesuai kebutuhan.</span>
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-sm bg-[#B8664A]" aria-hidden="true"></span>
-                        <span>Menjaga komunikasi yang cepat dan terbuka selama proses produksi.</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section class="border-b border-[#E2E5E9] bg-[#F7F7F5] px-5 py-14 lg:px-8">
-        <div class="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-12">
-            <div class="lg:col-span-3">
-                <span class="section-badge">Yang kami kerjakan</span>
-            </div>
-            <div class="grid gap-4 sm:grid-cols-3 lg:col-span-9">
-                @foreach ([
-                    ['title' => 'Pakaian custom', 'desc' => 'Varsity, work jacket, windbreaker, jersey, dan model lain dari koleksi yang tampil di situs.', 'icon' => 'garment'],
-                    ['title' => 'Pemilihan bahan', 'desc' => 'Pilih bahan yang memang tersedia untuk produk itu. Katalog menampilkan nama, bukan spek fiktif.', 'icon' => 'fabric'],
-                    ['title' => 'Fitting digital', 'desc' => 'Satu manekin, satu pakaian. Proporsi terlihat sebelum Anda mengirim permintaan.', 'icon' => 'fit'],
-                ] as $item)
-                    <div class="fv-icon-card">
-                        <div class="fv-icon-wrap" aria-hidden="true">
-                            @if ($item['icon'] === 'garment')
-                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 5 4 8v3h3v8h10v-8h3V8l-4-3-2 2.5L12 7l-2 .5L8 5Z"/>
-                                </svg>
-                            @elseif ($item['icon'] === 'fabric')
-                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v10H4V7Z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7v10M12 7v10M16 7v10M4 12h16"/>
-                                </svg>
-                            @else
-                                <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4a3 3 0 0 1 3 3v2H9V7a3 3 0 0 1 3-3Z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8l1 11H7L8 9Z"/>
-                                </svg>
-                            @endif
-                        </div>
-                        <h3 class="mt-4 text-base font-bold text-[#1C2430]">{{ $item['title'] }}</h3>
-                        <p class="mt-2 text-sm leading-relaxed text-[#667085]">{{ $item['desc'] }}</p>
+    <div class="fv-about">
+        <section class="fv-about__section bg-white">
+            <div class="fv-about__shell">
+                <div class="fv-about__hero">
+                    <picture>
+                        <source srcset="{{ asset('images/tentang1.webp') }}" type="image/webp">
+                        <img
+                            src="{{ asset('images/tentang1.jpg') }}"
+                            alt="Studio produksi FitVendor"
+                            width="720"
+                            height="900"
+                        >
+                    </picture>                    <div class="fv-about__hero-body">
+                        <span class="fv-about__hero-eyebrow">Tentang FitVendor</span>
+                        <h1 class="fv-about__hero-title">
+                            Vendor pakaian yang mengutamakan ukuran yang pas
+                        </h1>
+                        <p class="fv-about__hero-lead">
+                            FitVendor membuat pakaian custom untuk tim, komunitas, dan individu. Dari pilihan model sampai potongan jadi.
+                        </p>
                     </div>
-                @endforeach
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="border-b border-[#E2E5E9] bg-white px-5 py-14 lg:px-8">
-        <div class="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-12">
-            <div class="lg:col-span-3">
-                <span class="section-badge">Alur kerja</span>
+        <section class="fv-about__section bg-white">
+            <div class="fv-about__shell fv-about__story">
+                <div class="fv-about__copy-col">
+                    <span class="about-eyebrow">Cerita kami</span>
+                    <h2 class="fv-about__heading">Siapa itu FitVendor</h2>
+                    <p class="fv-about__copy">
+                        FitVendor lahir dari kebutuhan sederhana: pakaian custom yang benar-benar pas, tanpa harus bolak-balik tukang jahit.
+                        Kami menggabungkan pengalaman produksi garmen dengan fitting digital, sehingga pelanggan bisa melihat proporsi pakaian sebelum memesan.
+                    </p>
+                    <p class="fv-about__copy">
+                        Setiap pesanan dikerjakan per item. Bahan dipilih dari katalog yang memang tersedia, ukuran dirapikan lewat size chart, dan harga final dibahas terbuka bersama tim kami.
+                    </p>
+                    <p class="fv-about__copy">
+                        Berdiri sejak 2018, FitVendor kini telah memproduksi lebih dari 50.000 potong pakaian untuk tim, komunitas, dan brand di berbagai kota — dengan 5 jenis pakaian yang bisa dikustomisasi, dari varsity dan work jacket sampai jersey dan kaos.
+                    </p>
+                </div>
+                <div class="fv-about__photo fv-about__photo--story">
+                    <picture>
+                        <source srcset="{{ asset('images/fitvendor.webp') }}" type="image/webp">
+                        <img
+                            src="{{ asset('images/fitvendor.png') }}"
+                            alt="Identitas FitVendor"
+                            width="720"
+                            height="900"
+                        >
+                    </picture>
+                </div>
             </div>
-            <ol class="grid list-none gap-4 p-0 sm:grid-cols-2 lg:col-span-9">
-                @foreach ([
-                    ['num' => '01', 'title' => 'Pilih pakaian', 'desc' => 'Jelajahi koleksi dan buka model yang sesuai kebutuhan.'],
-                    ['num' => '02', 'title' => 'Pilih bahan',  'desc' => 'Ambil satu atau lebih bahan yang tersedia untuk produk itu.'],
-                    ['num' => '03', 'title' => 'Lihat fitting',   'desc' => 'Pakai fitting virtual jika ada file 3D, atau langsung ke formulir.'],
-                    ['num' => '04', 'title' => 'Kirim permintaan', 'desc' => 'Isi data pemesan, rincian ukuran, dan catatan desain. Tanpa akun.'],
-                ] as $step)
-                    <li class="rounded-[14px] border border-[#E2E5E9] bg-[#F7F7F5] p-6">
-                        <span class="text-2xl font-semibold text-[#1C2430]">{{ $step['num'] }}</span>
-                        <h3 class="mt-2 text-base font-bold text-[#1C2430]">{{ $step['title'] }}</h3>
-                        <p class="mt-2 text-sm leading-relaxed text-[#667085]">{{ $step['desc'] }}</p>
-                    </li>
-                @endforeach
-            </ol>
-        </div>
-    </section>
+        </section>
 
-    <section class="border-b border-[#E2E5E9] bg-[#F7F7F5] px-5 py-14 lg:px-8">
-        <div class="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-12">
-            <div class="lg:col-span-3">
-                <span class="section-badge">Tim</span>
+        <section class="fv-about__section">
+            <div class="fv-about__shell fv-about__work">
+                <div class="fv-about__copy-col">
+                    <span class="about-eyebrow">Layanan kami</span>
+                    <h2 class="fv-about__heading">Yang kami kerjakan</h2>
+                    <div class="fv-about__services">
+                        @foreach ([
+                            ['title' => 'Pakaian custom', 'desc' => 'Varsity, work jacket, windbreaker, jersey, dan model lain dari koleksi yang tampil di situs.', 'icon' => 'garment'],
+                            ['title' => 'Pemilihan bahan', 'desc' => 'Pilih bahan yang memang tersedia untuk produk itu. Katalog menampilkan nama, bukan spek fiktif.', 'icon' => 'fabric'],
+                            ['title' => 'Fitting digital', 'desc' => 'Satu manekin, satu pakaian. Proporsi terlihat sebelum Anda mengirim permintaan.', 'icon' => 'fit'],
+                        ] as $item)
+                            <div class="fv-about__service">
+                                <div class="fv-icon-wrap" aria-hidden="true">
+                                    @if ($item['icon'] === 'garment')
+                                        <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 5 4 8v3h3v8h10v-8h3V8l-4-3-2 2.5L12 7l-2 .5L8 5Z"/>
+                                        </svg>
+                                    @elseif ($item['icon'] === 'fabric')
+                                        <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v10H4V7Z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7v10M12 7v10M16 7v10M4 12h16"/>
+                                        </svg>
+                                    @else
+                                        <svg class="h-5 w-5 shrink-0" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4a3 3 0 0 1 3 3v2H9V7a3 3 0 0 1 3-3Z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8l1 11H7L8 9Z"/>
+                                        </svg>
+                                    @endif
+                                </div>
+                                <h3 class="mt-3">{{ $item['title'] }}</h3>
+                                <p>{{ $item['desc'] }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="fv-about__photo fv-about__photo--work">
+                    <picture>
+                        <source srcset="{{ asset('images/tentang4.webp') }}" type="image/webp">
+                        <img
+                            src="{{ asset('images/tentang4.jpg') }}"
+                            alt="Tim FitVendor membahas bahan dan desain"
+                            width="720"
+                            height="900"
+                        >
+                    </picture>
+                </div>
             </div>
-            <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">Studio kecil, dekat dengan produksinya</h2>
-                <p class="mt-5 text-sm leading-relaxed text-[#667085] md:text-base">
-                    Pola, produksi, dan fitting digital dibahas dalam satu alur. Permintaan Anda dibaca orang, bukan portal otomatis.
-                </p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    @php
-        $whatsappNumber = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number'));
-        $whatsappMessage = rawurlencode((string) config('fitvendor.whatsapp.message'));
-        $whatsappHref = $whatsappNumber !== '' ? 'https://wa.me/'.$whatsappNumber.'?text='.$whatsappMessage : null;
-        $vendorEmail = trim((string) config('fitvendor.contact.email'));
-        $vendorLocation = trim((string) config('fitvendor.contact.location'));
-    @endphp
-
-    <section class="bg-white px-5 py-14 lg:px-8">
-        <div class="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-12">
-            <div class="lg:col-span-3">
-                <span class="section-badge">Hubungi kami</span>
+        <section class="fv-about__section bg-white">
+            <div class="fv-about__shell">
+                <span class="about-eyebrow">Proses pemesanan</span>
+                <h2 class="fv-about__heading">Alur kerja</h2>
+                <ol class="fv-about__steps fv-about__steps--plain">
+                    @foreach ([
+                        ['num' => '01', 'title' => 'Jelajahi koleksi kami', 'desc' => 'Lihat model pakaian yang tersedia dan temukan yang sesuai kebutuhan.'],
+                        ['num' => '02', 'title' => 'Konsultasikan pesanan',  'desc' => 'Diskusikan bahan, jumlah, dan kebutuhan tim Anda bersama kami.'],
+                        ['num' => '03', 'title' => 'Lihat fitting',   'desc' => 'Cek proporsi pakaian lewat virtual fitting jika ada file 3D.'],
+                        ['num' => '04', 'title' => 'Kirim permintaan', 'desc' => 'Isi data pemesan, rincian ukuran, dan catatan desain. Tanpa akun.'],
+                    ] as $step)
+                        <li>
+                            <span class="fv-about__steps-num">{{ $step['num'] }}</span>
+                            <h3>{{ $step['title'] }}</h3>
+                            <p>{{ $step['desc'] }}</p>
+                        </li>
+                    @endforeach
+                </ol>
             </div>
-            <div class="lg:col-span-8">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1C2430] md:text-4xl">Hubungi Kami</h2>
-                <p class="mt-4 max-w-xl text-sm leading-relaxed text-[#667085] md:text-base">
+        </section>
+
+        @php
+            $whatsappNumber = preg_replace('/\D+/', '', (string) config('fitvendor.whatsapp.number'));
+            $whatsappMessage = rawurlencode((string) config('fitvendor.whatsapp.message'));
+            $whatsappHref = $whatsappNumber !== '' ? 'https://wa.me/'.$whatsappNumber.'?text='.$whatsappMessage : null;
+            $vendorEmail = trim((string) config('fitvendor.contact.email'));
+            $vendorLocation = trim((string) config('fitvendor.contact.location'));
+        @endphp
+
+        <section class="fv-about__section bg-white">
+            <div class="fv-about__shell">
+                <span class="about-eyebrow">Kontak</span>
+                <h2 class="fv-about__heading">Hubungi Kami</h2>
+                <p class="fv-about__copy">
                     Punya pertanyaan atau ingin membahas kebutuhan produksi?
                 </p>
 
-                <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                <div class="fv-about__contact-grid">
                     @if ($whatsappHref)
-                        <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-5">
+                        <div class="fv-about__contact-card">
                             <span class="fv-contact-icon" aria-hidden="true">
                                 <svg class="h-6 w-6 shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                     <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41A10.1 10.1 0 0 0 12.04 21.66h.01c5.46 0 9.89-4.4 9.89-9.84C21.94 6.4 17.5 2 12.04 2Zm5.76 14.16c-.24.67-1.18 1.23-1.93 1.4-.51.11-1.18.2-3.44-.74-2.89-1.2-4.75-4.13-4.89-4.32-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.08 1-2.37.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.44.03.64.5.24.58.82 2 .89 2.15.07.15.12.32.02.52-.1.19-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.39 1.46.3.14.48.12.66-.07.18-.19.77-.9.98-1.21.21-.3.42-.26.7-.15.28.1 1.78.84 2.08.99.3.15.5.22.57.35.07.13.07.75-.17 1.42Z"/>
@@ -183,7 +482,7 @@
                         </div>
                     @endif
                     @if ($vendorEmail !== '')
-                        <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-5">
+                        <div class="fv-about__contact-card">
                             <span class="fv-contact-icon" aria-hidden="true">
                                 <svg class="h-6 w-6 shrink-0" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6.75A1.75 1.75 0 0 1 5.75 5h12.5A1.75 1.75 0 0 1 20 6.75v10.5A1.75 1.75 0 0 1 18.25 19H5.75A1.75 1.75 0 0 1 4 17.25V6.75Z"/>
@@ -197,7 +496,7 @@
                         </div>
                     @endif
                     @if ($vendorLocation !== '')
-                        <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-5">
+                        <div class="fv-about__contact-card">
                             <span class="fv-contact-icon" aria-hidden="true">
                                 <svg class="h-6 w-6 shrink-0" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z"/>
@@ -205,7 +504,7 @@
                                 </svg>
                             </span>
                             <p class="text-sm font-semibold text-[#667085]">Alamat</p>
-                            <p class="mt-2 text-sm font-semibold text-[#1C2430]">{{ $vendorLocation }}</p>
+                            <p class="mt-2 text-sm font-semibold leading-relaxed text-[#1C2430]">{{ $vendorLocation }}</p>
                         </div>
                     @endif
                 </div>
@@ -221,7 +520,7 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
 @endsection

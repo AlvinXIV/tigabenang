@@ -11,55 +11,37 @@ class CustomerHomeController extends Controller
 {
     public function index(): View
     {
-        $products = Produk::query()
-            ->select(['id_produk', 'kategori_id', 'nama_produk', 'harga', 'gambar', 'file_model_3d'])
-            ->latest('id_produk')
-            ->take(6)
-            ->get();
-
-        CustomerCatalog::attachKategori($products);
-
-        $featuredProduct = $products->first();
-        $supportingProducts = $products->skip(1)->values();
-
-        $fittingProduct = $products->first(fn (Produk $produk) => filled($produk->file_model_3d));
-
-        if (! $fittingProduct && $products->count() === 6 && CustomerCatalog::hasThreeDProduct()) {
-            $fittingProduct = Produk::query()
-                ->select(['id_produk', 'kategori_id', 'nama_produk', 'harga', 'gambar', 'file_model_3d'])
-                ->whereNotNull('file_model_3d')
-                ->where('file_model_3d', '!=', '')
-                ->latest('id_produk')
-                ->first();
-
-            if ($fittingProduct) {
-                CustomerCatalog::attachKategori($fittingProduct);
-            }
-        }
-
         $allCategories = CustomerCatalog::categories();
-        $allProducts = Produk::query()
+
+        // Ambil 1 produk terbaru per kategori dalam 1 query efisien dan terindeks
+        $latestPerCategory = Produk::query()
             ->select(['id_produk', 'kategori_id', 'nama_produk', 'harga', 'gambar', 'file_model_3d'])
-            ->latest('id_produk')
-            ->get();
+            ->whereIn('id_produk', function ($sub) {
+                $sub->selectRaw('MAX(id_produk)')
+                    ->from('produk')
+                    ->groupBy('kategori_id');
+            })
+            ->get()
+            ->keyBy('kategori_id');
 
-        CustomerCatalog::attachKategori($allProducts);
+        CustomerCatalog::attachKategori($latestPerCategory);
 
-        $categoryShowcase = $allCategories->map(function ($kategori) use ($allProducts) {
-            $product = $allProducts->firstWhere('kategori_id', $kategori->id_kategori);
+        $categoryShowcase = $allCategories->map(function ($kategori) use ($latestPerCategory) {
             return [
                 'category' => $kategori,
-                'product' => $product,
+                'product' => $latestPerCategory->get($kategori->id_kategori),
             ];
         });
 
+        $featuredProduct = $latestPerCategory->first();
+
         return view('customer.home', [
             'featuredProduct' => $featuredProduct,
-            'supportingProducts' => $products,
+            'supportingProducts' => $latestPerCategory->values(),
             'categoryShowcase' => $categoryShowcase,
             'categories' => $allCategories,
-            'materials' => CustomerCatalog::materials()->take(6)->values(),
-            'fittingProduct' => $fittingProduct,
+            'materials' => collect(),
+            'fittingProduct' => $latestPerCategory->first(fn (Produk $p) => filled($p->file_model_3d)),
             'heroImageUrl' => CustomerMedia::heroImageUrl(),
         ]);
     }

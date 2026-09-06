@@ -6,19 +6,25 @@
 @php
     use App\Support\CustomerMedia;
     $imageUrl = CustomerMedia::materialImageUrl($bahan->nama_bahan);
+    $webpUrl = $imageUrl ? CustomerMedia::webpUrl($imageUrl) : null;
 @endphp
 
 <article {{ $attributes->class(['product-tile group']) }}>
     <div class="image-frame">
         @if ($imageUrl)
-            <img
-                src="{{ $imageUrl }}"
-                alt="{{ $bahan->nama_bahan }}"
-                width="480"
-                height="640"
-                class="transition-transform duration-500 group-hover:scale-[1.03]"
-                @if ($lazy) loading="lazy" decoding="async" @else fetchpriority="high" decoding="async" @endif
-            >
+            <picture>
+                @if ($webpUrl)
+                    <source srcset="{{ $webpUrl }}" type="image/webp">
+                @endif
+                <img
+                    src="{{ $imageUrl }}"
+                    alt="{{ $bahan->nama_bahan }}"
+                    width="480"
+                    height="640"
+                    class="transition-transform duration-500 group-hover:scale-[1.03]"
+                    @if ($lazy) loading="lazy" decoding="async" @else fetchpriority="high" decoding="async" @endif
+                >
+            </picture>
         @else
             <div class="flex h-full w-full flex-col items-center justify-center gap-2 px-3 text-center">
                 <p class="text-xs font-semibold text-[#667085]">Pratinjau bahan</p>

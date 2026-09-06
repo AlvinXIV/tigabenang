@@ -15,8 +15,10 @@ class Index extends Component
     {
         $product = Produk::findOrFail($productId);
 
-        if ($product->file_model_3d && Storage::disk('public')->exists($product->file_model_3d)) {
-            Storage::disk('public')->delete($product->file_model_3d);
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+
+        if ($product->file_model_3d && Storage::disk($disk)->exists($product->file_model_3d)) {
+            Storage::disk($disk)->delete($product->file_model_3d);
         }
 
         $product->file_model_3d = null;

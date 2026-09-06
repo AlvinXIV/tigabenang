@@ -4,9 +4,9 @@ import { createFittingScene } from '../three/scene';
 import { createAvatar, updateAvatar } from '../three/avatar';
 
 const stateColors = {
-    'Too Tight': '#DC2626',
-    'Perfect Fit': '#059669',
-    'Too Loose': '#2563EB',
+    'Kekecilan': '#DC2626',
+    'Sangat Pas': '#10B981',
+    'Kebesaran': '#3B82F6',
 };
 
 const parseJsonScript = (root, selector) => {
@@ -30,11 +30,11 @@ const PROTO_TSHIRT = {
     category: 'Prototipe',
     modelUrl: '/models/t-shirt.glb',
     sizes: [
-        { name: 'S', lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
-        { name: 'M', lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
-        { name: 'L', lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
-        { name: 'XL', lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
-        { name: 'XXL', lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+        { name: 'S', lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
+        { name: 'M', lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
+        { name: 'L', lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
+        { name: 'XL', lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
+        { name: '2XL', lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
     ],
 };
 
@@ -62,18 +62,75 @@ const initFitting = async () => {
     if (!Array.isArray(catalog) || catalog.length === 0) {
         catalog = [PROTO_TSHIRT];
     }
+    const findProduct = (id) => {
+        return catalog.find((item) => String(item.id) === String(id));
+    };
     const viewport = document.getElementById('fitting-viewport');
     if (!viewport) return;
 
     // Elements
-    const productSelect = root.querySelector('[data-fitting-product]');
-    if (productSelect && productSelect.options.length === 0) {
-        const option = document.createElement('option');
-        option.value = PROTO_TSHIRT.id;
-        option.textContent = PROTO_TSHIRT.name;
-        productSelect.appendChild(option);
-        productSelect.value = PROTO_TSHIRT.id;
-    }
+    const categoryFilter = root.querySelector('[data-fitting-category-filter]');
+    const searchFilter = root.querySelector('[data-fitting-search-filter]');
+    const productListContainer = root.querySelector('[data-fitting-product-list]');
+    
+    let selectedProductId = null;
+    let filteredCatalog = [...catalog];
+
+    const renderProductList = () => {
+        if (!productListContainer) return;
+        
+        if (filteredCatalog.length === 0) {
+            productListContainer.innerHTML = '<p class="col-span-full text-xs text-center text-[#667085] py-4">Tidak ada baju yang bisa dicoba di kategori ini</p>';
+            return;
+        }
+
+        productListContainer.innerHTML = filteredCatalog.map(prod => {
+            const isSelected = String(prod.id) === String(selectedProductId);
+            const displayCat = prod.category === 'JaketWindbreaker' ? 'Jaket Windbreaker' : (prod.category || 'Katalog');
+            
+            return `
+                <div data-product-card="${prod.id}" class="group relative cursor-pointer overflow-hidden rounded-[8px] border transition-all ${isSelected ? 'border-[#102A43] ring-1 ring-[#102A43]' : 'border-[#E2E5E9] hover:border-[#102A43]'} bg-white">
+                    <div class="aspect-[4/5] w-full bg-[#F7F7F5]">
+                        ${prod.imageUrl 
+                            ? '<img src="' + prod.imageUrl + '" alt="' + (prod.name || '') + '" class="h-full w-full object-cover">' 
+                            : '<div class="flex h-full w-full items-center justify-center"><span class="text-[10px] text-[#667085]">No Image</span></div>'
+                        }
+                    </div>
+                    <div class="p-2">
+                        <p class="truncate text-[11px] font-bold text-[#102A43] leading-tight">${prod.name}</p>
+                        <p class="text-[9px] text-[#667085] truncate mt-0.5">${displayCat}</p>
+                    </div>
+                    ${isSelected ? '<div class="absolute right-1 top-1 rounded-full bg-[#102A43] p-0.5 text-white shadow-sm"><svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>' : ''}
+                </div>
+            `;
+        }).join('');
+
+        productListContainer.querySelectorAll('[data-product-card]').forEach(card => {
+            card.addEventListener('click', () => {
+                selectedProductId = card.dataset.productCard;
+                renderProductList();
+                const prod = findProduct(selectedProductId);
+                if (applyProduct) applyProduct(prod);
+            });
+        });
+    };
+
+    const applyFilters = () => {
+        const cat = categoryFilter?.value || '';
+        const query = searchFilter?.value.toLowerCase() || '';
+
+        filteredCatalog = catalog.filter(prod => {
+            const displayCat = prod.category === 'JaketWindbreaker' ? 'Jaket Windbreaker' : (prod.category || 'Katalog');
+            const matchCat = cat === '' || displayCat === cat;
+            const matchQuery = query === '' || prod.name.toLowerCase().includes(query);
+            return matchCat && matchQuery;
+        });
+
+        renderProductList();
+    };
+
+    if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
+    if (searchFilter) searchFilter.addEventListener('input', applyFilters);
     const nameNode = root.querySelector('[data-fitting-name]');
     const categoryNode = root.querySelector('[data-fitting-category]');
     const sizeNode = root.querySelector('[data-fitting-size]');
@@ -124,6 +181,7 @@ const initFitting = async () => {
     let avatar = null;
     let currentGarmentWrapper = null;
     let selectedSizeName = null;
+    let applyProduct = null;
 
     try {
         studio = createFittingScene(viewport);
@@ -147,17 +205,13 @@ const initFitting = async () => {
             statusNode.textContent = 'Manekin siap';
         }
 
-        const findProduct = (id) => {
-            return catalog.find((item) => String(item.id) === String(id));
-        };
-
         const renderHeatmap = (heatmap) => {
             if (!heatmapNode) return;
             heatmapNode.innerHTML = heatmap.map((item) => `
                 <li class="flex items-center justify-between py-1.5 border-b border-[#E2E5E9]">
                     <span class="text-xs font-semibold text-[#1C2430]">${item.area}</span>
                     <span class="rounded-[8px] px-2 py-0.5 text-[11px] font-semibold"
-                          style="color:${stateColors[item.state] || '#1C2430'};background:${item.state === 'Too Tight' ? '#FEE2E2' : (item.state === 'Too Loose' ? '#DBEAFE' : '#E8F3EE')};">
+                          style="color:${stateColors[item.state] || '#1C2430'};background:${item.state === 'Kekecilan' ? '#FEE2E2' : (item.state === 'Kebesaran' ? '#DBEAFE' : '#E8F3EE')};">
                         ${item.state}
                     </span>
                 </li>
@@ -167,11 +221,11 @@ const initFitting = async () => {
         const updateFitBadge = (matchText) => {
             if (!matchNode) return;
             matchNode.textContent = matchText;
-            if (matchText === 'Too Tight') {
+            if (matchText === 'Kekecilan') {
                 matchNode.style.background = '#FEE2E2';
                 matchNode.style.color = '#991B1B';
                 matchNode.style.borderColor = '#FCA5A5';
-            } else if (matchText === 'Too Loose') {
+            } else if (matchText === 'Kebesaran') {
                 matchNode.style.background = '#DBEAFE';
                 matchNode.style.color = '#1E40AF';
                 matchNode.style.borderColor = '#93C5FD';
@@ -188,11 +242,11 @@ const initFitting = async () => {
             const sizes = product?.sizes?.length > 0
                 ? product.sizes
                 : [
-                    { name: 'S', lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
-                    { name: 'M', lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
-                    { name: 'L', lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
-                    { name: 'XL', lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
-                    { name: 'XXL', lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+                    { name: 'S', lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
+                    { name: 'M', lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
+                    { name: 'L', lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
+                    { name: 'XL', lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
+                    { name: '2XL', lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
                 ];
 
             if (!selectedSizeName) {
@@ -233,6 +287,7 @@ const initFitting = async () => {
                 hipCm: p.hip,
                 shoulderCm: p.shoulder,
                 sizes: product?.sizes || [],
+                selectedSizeName: selectedSizeName,
             });
 
             if (sizeNode) {
@@ -241,11 +296,11 @@ const initFitting = async () => {
 
             // Find current active size spec
             const activeSizeSpec = product?.sizes?.find((s) => s.name === selectedSizeName) || {
-                S: { lebar_dada: 46, panjang: 68, lebar_bahu: 42 },
-                M: { lebar_dada: 50, panjang: 70, lebar_bahu: 44 },
-                L: { lebar_dada: 54, panjang: 72, lebar_bahu: 46 },
-                XL: { lebar_dada: 58, panjang: 74, lebar_bahu: 48 },
-                XXL: { lebar_dada: 62, panjang: 76, lebar_bahu: 50 },
+                S: { lebar_dada: 50, panjang: 68, lebar_bahu: 43 },
+                M: { lebar_dada: 53, panjang: 70, lebar_bahu: 45 },
+                L: { lebar_dada: 56, panjang: 72, lebar_bahu: 47 },
+                XL: { lebar_dada: 59, panjang: 74, lebar_bahu: 49 },
+                '2XL': { lebar_dada: 62, panjang: 76, lebar_bahu: 51 },
             }[selectedSizeName || 'M'];
 
             // Calculate fit classification for this specific size
@@ -253,9 +308,9 @@ const initFitting = async () => {
             const garmentHalfChest = activeSizeSpec?.lebar_dada || 50;
             const ratio = customerHalfChest / garmentHalfChest;
 
-            let currentMatchText = 'Perfect Fit';
-            if (ratio > 1.05) currentMatchText = 'Too Tight';
-            else if (ratio < 0.92) currentMatchText = 'Too Loose';
+            let currentMatchText = 'Sangat Pas';
+            if (ratio > 1.05) currentMatchText = 'Kekecilan';
+            else if (ratio < 0.95) currentMatchText = 'Kebesaran';
 
             updateFitBadge(currentMatchText);
             renderHeatmap(result.heatmap || []);
@@ -282,7 +337,7 @@ const initFitting = async () => {
 
             saveProfile(p);
 
-            const product = findProduct(productSelect?.value) || catalog[0];
+            const product = findProduct(selectedProductId) || catalog[0];
             recalculateFit(product);
 
             if (statusNode) {
@@ -291,7 +346,7 @@ const initFitting = async () => {
         };
 
         // ── 3. Apply Product & Load 3D Garment ──
-        const applyProduct = async (product) => {
+        applyProduct = async (product) => {
             if (!product) {
                 console.warn('[VF] No product to apply');
                 return;
@@ -300,7 +355,11 @@ const initFitting = async () => {
             console.log('[VF] Applying product:', product.name, 'modelUrl:', product.modelUrl);
 
             if (nameNode) nameNode.textContent = product.name;
-            if (categoryNode) categoryNode.textContent = product.category || 'Katalog';
+            if (categoryNode) {
+                categoryNode.textContent = product.category === 'JaketWindbreaker'
+                    ? 'Jaket Windbreaker'
+                    : (product.category || 'Katalog');
+            }
 
             renderSizeButtons(product, selectedSizeName);
 
@@ -344,21 +403,17 @@ const initFitting = async () => {
 
             try {
                 console.log('[VF] Starting GLB load from URL:', product.modelUrl);
-                debugOverlay.textContent = 'Memuat model... URL: ' + product.modelUrl;
-                debugOverlay.style.background = 'rgba(255,165,0,0.9)'; // Orange
+                debugOverlay.style.display = 'none';
 
                 currentGarmentWrapper = await loadGarment(
                     product.modelUrl,
                     studio.garmentGroup,
                     (percent) => {
                         if (statusNode) statusNode.textContent = `Memuat 3D Model: ${percent}%`;
-                        debugOverlay.textContent = `Loading ${percent}%... URL: ` + product.modelUrl;
                     }
                 );
 
                 if (currentGarmentWrapper) {
-                    debugOverlay.innerHTML = `Sukses memuat GLB!<br/>URL: ${product.modelUrl}`;
-                    debugOverlay.style.background = 'rgba(0,128,0,0.9)'; // Green
                     if (statusNode) {
                         statusNode.textContent = 'Pakaian siap';
                         statusNode.style.color = '#3F7A62';
@@ -367,6 +422,7 @@ const initFitting = async () => {
                 }
             } catch (error) {
                 console.error('[VF] GLB load FAILED:', error);
+                debugOverlay.style.display = 'block';
                 debugOverlay.innerHTML = `ERROR MEMUAT GLB!<br/>URL: ${product.modelUrl}<br/>Error: ${error.message || error}`;
                 debugOverlay.style.background = 'rgba(255,0,0,0.9)'; // Red
 
@@ -412,7 +468,7 @@ const initFitting = async () => {
                 debugZVal.textContent = zOffset.toFixed(2);
                 
                 // Re-trigger dynamic fitting to respect dynamic scaling instead of overriding absolute transforms
-                const product = findProduct(productSelect?.value) || catalog[0];
+                const product = findProduct(selectedProductId) || catalog[0];
                 recalculateFit(product);
             };
 
@@ -421,12 +477,7 @@ const initFitting = async () => {
             debugZ.addEventListener('input', updateDebugTransform);
         }
 
-        if (productSelect) {
-            productSelect.addEventListener('change', () => {
-                const prod = findProduct(productSelect.value);
-                applyProduct(prod);
-            });
-        }
+        // (productSelect listener removed)
 
         // ── Tabs Switching ──
         tabs.forEach((tab) => {
@@ -447,7 +498,13 @@ const initFitting = async () => {
         });
 
         // ── Initial Setup ──
-        const initialProduct = productSelect ? (findProduct(productSelect.value) || catalog[0]) : catalog[0];
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlProductId = urlParams.get('product');
+        let initialProduct = catalog.find(p => String(p.id) === String(urlProductId)) || catalog[0];
+        
+        selectedProductId = initialProduct ? initialProduct.id : null;
+        renderProductList();
+        
         await applyProduct(initialProduct);
 
         window.addEventListener('beforeunload', () => {

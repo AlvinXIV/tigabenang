@@ -7,8 +7,8 @@
 
     <section class="fv-page-hero">
         <div class="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-12">
-            <span class="section-badge mb-3">Fitting virtual</span>
-            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Fitting virtual</h1>
+            <span class="section-badge mb-3">Virtual fitting</span>
+            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">Virtual fitting</h1>
             <p class="mt-2.5 max-w-2xl text-sm leading-relaxed">
                 Sesuaikan ukuran tubuh dan lihat bagaimana pakaian 3D pas, sempit, atau longgar pada avatar digital.
             </p>
@@ -63,18 +63,18 @@
                 ></div>
 
                 <div class="pointer-events-none absolute left-4 top-4 flex flex-col gap-2">
-                    <p class="rounded-[8px] border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-semibold text-[#1C2430] shadow-[0_1px_2px_rgba(28,36,48,0.04)]">
+                    <p class="rounded-[8px] border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-semibold text-[#102A43] shadow-[0_1px_2px_rgba(28,36,48,0.04)]">
                         Fitting 3D
                     </p>
                     <div class="rounded-[12px] border border-[#E2E5E9] bg-white p-3 shadow-[0_1px_2px_rgba(28,36,48,0.04)]">
-                        <p class="text-sm font-semibold text-[#1C2430]" data-fitting-name>{{ $selected?->nama_produk ?? 'T-shirt preview' }}</p>
-                        <p class="mt-0.5 text-xs font-medium text-[#667085]" data-fitting-category>{{ $selected?->kategori?->nama_kategori ?? 'Prototipe' }}</p>
+                        <p class="text-sm font-semibold text-[#102A43]" data-fitting-name>{{ $selected?->nama_produk ?? 'T-shirt preview' }}</p>
+                        <p class="mt-0.5 text-xs font-medium text-[#667085]" data-fitting-category>{{ \App\Support\CustomerCatalog::categoryLabel($selected?->kategori?->nama_kategori) ?: 'Prototipe' }}</p>
                     </div>
                 </div>
 
                 <div class="absolute right-4 top-4">
                     <span
-                        class="inline-flex items-center rounded-[8px] border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-semibold text-[#1C2430] shadow-[0_1px_2px_rgba(28,36,48,0.04)]"
+                        class="inline-flex items-center rounded-[8px] border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-semibold text-[#102A43] shadow-[0_1px_2px_rgba(28,36,48,0.04)]"
                         data-fitting-match
                     >
                         Memeriksa ukuran
@@ -82,7 +82,7 @@
                 </div>
 
                 <p
-                    class="pointer-events-none absolute bottom-4 left-4 z-20 rounded-[8px] border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-medium text-[#1C2430] shadow-[0_1px_2px_rgba(28,36,48,0.04)]"
+                    class="pointer-events-none absolute bottom-4 left-4 z-20 rounded-[8px] border border-[#E2E5E9] bg-white px-3 py-1.5 text-xs font-medium text-[#102A43] shadow-[0_1px_2px_rgba(28,36,48,0.04)]"
                     data-fitting-status
                 >
                     Menyiapkan studio
@@ -94,7 +94,7 @@
                 <div>
                     <div class="border-b border-[#E2E5E9] bg-[#F7F7F5] px-6 py-5">
                         <span class="section-badge text-xs">Studio fitting</span>
-                        <h2 class="mt-1.5 text-xl font-bold text-[#1C2430]">Kontrol fitting</h2>
+                        <h2 class="mt-1.5 text-xl font-bold text-[#102A43]">Kontrol fitting</h2>
                         <p class="mt-1 text-xs leading-relaxed text-[#667085]">
                             Ganti model, pilih ukuran pakaian, dan sesuaikan ukuran tubuh avatar.
                         </p>
@@ -103,12 +103,12 @@
                     <div
                         class="flex border-b border-[#E2E5E9]"
                         role="tablist"
-                        aria-label="Panel fitting virtual"
+                        aria-label="Panel virtual fitting"
                     >
                         <button
                             type="button"
                             class="flex-1 border-b-2 py-3.5 text-xs font-semibold transition-colors"
-                            style="color:#1C2430;border-color:#1C2430;background:#F7F7F5;"
+                            style="color:#102A43;border-color:#102A43;background:#F7F7F5;"
                             role="tab"
                             aria-selected="true"
                             data-fitting-tab="garment"
@@ -133,6 +133,17 @@
                             style="color:#667085;"
                             role="tab"
                             aria-selected="false"
+                            data-fitting-tab="size"
+                        >
+                            Uji ukuran
+                        </button>
+
+                        <button
+                            type="button"
+                            class="flex-1 border-b-2 border-transparent py-3.5 text-xs font-semibold transition-colors"
+                            style="color:#667085;"
+                            role="tab"
+                            aria-selected="false"
                             data-fitting-tab="info"
                         >
                             Panduan
@@ -144,61 +155,74 @@
                         data-fitting-panel="garment"
                         role="tabpanel"
                     >
-                        <div>
-                            <label class="mb-2 block text-sm font-semibold text-[#1C2430]">
+                        <div class="space-y-3">
+                            <label class="block text-sm font-semibold text-[#102A43]">
                                 Pilihan pakaian
                             </label>
-                            <select
-                                data-fitting-product
-                                class="fv-select"
-                            >
-                                @forelse ($products as $prod)
-                                    <option value="{{ $prod->id_produk }}" @selected($selected && $selected->id_produk === $prod->id_produk)>
-                                        {{ $prod->nama_produk }} ({{ $prod->kategori?->nama_kategori ?? 'Katalog' }})
-                                    </option>
-                                @empty
-                                    <option value="tshirt-preview" selected>T-shirt preview</option>
-                                @endforelse
-                            </select>
+                            <div class="flex gap-2">
+                                <select data-fitting-category-filter class="fv-select flex-1 text-xs">
+                                    <option value="">Semua Kategori</option>
+                                    @php
+                                        $categories = $allCategories->map(fn($c) => \App\Support\CustomerCatalog::categoryLabel($c->nama_kategori) ?: 'Katalog')->unique()->filter()->values();
+                                    @endphp
+                                    @foreach($categories as $cat)
+                                        <option value="{{ $cat }}">{{ $cat }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="relative flex-[1.2]">
+                                    <input type="text" data-fitting-search-filter class="fv-input text-xs pr-8" placeholder="Cari baju...">
+                                    <svg class="absolute right-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#667085]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-2 max-h-[320px] overflow-y-auto pr-1 pb-1" data-fitting-product-list>
+                                <!-- JS will populate this -->
+                            </div>
                         </div>
+                    </div>
 
+                    <div
+                        class="hidden max-h-[520px] space-y-6 overflow-y-auto p-6"
+                        data-fitting-panel="size"
+                        role="tabpanel"
+                    >
                         <div>
                             <div class="mb-2 flex items-center justify-between">
-                                <label class="text-sm font-semibold text-[#1C2430]">
+                                <label class="text-sm font-semibold text-[#102A43]">
                                     Uji ukuran pakaian
                                 </label>
-                                <span class="rounded-[8px] border border-[#E2E5E9] bg-[#F7F7F5] px-2.5 py-0.5 text-[11px] font-semibold text-[#1C2430]" data-fitting-size-label>
+                                <span class="rounded-[8px] border border-[#E2E5E9] bg-[#F7F7F5] px-2.5 py-0.5 text-[11px] font-semibold text-[#102A43]" data-fitting-size-label>
                                     Auto: <span data-fitting-size>M</span>
                                 </span>
                             </div>
 
                             <div class="flex flex-wrap gap-2 pt-1" data-fitting-size-buttons>
-                                <button type="button" data-size="S" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#1C2430]">S</button>
-                                <button type="button" data-size="M" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#1C2430]">M</button>
-                                <button type="button" data-size="L" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#1C2430]">L</button>
-                                <button type="button" data-size="XL" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#1C2430]">XL</button>
-                                <button type="button" data-size="XXL" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#1C2430]">XXL</button>
+                                <button type="button" data-size="S" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#102A43]">S</button>
+                                <button type="button" data-size="M" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#102A43]">M</button>
+                                <button type="button" data-size="L" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#102A43]">L</button>
+                                <button type="button" data-size="XL" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#102A43]">XL</button>
+                                <button type="button" data-size="XXL" class="size-pill-btn cursor-pointer rounded-[8px] border border-[#E2E5E9] bg-white px-4 py-2 text-xs font-semibold text-[#102A43]">XXL</button>
                             </div>
                             <p class="mt-2 text-[11px] text-[#667085]">
                                 Pilih ukuran untuk melihat perubahan ketat, pas, atau longgar.
                             </p>
                         </div>
 
-
-
                         <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-4">
                             <p class="mb-2 text-xs font-semibold text-[#667085]">Analisis tekanan tubuh</p>
                             <ul class="space-y-1.5 text-xs" data-fitting-heatmap>
                                 <li class="flex items-center justify-between border-b border-[#E2E5E9] py-1">
-                                    <span class="font-semibold text-[#1C2430]">Dada</span>
+                                    <span class="font-semibold text-[#102A43]">Dada</span>
                                     <span class="text-xs font-medium text-[#667085]">Memeriksa</span>
                                 </li>
                                 <li class="flex items-center justify-between border-b border-[#E2E5E9] py-1">
-                                    <span class="font-semibold text-[#1C2430]">Bahu</span>
+                                    <span class="font-semibold text-[#102A43]">Bahu</span>
                                     <span class="text-xs font-medium text-[#667085]">Memeriksa</span>
                                 </li>
                                 <li class="flex items-center justify-between py-1">
-                                    <span class="font-semibold text-[#1C2430]">Pinggang</span>
+                                    <span class="font-semibold text-[#102A43]">Pinggang</span>
                                     <span class="text-xs font-medium text-[#667085]">Memeriksa</span>
                                 </li>
                             </ul>
@@ -228,7 +252,7 @@
 
                             @foreach ($inputs as $inp)
                                 <div>
-                                    <label for="{{ $inp['id'] }}" class="mb-1 block text-xs font-semibold text-[#1C2430]">
+                                    <label for="{{ $inp['id'] }}" class="mb-1 block text-xs font-semibold text-[#102A43]">
                                         {{ $inp['label'] }}
                                     </label>
                                     <div class="relative">
@@ -248,11 +272,11 @@
                             @endforeach
 
                             <div class="pt-2">
-                                <p class="mb-2 text-xs font-semibold text-[#1C2430]">Proporsi tubuh</p>
+                                <p class="mb-2 text-xs font-semibold text-[#102A43]">Proporsi tubuh</p>
                                 <div class="grid grid-cols-3 gap-2">
                                     @foreach (['short' => 'Pendek', 'normal' => 'Normal', 'long' => 'Panjang'] as $val => $label)
                                         <label
-                                            class="flex cursor-pointer items-center justify-center rounded-[8px] border border-[#E2E5E9] bg-[#F7F7F5] px-3 py-2.5 text-xs font-semibold text-[#667085]"
+                                            class="flex cursor-pointer items-center justify-center rounded-[8px] border border-[#E2E5E9] bg-[#F7F7F5] px-3 py-2.5 text-xs font-semibold text-[#667085] has-[:checked]:bg-[#102A43] has-[:checked]:text-white has-[:checked]:border-[#102A43] transition-colors"
                                         >
                                             <input
                                                 type="radio"
@@ -288,21 +312,14 @@
                             ['Panjang torso',   'Ukur dari titik bahu (dekat leher) ke garis pinggang alami.'],
                         ] as [$term, $desc])
                             <div class="rounded-[12px] border border-[#E2E5E9] bg-[#F7F7F5] p-3.5">
-                                <p class="text-xs font-semibold text-[#1C2430]">{{ $term }}</p>
+                                <p class="text-xs font-semibold text-[#102A43]">{{ $term }}</p>
                                 <p class="mt-0.5 text-xs leading-relaxed text-[#667085]">{{ $desc }}</p>
                             </div>
                         @endforeach
                     </div>
                 </div>
 
-                <div class="border-t border-[#E2E5E9] bg-[#F7F7F5] p-6">
-                    <a
-                        href="{{ route('order.create') }}"
-                        class="btn-primary w-full"
-                    >
-                        Pesan ukuran ini
-                    </a>
-                </div>
+
 
             </aside>
         </div>

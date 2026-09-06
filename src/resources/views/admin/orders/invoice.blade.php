@@ -83,7 +83,7 @@
         </a>
 
         <div class="flex items-center gap-2">
-            <button onclick="window.print()" class="inline-flex items-center gap-2 px-5 py-2 bg-[#B8664A] hover:bg-[#9A4E3A] text-white text-xs font-medium rounded-lg transition-colors shadow-2xs cursor-pointer border-0">
+            <button onclick="window.print()" class="inline-flex items-center gap-2 px-5 py-2 bg-[#102A43] hover:bg-[#193B5C] text-white text-xs font-medium rounded-lg transition-colors shadow-2xs cursor-pointer border-0">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                 </svg>
@@ -99,7 +99,7 @@
         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b border-[#E2E5E9] print-grid-2">
             <div>
                 <div class="flex items-center gap-3.5 mb-2">
-                    <div class="w-12 h-12 bg-[#B8664A] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs">
+                    <div class="w-12 h-12 bg-[#102A43] text-white rounded-xl flex items-center justify-center font-bold text-base shadow-xs">
                         TB
                     </div>
                     <div>

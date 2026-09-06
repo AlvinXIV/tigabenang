@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Products;
 use App\Models\Bahan;
 use App\Models\Kategori;
 use App\Models\Produk;
+use App\Support\ImageOptimizer;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -67,12 +68,18 @@ class ProductForm extends Component
             'harga' => $this->harga,
         ];
 
+        $disk = in_array(config('filesystems.default'), ['supabase', 's3']) ? config('filesystems.default') : 'public';
+
         if ($this->gambar) {
-            $data['gambar'] = $this->gambar->store('produk', 'public');
+            if ($this->existingGambar) {
+                ImageOptimizer::deleteWithWebp($this->existingGambar, $disk);
+            }
+            $data['gambar'] = $this->gambar->store('produk', $disk);
+            ImageOptimizer::convertToWebp($data['gambar'], $disk);
         }
 
         if ($this->file_model_3d) {
-            $data['file_model_3d'] = $this->file_model_3d->store('models3d', 'public');
+            $data['file_model_3d'] = $this->file_model_3d->store('models3d', $disk);
         }
 
         if ($this->productId) {

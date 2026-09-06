@@ -31,7 +31,7 @@
                 id="kategori_id"
                 name="kategori_id"
                 required
-                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
             >
                 @foreach ($categories as $cat)
                     <option value="{{ $cat->id_kategori }}" {{ old('kategori_id', $ukuran->kategori_id) == $cat->id_kategori ? 'selected' : '' }}>
@@ -54,7 +54,7 @@
                 name="nama_ukuran"
                 value="{{ old('nama_ukuran', $ukuran->nama_ukuran) }}"
                 required
-                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
             />
             @error('nama_ukuran')
                 <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
@@ -73,7 +73,7 @@
                     name="lebar_dada"
                     value="{{ old('lebar_dada', $ukuran->lebar_dada) }}"
                     placeholder="54.0"
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
@@ -88,7 +88,7 @@
                     name="panjang"
                     value="{{ old('panjang', $ukuran->panjang) }}"
                     placeholder="68.0"
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
@@ -103,7 +103,7 @@
                     name="lebar_bahu"
                     value="{{ old('lebar_bahu', $ukuran->lebar_bahu) }}"
                     placeholder="48.0"
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
 
@@ -118,7 +118,7 @@
                     name="panjang_lengan"
                     value="{{ old('panjang_lengan', $ukuran->panjang_lengan) }}"
                     placeholder="62.0"
-                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#B8664A] focus:ring-2 focus:ring-[#B8664A]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
+                    class="w-full px-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 font-mono text-xs sm:text-sm text-[#1C2430] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
         </div>

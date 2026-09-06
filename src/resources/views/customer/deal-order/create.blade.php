@@ -153,7 +153,7 @@
                                     data-category="{{ $produk->kategori?->nama_kategori }}"
                                     @selected((int) $oldProduct === (int) $produk->id_produk)
                                 >
-                                    {{ $produk->nama_produk }} ({{ $produk->kategori?->nama_kategori ?? 'Custom' }}) — Rp {{ number_format((float) $produk->harga, 0, ',', '.') }} / pcs
+                                    {{ $produk->nama_produk }} ({{ \App\Support\CustomerCatalog::categoryLabel($produk->kategori?->nama_kategori) ?: 'Custom' }}) — Rp {{ number_format((float) $produk->harga, 0, ',', '.') }} / pcs
                                 </option>
                             @endforeach
                         </select>
