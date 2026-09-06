@@ -1,6 +1,16 @@
 <?php
 
-// Pastikan direktori sementara /tmp untuk runtime Laravel di Vercel Serverless tersedia
+// Vercel terminates SSL at proxy level and forwards via HTTP.
+// Force Laravel to recognize HTTPS from X-Forwarded-Proto header.
+if (
+    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+    $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
+) {
+    $_SERVER['HTTPS'] = 'on';
+    $_SERVER['SERVER_PORT'] = 443;
+}
+
+
 $tmpDirs = [
     '/tmp/storage/framework/views',
     '/tmp/storage/framework/cache/data',
