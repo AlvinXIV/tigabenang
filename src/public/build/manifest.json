@@ -1,0 +1,116 @@
+{
+  "_GLTFLoader-heouFASK.js": {
+    "file": "assets/GLTFLoader-heouFASK.js",
+    "name": "GLTFLoader"
+  },
+  "_cormorant-garamond-400-normal-B-1hWBU7.woff2": {
+    "file": "assets/cormorant-garamond-400-normal-B-1hWBU7.woff2",
+    "src": "_cormorant-garamond-400-normal-B-1hWBU7.woff2"
+  },
+  "_cormorant-garamond-400-normal-B7YtguxJ.woff": {
+    "file": "assets/cormorant-garamond-400-normal-B7YtguxJ.woff",
+    "src": "_cormorant-garamond-400-normal-B7YtguxJ.woff"
+  },
+  "_cormorant-garamond-500-normal-BsRWmXhO.woff2": {
+    "file": "assets/cormorant-garamond-500-normal-BsRWmXhO.woff2",
+    "src": "_cormorant-garamond-500-normal-BsRWmXhO.woff2"
+  },
+  "_cormorant-garamond-500-normal-zIXX3Q-H.woff": {
+    "file": "assets/cormorant-garamond-500-normal-zIXX3Q-H.woff",
+    "src": "_cormorant-garamond-500-normal-zIXX3Q-H.woff"
+  },
+  "_cormorant-garamond-600-normal-2CBVLo0M.woff": {
+    "file": "assets/cormorant-garamond-600-normal-2CBVLo0M.woff",
+    "src": "_cormorant-garamond-600-normal-2CBVLo0M.woff"
+  },
+  "_cormorant-garamond-600-normal-Co1r35X9.woff2": {
+    "file": "assets/cormorant-garamond-600-normal-Co1r35X9.woff2",
+    "src": "_cormorant-garamond-600-normal-Co1r35X9.woff2"
+  },
+  "_cormorant-garamond-700-normal-DajfzrDU.woff2": {
+    "file": "assets/cormorant-garamond-700-normal-DajfzrDU.woff2",
+    "src": "_cormorant-garamond-700-normal-DajfzrDU.woff2"
+  },
+  "_cormorant-garamond-700-normal-O25Qpphb.woff": {
+    "file": "assets/cormorant-garamond-700-normal-O25Qpphb.woff",
+    "src": "_cormorant-garamond-700-normal-O25Qpphb.woff"
+  },
+  "_fonts-B1DxHmKK.css": {
+    "file": "assets/fonts-B1DxHmKK.css",
+    "src": "_fonts-B1DxHmKK.css"
+  },
+  "_instrument-sans-400-normal-D1W7dsQl.woff": {
+    "file": "assets/instrument-sans-400-normal-D1W7dsQl.woff",
+    "src": "_instrument-sans-400-normal-D1W7dsQl.woff"
+  },
+  "_instrument-sans-400-normal-DRC__1Mx.woff2": {
+    "file": "assets/instrument-sans-400-normal-DRC__1Mx.woff2",
+    "src": "_instrument-sans-400-normal-DRC__1Mx.woff2"
+  },
+  "_instrument-sans-500-normal-Dk9ku72i.woff2": {
+    "file": "assets/instrument-sans-500-normal-Dk9ku72i.woff2",
+    "src": "_instrument-sans-500-normal-Dk9ku72i.woff2"
+  },
+  "_instrument-sans-500-normal-Z6ESRlEs.woff": {
+    "file": "assets/instrument-sans-500-normal-Z6ESRlEs.woff",
+    "src": "_instrument-sans-500-normal-Z6ESRlEs.woff"
+  },
+  "_instrument-sans-600-normal-B7fBEWYG.woff2": {
+    "file": "assets/instrument-sans-600-normal-B7fBEWYG.woff2",
+    "src": "_instrument-sans-600-normal-B7fBEWYG.woff2"
+  },
+  "_instrument-sans-600-normal-B9e8oLYv.woff": {
+    "file": "assets/instrument-sans-600-normal-B9e8oLYv.woff",
+    "src": "_instrument-sans-600-normal-B9e8oLYv.woff"
+  },
+  "node_modules/@google/model-viewer/lib/model-viewer.js": {
+    "file": "assets/model-viewer--EEY58xf.js",
+    "name": "model-viewer",
+    "src": "node_modules/@google/model-viewer/lib/model-viewer.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js",
+      "_GLTFLoader-heouFASK.js"
+    ]
+  },
+  "node_modules/chart.js/auto/auto.js": {
+    "file": "assets/auto-buGEq6de.js",
+    "name": "auto",
+    "src": "node_modules/chart.js/auto/auto.js",
+    "isDynamicEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-J7BWgqKb.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BOd6NbOR.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/chart.js/auto/auto.js",
+      "node_modules/@google/model-viewer/lib/model-viewer.js"
+    ]
+  },
+  "resources/js/customer/order.js": {
+    "file": "assets/order-Dn35tqTS.js",
+    "name": "order",
+    "src": "resources/js/customer/order.js",
+    "isEntry": true
+  },
+  "resources/js/customer/virtual-fitting.js": {
+    "file": "assets/virtual-fitting-DObSGzXC.js",
+    "name": "virtual-fitting",
+    "src": "resources/js/customer/virtual-fitting.js",
+    "isEntry": true,
+    "imports": [
+      "_GLTFLoader-heouFASK.js"
+    ]
+  }
+}
