@@ -42,21 +42,11 @@ Aplikasi ini bertujuan:
 Alur yang berlaku di kode saat ini:
 
 1. Pelanggan mengisi formulir pesanan.
-2. Pelanggan **tidak** menetapkan harga final. Kolom `total_harga` disimpan `null`.
-3. Pesanan masuk ke portal admin.
-4. Admin menghubungi pelanggan melalui tautan WhatsApp.
-5. Harga dinegosiasikan di luar aplikasi (chat WhatsApp).
-6. Admin memasukkan harga yang sudah disepakati.
-7. Admin dapat membuka atau mencetak faktur setelah harga terisi.
-
-Yang **tidak** ada di implementasi sekarang:
-
-- payment gateway;
-- integrasi supplier;
-- negosiasi harga otomatis di dalam aplikasi;
-- pengurangan stok otomatis ketika pesanan dikonfirmasi.
-
-Tabel `bahan` saat ini menyimpan nama bahan. Tidak ada kolom stok, reorder level, atau transaksi inventory. Katalog `/materials` bersifat tampilan, bukan sistem gudang.
+2. Pesanan masuk ke portal admin.
+3. Admin menghubungi pelanggan melalui tautan WhatsApp.
+4. Harga dinegosiasikan di luar aplikasi (chat WhatsApp).
+5. Admin memasukkan harga yang sudah disepakati.
+6. Admin dapat membuka atau mencetak faktur setelah harga terisi.
 
 ---
 
@@ -308,8 +298,6 @@ Health check Laravel: `GET /up`.
 
 ## 6. Virtual Fitting
 
-Halaman `/virtual-fitting` dapat menerima `?product={id}`.
-
 Cara kerja yang ada di kode:
 
 1. Controller hanya mengambil produk yang `file_model_3d`-nya terisi.
@@ -539,9 +527,3 @@ Identifier teknis yang **bukan** nama brand UI, dan tidak perlu diubah hanya kar
 - nama container Docker (`tigabenang_app`, dan seterusnya)
 - bucket / URL storage jika masih memakai identifier lama
 - `window.FitVendorOrder` di JavaScript pesanan
-
----
-
-## Lisensi
-
-Aplikasi ini berbasis skeleton Laravel yang berlisensi [MIT](https://opensource.org/licenses/MIT).
