@@ -1,23 +1,4 @@
-<div
-    x-data
-    x-init="
-        const syncHashTab = () => {
-            const params = new URLSearchParams(window.location.search);
-            if (window.location.hash === '#material' || params.get('tab') === 'material') {
-                if ($wire.activeTab !== 'material') {
-                    $wire.switchTab('material');
-                }
-            } else if (window.location.hash === '#kategori' || (!params.get('tab') && !window.location.hash)) {
-                if ($wire.activeTab !== 'kategori') {
-                    $wire.switchTab('kategori');
-                }
-            }
-        };
-        syncHashTab();
-        window.addEventListener('hashchange', syncHashTab);
-    "
-    class="space-y-5"
->
+<div class="space-y-5">
 
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E5E9]">
@@ -32,27 +13,25 @@
 
         <div class="flex items-center gap-2.5">
             @if ($activeTab === 'kategori')
-                <button
-                    type="button"
-                    wire:click="$toggle('addKategoriOpen')"
-                    class="btn-primary px-3.5 py-2 text-xs sm:text-sm gap-1.5 cursor-pointer"
+                <a
+                    href="{{ route('admin.kategori.create') }}"
+                    class="btn-primary px-3.5 py-2 text-xs sm:text-sm gap-1.5 cursor-pointer text-decoration-none"
                 >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                     <span>Tambah Kategori</span>
-                </button>
+                </a>
             @else
-                <button
-                    type="button"
-                    wire:click="$toggle('addMaterialOpen')"
-                    class="btn-primary px-3.5 py-2 text-xs sm:text-sm gap-1.5 cursor-pointer"
+                <a
+                    href="{{ route('admin.kategori.create', ['type' => 'bahan']) }}"
+                    class="btn-primary px-3.5 py-2 text-xs sm:text-sm gap-1.5 cursor-pointer text-decoration-none"
                 >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
                     <span>Tambah Material</span>
-                </button>
+                </a>
             @endif
         </div>
     </div>
@@ -72,29 +51,27 @@
 
     <!-- TAB SEGMENTED NAVIGATION -->
     <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-px">
-        <a
-            href="{{ route('admin.kategori.index') }}"
-            wire:click.prevent="switchTab('kategori')"
-            @click="window.location.hash = ''"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'kategori' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
+        <button
+            type="button"
+            wire:click="switchTab('kategori')"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer bg-transparent border-t-0 border-x-0 outline-none {{ $activeTab === 'kategori' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Kategori Produk</span>
             <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $activeTab === 'kategori' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $summary['total_categories'] }}
             </span>
-        </a>
+        </button>
 
-        <a
-            href="{{ route('admin.kategori.index', ['tab' => 'material']) }}#material"
-            wire:click.prevent="switchTab('material')"
-            @click="window.location.hash = 'material'"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer text-decoration-none {{ $activeTab === 'material' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
+        <button
+            type="button"
+            wire:click="switchTab('material')"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer bg-transparent border-t-0 border-x-0 outline-none {{ $activeTab === 'material' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Material Kain</span>
             <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $activeTab === 'material' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $summary['total_materials'] }}
             </span>
-        </a>
+        </button>
     </div>
 
     <!-- ============================================== -->
@@ -103,34 +80,7 @@
     @if ($activeTab === 'kategori')
         <div class="space-y-4">
             
-            <!-- Collapsible Add Category Panel -->
-            @if ($addKategoriOpen)
-                <div class="admin-card p-4 bg-white border-[#102A43]/30">
-                    <h3 class="text-sm font-semibold text-[#102A43] mb-2">Tambah Kategori Baru</h3>
-                    <form wire:submit="saveKategori" class="flex flex-col sm:flex-row gap-2.5 max-w-xl">
-                        <div class="flex-1">
-                            <input
-                                type="text"
-                                wire:model="nama_kategori"
-                                required
-                                placeholder="Nama kategori, contoh: Jaket Varsity, Kemeja PDH"
-                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
-                            />
-                            @error('nama_kategori')
-                                <span class="text-xs text-rose-500 mt-1 block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button type="submit" class="btn-primary px-4 py-2 text-xs sm:text-sm cursor-pointer">
-                                Simpan
-                            </button>
-                            <button type="button" wire:click="$set('addKategoriOpen', false)" class="btn-secondary px-3 py-2 text-xs cursor-pointer">
-                                Batal
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            @endif
+
 
             <!-- Search Bar Toolbar -->
             <div class="admin-card p-3.5 bg-white flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -251,34 +201,7 @@
     @if ($activeTab === 'material')
         <div class="space-y-4">
             
-            <!-- Collapsible Add Material Panel -->
-            @if ($addMaterialOpen)
-                <div class="admin-card p-4 bg-white border-[#102A43]/30">
-                    <h3 class="text-sm font-semibold text-[#102A43] mb-2">Tambah Material Kain Baru</h3>
-                    <form wire:submit="saveMaterial" class="flex flex-col sm:flex-row gap-2.5 max-w-xl">
-                        <div class="flex-1">
-                            <input
-                                type="text"
-                                wire:model="nama_bahan"
-                                required
-                                placeholder="Nama material kain, contoh: Cotton Combed 30s, Fleece Taiwan"
-                                class="w-full px-3 py-2 bg-white border border-[#D0D5DD] focus:border-[#102A43] text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
-                            />
-                            @error('nama_bahan')
-                                <span class="text-xs text-rose-500 mt-1 block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button type="submit" class="btn-primary px-4 py-2 text-xs sm:text-sm cursor-pointer">
-                                Simpan
-                            </button>
-                            <button type="button" wire:click="$set('addMaterialOpen', false)" class="btn-secondary px-3 py-2 text-xs cursor-pointer">
-                                Batal
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            @endif
+
 
             <!-- Search Bar Toolbar -->
             <div class="admin-card p-3.5 bg-white flex flex-col sm:flex-row items-center justify-between gap-3">
