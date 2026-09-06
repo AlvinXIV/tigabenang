@@ -145,6 +145,45 @@
             transition: width 0.2s ease-in-out, transform 0.2s ease-in-out;
         }
 
+        /* ── Sidebar Toggle Button ── */
+        .sidebar-toggle-btn {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid #E2E5E9;
+            background: #FFFFFF;
+            color: #102A43;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+            padding: 0;
+        }
+
+        .sidebar-toggle-btn:hover {
+            background: #F7F7F5;
+            border-color: #D0D5DD;
+        }
+
+        .sidebar-toggle-btn:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(16, 42, 67, 0.2);
+        }
+
+        .sidebar-toggle-btn svg {
+            width: 18px;
+            height: 18px;
+            color: #102A43;
+        }
+
+        @media (max-width: 1023px) {
+            .sidebar-toggle-btn {
+                display: none !important;
+            }
+        }
+
         .sidebar-tooltip {
             display: none;
         }
@@ -172,6 +211,22 @@
             aside#admin-sidebar.is-collapsed .sidebar-show-collapsed,
             html.sidebar-collapsed aside#admin-sidebar .sidebar-show-collapsed {
                 display: flex !important;
+            }
+
+            aside#admin-sidebar.is-collapsed .sidebar-brand-header,
+            html.sidebar-collapsed aside#admin-sidebar .sidebar-brand-header {
+                padding: 0.75rem 0.5rem !important;
+            }
+
+            aside#admin-sidebar.is-collapsed .sidebar-brand-header > div:first-child,
+            html.sidebar-collapsed aside#admin-sidebar .sidebar-brand-header > div:first-child {
+                justify-content: center !important;
+            }
+
+            aside#admin-sidebar.is-collapsed .sidebar-brand-header a,
+            html.sidebar-collapsed aside#admin-sidebar .sidebar-brand-header a {
+                justify-content: center !important;
+                margin: 0 auto !important;
             }
 
             aside#admin-sidebar.is-collapsed .sidebar-nav-container,
@@ -378,12 +433,18 @@
             <div class="flex-1 flex flex-col min-h-0">
                 
                 <!-- Brand Header -->
-                <div class="shrink-0 p-4 border-b border-[#E2E5E9]">
+                <div class="sidebar-brand-header shrink-0 p-4 border-b border-[#E2E5E9]">
                     <div class="flex items-center justify-between">
                         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 text-decoration-none min-w-0" aria-label="Dashboard Tigabenang">
-                            <!-- Emblem TB: Monogram with Customer Portal container design -->
-                            <div class="sidebar-logo-emblem w-10 h-10 rounded-[10px] border border-[#E2E5E9] bg-white flex items-center justify-center font-extrabold text-[15px] text-[#102A43] shadow-[0_1px_2px_rgba(16,42,67,0.04)] shrink-0 select-none">
-                                TB
+                            <!-- Official Logo Emblem: Customer Portal monogram container design -->
+                            <div class="sidebar-logo-emblem w-10 h-10 rounded-[10px] border border-[#E2E5E9] bg-white flex items-center justify-center shadow-[0_1px_2px_rgba(16,42,67,0.04)] shrink-0 select-none overflow-hidden">
+                                <img
+                                    src="{{ asset('images/clothiq-logo.png') }}?v=3"
+                                    alt="Logo Tigabenang"
+                                    width="32"
+                                    height="32"
+                                    class="h-[78%] w-[78%] object-contain select-none"
+                                />
                             </div>
                             <!-- Brand Text (Hidden when collapsed) -->
                             <div class="sidebar-hide-collapsed min-w-0 overflow-hidden">
@@ -392,17 +453,17 @@
                             </div>
                         </a>
 
-                        <!-- Desktop Toggle Button: Chevron Left (Expanded mode) -->
+                        <!-- Desktop Toggle Button: 3 Horizontal Lines (Expanded mode) -->
                         <button
                             type="button"
                             @click="toggleSidebar()"
-                            class="sidebar-hide-collapsed hidden lg:inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#E2E5E9] bg-white text-[#102A43] hover:bg-[#F7F7F5] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#102A43]/20 shrink-0 ml-2"
+                            class="sidebar-toggle-btn sidebar-hide-collapsed ml-2"
                             :aria-expanded="!sidebarCollapsed"
-                            aria-label="Kecilkan sidebar"
-                            title="Kecilkan sidebar"
+                            aria-label="Minimalkan sidebar"
+                            title="Minimalkan sidebar"
                         >
-                            <svg class="w-4 h-4 text-[#102A43]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </button>
 
@@ -419,18 +480,18 @@
                         </button>
                     </div>
 
-                    <!-- Desktop Toggle Button: Chevron Right (Collapsed mode: centered below emblem) -->
+                    <!-- Desktop Toggle Button: 3 Horizontal Lines (Collapsed mode: centered below emblem) -->
                     <div class="sidebar-show-collapsed hidden flex-col items-center pt-2.5">
                         <button
                             type="button"
                             @click="toggleSidebar()"
-                            class="hidden lg:inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[#E2E5E9] bg-white text-[#102A43] hover:bg-[#F7F7F5] transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#102A43]/20 shrink-0"
+                            class="sidebar-toggle-btn"
                             :aria-expanded="!sidebarCollapsed"
-                            aria-label="Perlebar sidebar"
-                            title="Perlebar sidebar"
+                            aria-label="Buka sidebar"
+                            title="Buka sidebar"
                         >
-                            <svg class="w-4 h-4 text-[#102A43]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </button>
                     </div>
@@ -617,34 +678,22 @@
 
             <!-- Bottom Sidebar: User Profile & Session -->
             <div class="shrink-0 p-3 border-t border-[#E2E5E9] bg-[#F7F7F5]">
-                <!-- Expanded view -->
+                <!-- Expanded view: Direct text identity without placeholder avatar -->
                 <div class="sidebar-hide-collapsed flex items-center justify-between">
-                    <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-2.5 group text-decoration-none min-w-0" aria-label="Pengaturan Profil Admin">
-                        <div class="w-8 h-8 rounded-lg bg-[#102A43] text-white flex items-center justify-center text-xs font-semibold shrink-0 shadow-xs">
-                            TB
-                        </div>
-                        <div class="text-left truncate">
-                            <p class="text-[#102A43] font-medium text-xs truncate group-hover:text-[#193B5C] transition-colors">Admin Tigabenang</p>
-                            <p class="text-[#667085] text-[11px] font-normal leading-none mt-0.5">Administrator</p>
-                        </div>
+                    <a href="{{ route('admin.profile.edit') }}" class="group text-decoration-none min-w-0 flex-1 pr-2" aria-label="Pengaturan Profil Admin">
+                        <p class="text-[#102A43] font-semibold text-xs truncate group-hover:text-[#193B5C] transition-colors leading-snug">Admin Tigabenang</p>
+                        <p class="text-[#667085] text-[11px] font-normal leading-none mt-0.5 truncate">Administrator</p>
                     </a>
 
-                    <a href="{{ route('logout') }}" title="Keluar" aria-label="Keluar" class="text-[#667085] hover:text-rose-600 p-1.5 rounded-md hover:bg-white transition-colors cursor-pointer" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a href="{{ route('logout') }}" title="Keluar" aria-label="Keluar" class="text-[#667085] hover:text-rose-600 p-1.5 rounded-md hover:bg-white transition-colors cursor-pointer shrink-0" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
                     </a>
                 </div>
 
-                <!-- Collapsed view: Vertically stacked & centered -->
-                <div class="sidebar-show-collapsed hidden flex-col items-center gap-2 py-1">
-                    <a href="{{ route('admin.profile.edit') }}" class="sidebar-tooltip-target relative group flex items-center justify-center w-10 h-10 rounded-lg text-decoration-none focus:outline-none focus:ring-2 focus:ring-[#102A43]/20" aria-label="Pengaturan Profil Admin">
-                        <div class="w-8 h-8 rounded-lg bg-[#102A43] text-white flex items-center justify-center text-xs font-semibold shrink-0 shadow-xs">
-                            TB
-                        </div>
-                        <div class="sidebar-tooltip">Admin Tigabenang (Administrator)</div>
-                    </a>
-
+                <!-- Collapsed view: Clean centered logout action without avatar placeholder -->
+                <div class="sidebar-show-collapsed hidden flex-col items-center py-1">
                     <a href="{{ route('logout') }}" class="sidebar-tooltip-target relative group flex items-center justify-center w-10 h-10 rounded-lg text-[#667085] hover:text-rose-600 hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500/20 cursor-pointer" aria-label="Keluar" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -670,7 +719,15 @@
                     </svg>
                 </button>
                 <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 rounded-[7px] border border-[#E2E5E9] bg-white text-[#102A43] flex items-center justify-center font-extrabold text-[11px] shadow-2xs">TB</div>
+                    <div class="w-7 h-7 rounded-[7px] border border-[#E2E5E9] bg-white flex items-center justify-center shadow-2xs overflow-hidden select-none">
+                        <img
+                            src="{{ asset('images/clothiq-logo.png') }}?v=3"
+                            alt="Logo Tigabenang"
+                            width="22"
+                            height="22"
+                            class="h-[78%] w-[78%] object-contain select-none"
+                        />
+                    </div>
                     <span class="text-xs font-bold tracking-wide text-[#102A43]">TIGABENANG</span>
                 </div>
                 <a href="{{ route('admin.profile.edit') }}" class="w-7 h-7 rounded-full bg-[#102A43] text-white flex items-center justify-center text-xs font-bold" aria-label="Profil Admin">TB</a>
