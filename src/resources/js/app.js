@@ -1,12 +1,10 @@
-import Alpine from 'alpinejs';
-
-// Expose Alpine to window for inline scripts, blade views, and Livewire 3
-window.Alpine = Alpine;
-
-// If Livewire is loaded on the page, Livewire starts Alpine automatically.
-// Otherwise (for pages without Livewire), start Alpine once DOM is ready.
-document.addEventListener('DOMContentLoaded', () => {
-    if (!window.Livewire && !window.__alpine_started) {
+// Livewire 3 automatically bundles and starts its own Alpine.js (window.Alpine).
+// If a page does NOT load Livewire but contains [x-data], lazily import and start Alpine as a fallback.
+document.addEventListener('DOMContentLoaded', async () => {
+    const hasLivewire = !!window.Livewire || !!document.querySelector('[wire\\:id], [wire\\:snapshot], script[src*="livewire"]');
+    if (!hasLivewire && !window.__alpine_started && document.querySelector('[x-data]')) {
+        const { default: Alpine } = await import('alpinejs');
+        window.Alpine = Alpine;
         window.__alpine_started = true;
         Alpine.start();
     }

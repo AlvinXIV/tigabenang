@@ -59,7 +59,7 @@
         :class="dropUp ? 'bottom-full mb-1' : 'top-full mt-1'"
         class="absolute {{ $alignmentClasses }} z-50 w-44 sm:w-48 bg-white border border-[#E2E5E9] rounded-lg shadow-lg py-1 text-xs focus:outline-none overflow-hidden"
         style="display: none;"
-        @click="close()"
+        @click="setTimeout(() => close(), 50)"
     >
         {{ $slot }}
     </div>

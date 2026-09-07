@@ -64,7 +64,7 @@
     "src": "_instrument-sans-600-normal-B9e8oLYv.woff"
   },
   "node_modules/@google/model-viewer/lib/model-viewer.js": {
-    "file": "assets/model-viewer--EEY58xf.js",
+    "file": "assets/model-viewer-Da1mxRvV.js",
     "name": "model-viewer",
     "src": "node_modules/@google/model-viewer/lib/model-viewer.js",
     "isDynamicEntry": true,
@@ -73,6 +73,12 @@
       "_GLTFLoader-heouFASK.js"
     ]
   },
+  "node_modules/alpinejs/dist/module.esm.js": {
+    "file": "assets/module.esm-YdKosYF1.js",
+    "name": "module.esm",
+    "src": "node_modules/alpinejs/dist/module.esm.js",
+    "isDynamicEntry": true
+  },
   "node_modules/chart.js/auto/auto.js": {
     "file": "assets/auto-buGEq6de.js",
     "name": "auto",
@@ -80,7 +86,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-VMazSgBF.css",
+    "file": "assets/app-4NRZUoQy.css",
     "name": "app",
     "names": [
       "app.css"
@@ -89,11 +95,12 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BOd6NbOR.js",
+    "file": "assets/app-C3kB7Qgy.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
+      "node_modules/alpinejs/dist/module.esm.js",
       "node_modules/chart.js/auto/auto.js",
       "node_modules/@google/model-viewer/lib/model-viewer.js"
     ]
