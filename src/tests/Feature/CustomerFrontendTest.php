@@ -334,8 +334,8 @@ class CustomerFrontendTest extends TestCase
 
         $this->get(route('deal-order.success'))
             ->assertOk()
-            ->assertSee('Estimasi Total:')
-            ->assertSee('Rp 1.000.000')
+            ->assertDontSee('Estimasi Total:')
+            ->assertDontSee('Lanjut via WhatsApp')
             ->assertSee('Tigabenang')
             ->assertSee('#TB-');
     }
