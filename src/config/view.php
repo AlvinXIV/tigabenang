@@ -1,5 +1,10 @@
 <?php
 
+$compiledPath = env('VIEW_COMPILED_PATH');
+if ($compiledPath && !is_dir($compiledPath)) {
+    @mkdir($compiledPath, 0777, true);
+}
+
 return [
 
     /*
@@ -31,9 +36,6 @@ return [
     |
     */
 
-    'compiled' => env(
-        'VIEW_COMPILED_PATH',
-        realpath(storage_path('framework/views')) ?: storage_path('framework/views')
-    ),
+    'compiled' => $compiledPath ?: (realpath(storage_path('framework/views')) ?: storage_path('framework/views')),
 
 ];
