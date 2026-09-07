@@ -51,17 +51,26 @@
                     <span>Kembalikan ke Masuk</span>
                 </button>
             @else
-                <button
-                    type="button"
-                    wire:click="markAsCompleted"
-                    wire:confirm="Tandai pesanan ini sebagai selesai?"
-                    class="btn-secondary px-3.5 py-2 text-xs sm:text-sm gap-1.5 text-emerald-700 hover:text-emerald-800 hover:border-emerald-300"
-                >
-                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span>Tandai Selesai</span>
-                </button>
+                @if ($order->isLunas())
+                    <button
+                        type="button"
+                        wire:click="markAsCompleted"
+                        wire:confirm="Tandai pesanan ini sebagai selesai?"
+                        class="btn-secondary px-3.5 py-2 text-xs sm:text-sm gap-1.5 text-emerald-700 hover:text-emerald-800 hover:border-emerald-300"
+                    >
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Tandai Selesai</span>
+                    </button>
+                @else
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-[#E2E5E9] bg-[#F7F7F5] text-xs sm:text-sm text-[#98A2B3] cursor-not-allowed select-none" title="Tandai pembayaran lunas terlebih dahulu">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <span>Selesai (butuh lunas)</span>
+                    </span>
+                @endif
             @endif
 
             <a
@@ -92,14 +101,20 @@
 
     <!-- FLASH NOTIFICATION -->
     @if ($feedbackMessage)
-        <div class="p-3.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center justify-between">
+        <div class="p-3.5 rounded-lg {{ $feedbackError ? 'bg-red-50 border border-red-200 text-red-800' : 'bg-emerald-50 border border-emerald-200 text-emerald-800' }} text-xs flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
+                @if ($feedbackError)
+                    <svg class="w-4 h-4 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 003-2.6L16.94 4a2 2 0 00-3.88 0L3 16.4A2 2 0 005.07 19z"></path>
+                    </svg>
+                @else
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                @endif
                 <span>{{ $feedbackMessage }}</span>
             </div>
-            <button wire:click="dismissFeedback" class="text-emerald-600 hover:text-emerald-800 text-xs font-semibold">&times;</button>
+            <button wire:click="dismissFeedback" class="{{ $feedbackError ? 'text-red-600 hover:text-red-800' : 'text-emerald-600 hover:text-emerald-800' }} text-xs font-semibold">&times;</button>
         </div>
     @endif
 

@@ -24,14 +24,20 @@
 
     <!-- FLASH FEEDBACK NOTIFICATION -->
     @if ($feedbackMessage)
-        <div class="p-3.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center justify-between">
+        <div class="p-3.5 rounded-lg {{ $feedbackError ? 'bg-red-50 border border-red-200 text-red-800' : 'bg-emerald-50 border border-emerald-200 text-emerald-800' }} text-xs flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
+                @if ($feedbackError)
+                    <svg class="w-4 h-4 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 003-2.6L16.94 4a2 2 0 00-3.88 0L3 16.4A2 2 0 005.07 19z"></path>
+                    </svg>
+                @else
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                @endif
                 <span>{{ $feedbackMessage }}</span>
             </div>
-            <button wire:click="dismissFeedback" class="text-emerald-600 hover:text-emerald-800 text-xs font-semibold">&times;</button>
+            <button wire:click="dismissFeedback" class="{{ $feedbackError ? 'text-red-600 hover:text-red-800' : 'text-emerald-600 hover:text-emerald-800' }} text-xs font-semibold">&times;</button>
         </div>
     @endif
 
@@ -242,12 +248,14 @@
 
                                     <x-action-menu.divider />
 
-                                    <x-action-menu.item
-                                        wire:click="markAsCompleted({{ $ord->id_pemesanan }})"
-                                        wire:confirm="Tandai pesanan #ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }} sebagai selesai?"
-                                    >
-                                        Tandai Selesai
-                                    </x-action-menu.item>
+                                    @if ($ord->isLunas())
+                                        <x-action-menu.item
+                                            wire:click="markAsCompleted({{ $ord->id_pemesanan }})"
+                                            wire:confirm="Tandai pesanan #ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }} sebagai selesai?"
+                                        >
+                                            Tandai Selesai
+                                        </x-action-menu.item>
+                                    @endif
 
                                     <x-action-menu.divider />
 

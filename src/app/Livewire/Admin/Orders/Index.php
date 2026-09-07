@@ -11,6 +11,7 @@ class Index extends Component
     public string $paymentFilter = 'all'; // all, belum_bayar, sudah_dp, lunas
     public string $statusFilter = 'all'; // all, waiting, agreed
     public ?string $feedbackMessage = null;
+    public bool $feedbackError = false;
 
     // Quick set price modal
     public ?int $quickOrderId = null;
@@ -44,6 +45,7 @@ class Index extends Component
             default => 'Belum Bayar',
         };
 
+        $this->feedbackError = false;
         $this->feedbackMessage = 'Status pembayaran pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) . ' diubah menjadi "' . $label . '".';
     }
 
@@ -97,9 +99,17 @@ class Index extends Component
     public function markAsCompleted(int $id)
     {
         $order = Pemesanan::findOrFail($id);
+
+        if (!$order->isLunas()) {
+            $this->feedbackError = true;
+            $this->feedbackMessage = 'Pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) . ' tidak bisa dipindahkan ke Pesanan Selesai karena pembayaran belum lunas.';
+            return;
+        }
+
         $order->status = 'selesai';
         $order->save();
 
+        $this->feedbackError = false;
         $this->feedbackMessage = 'Pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) . ' berhasil dipindahkan ke Pesanan Selesai.';
     }
 

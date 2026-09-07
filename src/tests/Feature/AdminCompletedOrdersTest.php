@@ -97,6 +97,7 @@ class AdminCompletedOrdersTest extends TestCase
             'alamat' => 'Jl. Gatot Subroto No. 8',
             'produk_id' => $this->product->id_produk,
             'status' => 'masuk',
+            'status_pembayaran' => 'lunas',
             'total_harga' => 300000,
         ]);
 
@@ -109,6 +110,45 @@ class AdminCompletedOrdersTest extends TestCase
         $order->refresh();
         $this->assertEquals('selesai', $order->status);
         $this->assertTrue($order->isSelesai());
+    }
+
+    public function test_marking_order_completed_requires_lunas_payment_from_index(): void
+    {
+        $order = Pemesanan::create([
+            'nama' => 'Belum Bayar Wibowo',
+            'no_hp' => '081299887766',
+            'alamat' => 'Jl. Merdeka No. 45',
+            'produk_id' => $this->product->id_produk,
+            'status' => 'masuk',
+            'status_pembayaran' => 'belum_bayar',
+            'total_harga' => 300000,
+        ]);
+
+        Livewire::actingAs($this->admin)
+            ->test(Index::class)
+            ->call('markAsCompleted', $order->id_pemesanan);
+
+        $order->refresh();
+        $this->assertEquals('masuk', $order->status);
+        $this->assertFalse($order->isSelesai());
+
+        $orderSudahDp = Pemesanan::create([
+            'nama' => 'Sudah DP Saputra',
+            'no_hp' => '081377665544',
+            'alamat' => 'Jl. Cendana No. 9',
+            'produk_id' => $this->product->id_produk,
+            'status' => 'masuk',
+            'status_pembayaran' => 'sudah_dp',
+            'total_harga' => 450000,
+        ]);
+
+        Livewire::actingAs($this->admin)
+            ->test(Index::class)
+            ->call('markAsCompleted', $orderSudahDp->id_pemesanan);
+
+        $orderSudahDp->refresh();
+        $this->assertEquals('masuk', $orderSudahDp->status);
+        $this->assertFalse($orderSudahDp->isSelesai());
     }
 
     public function test_marking_order_active_from_completed_reverts_to_masuk(): void
@@ -141,6 +181,7 @@ class AdminCompletedOrdersTest extends TestCase
             'alamat' => 'Jl. Diponegoro No. 3',
             'produk_id' => $this->product->id_produk,
             'status' => 'masuk',
+            'status_pembayaran' => 'lunas',
             'total_harga' => 600000,
         ]);
 
@@ -160,6 +201,54 @@ class AdminCompletedOrdersTest extends TestCase
 
         $order->refresh();
         $this->assertEquals('masuk', $order->status);
+    }
+
+    public function test_order_detail_blocks_completion_when_payment_not_lunas(): void
+    {
+        $order = Pemesanan::create([
+            'nama' => 'Cicilin Muktadir',
+            'no_hp' => '081744556677',
+            'alamat' => 'Jl. Kenanga No. 21',
+            'produk_id' => $this->product->id_produk,
+            'status' => 'masuk',
+            'status_pembayaran' => 'belum_bayar',
+            'total_harga' => 700000,
+        ]);
+
+        Livewire::actingAs($this->admin)
+            ->test(Detail::class, ['orderId' => $order->id_pemesanan])
+            ->assertDontSee('Tandai Selesai')
+            ->assertSee('butuh lunas')
+            ->call('markAsCompleted');
+
+        $order->refresh();
+        $this->assertEquals('masuk', $order->status);
+        $this->assertFalse($order->isSelesai());
+
+        $order->status_pembayaran = 'sudah_dp';
+        $order->save();
+
+        Livewire::actingAs($this->admin)
+            ->test(Detail::class, ['orderId' => $order->id_pemesanan])
+            ->call('markAsCompleted');
+
+        $order->refresh();
+        $this->assertEquals('masuk', $order->status);
+
+        Livewire::actingAs($this->admin)
+            ->test(Detail::class, ['orderId' => $order->id_pemesanan])
+            ->call('setPaymentStatus', 'lunas');
+
+        $order->refresh();
+        $this->assertTrue($order->isLunas());
+
+        Livewire::actingAs($this->admin)
+            ->test(Detail::class, ['orderId' => $order->id_pemesanan])
+            ->assertSee('Tandai Selesai')
+            ->call('markAsCompleted');
+
+        $order->refresh();
+        $this->assertEquals('selesai', $order->status);
     }
 
     public function test_admin_completed_orders_route_renders_successfully(): void
