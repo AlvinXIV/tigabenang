@@ -60,14 +60,18 @@ return [
 
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => (isset($_ENV['VERCEL']) || is_dir('/tmp/storage/logs'))
+                ? '/tmp/storage/logs/laravel.log'
+                : storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => (isset($_ENV['VERCEL']) || is_dir('/tmp/storage/logs'))
+                ? '/tmp/storage/logs/laravel.log'
+                : storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS', 14),
             'replace_placeholders' => true,

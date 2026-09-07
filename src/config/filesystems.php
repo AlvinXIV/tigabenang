@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', env('SUPABASE_STORAGE_KEY') ? 'supabase' : 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app/private'),
+            'root' => (isset($_ENV['VERCEL']) || is_dir('/tmp')) ? '/tmp/storage/app/private' : storage_path('app/private'),
             'serve' => true,
             'throw' => false,
             'report' => false,
@@ -40,7 +40,7 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => (isset($_ENV['VERCEL']) || is_dir('/tmp')) ? '/tmp/storage/app/public' : storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,

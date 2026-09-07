@@ -224,7 +224,7 @@
                         <label for="upload_design" class="block text-sm font-semibold text-[#102A43]">
                             Unggah desain <span class="font-normal text-[#667085]">(opsional)</span>
                         </label>
-                        <div class="mt-4 rounded-[12px] border border-dashed border-[#D0D5DD] bg-[#F7F7F5] p-5 text-center">
+                        <div id="deal-upload-dropzone" class="mt-4 rounded-[12px] border border-dashed border-[#D0D5DD] bg-[#F7F7F5] p-5 text-center transition-colors hover:border-[#102A43]/40">
                             <input
                                 id="upload_design" name="upload_design" type="file"
                                 accept=".jpg,.jpeg,.png,.webp,.pdf"
@@ -236,6 +236,21 @@
                             </label>
                             <p id="deal-design-name" class="mt-3 text-sm font-medium text-[#102A43]">Belum ada file dipilih</p>
                             <p class="mt-1 text-xs text-[#667085]">JPG, PNG, WEBP, atau PDF. Maksimum 5 MB.</p>
+
+                            <!-- Pratinjau Desain / Gambar -->
+                            <div id="deal-design-preview-container" class="mt-4 hidden">
+                                <div class="inline-block relative rounded-xl border border-[#E2E5E9] bg-white p-3 shadow-sm max-w-sm mx-auto">
+                                    <img id="deal-design-preview-img" src="" alt="Pratinjau Desain" class="max-h-52 max-w-full rounded-lg object-contain mx-auto">
+                                    <div id="deal-design-doc-preview" class="hidden flex items-center justify-center gap-2 p-4 text-sm font-semibold text-[#102A43]">
+                                        <svg class="h-8 w-8 text-red-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                        <span id="deal-design-doc-name" class="truncate max-w-[200px]">Dokumen PDF</span>
+                                    </div>
+                                    <button type="button" id="deal-btn-remove-design" class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-red-600 hover:text-red-700 transition-colors">
+                                        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                        Hapus berkas
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -280,6 +295,11 @@
             const oldSizesJson = document.getElementById('deal-order-old-sizes');
             const designInput = document.getElementById('upload_design');
             const designName = document.getElementById('deal-design-name');
+            const previewContainer = document.getElementById('deal-design-preview-container');
+            const previewImg = document.getElementById('deal-design-preview-img');
+            const docPreview = document.getElementById('deal-design-doc-preview');
+            const docName = document.getElementById('deal-design-doc-name');
+            const btnRemoveDesign = document.getElementById('deal-btn-remove-design');
 
             if (!form || !categorySelect || !sizesContainer || !catalogJson) return;
 
@@ -405,10 +425,86 @@
             });
 
             designInput?.addEventListener('change', function () {
-                if (designName) {
-                    designName.textContent = this.files.length ? this.files[0].name : 'Belum ada file dipilih';
+                const file = this.files?.[0];
+                if (file) {
+                    if (designName) {
+                        designName.textContent = file.name;
+                    }
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            if (previewImg) {
+                                previewImg.src = e.target.result;
+                                previewImg.classList.remove('hidden');
+                            }
+                            if (docPreview) {
+                                docPreview.classList.add('hidden');
+                            }
+                            previewContainer?.classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    } else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                        if (previewImg) {
+                            previewImg.src = '';
+                            previewImg.classList.add('hidden');
+                        }
+                        if (docPreview && docName) {
+                            docName.textContent = file.name;
+                            docPreview.classList.remove('hidden');
+                        }
+                        previewContainer?.classList.remove('hidden');
+                    } else {
+                        previewContainer?.classList.add('hidden');
+                    }
+                } else {
+                    if (designName) {
+                        designName.textContent = 'Belum ada file dipilih';
+                    }
+                    if (previewImg) {
+                        previewImg.src = '';
+                    }
+                    previewContainer?.classList.add('hidden');
                 }
             });
+
+            btnRemoveDesign?.addEventListener('click', function () {
+                if (designInput) {
+                    designInput.value = '';
+                }
+                if (designName) {
+                    designName.textContent = 'Belum ada file dipilih';
+                }
+                if (previewImg) {
+                    previewImg.src = '';
+                }
+                previewContainer?.classList.add('hidden');
+            });
+
+            const dropzone = document.getElementById('deal-upload-dropzone');
+            if (dropzone) {
+                ['dragenter', 'dragover'].forEach((eventName) => {
+                    dropzone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropzone.classList.add('border-[#102A43]', 'bg-[#102A43]/5');
+                    }, false);
+                });
+                ['dragleave', 'drop'].forEach((eventName) => {
+                    dropzone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropzone.classList.remove('border-[#102A43]', 'bg-[#102A43]/5');
+                    }, false);
+                });
+                dropzone.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    const files = dt?.files;
+                    if (files && files.length && designInput) {
+                        designInput.files = files;
+                        designInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+                }, false);
+            }
 
             calculateTotals();
         });
