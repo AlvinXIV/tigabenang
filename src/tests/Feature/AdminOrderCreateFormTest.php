@@ -182,7 +182,13 @@ class AdminOrderCreateFormTest extends TestCase
 
     public function test_admin_order_create_page_renders_successfully(): void
     {
-        $this->get(route('admin.pesanan.create'))
+        $admin = \App\Models\User::create([
+            'nama' => 'Admin Test',
+            'username' => 'admin_test',
+            'password' => bcrypt('password'),
+        ]);
+
+        $this->actingAs($admin)->get(route('admin.pesanan.create'))
             ->assertOk()
             ->assertSee('Tambah Pesanan Manual')
             ->assertSee('Silakan pilih produk terlebih dahulu');

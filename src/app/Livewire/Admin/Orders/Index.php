@@ -68,6 +68,15 @@ class Index extends Component
         $this->feedbackMessage = 'Pesanan berhasil dihapus.';
     }
 
+    public function markAsCompleted(int $id)
+    {
+        $order = Pemesanan::findOrFail($id);
+        $order->status = 'selesai';
+        $order->save();
+
+        $this->feedbackMessage = 'Pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) . ' berhasil dipindahkan ke Pesanan Selesai.';
+    }
+
     public function dismissFeedback()
     {
         $this->feedbackMessage = null;
@@ -75,7 +84,7 @@ class Index extends Component
 
     public function render()
     {
-        $query = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])->latest('id_pemesanan');
+        $query = Pemesanan::masuk()->with(['produk.kategori', 'bahan', 'ukuran'])->latest('id_pemesanan');
 
         if ($this->statusFilter === 'waiting') {
             $query->whereNull('total_harga');
@@ -109,9 +118,9 @@ class Index extends Component
         $orders = $query->get();
 
         $counts = [
-            'all' => Pemesanan::count(),
-            'waiting' => Pemesanan::whereNull('total_harga')->count(),
-            'agreed' => Pemesanan::whereNotNull('total_harga')->count(),
+            'all' => Pemesanan::masuk()->count(),
+            'waiting' => Pemesanan::masuk()->whereNull('total_harga')->count(),
+            'agreed' => Pemesanan::masuk()->whereNotNull('total_harga')->count(),
         ];
 
         return view('livewire.admin.orders.index', compact('orders', 'counts'));

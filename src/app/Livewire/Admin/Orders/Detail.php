@@ -73,6 +73,24 @@ class Detail extends Component
         $this->feedbackMessage = 'Informasi pelanggan berhasil diperbarui!';
     }
 
+    public function markAsCompleted()
+    {
+        $order = Pemesanan::findOrFail($this->orderId);
+        $order->status = 'selesai';
+        $order->save();
+
+        $this->feedbackMessage = 'Pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) . ' berhasil ditandai selesai.';
+    }
+
+    public function revertToActive()
+    {
+        $order = Pemesanan::findOrFail($this->orderId);
+        $order->status = 'masuk';
+        $order->save();
+
+        $this->feedbackMessage = 'Pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) . ' berhasil dikembalikan ke Pesanan Masuk.';
+    }
+
     public function dismissFeedback()
     {
         $this->feedbackMessage = null;

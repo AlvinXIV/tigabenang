@@ -77,6 +77,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('/model-3d/{id}/preview', [Model3DController::class, 'preview'])->name('model-3d.preview');
 
     // Manajemen Pesanan & Faktur Invoice
+    Route::get('/pesanan-selesai', [AdminOrderController::class, 'completed'])->name('pesanan.completed');
     Route::resource('pesanan', AdminOrderController::class);
     Route::get('/pesanan/{id}/invoice', [AdminOrderController::class, 'invoice'])->name('orders.invoice');
 

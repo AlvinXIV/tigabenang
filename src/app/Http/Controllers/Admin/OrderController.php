@@ -29,6 +29,11 @@ class OrderController extends Controller
         return view('admin.orders.index', compact('orders'));
     }
 
+    public function completed()
+    {
+        return view('admin.orders.completed');
+    }
+
     public function create()
     {
         $products = Produk::all();

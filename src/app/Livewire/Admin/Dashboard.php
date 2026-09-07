@@ -12,9 +12,9 @@ class Dashboard extends Component
 
     public function render()
     {
-        $totalOrdersCount = Pemesanan::count();
-        $waitingPriceCount = Pemesanan::whereNull('total_harga')->count();
-        $confirmedCount = Pemesanan::whereNotNull('total_harga')->count();
+        $totalOrdersCount = Pemesanan::masuk()->count();
+        $waitingPriceCount = Pemesanan::masuk()->whereNull('total_harga')->count();
+        $confirmedCount = Pemesanan::masuk()->whereNotNull('total_harga')->count();
         $totalProductsCount = Produk::count();
 
         $summary = [
@@ -36,7 +36,8 @@ class Dashboard extends Component
             ],
         ];
 
-        $ordersNeedingActionQuery = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])
+        $ordersNeedingActionQuery = Pemesanan::masuk()
+            ->with(['produk.kategori', 'bahan', 'ukuran'])
             ->whereNull('total_harga');
 
         if (!empty($this->search)) {

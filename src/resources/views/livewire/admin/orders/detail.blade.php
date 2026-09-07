@@ -15,7 +15,11 @@
                 </h1>
                 <span class="text-sm text-[#667085]">•</span>
                 <span class="text-sm font-medium text-[#102A43]">{{ $order->nama }}</span>
-                @if ($order->total_harga)
+                @if ($order->isSelesai())
+                    <x-badge variant="success">
+                        Pesanan Selesai
+                    </x-badge>
+                @elseif ($order->total_harga)
                     <x-badge variant="success">
                         Harga Disepakati
                     </x-badge>
@@ -29,6 +33,32 @@
         </div>
 
         <div class="flex items-center gap-2.5">
+            @if ($order->isSelesai())
+                <button
+                    type="button"
+                    wire:click="revertToActive"
+                    wire:confirm="Kembalikan pesanan ini ke Pesanan Masuk?"
+                    class="btn-secondary px-3.5 py-2 text-xs sm:text-sm gap-1.5"
+                >
+                    <svg class="w-4 h-4 text-[#667085]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                    </svg>
+                    <span>Kembalikan ke Masuk</span>
+                </button>
+            @else
+                <button
+                    type="button"
+                    wire:click="markAsCompleted"
+                    wire:confirm="Tandai pesanan ini sebagai selesai?"
+                    class="btn-secondary px-3.5 py-2 text-xs sm:text-sm gap-1.5 text-emerald-700 hover:text-emerald-800 hover:border-emerald-300"
+                >
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Tandai Selesai</span>
+                </button>
+            @endif
+
             <a
                 href="{{ route('admin.orders.invoice', $order->id_pemesanan) }}"
                 target="_blank"

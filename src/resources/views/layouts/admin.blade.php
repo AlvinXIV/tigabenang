@@ -359,6 +359,8 @@
     $activeNav = 'dashboard';
     if (request()->routeIs('admin.dashboard')) {
         $activeNav = 'dashboard';
+    } elseif (request()->routeIs('admin.pesanan.completed')) {
+        $activeNav = 'orders_completed';
     } elseif (request()->routeIs('admin.pesanan.*') || request()->routeIs('admin.orders.*')) {
         $activeNav = 'orders';
     } elseif (request()->routeIs('admin.customers.*')) {
@@ -545,15 +547,41 @@
                                 </div>
                                 <!-- Expanded Badge -->
                                 <span class="sidebar-hide-collapsed text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 {{ $activeNav === 'orders' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}" :class="currentNav === 'orders' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]'">
-                                    {{ \App\Models\Pemesanan::count() }}
+                                    {{ \App\Models\Pemesanan::masuk()->count() }}
                                 </span>
 
                                 <!-- Collapsed Badge -->
                                 <span class="sidebar-badge-collapsed {{ $activeNav === 'orders' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}" :class="currentNav === 'orders' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]'">
-                                    {{ \App\Models\Pemesanan::count() }}
+                                    {{ \App\Models\Pemesanan::masuk()->count() }}
                                 </span>
 
-                                <div class="sidebar-tooltip">Pesanan Masuk ({{ \App\Models\Pemesanan::count() }})</div>
+                                <div class="sidebar-tooltip">Pesanan Masuk ({{ \App\Models\Pemesanan::masuk()->count() }})</div>
+                            </a>
+
+                            <!-- Pesanan Selesai -->
+                            <a
+                                href="{{ route('admin.pesanan.completed') }}"
+                                :class="currentNav === 'orders_completed' ? 'active' : ''"
+                                class="sidebar-nav-link sidebar-tooltip-target justify-between {{ $activeNav === 'orders_completed' ? 'active' : '' }}"
+                                aria-label="Pesanan Selesai"
+                            >
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="sidebar-hide-collapsed truncate">Pesanan Selesai</span>
+                                </div>
+                                <!-- Expanded Badge -->
+                                <span class="sidebar-hide-collapsed text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 {{ $activeNav === 'orders_completed' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}" :class="currentNav === 'orders_completed' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]'">
+                                    {{ \App\Models\Pemesanan::selesai()->count() }}
+                                </span>
+
+                                <!-- Collapsed Badge -->
+                                <span class="sidebar-badge-collapsed {{ $activeNav === 'orders_completed' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}" :class="currentNav === 'orders_completed' ? 'bg-white/20 text-white' : 'bg-[#EBF1F8] text-[#102A43]'">
+                                    {{ \App\Models\Pemesanan::selesai()->count() }}
+                                </span>
+
+                                <div class="sidebar-tooltip">Pesanan Selesai ({{ \App\Models\Pemesanan::selesai()->count() }})</div>
                             </a>
 
                             <!-- Direktori Pelanggan -->

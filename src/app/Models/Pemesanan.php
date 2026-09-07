@@ -22,6 +22,7 @@ class Pemesanan extends Model
         'no_hp',
         'produk_id',
         'total_harga',
+        'status',
         'upload_design',
         'notes',
     ];
@@ -30,6 +31,24 @@ class Pemesanan extends Model
         'total_harga' => 'decimal:2',
         'created_at' => 'datetime',
     ];
+
+    public function scopeMasuk($query)
+    {
+        return $query->where(function ($q) {
+            $q->where('status', 'masuk')
+              ->orWhereNull('status');
+        });
+    }
+
+    public function scopeSelesai($query)
+    {
+        return $query->where('status', 'selesai');
+    }
+
+    public function isSelesai(): bool
+    {
+        return $this->status === 'selesai';
+    }
 
     public function produk(): BelongsTo
     {

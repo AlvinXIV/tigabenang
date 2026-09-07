@@ -12,9 +12,9 @@ class DashboardController extends Controller
     public function index()
     {
         // 1. Summary Cards Data from Database
-        $totalOrdersCount = Pemesanan::count();
-        $waitingPriceCount = Pemesanan::whereNull('total_harga')->count();
-        $confirmedCount = Pemesanan::whereNotNull('total_harga')->count();
+        $totalOrdersCount = Pemesanan::masuk()->count();
+        $waitingPriceCount = Pemesanan::masuk()->whereNull('total_harga')->count();
+        $confirmedCount = Pemesanan::masuk()->whereNotNull('total_harga')->count();
         $totalProductsCount = Produk::count();
 
         $summary = [
@@ -37,7 +37,7 @@ class DashboardController extends Controller
         ];
 
         // 2. Orders Needing Action (Waiting for admin to set agreed price)
-        $ordersNeedingAction = Pemesanan::with(['produk.kategori', 'bahan', 'ukuran'])
+        $ordersNeedingAction = Pemesanan::masuk()->with(['produk.kategori', 'bahan', 'ukuran'])
             ->whereNull('total_harga')
             ->latest('id_pemesanan')
             ->get();

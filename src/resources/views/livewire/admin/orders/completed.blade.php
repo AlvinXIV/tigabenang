@@ -3,21 +3,21 @@
     <!-- TOP HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E2E5E9]">
         <div>
-            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Pesanan Masuk</h1>
+            <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Pesanan Selesai</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
-                Kelola pesanan dan koordinasikan penetapan harga secara real-time.
+                Daftar arsip pesanan yang telah rampung dan selesai diproses.
             </p>
         </div>
 
         <div class="flex items-center gap-2.5">
             <a
-                href="{{ route('admin.pesanan.create') }}"
-                class="btn-primary px-3.5 py-2 text-xs sm:text-sm gap-1.5"
+                href="{{ route('admin.pesanan.index') }}"
+                class="btn-secondary px-3.5 py-2 text-xs sm:text-sm gap-1.5"
             >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                <svg class="w-4 h-4 text-[#667085]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                <span>Buat Pesanan Manual</span>
+                <span>Lihat Pesanan Masuk</span>
             </a>
         </div>
     </div>
@@ -35,42 +35,6 @@
         </div>
     @endif
 
-    <!-- SEGMENTED STATUS TABS -->
-    <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-px">
-        <button
-            type="button"
-            wire:click="filterStatus('all')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'all' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
-        >
-            <span>Semua Pesanan</span>
-            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'all' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
-                {{ $counts['all'] }}
-            </span>
-        </button>
-
-        <button
-            type="button"
-            wire:click="filterStatus('waiting')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'waiting' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
-        >
-            <span>Menunggu Penetapan Harga</span>
-            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'waiting' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
-                {{ $counts['waiting'] }}
-            </span>
-        </button>
-
-        <button
-            type="button"
-            wire:click="filterStatus('agreed')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'agreed' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
-        >
-            <span>Harga Disepakati</span>
-            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'agreed' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
-                {{ $counts['agreed'] }}
-            </span>
-        </button>
-    </div>
-
     <!-- TOOLBAR: SEARCH & TOTAL -->
     <div class="admin-card p-3.5 bg-white flex flex-col sm:flex-row items-center justify-between gap-3">
         <div class="flex items-center gap-2.5 w-full sm:max-w-lg">
@@ -87,7 +51,7 @@
                     class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
-            @if (!empty($search) || $statusFilter !== 'all')
+            @if (!empty($search))
                 <button
                     type="button"
                     wire:click="resetFilters"
@@ -102,7 +66,7 @@
         </div>
 
         <div class="text-xs text-[#667085] shrink-0 self-end sm:self-center">
-            Total: <strong class="text-[#102A43]">{{ $orders->count() }}</strong> pesanan
+            Total: <strong class="text-[#102A43]">{{ $orders->count() }}</strong> pesanan selesai
         </div>
     </div>
 
@@ -119,7 +83,7 @@
                         <th class="px-4 py-3 whitespace-nowrap">Produk</th>
                         <th class="px-4 py-3 text-center whitespace-nowrap">Total Qty</th>
                         <th class="px-4 py-3 font-mono whitespace-nowrap">Harga</th>
-                        <th class="px-4 py-3 whitespace-nowrap">Status Harga</th>
+                        <th class="px-4 py-3 whitespace-nowrap">Status</th>
                         <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
@@ -168,25 +132,13 @@
                                         Rp {{ number_format($ord->total_harga, 0, ',', '.') }}
                                     </span>
                                 @else
-                                    <button
-                                        type="button"
-                                        wire:click="openQuickPrice({{ $ord->id_pemesanan }})"
-                                        class="text-[#102A43] hover:underline text-xs font-medium cursor-pointer"
-                                    >
-                                        + Input Harga
-                                    </button>
+                                    <span class="text-[#98A2B3]">-</span>
                                 @endif
                             </td>
                             <td class="px-4 py-3.5 whitespace-nowrap">
-                                @if ($ord->total_harga)
-                                    <x-badge variant="success">
-                                        Harga Disepakati
-                                    </x-badge>
-                                @else
-                                    <x-badge variant="warning">
-                                        Menunggu Penetapan
-                                    </x-badge>
-                                @endif
+                                <x-badge variant="success">
+                                    Selesai
+                                </x-badge>
                             </td>
                             <td class="px-4 py-3.5 text-right whitespace-nowrap">
                                 <x-action-menu :label="'Menu aksi pesanan #ORD-' . str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT)">
@@ -198,15 +150,11 @@
                                         Lihat Faktur
                                     </x-action-menu.item>
 
-                                    <x-action-menu.item wire:click="openQuickPrice({{ $ord->id_pemesanan }})">
-                                        {{ $ord->total_harga ? 'Ubah Harga' : 'Tetapkan Harga' }}
-                                    </x-action-menu.item>
-
                                     <x-action-menu.item
-                                        wire:click="markAsCompleted({{ $ord->id_pemesanan }})"
-                                        wire:confirm="Tandai pesanan #ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }} sebagai selesai?"
+                                        wire:click="markAsActive({{ $ord->id_pemesanan }})"
+                                        wire:confirm="Kembalikan pesanan #ORD-{{ str_pad($ord->id_pemesanan, 4, '0', STR_PAD_LEFT) }} ke Pesanan Masuk?"
                                     >
-                                        Tandai Selesai
+                                        Kembalikan ke Pesanan Masuk
                                     </x-action-menu.item>
 
                                     <x-action-menu.divider />
@@ -225,10 +173,10 @@
                         <tr>
                             <td colspan="9" class="px-4 py-12 text-center text-[#667085] text-xs sm:text-sm">
                                 @if (!empty($search))
-                                    <p class="font-medium text-[#102A43]">Tidak ada pesanan yang sesuai dengan filter pencarian "{{ $search }}".</p>
+                                    <p class="font-medium text-[#102A43]">Tidak ada pesanan selesai yang sesuai dengan filter pencarian "{{ $search }}".</p>
                                 @else
-                                    <p class="font-medium text-[#102A43]">Belum ada data pesanan tercatat.</p>
-                                    <p class="mt-1">Pesanan masuk dari pelanggan akan otomatis tampil di sini.</p>
+                                    <p class="font-medium text-[#102A43]">Belum ada data pesanan selesai.</p>
+                                    <p class="mt-1">Pesanan yang telah ditandai selesai akan tersimpan dan tampil di sini.</p>
                                 @endif
                             </td>
                         </tr>
@@ -237,52 +185,5 @@
             </table>
         </div>
     </div>
-
-    <!-- QUICK SET PRICE MODAL -->
-    @if ($quickOrderId)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-            <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-5 space-y-4">
-                <div class="flex items-center justify-between border-b border-[#E2E5E9] pb-3">
-                    <div>
-                        <h3 class="font-semibold text-sm sm:text-base text-[#102A43]">Tetapkan Harga Disepakati</h3>
-                        <p class="text-xs text-[#667085]">{{ $quickOrderNumber }} &bull; {{ $quickCustomerName }}</p>
-                    </div>
-                    <button type="button" wire:click="cancelQuickPrice" class="text-gray-400 hover:text-gray-600 text-sm font-bold">&times;</button>
-                </div>
-
-                <form wire:submit="saveQuickPrice" class="space-y-4">
-                    <div>
-                        <label for="quickPrice" class="block text-xs font-semibold text-[#102A43] mb-1.5">
-                            Harga Disepakati (Rp) <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center font-mono text-xs text-[#667085] pointer-events-none">Rp</span>
-                            <input
-                                type="number"
-                                id="quickPrice"
-                                wire:model="quickPrice"
-                                required
-                                min="0"
-                                placeholder="Contoh: 1500000"
-                                class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] font-mono text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none"
-                            />
-                        </div>
-                        @error('quickPrice')
-                            <span class="text-xs text-rose-600 mt-1 block">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#E2E5E9]">
-                        <button type="button" wire:click="cancelQuickPrice" class="btn-secondary px-4 py-2 text-xs sm:text-sm">
-                            Batal
-                        </button>
-                        <button type="submit" class="btn-primary px-5 py-2 text-xs sm:text-sm">
-                            Simpan Harga Disepakati
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    @endif
 
 </div>
