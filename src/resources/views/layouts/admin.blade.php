@@ -783,6 +783,16 @@
     </div>
 
     @stack('scripts')
+
+    <script>
+        // Close all open action-menus after every Livewire server round-trip.
+        // This replaces the old 50ms setTimeout on the dropdown container which
+        // was racing with Livewire's event dispatch, especially on Vercel.
+        document.addEventListener('livewire:commit', () => {
+            window.dispatchEvent(new CustomEvent('action-menu-opened', { detail: '__close_all__' }));
+        });
+    </script>
+
     @livewireScripts
 </body>
 </html>

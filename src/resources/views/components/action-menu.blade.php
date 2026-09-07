@@ -29,7 +29,7 @@
             this.open = false;
         }
     }"
-    @action-menu-opened.window="if ($event.detail !== id) open = false"
+    @action-menu-opened.window="if ($event.detail === '__close_all__' || $event.detail !== id) open = false"
     @keydown.escape.window="close()"
     @click.outside="close()"
     class="relative inline-block text-left"
@@ -59,7 +59,6 @@
         :class="dropUp ? 'bottom-full mb-1' : 'top-full mt-1'"
         class="absolute {{ $alignmentClasses }} z-50 w-44 sm:w-48 bg-white border border-[#E2E5E9] rounded-lg shadow-lg py-1 text-xs focus:outline-none overflow-hidden"
         style="display: none;"
-        @click="setTimeout(() => close(), 50)"
     >
         {{ $slot }}
     </div>
