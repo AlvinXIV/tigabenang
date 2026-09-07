@@ -116,16 +116,19 @@
                     $categoryList = $products
                         ->filter(fn ($produk) => filled($produk->kategori?->nama_kategori))
                         ->groupBy('kategori_id')
-                        ->map(fn ($items) => [
-                            'id' => (string) $items->first()->kategori_id,
-                            'name' => $items->first()->kategori->nama_kategori,
-                            'products' => $items->values(),
-                        ])
+                        ->map(function ($items) {
+                            $firstProduct = $items->first();
+                            return [
+                                'id' => (string) $items->first()->kategori_id,
+                                'name' => $items->first()->kategori->nama_kategori,
+                                'price' => (float) $firstProduct->harga,
+                                'product_id' => $firstProduct->id_produk,
+                                'products' => $items->values(),
+                            ];
+                        })
                         ->sortBy('name')
                         ->values();
 
-                    // Only treat a product as chosen when the customer actually asked for it,
-                    // so a category with several prices never resolves one on its own.
                     $explicitProductId = old('produk_id', request()->query('product'));
                     $explicitProduct = filled($explicitProductId)
                         ? $products->firstWhere('id_produk', (int) $explicitProductId)
@@ -139,29 +142,25 @@
                     );
                     $activeCategory = $categoryList->firstWhere('id', $activeCategoryId)
                         ?? $categoryList->first();
-                    $categoryProducts = collect($activeCategory['products'] ?? []);
 
-                    // Sizes belong to the category, so any product in it resolves the same list.
-                    // Price and materials belong to the product, so they need one resolved product.
-                    $categoryNeedsProduct = $categoryProducts->count() > 1;
                     $resolvedProduct = $explicitProduct
-                        ?? ($categoryNeedsProduct ? null : $categoryProducts->first());
+                        ?? ($activeCategory ? $activeCategory['products']->first() : null);
+
+                    $categoryPrice = (float) ($resolvedProduct?->harga ?? $activeCategory['price'] ?? 0);
 
                     $selectedCatalog   = $resolvedProduct
                         ? $catalogRows->firstWhere('id', (int) $resolvedProduct->id_produk)
                         : null;
                     $selectedMaterials = collect($selectedCatalog['materials'] ?? []);
-                    $selectedSizes     = $sizesForProduct($categoryProducts->first()?->id_produk);
+                    $selectedSizes     = $sizesForProduct($resolvedProduct?->id_produk);
 
                     $categoryPayload = $categoryList->map(fn ($category) => [
                         'id' => $category['id'],
                         'name' => $category['name'],
-                        'products' => collect($category['products'])
-                            ->map(fn ($produk) => [
-                                'id' => $produk->id_produk,
-                                'name' => $produk->nama_produk,
-                            ])->values(),
-                        'sizes' => $sizesForProduct(collect($category['products'])->first()?->id_produk),
+                        'price' => (float) $category['price'],
+                        'product_id' => $category['product_id'],
+                        'materials' => collect($catalogRows->firstWhere('id', (int) $category['product_id'])['materials'] ?? [])->values(),
+                        'sizes' => $sizesForProduct($category['product_id']),
                     ])->values();
 
                     $oldMaterialIds    = collect($orderOld['materials'])->map(fn ($id) => (string) $id);
@@ -312,39 +311,15 @@
                                     @foreach ($categoryList as $category)
                                         <option
                                             value="{{ $category['id'] }}"
+                                            data-price="{{ (float) $category['price'] }}"
+                                            data-product-id="{{ $category['product_id'] }}"
                                             @selected((string) ($activeCategory['id'] ?? '') === (string) $category['id'])
                                         >
                                             {{ \App\Support\CustomerCatalog::categoryLabel($category['name']) }}
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div
-                                class="request-form-field {{ $categoryNeedsProduct ? '' : 'hidden' }}"
-                                data-order-product-wrap
-                                @unless ($categoryNeedsProduct) aria-hidden="true" @endunless
-                            >
-                                <label for="produk_id">Pilihan produk</label>
-                                <p class="mb-2 text-sm leading-relaxed text-[#667085]">
-                                    Kategori ini punya beberapa pilihan dengan harga berbeda. Pilih satu agar estimasi harga tepat.
-                                </p>
-                                <select id="produk_id" name="produk_id" required data-order-product class="fv-select">
-                                    @if ($categoryNeedsProduct && ! $resolvedProduct)
-                                        <option value="">Pilih salah satu</option>
-                                    @endif
-                                    @foreach ($categoryProducts as $produk)
-                                        <option
-                                            value="{{ $produk->id_produk }}"
-                                            data-price="{{ (float) $produk->harga }}"
-                                            @selected((string) $resolvedProduct?->id_produk === (string) $produk->id_produk)
-                                        >
-                                            {{ $produk->nama_produk }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <p class="mt-2 hidden text-sm font-medium text-[#B42318]" data-order-product-error>
-                                    Pilih salah satu produk terlebih dahulu.
-                                </p>
+                                <input type="hidden" id="produk_id" name="produk_id" data-order-product value="{{ $resolvedProduct?->id_produk ?? $activeCategory['product_id'] ?? '' }}">
                             </div>
                         </div>
                     </fieldset>
@@ -476,47 +451,62 @@
                             `Rp ${Math.round(Math.max(0, Number(value) || 0)).toLocaleString('id-ID')}`;
 
                         const categorySelect = form.querySelector('[data-order-category]');
-                        const productSelect = form.querySelector('[data-order-product]');
+                        const productHiddenInput = form.querySelector('[data-order-product]');
                         const totalNode     = form.querySelector('[data-order-total]');
                         const catalogNode   = form.querySelector('[data-order-catalog]');
+                        const categoriesNode = form.querySelector('[data-order-categories]');
+                        const unitPriceNode = document.getElementById('category-unit-price');
 
                         const waDirectBtn = document.getElementById('wa-direct-consult-btn');
                         const baseWaNumber = '{{ $waConsultationNumber }}';
 
+                        let categoriesData = [];
+                        try { categoriesData = JSON.parse(categoriesNode?.textContent || '[]') || []; } catch { categoriesData = []; }
+
+                        const getActiveCategory = () => {
+                            const catId = categorySelect?.value;
+                            return categoriesData.find((c) => String(c.id) === String(catId)) || categoriesData[0] || null;
+                        };
+
+                        const getCategoryPrice = () => {
+                            const selectedOpt = categorySelect?.selectedOptions?.[0];
+                            const fromOption = Number(selectedOpt?.dataset?.price);
+                            if (Number.isFinite(fromOption) && fromOption >= 0) { return fromOption; }
+                            const cat = getActiveCategory();
+                            return Number(cat?.price) || 0;
+                        };
+
                         const updateDirectWaLink = () => {
                             if (!waDirectBtn) return;
-                            const selectedProdText = productSelect?.selectedOptions?.[0]?.text?.trim();
-                            const prodVal = productSelect?.value;
+                            const catText = categorySelect?.selectedOptions?.[0]?.text?.trim()?.split('(')[0]?.trim();
 
                             let msg = 'Halo FitVendor, saya ingin bertanya dan konsultasi seputar pembuatan pakaian custom.';
-                            if (prodVal && selectedProdText && !selectedProdText.toLowerCase().includes('pilih salah satu')) {
-                                msg = `Halo FitVendor, saya ingin konsultasi mengenai produk ${selectedProdText}. Mohon info ketersediaan bahan dan minimal pemesanannya.`;
+                            if (catText) {
+                                msg = `Halo FitVendor, saya ingin konsultasi mengenai kategori pakaian ${catText}. Mohon info ketersediaan bahan dan minimal pemesanannya.`;
                             }
 
                             waDirectBtn.href = `https://wa.me/${baseWaNumber}?text=${encodeURIComponent(msg)}`;
                         };
 
-                        productSelect?.addEventListener('change', updateDirectWaLink);
+                        categorySelect?.addEventListener('change', updateDirectWaLink);
+                        updateDirectWaLink();
 
                         let catalog = [];
                         try { catalog = JSON.parse(catalogNode?.textContent || '[]') || []; } catch { catalog = []; }
-
-                        const productPrice = () => {
-                            const fromOption = Number(productSelect?.selectedOptions?.[0]?.dataset?.price);
-                            if (Number.isFinite(fromOption) && fromOption >= 0) { return fromOption; }
-                            const product = catalog.find((item) => String(item.id) === String(productSelect?.value));
-                            return Number(product?.price) || 0;
-                        };
 
                         const quantityInputs = () =>
                             form.querySelectorAll('[data-order-qty], input[name*="[kuantitas]"]');
 
                         const updateEstimate = () => {
+                            const catPrice = getCategoryPrice();
+                            if (unitPriceNode) {
+                                unitPriceNode.textContent = formatRupiah(catPrice);
+                            }
                             if (!totalNode) { return; }
                             const totalQuantity = [...quantityInputs()].reduce(
                                 (sum, input) => sum + Math.max(0, Number(input.value) || 0), 0
                             );
-                            totalNode.textContent = formatRupiah(productPrice() * totalQuantity);
+                            totalNode.textContent = formatRupiah(catPrice * totalQuantity);
                         };
 
                         form.addEventListener('input', updateEstimate);
@@ -526,17 +516,21 @@
                         window.updateOrderEstimate = updateEstimate;
 
                         categorySelect?.addEventListener('change', function () {
+                            const cat = getActiveCategory();
+                            const catPrice = getCategoryPrice();
+                            const prodId = this.selectedOptions?.[0]?.dataset?.productId || cat?.product_id || '';
+                            if (productHiddenInput && prodId) {
+                                productHiddenInput.value = prodId;
+                            }
+                            if (unitPriceNode) {
+                                unitPriceNode.textContent = formatRupiah(catPrice);
+                            }
+                            updateEstimate();
+
                             if (window.FitVendorOrder) { return; }
                             const url = new URL(window.location.href);
                             url.searchParams.set('category', this.value);
                             url.searchParams.delete('product');
-                            window.location.href = url.pathname + url.search;
-                        });
-
-                        productSelect?.addEventListener('change', function () {
-                            if (window.FitVendorOrder || !this.value) { return; }
-                            const url = new URL(window.location.href);
-                            url.searchParams.set('product', this.value);
                             window.location.href = url.pathname + url.search;
                         });
 
@@ -579,9 +573,9 @@
                             const nama = form.querySelector('#nama')?.value?.trim();
                             const alamat = form.querySelector('#alamat')?.value?.trim();
                             const noHp = form.querySelector('#no_hp')?.value?.trim();
-                            const productVal = productSelect?.value;
                             const categoryText = categorySelect?.selectedOptions?.[0]?.text?.trim() || '';
-                            const productText = productSelect?.selectedOptions?.[0]?.text?.trim() || '';
+                            const activeCat = getActiveCategory();
+                            const prodId = productHiddenInput?.value || activeCat?.product_id;
 
                             if (!nama) {
                                 alert('Mohon isi nama lengkap Anda.');
@@ -598,13 +592,16 @@
                                 form.querySelector('#no_hp')?.focus();
                                 return;
                             }
-                            if (!productVal) {
-                                alert('Mohon pilih produk pakaian terlebih dahulu.');
-                                productSelect?.focus();
+                            if (!categorySelect?.value) {
+                                alert('Mohon pilih kategori pakaian terlebih dahulu.');
+                                categorySelect?.focus();
                                 return;
                             }
+                            if (productHiddenInput && prodId) {
+                                productHiddenInput.value = prodId;
+                            }
 
-                            const activeProduct = catalog.find((item) => String(item.id) === String(productVal));
+                            const activeProduct = catalog.find((item) => String(item.id) === String(prodId));
 
                             const sizeBreakdown = [];
                             let totalQty = 0;
@@ -674,7 +671,7 @@
                                 }
                             }
 
-                            const materials = (activeProduct?.materials || []).map((m) => m.name).filter(Boolean);
+                            const materials = (activeCat?.materials || activeProduct?.materials || []).map((m) => m.name).filter(Boolean);
                             const notes = form.querySelector('#notes')?.value?.trim();
                             const totalLabel = totalNode?.textContent?.trim() || 'Rp 0';
 
@@ -688,9 +685,8 @@
                                 '• No. HP: ' + noHp,
                                 '• Alamat: ' + alamat,
                                 '',
-                                '◆ *SPESIFIKASI PRODUK & BAHAN*',
+                                '◆ *SPESIFIKASI KATEGORI & BAHAN*',
                                 '• Kategori: ' + categoryText,
-                                '• Produk: ' + productText,
                             ];
 
                             if (materials.length > 0) {

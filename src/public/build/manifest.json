@@ -80,7 +80,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-dUcKaLKm.css",
+    "file": "assets/app-VMazSgBF.css",
     "name": "app",
     "names": [
       "app.css"
@@ -99,7 +99,7 @@
     ]
   },
   "resources/js/customer/order.js": {
-    "file": "assets/order-Dn35tqTS.js",
+    "file": "assets/order-C5s4t5GA.js",
     "name": "order",
     "src": "resources/js/customer/order.js",
     "isEntry": true

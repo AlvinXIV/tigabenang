@@ -5,7 +5,7 @@
         <div>
             <h1 class="text-2xl sm:text-[26px] font-semibold text-[#102A43] tracking-tight">Pesanan Masuk</h1>
             <p class="text-xs sm:text-sm text-[#667085] mt-1">
-                Kelola pesanan dan koordinasikan penetapan estimasi harga secara real-time.
+                Kelola pesanan dan koordinasikan penetapan harga secara real-time.
             </p>
         </div>
 
@@ -118,7 +118,7 @@
                         <th class="px-4 py-3 whitespace-nowrap">WhatsApp</th>
                         <th class="px-4 py-3 whitespace-nowrap">Produk</th>
                         <th class="px-4 py-3 text-center whitespace-nowrap">Total Qty</th>
-                        <th class="px-4 py-3 font-mono whitespace-nowrap">Estimasi Harga</th>
+                        <th class="px-4 py-3 font-mono whitespace-nowrap">Harga</th>
                         <th class="px-4 py-3 whitespace-nowrap">Status Harga</th>
                         <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>

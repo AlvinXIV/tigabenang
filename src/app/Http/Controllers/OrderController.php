@@ -80,9 +80,11 @@ class OrderController extends Controller
 
                 if ($request->hasFile('upload_design')) {
                     $file = $request->file('upload_design');
-                    $preferredDisk = in_array(config('filesystems.default'), ['supabase', 's3'])
-                        ? config('filesystems.default')
-                        : (config('filesystems.disks.supabase.key') ? 'supabase' : 'public');
+                    $preferredDisk = app()->runningUnitTests()
+                        ? 'public'
+                        : (in_array(config('filesystems.default'), ['supabase', 's3'])
+                            ? config('filesystems.default')
+                            : (config('filesystems.disks.supabase.key') ? 'supabase' : 'public'));
 
                     try {
                         $designPath = $file->store('designs', $preferredDisk);

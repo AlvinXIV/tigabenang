@@ -27,8 +27,7 @@ const initOrderForm = () => {
     const oldState = readJson(form, '[data-order-old]', { materials: [], sizes: [] });
     const categorySelect = form.querySelector('[data-order-category]');
     const productSelect = form.querySelector('[data-order-product]');
-    const productWrap = form.querySelector('[data-order-product-wrap]');
-    const productError = form.querySelector('[data-order-product-error]');
+    const unitPriceNode = document.getElementById('category-unit-price');
     const materialsRoot = form.querySelector('[data-order-materials]');
     const sizesRoot = form.querySelector('[data-order-sizes]');
     const totalNode = form.querySelector('[data-order-total]');
@@ -41,63 +40,16 @@ const initOrderForm = () => {
         }
     });
 
-    const findProduct = (id) => catalog.find((item) => String(item.id) === String(id));
-
     const findCategory = (id) => categories.find((item) => String(item.id) === String(id));
 
     const activeCategory = () => findCategory(categorySelect?.value) ?? categories[0];
 
-    const categoryProducts = (category) => category?.products ?? [];
-
-    // Price and materials belong to a product, so a category holding more than one
-    // product cannot resolve them on its own. The customer picks in that case.
-    const needsProductChoice = (category) => categoryProducts(category).length > 1;
-
-    const selectedProduct = () => findProduct(productSelect?.value);
-
-    const toggleProductChoice = (category) => {
-        if (!productWrap) {
-            return;
+    const categoryPrice = () => {
+        const fromOption = Number(categorySelect?.selectedOptions?.[0]?.dataset?.price);
+        if (Number.isFinite(fromOption) && fromOption >= 0) {
+            return fromOption;
         }
-
-        const visible = needsProductChoice(category);
-        productWrap.classList.toggle('hidden', !visible);
-
-        if (visible) {
-            productWrap.removeAttribute('aria-hidden');
-        } else {
-            productWrap.setAttribute('aria-hidden', 'true');
-        }
-    };
-
-    const fillProductOptions = (category, preferredId) => {
-        if (!productSelect) {
-            return;
-        }
-
-        const products = categoryProducts(category);
-        const keepId = products.some((item) => String(item.id) === String(preferredId))
-            ? String(preferredId)
-            : '';
-
-        const placeholder = needsProductChoice(category) && keepId === ''
-            ? '<option value="">Pilih salah satu</option>'
-            : '';
-
-        productSelect.innerHTML = placeholder + products
-            .map((item) => {
-                const price = findProduct(item.id)?.price ?? 0;
-                return `<option value="${item.id}" data-price="${price}">${item.name}</option>`;
-            })
-            .join('');
-
-        if (keepId !== '') {
-            productSelect.value = keepId;
-        } else if (!needsProductChoice(category)) {
-            productSelect.value = String(products[0]?.id ?? '');
-        } else {
-            productSelect.value = '';
-        }
+        return Number(activeCategory()?.price) || 0;
     };
 
     const currentQtyMap = () => {
@@ -108,12 +60,12 @@ const initOrderForm = () => {
         return map;
     };
 
-    const renderMaterials = (product) => {
+    const renderMaterials = (category) => {
         if (!materialsRoot) {
             return;
         }
 
-        const materials = product?.materials ?? [];
+        const materials = category?.materials ?? [];
 
         if (!materials.length) {
             materialsRoot.innerHTML = '';
@@ -144,7 +96,6 @@ const initOrderForm = () => {
         }
     };
 
-    // Sizes belong to the category, so they stay available even before a product is picked.
     const renderSizes = (sizes) => {
         if (!sizesRoot) {
             return;
@@ -188,16 +139,16 @@ const initOrderForm = () => {
     };
 
     const updateTotal = () => {
-        if (typeof window.updateOrderEstimate === 'function') {
-            window.updateOrderEstimate();
-            return;
+        const price = categoryPrice();
+
+        if (unitPriceNode) {
+            unitPriceNode.textContent = formatRupiah(price);
         }
 
         if (!totalNode) {
             return;
         }
 
-        const price = Number(selectedProduct()?.price) || 0;
         const quantity = [...form.querySelectorAll('[data-order-qty], input[name*="[kuantitas]"]')].reduce(
             (sum, input) => sum + Math.max(0, Number(input.value) || 0),
             0,
@@ -209,60 +160,61 @@ const initOrderForm = () => {
     const render = () => {
         const category = activeCategory();
 
-        toggleProductChoice(category);
+        if (productSelect && category) {
+            const prodId = categorySelect?.selectedOptions?.[0]?.dataset?.productId || category.product_id || '';
+            if (prodId) {
+                productSelect.value = String(prodId);
+            }
+        }
+
+        if (unitPriceNode) {
+            unitPriceNode.textContent = formatRupiah(categoryPrice());
+        }
+
         renderSizes(category?.sizes);
-        renderMaterials(selectedProduct());
+        renderMaterials(category);
         updateTotal();
     };
 
     categorySelect?.addEventListener('change', () => {
         preferredMaterials = new Set();
-        productError?.classList.add('hidden');
-        fillProductOptions(activeCategory());
-        render();
-    });
-
-    productSelect?.addEventListener('change', () => {
-        preferredMaterials = new Set();
-        productError?.classList.add('hidden');
         render();
     });
 
     form.addEventListener('input', updateTotal);
     form.addEventListener('change', (event) => {
-        if (event.target.matches('[data-order-qty], input[name*="[kuantitas]"], [data-order-product]')) {
+        if (event.target.matches('[data-order-qty], input[name*="[kuantitas]"]')) {
             updateTotal();
         }
     });
 
-    form.addEventListener('submit', (event) => {
-        if (productSelect && !productSelect.value) {
-            event.preventDefault();
-            productError?.classList.remove('hidden');
-            productSelect.focus();
+    form.addEventListener('submit', () => {
+        const category = activeCategory();
+        if (productSelect && (!productSelect.value || productSelect.value === '')) {
+            const prodId = categorySelect?.selectedOptions?.[0]?.dataset?.productId || category?.product_id || '';
+            if (prodId) {
+                productSelect.value = String(prodId);
+            }
         }
     });
 
     render();
 
     window.FitVendorOrder = {
-        change(productId) {
-            const product = findProduct(productId);
+        change(categoryIdOrProductId) {
             const category = categories.find((item) =>
-                (item.products ?? []).some((entry) => String(entry.id) === String(productId)),
+                String(item.id) === String(categoryIdOrProductId) ||
+                String(item.product_id) === String(categoryIdOrProductId)
             );
 
             if (categorySelect && category) {
                 categorySelect.value = String(category.id);
             }
 
-            fillProductOptions(category ?? activeCategory(), productId);
-
             preferredMaterials = new Set();
-            productError?.classList.add('hidden');
             render();
 
-            return Boolean(product);
+            return Boolean(category);
         },
     };
 };

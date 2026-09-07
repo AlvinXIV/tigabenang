@@ -285,7 +285,12 @@ class CustomerFrontendTest extends TestCase
             ->assertSee('Tolong kancing putih');
 
         // Admin Pesanan Index shows "Menunggu Penetapan" badge
-        $this->get(route('admin.pesanan.index'))
+        $admin = \App\Models\User::query()->create([
+            'nama' => 'Admin Tigabenang',
+            'username' => 'admin_test',
+            'password' => bcrypt('secret'),
+        ]);
+        $this->actingAs($admin)->get(route('admin.pesanan.index'))
             ->assertOk()
             ->assertSee('Menunggu Penetapan');
 

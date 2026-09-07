@@ -114,7 +114,6 @@
                         <th class="px-5 py-3 font-mono">ID Pesanan</th>
                         <th class="px-5 py-3">Pelanggan</th>
                         <th class="px-5 py-3">Produk</th>
-                        <th class="px-5 py-3 font-mono">Estimasi Harga</th>
                         <th class="px-5 py-3">Status Harga</th>
                         <th class="px-5 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
@@ -130,9 +129,6 @@
                             </td>
                             <td class="px-5 py-3.5 text-[#667085] whitespace-nowrap">
                                 {{ $order->categoryDisplayName() }}
-                            </td>
-                            <td class="px-5 py-3.5 whitespace-nowrap font-mono text-xs text-[#667085]">
-                                Menunggu input
                             </td>
                             <td class="px-5 py-3.5 whitespace-nowrap">
                                 <x-badge variant="warning">
@@ -165,7 +161,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-5 py-8 text-center text-xs text-[#667085]">
+                            <td colspan="5" class="px-5 py-8 text-center text-xs text-[#667085]">
                                 @if(!empty($search))
                                     Tidak ada pesanan perlu tindakan yang cocok dengan pencarian "{{ $search }}".
                                 @else
@@ -201,7 +197,6 @@
                         <th class="px-5 py-3 font-mono">ID Pesanan</th>
                         <th class="px-5 py-3">Pelanggan</th>
                         <th class="px-5 py-3">Produk</th>
-                        <th class="px-5 py-3 font-mono">Estimasi Harga</th>
                         <th class="px-5 py-3">Status Harga</th>
                         <th class="px-5 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
@@ -220,9 +215,6 @@
                             </td>
                             <td class="px-5 py-3.5 text-[#667085] whitespace-nowrap">
                                 {{ $order->categoryDisplayName() }}
-                            </td>
-                            <td class="px-5 py-3.5 whitespace-nowrap font-mono text-xs text-[#102A43]">
-                                {{ $order->total_harga ? 'Rp ' . number_format($order->total_harga, 0, ',', '.') : '-' }}
                             </td>
                             <td class="px-5 py-3.5 whitespace-nowrap">
                                 @if ($order->total_harga)
@@ -249,7 +241,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-5 py-8 text-center text-xs text-[#667085]">
+                            <td colspan="6" class="px-5 py-8 text-center text-xs text-[#667085]">
                                 @if(!empty($search))
                                     Tidak ada pesanan cocok dengan pencarian "{{ $search }}".
                                 @else
