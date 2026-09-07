@@ -19,13 +19,18 @@
                     <x-badge variant="success">
                         Pesanan Selesai
                     </x-badge>
-                @elseif ($order->total_harga)
-                    <x-badge variant="success">
-                        Harga Disepakati
+                @endif
+                @if ($order->isLunas())
+                    <x-badge variant="success" dot>
+                        Sudah Lunas
+                    </x-badge>
+                @elseif ($order->isSudahDp())
+                    <x-badge variant="info" dot>
+                        Sudah DP
                     </x-badge>
                 @else
-                    <x-badge variant="warning">
-                        Menunggu Penetapan Harga
+                    <x-badge variant="slate" dot>
+                        Belum Bayar
                     </x-badge>
                 @endif
             </div>
@@ -356,6 +361,43 @@
                         <span wire:loading>Menyimpan...</span>
                     </button>
                 </form>
+
+                <!-- STATUS PEMBAYARAN -->
+                <div class="pt-4 border-t border-[#E2E5E9] space-y-2">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="font-semibold text-[#102A43]">Status Pembayaran:</span>
+                        @if ($order->isLunas())
+                            <x-badge variant="success" dot>Sudah Lunas</x-badge>
+                        @elseif ($order->isSudahDp())
+                            <x-badge variant="info" dot>Sudah DP</x-badge>
+                        @else
+                            <x-badge variant="slate" dot>Belum Bayar</x-badge>
+                        @endif
+                    </div>
+                    <div class="grid grid-cols-3 gap-1.5 pt-1">
+                        <button
+                            type="button"
+                            wire:click="setPaymentStatus('belum_bayar')"
+                            class="py-1.5 px-2 text-[11px] font-medium rounded-lg border transition-colors cursor-pointer {{ $order->isBelumBayar() ? 'bg-slate-700 text-white border-slate-700' : 'bg-white text-[#667085] border-[#E2E5E9] hover:bg-[#F7F7F5]' }}"
+                        >
+                            Belum Bayar
+                        </button>
+                        <button
+                            type="button"
+                            wire:click="setPaymentStatus('sudah_dp')"
+                            class="py-1.5 px-2 text-[11px] font-medium rounded-lg border transition-colors cursor-pointer {{ $order->isSudahDp() ? 'bg-sky-600 text-white border-sky-600' : 'bg-white text-[#667085] border-[#E2E5E9] hover:bg-[#F7F7F5]' }}"
+                        >
+                            Sudah DP
+                        </button>
+                        <button
+                            type="button"
+                            wire:click="setPaymentStatus('lunas')"
+                            class="py-1.5 px-2 text-[11px] font-medium rounded-lg border transition-colors cursor-pointer {{ $order->isLunas() ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-[#667085] border-[#E2E5E9] hover:bg-[#F7F7F5]' }}"
+                        >
+                            Sudah Lunas
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </div>

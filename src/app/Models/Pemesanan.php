@@ -23,6 +23,7 @@ class Pemesanan extends Model
         'produk_id',
         'total_harga',
         'status',
+        'status_pembayaran',
         'upload_design',
         'notes',
     ];
@@ -48,6 +49,30 @@ class Pemesanan extends Model
     public function isSelesai(): bool
     {
         return $this->status === 'selesai';
+    }
+
+    public function isSudahDp(): bool
+    {
+        return $this->status_pembayaran === 'sudah_dp';
+    }
+
+    public function isLunas(): bool
+    {
+        return $this->status_pembayaran === 'lunas';
+    }
+
+    public function isBelumBayar(): bool
+    {
+        return empty($this->status_pembayaran) || $this->status_pembayaran === 'belum_bayar';
+    }
+
+    public function paymentStatusLabel(): string
+    {
+        return match ($this->status_pembayaran) {
+            'sudah_dp' => 'Sudah DP',
+            'lunas' => 'Sudah Lunas',
+            default => 'Belum Bayar',
+        };
     }
 
     public function produk(): BelongsTo

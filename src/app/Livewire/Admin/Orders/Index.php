@@ -8,6 +8,7 @@ use Livewire\Component;
 class Index extends Component
 {
     public string $search = '';
+    public string $paymentFilter = 'all'; // all, belum_bayar, sudah_dp, lunas
     public string $statusFilter = 'all'; // all, waiting, agreed
     public ?string $feedbackMessage = null;
 
@@ -17,14 +18,39 @@ class Index extends Component
     public string $quickCustomerName = '';
     public string $quickPrice = '';
 
+    public function filterPayment(string $payment)
+    {
+        $this->paymentFilter = $payment;
+    }
+
     public function filterStatus(string $status)
     {
         $this->statusFilter = $status;
     }
 
+    public function setPaymentStatus(int $id, string $status)
+    {
+        if (!in_array($status, ['belum_bayar', 'sudah_dp', 'lunas'])) {
+            return;
+        }
+
+        $order = Pemesanan::findOrFail($id);
+        $order->status_pembayaran = $status;
+        $order->save();
+
+        $label = match ($status) {
+            'sudah_dp' => 'Sudah DP',
+            'lunas' => 'Sudah Lunas',
+            default => 'Belum Bayar',
+        };
+
+        $this->feedbackMessage = 'Status pembayaran pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) . ' diubah menjadi "' . $label . '".';
+    }
+
     public function resetFilters()
     {
         $this->search = '';
+        $this->paymentFilter = 'all';
         $this->statusFilter = 'all';
     }
 
@@ -86,6 +112,16 @@ class Index extends Component
     {
         $query = Pemesanan::masuk()->with(['produk.kategori', 'bahan', 'ukuran'])->latest('id_pemesanan');
 
+        if ($this->paymentFilter === 'belum_bayar') {
+            $query->where(function ($q) {
+                $q->whereNull('status_pembayaran')->orWhere('status_pembayaran', 'belum_bayar');
+            });
+        } elseif ($this->paymentFilter === 'sudah_dp') {
+            $query->where('status_pembayaran', 'sudah_dp');
+        } elseif ($this->paymentFilter === 'lunas') {
+            $query->where('status_pembayaran', 'lunas');
+        }
+
         if ($this->statusFilter === 'waiting') {
             $query->whereNull('total_harga');
         } elseif ($this->statusFilter === 'agreed') {
@@ -119,8 +155,11 @@ class Index extends Component
 
         $counts = [
             'all' => Pemesanan::masuk()->count(),
-            'waiting' => Pemesanan::masuk()->whereNull('total_harga')->count(),
-            'agreed' => Pemesanan::masuk()->whereNotNull('total_harga')->count(),
+            'belum_bayar' => Pemesanan::masuk()->where(function ($q) {
+                $q->whereNull('status_pembayaran')->orWhere('status_pembayaran', 'belum_bayar');
+            })->count(),
+            'sudah_dp' => Pemesanan::masuk()->where('status_pembayaran', 'sudah_dp')->count(),
+            'lunas' => Pemesanan::masuk()->where('status_pembayaran', 'lunas')->count(),
         ];
 
         return view('livewire.admin.orders.index', compact('orders', 'counts'));

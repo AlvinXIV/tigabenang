@@ -170,4 +170,71 @@ class AdminCompletedOrdersTest extends TestCase
             ->assertSee('Pesanan Selesai')
             ->assertSee('Lihat Pesanan Masuk');
     }
+
+    public function test_admin_can_filter_and_update_payment_status(): void
+    {
+        $order1 = Pemesanan::create([
+            'nama' => 'Pelanggan Belum Bayar',
+            'no_hp' => '08111111111',
+            'alamat' => 'Alamat 1',
+            'produk_id' => $this->product->id_produk,
+            'status' => 'masuk',
+            'status_pembayaran' => 'belum_bayar',
+            'total_harga' => 200000,
+        ]);
+
+        $order2 = Pemesanan::create([
+            'nama' => 'Pelanggan Sudah DP',
+            'no_hp' => '08222222222',
+            'alamat' => 'Alamat 2',
+            'produk_id' => $this->product->id_produk,
+            'status' => 'masuk',
+            'status_pembayaran' => 'sudah_dp',
+            'total_harga' => 400000,
+        ]);
+
+        $order3 = Pemesanan::create([
+            'nama' => 'Pelanggan Sudah Lunas',
+            'no_hp' => '08333333333',
+            'alamat' => 'Alamat 3',
+            'produk_id' => $this->product->id_produk,
+            'status' => 'masuk',
+            'status_pembayaran' => 'lunas',
+            'total_harga' => 600000,
+        ]);
+
+        // Test filter sudah_dp
+        Livewire::actingAs($this->admin)
+            ->test(Index::class)
+            ->call('filterPayment', 'sudah_dp')
+            ->assertSee('Pelanggan Sudah DP')
+            ->assertDontSee('Pelanggan Belum Bayar')
+            ->assertDontSee('Pelanggan Sudah Lunas');
+
+        // Test filter lunas
+        Livewire::actingAs($this->admin)
+            ->test(Index::class)
+            ->call('filterPayment', 'lunas')
+            ->assertSee('Pelanggan Sudah Lunas')
+            ->assertDontSee('Pelanggan Belum Bayar')
+            ->assertDontSee('Pelanggan Sudah DP');
+
+        // Test update payment status from index
+        Livewire::actingAs($this->admin)
+            ->test(Index::class)
+            ->call('setPaymentStatus', $order1->id_pemesanan, 'sudah_dp');
+
+        $order1->refresh();
+        $this->assertEquals('sudah_dp', $order1->status_pembayaran);
+        $this->assertTrue($order1->isSudahDp());
+
+        // Test update payment status from detail
+        Livewire::actingAs($this->admin)
+            ->test(Detail::class, ['orderId' => $order1->id_pemesanan])
+            ->call('setPaymentStatus', 'lunas');
+
+        $order1->refresh();
+        $this->assertEquals('lunas', $order1->status_pembayaran);
+        $this->assertTrue($order1->isLunas());
+    }
 }

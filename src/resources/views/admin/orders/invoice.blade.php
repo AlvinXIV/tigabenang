@@ -131,6 +131,15 @@
                             <strong class="font-semibold text-amber-700">Menunggu Penetapan Harga</strong>
                         @endif
                     </p>
+                    <p>Status Pembayaran:
+                        @if ($order->isLunas())
+                            <strong class="font-semibold text-emerald-700">Sudah Lunas</strong>
+                        @elseif ($order->isSudahDp())
+                            <strong class="font-semibold text-sky-700">Sudah DP</strong>
+                        @else
+                            <strong class="font-semibold text-slate-700">Belum Bayar</strong>
+                        @endif
+                    </p>
                 </div>
             </div>
         </div>

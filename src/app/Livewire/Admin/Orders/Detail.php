@@ -91,6 +91,25 @@ class Detail extends Component
         $this->feedbackMessage = 'Pesanan #ORD-' . str_pad($order->id_pemesanan, 4, '0', STR_PAD_LEFT) . ' berhasil dikembalikan ke Pesanan Masuk.';
     }
 
+    public function setPaymentStatus(string $status)
+    {
+        if (!in_array($status, ['belum_bayar', 'sudah_dp', 'lunas'])) {
+            return;
+        }
+
+        $order = Pemesanan::findOrFail($this->orderId);
+        $order->status_pembayaran = $status;
+        $order->save();
+
+        $label = match ($status) {
+            'sudah_dp' => 'Sudah DP',
+            'lunas' => 'Sudah Lunas',
+            default => 'Belum Bayar',
+        };
+
+        $this->feedbackMessage = 'Status pembayaran pesanan berhasil diubah menjadi "' . $label . '".';
+    }
+
     public function dismissFeedback()
     {
         $this->feedbackMessage = null;

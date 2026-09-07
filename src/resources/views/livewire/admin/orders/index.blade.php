@@ -39,34 +39,45 @@
     <div class="flex items-center border-b border-[#E2E5E9] gap-6 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-px">
         <button
             type="button"
-            wire:click="filterStatus('all')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'all' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
+            wire:click="filterPayment('all')"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $paymentFilter === 'all' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
             <span>Semua Pesanan</span>
-            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'all' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $paymentFilter === 'all' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
                 {{ $counts['all'] }}
             </span>
         </button>
 
         <button
             type="button"
-            wire:click="filterStatus('waiting')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'waiting' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
+            wire:click="filterPayment('belum_bayar')"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $paymentFilter === 'belum_bayar' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
-            <span>Menunggu Penetapan Harga</span>
-            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'waiting' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
-                {{ $counts['waiting'] }}
+            <span>Belum Bayar</span>
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $paymentFilter === 'belum_bayar' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
+                {{ $counts['belum_bayar'] }}
             </span>
         </button>
 
         <button
             type="button"
-            wire:click="filterStatus('agreed')"
-            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $statusFilter === 'agreed' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
+            wire:click="filterPayment('sudah_dp')"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $paymentFilter === 'sudah_dp' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
         >
-            <span>Harga Disepakati</span>
-            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $statusFilter === 'agreed' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
-                {{ $counts['agreed'] }}
+            <span>Sudah DP</span>
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $paymentFilter === 'sudah_dp' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
+                {{ $counts['sudah_dp'] }}
+            </span>
+        </button>
+
+        <button
+            type="button"
+            wire:click="filterPayment('lunas')"
+            class="pb-3 border-b-2 flex items-center gap-2 transition-colors cursor-pointer {{ $paymentFilter === 'lunas' ? 'border-[#102A43] text-[#102A43] font-semibold' : 'border-transparent text-[#667085] hover:text-[#102A43]' }}"
+        >
+            <span>Sudah Lunas</span>
+            <span class="px-2 py-0.5 rounded-[6px] text-xs font-semibold {{ $paymentFilter === 'lunas' ? 'bg-[#102A43] text-white' : 'bg-[#EBF1F8] text-[#102A43]' }}">
+                {{ $counts['lunas'] }}
             </span>
         </button>
     </div>
@@ -87,7 +98,7 @@
                     class="w-full h-10 pl-9 pr-3.5 bg-white border border-[#D0D5DD] focus:border-[#102A43] focus:ring-2 focus:ring-[#102A43]/20 text-xs sm:text-sm text-[#102A43] rounded-lg focus:outline-none transition-colors"
                 />
             </div>
-            @if (!empty($search) || $statusFilter !== 'all')
+            @if (!empty($search) || $paymentFilter !== 'all')
                 <button
                     type="button"
                     wire:click="resetFilters"
@@ -119,7 +130,7 @@
                         <th class="px-4 py-3 whitespace-nowrap">Produk</th>
                         <th class="px-4 py-3 text-center whitespace-nowrap">Total Qty</th>
                         <th class="px-4 py-3 font-mono whitespace-nowrap">Harga</th>
-                        <th class="px-4 py-3 whitespace-nowrap">Status Harga</th>
+                        <th class="px-4 py-3 whitespace-nowrap">Status Pembayaran</th>
                         <th class="px-4 py-3 text-right w-12 whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
@@ -168,23 +179,30 @@
                                         Rp {{ number_format($ord->total_harga, 0, ',', '.') }}
                                     </span>
                                 @else
-                                    <button
-                                        type="button"
-                                        wire:click="openQuickPrice({{ $ord->id_pemesanan }})"
-                                        class="text-[#102A43] hover:underline text-xs font-medium cursor-pointer"
-                                    >
-                                        + Input Harga
-                                    </button>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-amber-700 text-xs font-medium">Menunggu Penetapan</span>
+                                        <button
+                                            type="button"
+                                            wire:click="openQuickPrice({{ $ord->id_pemesanan }})"
+                                            class="text-[#102A43] hover:underline text-xs font-semibold cursor-pointer"
+                                        >
+                                            (+ Input)
+                                        </button>
+                                    </div>
                                 @endif
                             </td>
                             <td class="px-4 py-3.5 whitespace-nowrap">
-                                @if ($ord->total_harga)
-                                    <x-badge variant="success">
-                                        Harga Disepakati
+                                @if ($ord->isLunas())
+                                    <x-badge variant="success" dot>
+                                        Sudah Lunas
+                                    </x-badge>
+                                @elseif ($ord->isSudahDp())
+                                    <x-badge variant="info" dot>
+                                        Sudah DP
                                     </x-badge>
                                 @else
-                                    <x-badge variant="warning">
-                                        Menunggu Penetapan
+                                    <x-badge variant="slate" dot>
+                                        Belum Bayar
                                     </x-badge>
                                 @endif
                             </td>
@@ -201,6 +219,28 @@
                                     <x-action-menu.item wire:click="openQuickPrice({{ $ord->id_pemesanan }})">
                                         {{ $ord->total_harga ? 'Ubah Harga' : 'Tetapkan Harga' }}
                                     </x-action-menu.item>
+
+                                    <x-action-menu.divider />
+
+                                    @if (!$ord->isSudahDp())
+                                        <x-action-menu.item wire:click="setPaymentStatus({{ $ord->id_pemesanan }}, 'sudah_dp')">
+                                            Tandai Sudah DP
+                                        </x-action-menu.item>
+                                    @endif
+
+                                    @if (!$ord->isLunas())
+                                        <x-action-menu.item wire:click="setPaymentStatus({{ $ord->id_pemesanan }}, 'lunas')">
+                                            Tandai Sudah Lunas
+                                        </x-action-menu.item>
+                                    @endif
+
+                                    @if (!$ord->isBelumBayar())
+                                        <x-action-menu.item wire:click="setPaymentStatus({{ $ord->id_pemesanan }}, 'belum_bayar')">
+                                            Tandai Belum Bayar
+                                        </x-action-menu.item>
+                                    @endif
+
+                                    <x-action-menu.divider />
 
                                     <x-action-menu.item
                                         wire:click="markAsCompleted({{ $ord->id_pemesanan }})"
